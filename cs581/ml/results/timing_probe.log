@@ -1,0 +1,2 @@
+3 jobs
+{"dataset": "1000M3", "rep": "0", "aln": "gcm", "method": "iqtree_fast", "seconds": 137.4, "cpu_seconds": 86.5, "lnl_tool": -766454.615, "fn_rate": 0.07653575025176233, "fp_rate": 0.0802407221664995, "rf_rate": 0.07823470411233702, "tree": "/opt/data/mlcache/1000M3/R0/trees/gcm.iqtree_fast.tre"}

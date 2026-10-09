@@ -16,6 +16,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -60,14 +61,23 @@ def clean_alignment(src, dst):
     return len(keep)
 
 
+CPU = threading.local()  # CPU seconds (user+sys) of the last child run in this thread
+
+
 def run(cmd, log, cwd=None, stdout=None):
+    """Run cmd; return wall seconds and leave its CPU seconds in CPU.seconds."""
     t = time.time()
     with open(log, "w") as lf:
-        subprocess.run(cmd, cwd=cwd, stdout=stdout or lf, stderr=lf, check=True)
+        p = subprocess.Popen(cmd, cwd=cwd, stdout=stdout or lf, stderr=lf)
+        _, status, ru = os.wait4(p.pid, 0)
+        p.returncode = os.waitstatus_to_exitcode(status)
+    CPU.seconds = ru.ru_utime + ru.ru_stime
+    if p.returncode != 0:
+        raise subprocess.CalledProcessError(p.returncode, cmd)
     return time.time() - t
 
 
-def estimate(method, aln, out_tree, work, extra=None):
+def estimate(method, aln, out_tree, work, extra=None, start_tree=None):
     """Run one estimator; returns (seconds, log-likelihood reported by the tool or None)."""
     extra = extra or []
     if method.startswith("fasttree"):
@@ -82,7 +92,7 @@ def estimate(method, aln, out_tree, work, extra=None):
                 lnl = float(m.group(1))
         return sec, lnl
     if method.startswith("iqtree"):
-        opts = {"iqtree": [], "iqtree_fast": ["--fast"]}[method]
+        opts = {"iqtree": [], "iqtree_fast": ["--fast"], "iqtree_ft": ["-t", start_tree or ""]}[method]
         sec = run([IQTREE, "-s", aln, "-m", "GTR+G", "-T", "1", "--seed", "1", "--prefix",
                    os.path.join(work, "iq"), "-redo", "--quiet"] + opts + extra, os.path.join(work, "iq.out"))
         shutil.copy(os.path.join(work, "iq.treefile"), out_tree)
@@ -93,7 +103,7 @@ def estimate(method, aln, out_tree, work, extra=None):
         return sec, lnl
     if method.startswith("raxmlng"):
         start = {"raxmlng": ["--tree", "pars{1}"], "raxmlng_rand1": ["--tree", "rand{1}"],
-                 "raxmlng_default": []}[method]
+                 "raxmlng_default": [], "raxmlng_ft": ["--tree", start_tree or ""]}[method]
         sec = run([RAXMLNG, "--search", "--msa", aln, "--model", "GTR+G", "--threads", "1", "--seed", "1",
                    "--prefix", os.path.join(work, "rx"), "--redo"] + start + extra, os.path.join(work, "rx.out"))
         shutil.copy(os.path.join(work, "rx.raxml.bestTree"), out_tree)
@@ -115,12 +125,19 @@ def job(ds, rep, aln, method, out_path, lock):
     tree = os.path.join(d, "trees", "%s.%s.tre" % (aln, method))
     work = tempfile.mkdtemp(prefix="ml_%s_%s_%s_%s_" % (ds, rep, aln, method))
     try:
-        sec, lnl = estimate(method, clean, tree, work)
+        start = None
+        if method.endswith("_ft"):  # start from the FastTree tree on the same alignment
+            start = os.path.join(d, "trees", "%s.fasttree.tre" % aln)
+            if not os.path.exists(start):
+                print("SKIP (no FastTree start tree)", ds, rep, aln, method, flush=True)
+                return
+        sec, lnl = estimate(method, clean, tree, work, start_tree=start)
     except subprocess.CalledProcessError as e:
         print("FAILED", ds, rep, aln, method, e, "logs in", work, flush=True)
         return
     err = treeerr.error(os.path.join(d, "true_tree.tre"), tree)
     row = {"dataset": ds, "rep": rep, "aln": aln, "method": method, "seconds": round(sec, 1),
+           "cpu_seconds": round(CPU.seconds, 1),
            "lnl_tool": lnl, **{k: err[k] for k in ("fn_rate", "fp_rate", "rf_rate")}, "tree": tree}
     with lock:
         with open(out_path, "a") as f:
@@ -130,7 +147,6 @@ def job(ds, rep, aln, method, out_path, lock):
 
 
 def main():
-    import threading
     ap = argparse.ArgumentParser()
     ap.add_argument("out")
     ap.add_argument("--datasets", nargs="+", required=True)
