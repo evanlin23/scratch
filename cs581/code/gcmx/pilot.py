@@ -12,12 +12,13 @@ datasets); PILOT_JOBS sets how many variants run concurrently.
 import glob
 import json
 import os
+import random
 import shutil
 import subprocess
 import sys
 import time
 
-from . import oracle
+from . import fasta, oracle
 
 PROGDP = "--graphclustermethod none --graphtracemethod progdp"
 # Variant names must not contain ":" (experiment.py splits "name:args" on the first colon).
@@ -33,6 +34,9 @@ VARIANTS = [
     ("slow-soft-m3", "-s {rep}/split_m3 -b {ext}"),
     ("slow-soft-m4", "-s {rep}/split_m4 -b {ext}"),
     ("slow-soft-m3-random", "-s {rep}/split_m3_random -b {ext}"),
+    # self-derived evidence: MAGUS's own output restricted to 8 random sequences per subset,
+    # HMM-extended to all sequences (HMMER only, no new MAFFT runs)
+    ("self-soft-m3", "-s {rep}/split_m3 -b {self}"),
 ]
 ORACLES = [
     ("oracle-estSub-trueBB", "-b {o}/true_backbones"),
@@ -41,6 +45,17 @@ ORACLES = [
     ("oracle-soft-m3-trueFull", "-s {rep}/split_m3 -b {o}/true_full"),
 ]
 SPLITS = ((2, "linkage"), (3, "linkage"), (4, "linkage"), (2, "random"), (3, "random"))
+
+
+def self_backbones(alignment, subalignment_dir, outdir, n=10, per_subset=8, seed=7):
+    """Pseudo-backbones: the alignment restricted to `per_subset` random sequences of each subset."""
+    aln = fasta.upper(fasta.read(alignment))
+    subsets = [list(fasta.read(os.path.join(subalignment_dir, f))) for f in sorted(os.listdir(subalignment_dir))]
+    rng = random.Random(seed)
+    os.makedirs(outdir, exist_ok=True)
+    for b in range(n):
+        taxa = [t for s in subsets for t in rng.sample(s, min(per_subset, len(s)))]
+        fasta.write(fasta.restrict(aln, taxa), os.path.join(outdir, "self_backbone_{}.txt".format(b + 1)))
 
 
 def main():
@@ -90,7 +105,27 @@ def main():
             timing["extend_jobs"] = os.cpu_count()
             with open(results_path, "a") as f:
                 f.write(json.dumps(timing) + "\n")
-        fields = {"o": oracle_dir, "rep": rep, "bb": os.path.join(inputs, "backbones"), "ext": ext_dir}
+        self_dir = os.path.join(rep, "ext_self")
+        default_out = os.path.join(results_dir, dataset, "default.fasta")
+        if not os.path.exists(self_dir + ".DONE"):
+            if not os.path.exists(default_out):
+                subprocess.run([sys.executable, "-m", "gcmx.experiment", "--dataset", dataset,
+                                "--true", os.path.join(rep, "true.fasta"),
+                                "--subalignments", os.path.join(inputs, "subalignments"),
+                                "--backbones", os.path.join(inputs, "backbones"),
+                                "--outdir", results_dir, "--variant", "default:"], check=True, cwd=code_dir)
+                done.add((dataset, "default"))
+            start = time.time()
+            self_backbones(default_out, os.path.join(inputs, "subalignments"), os.path.join(rep, "self_bb"))
+            subprocess.run([sys.executable, "-m", "gcmx.extend", os.path.join(rep, "self_bb"),
+                            os.path.join(rep, "unaligned.fasta"), self_dir, "--jobs", str(os.cpu_count())],
+                           check=True, cwd=code_dir)
+            open(self_dir + ".DONE", "w").close()
+            with open(results_path, "a") as f:
+                f.write(json.dumps({"dataset": dataset, "variant": "_timing",
+                                    "self_evidence_seconds": round(time.time() - start, 1)}) + "\n")
+        fields = {"o": oracle_dir, "rep": rep, "bb": os.path.join(inputs, "backbones"), "ext": ext_dir,
+                  "self": self_dir}
         only = set(filter(None, os.environ.get("PILOT_ONLY", "").split(",")))
         todo = [(name, extra.format(**fields)) for name, extra in VARIANTS + ORACLES
                 if (dataset, name) not in done and (not only or name in only)]

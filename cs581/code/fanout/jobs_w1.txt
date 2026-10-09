@@ -5,6 +5,3 @@ BBA0154_R0 cs581/data/balibase_clean/RV100_BBA0154.fasta 25
 1000M4_R1 /opt/data/Datasets/ROSE/1000M4/R1/rose.aln.true.fasta 25
 1000L2_R2 /opt/data/Datasets/ROSE/1000L2/R2/rose.aln.true.fasta 25
 1000S2_R2 /opt/data/Datasets/ROSE/1000S2/R2/rose.aln.true.fasta 25
-1000M2_R3 /opt/data/Datasets/ROSE/1000M2/R3/rose.aln.true.fasta 25
-RNASim_R3 /opt/data/Datasets/RNASim/1000/R3/true_align.txt 25
-1000M4_R4 /opt/data/Datasets/ROSE/1000M4/R4/rose.aln.true.fasta 25
