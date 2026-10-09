@@ -1,0 +1,787 @@
+CS 581: Algorithmic Computational Genomics
+                       Tandy Warnow
+          University of Illinois at Urbana-Champaign
+Phylogeny (evolutionary tree)
+
+
+
+ Orangutan                              Gorilla   Chimpanzee   Human
+
+
+
+
+   From the Tree of the Life Website,
+               University of Arizona
+Phylogenomics
+
+
+
+
+ Phylogeny + genomics = genome-scale phylogeny estimation
+ .
+               Estimating the Tree of Life
+
+                                                Basic Biology:
+                                                         How did life evolve?
+
+                                                Applications of phylogenies to:
+                                                         protein structure and function
+                                                         population genetics
+                                                         human migrations
+                                                         metagenomics
+
+Figure from
+ https://en.wikipedia.org/wiki/Common_descent
+               Estimating the Tree of Life
+
+                                                Large datasets!
+                                                         Millions of species
+                                                         thousands of genes
+
+                                                NP-hard optimization problems
+                                                        Exact solutions infeasible
+                                                        Approximation algorithms
+                                                        Heuristics
+                                                        Multiple optima
+Figure from
+ https://en.wikipedia.org/wiki/Common_descent   High Performance Computing:
+                                                         necessary
+                                                         but not sufficient
+“Resolving the Tree of Life is unquestionably among the
+most complex scientific problems facing biology and
+presents challenges much greater than sequencing the
+human genome.”
+From “Assembling the Tree of Life: Harnessing Life’s History to Benefit Science and Society,”
+National Science Foundation (2002), available at http://ucjeps.berkeley.edu/tol.pdf
+DNA Sequence Evolution (Idealized)
+
+                                                         -3 mil yrs
+                             AAGACTT
+
+                                                         -2 mil yrs
+          AAGGCCT                    TGGACTT
+
+
+                                                         -1 mil yrs
+      AGGGCAT              TAGCCCT         AGCACTT
+
+
+
+
+      AGGGCAT   TAGCCCA   TAGACTT    AGCACAA   AGCGCTT          today
+ Phylogeny Problem
+  U        V             W         X         Y
+
+
+AGGGCAT   TAGCCCA       TAGACTT   TGCACAA   TGCGCTT
+
+
+
+                                       X
+               U
+
+                                       Y
+
+
+
+                    V        W
+Markov Models of Sequence Evolution
+The different sites are assumed to evolve i.i.d. down the model tree
+
+Simplest site evolution model (Jukes-Cantor, 1969):
+• The model tree T is binary and has substitution probabilities p(e) on each edge e,
+  with 0<p(e)<3/4.
+• The state at the root is randomly drawn from {A,C,T,G} (nucleotides)
+• If a site (position) changes on an edge, it changes with equal probability to each of
+  the remaining states.
+• The evolutionary process is Markovian.
+
+
+More complex models (such as the Generalized Time Reversible model) are also
+ considered, often with little change to the theory.
+What we can prove about Jukes-Cantor trees
+• The unrooted tree topology is identifiable from the distribution on site
+  patterns (nucleotides at the leaves) – but the root is not identifiable
+• Simple distance-based methods (e.g., neighbor joining), are provably
+  statistically consistent estimators of the unrooted tree
+• Some other simple methods (e.g., maximum parsimony, which is the
+  Hamming Distance Steiner Tree problem, and UPGMA) are not consistent
+  and can be positively misleading
+• We can also analyze the sample complexity of methods
+• Despite all the theory, empirical performance is often different from what
+  theory would suggest (see Figure 1.8 in textbook).
+ The research in this course
+
+
+• Machine learning in bioinformatics (e.g., ensembles of
+  profile Hidden Markov Models)
+• Novel heuristics for NP-hard optimization problems
+• Discrete and graph-theoretic algorithms
+• Establishing theoretical properties of methods: statistical
+  consistency, computational complexity, etc
+• Evaluation of methods on datasets (simulated and biological)
+CS 581: pre-requisites
+• No biology background assumed (really!)
+• Pre-requisites (equivalent to CS 374 and CS 361):
+   • mathematical maturity,
+   • familiarity with graphs, discrete algorithms, and basic probability theory
+     (so you can do proofs)
+• CS 374: algorithms
+• CS 361: statistics and probability
+• If you don’t have all of this background, you will need to learn
+  the material you don’t know. But ability to do proofs is assumed.
+Today
+• Explain the course (content and low-level stuff)
+• Introduce some of the research in this area
+• Describe some open problems
+• Talk about course projects!
+Course Staff
+• Professor Tandy Warnow
+   • Email address: warnow@Illinois.edu
+
+
+Office hours TBD
+Textbook
+• Computational Phylogenetics: An introduction to Designing Methods
+  for Phylogeny Estimation (required)
+• This may be available in the University Bookstore. If not, you can get it
+  from Amazon.
+• The textbook provides all the background you’ll need for the class,
+  and homework assignments will be taken from the book.
+Course website(s)
+• Homework will be submitted through Moodle.
+• Webpage: http://tandy.cs.illinois.edu/CS581-Fall2026.html
+
+Homework assignments, class presentations, and changes to office
+hours, etc., all on the course website (not on Moodle)
+
+Some lectures will be done via zoom (e.g., when I am traveling)
+Reading assignments and homeworks
+• Assignments posted on the course website
+   • homework problems in the textbook
+   • assigned reading (from the textbook and from publications)
+   • written critiques of papers
+
+• Bottom homework grade dropped
+Grading
+• Homeworks: 40% (worst HW dropped) – submitted through Moodle
+• Midterm: 25%
+• Final project: 25%
+• Course participation and paper presentation: 10%
+
+Note: no final exam
+Research opportunities for students:
+• Large impact on biology through innovative algorithm design
+• Interesting mathematical problems, including discrete algorithms and
+  machine learning
+• Not necessary to understand biology (seriously!)
+• Most important skills: enjoying coding, testing, looking at data, and
+  collaborating with other people.
+• Many types of research: high performance computing, parallel
+  algorithms, graph algorithms, combinatorial optimization, machine
+  learning, etc.
+Course Project
+• Due: last day of class, a research project
+• You can do it with someone else (including someone in my research
+  group); the goal will be to produce a publishable paper.
+Prior published course projects (sample)
+• M. Canby, S.N. Evans, D. Ringe, and T. Warnow (2024) Addressing polymorphism in linguistic phylogenetics. Transactions on
+  the Philological Society, 2024
+• P. Dibaiena, S. Tabe Bordhbar, and T. Warnow (2021). FASTRAL: Improving scalability of phylogenomic analysis.
+  Bioinformatics, btab093.
+• Y. Tabatabaee, K. Sarkar, and T. Warnow. Quintet Rooting: Rooting Species Trees under the Multi-Species Coalescent Model.
+  ISMB 2022 and Bioinformatics 2022.
+• J. Willson, M.S. Ruddur, and T. Warnow. Comparing Methods for Species Tree Estimation With Gene Duplication and Loss. In
+  AlCoB 2021.
+• E. Koning, M. Phillips, and T. Warnow. pplacerDC: a New Scalable Phylogenetic Placement Method. ACM-BCB 2021.
+• E. Wedell, Y. Cai, and T. Warnow. Scalable and Accurate Phylogenetic Placement using pplacer-XR. In: AlCoB 2021. (also
+  IEEE/ACM Trans. Comp. Biol. & Bioinformatics.)
+• M. Gupta, P. Zaharias, and T. Warnow. Accurate Large-scale Phylogeny-Aware Alignment using BAli-Phy. Bioinformatics
+  2021.
+• P. Zaharias, M. Grosshauser, and T. Warnow (2021). Re-evaluating deep neural networks for phylogeny estimation: The issue
+  of taxon sampling. RECOMB 2021 and J. Computational Biology.
+• S. Mirarab, R. Reaz, Md S. Bayzid, T. Zimmermann, M.S. Swenson, and T. Warnow (2014).ASTRAL: Genome-Scale
+  Coalescent-Based Species Tree Estimation. Proceedings, ECCB (European Conference of Computational Biology), 2014.
+  Also, Bioinformatics 2014
+Today’s Fast Intro to the Course Research
+• Models of evolution, identifiability, statistical consistency
+• Genome-scale phylogeny:
+   • Incomplete lineage sorting and species tree estimation under the Multi-
+     Species Coalescent model (MSC)
+   • ASTRAL: non-parametric accurate and statistically consistent species tree
+     estimation under the MSC
+   • TreeMerge/GTM: scaling species tree methods to large datasets
+• Course projects
+Interesting things to consider about methods
+• What optimization problems are worth solving?
+   • Statistical properties (consistency, sample complexity)
+   • Performance on simulated and biological data
+• How hard is it to solve the problem? NP-hard, approximable, etc?
+• What techniques can I use to solve the problem well?
+   • Constrained optimization
+   • Approximation algorithm
+   • Local search strategies
+   • Divide-and-conquer
+• How well do my new algorithms (and software) compare to other methods?
+    • With respect to theory
+    • With respect to empirical performance
+Phyogenomic Pipeline
+• Assemble and annotate genomes (e.g., determine orthologs)
+• Compute multiple sequence alignments of individual loci
+• Construct gene trees
+• Construct species tree
+• Perform post-tree analyses (e.g., estimate dates, infer selection, etc.)
+             Muir et al. [2016]
+
+
+Muir, 2016
+     1KP: Thousand Transcriptome Project
+
+
+G. Ka-Shu Wong J. Leebens-Mack   N. Wickett     N. Matasci   T. Warnow,       S. Mirarab,        N. Nguyen
+U Alberta      U Georgia         Northwestern   iPlant       UT-Austin/UIUC    UT-Austin /UCSD    UT-Austin/UCSD
+
+
+⚫   2014 PNAS study: 103 plant transcriptomes, 400-800 single copy “genes”
+⚫   2019 Nature study: much larger!
+
+
+
+     Major Analytial Challenges:
+     • Ultra-large multiple sequence alignment
+     • Multi-copy genes omitted (9500 -> 400)
+     • Massive gene tree heterogeneity
+DNA Sequence Evolution (Idealized)
+
+                                                         -3 mil yrs
+                             AAGACTT
+
+                                                         -2 mil yrs
+          AAGGCCT                    TGGACTT
+
+
+                                                         -1 mil yrs
+      AGGGCAT              TAGCCCT         AGCACTT
+
+
+
+
+      AGGGCAT   TAGCCCA   TAGACTT    AGCACAA   AGCGCTT          today
+ Phylogeny Problem
+  U        V             W         X         Y
+
+
+AGGGCAT   TAGCCCA       TAGACTT   TGCACAA   TGCGCTT
+
+
+
+                                       X
+               U
+
+                                       Y
+
+
+
+                    V        W
+Markov Models of Sequence Evolution
+The different sites are assumed to evolve i.i.d. down the model tree
+
+Simplest site evolution model (Jukes-Cantor, 1969):
+• The model tree T is binary and has substitution probabilities p(e) on each edge e,
+  with 0<p(e)<3/4.
+• The state at the root is randomly drawn from {A,C,T,G} (nucleotides)
+• If a site (position) changes on an edge, it changes with equal probability to each of
+  the remaining states.
+• The evolutionary process is Markovian.
+
+
+More complex models (such as the Generalized Time Reversible model) are also
+ considered, often with little change to the theory.
+                  FN
+
+
+
+
+FN: false negative
+    (missing edge)
+FP: false positive
+    (incorrect edge)
+
+
+  50% error rate       FP
+Is method M statistically consistent under
+model G?
+                                            Question answered by
+                                            mathematical proof
+  Error
+  in species tree
+  inferred by
+  method M
+
+
+
+
+                    Amount of data
+                    generated under model G and
+                    then given to method M as input
+Questions
+• Is the model tree identifiable?
+• Which estimation methods are statistically consistent under this
+  model?
+• How much data does the method need to estimate the model tree
+  correctly (with high probability)?
+• What are the computational issues?
+Answers?
+    • We know a lot about which site evolution models are
+      identifiable, and which methods are statistically
+      consistent.
+    • We know a little bit about the sequence length
+      requirements for standard methods.
+
+    Take home message: need to limit (or not allow)
+    heterogeneity to get model identifiability!
+Computational issues
+• Maximum likelihood (ML): NP-hard, and tree-space grows
+  exponentially with the number of leaves
+• Bayesian estimation: need to run to convergence (may fail)
+• Parallelism helps but is not enough
+Genome-scale data?
+error
+
+
+
+
+                     Data
+Phylogenomics
+
+
+
+
+ Phylogeny + genomics = genome-scale phylogeny estimation
+ .
+          Gene tree discordance
+                                                          Incomplete Lineage Sorting
+                                                          (ILS) is a dominant cause of
+                                                          gene tree heterogeneity
+         gene 1                      gene1000
+
+
+
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+
+
+
+
+                                              3
+Gene Trees inside the Species Tree (Coalescent Process)
+              Past
+
+
+
+
+            Present
+       Courtesy James Degnan
+
+
+
+
+                               Gorilla and Orangutan are not siblings in the species tree,
+                               but they are in the gene tree.
+Gene Trees inside the Species Tree (Coalescent Process)
+              Past                                                           Deep coalescence =
+                                                                             INCOMPLETE
+                                                                             LINEAGE
+                                                                             SORTING (ILS):
+                                                                             gene tree can be different
+                                                                             from the species tree
+
+
+
+
+            Present
+       Courtesy James Degnan
+
+
+
+
+                               Gorilla and Orangutan are not siblings in the species tree,
+                               but they are in the gene tree.
+     1KP: Thousand Transcriptome Project
+
+
+G. Ka-Shu Wong J. Leebens-Mack   N. Wickett     N. Matasci   T. Warnow,   S. Mirarab,   N. Nguyen
+U Alberta      U Georgia         Northwestern   iPlant       UT-Austin    UT-Austin     UT-Austin
+
+
+     ⚫    103 plant transcriptomes, 400-800 single copy “genes”
+     ⚫    Next phase will be much bigger
+     ⚫    Wickett, Mirarab et al., PNAS 2014
+
+     Major Challenge:
+     • Massive gene tree heterogeneity consistent with ILS
+      Avian Phylogenomics Project
+    Erich Jarvis,     MTP Gilbert,   Guojie Zhang,   Siavash Mirarab, Tandy Warnow,
+    HHMI              Copenhagen     BGI             Texas            Texas and UIUC
+
+
+
+
+       • Approx. 50 species, whole genomes
+       • 14,000 loci
+       • Multi-national team (100+ investigators)
+       • 8 papers published in special issue of Science 2014
+
+       Biggest computational challenges:
+Major challenge:
+• Massive1.   Multi-million
+            gene            site maximum
+                 tree heterogeneity       likelihood
+                                      consistent withanalysis
+                                                      ILS.    (~300 CPU years,
+                and 1Tb of distributed memory, at supercomputers around world)
+            2. Constructing “coalescent-based” species tree from 14,000
+                different gene trees
+Hierarchical Model: MSC+GTR
+• Multi-locus data, generated by a hierarchical model
+   • Species tree generates gene trees under MSC
+   • Gene trees generate sequences under the Generalized Time Reversible (GTR)
+     model
+• How can we estimate the species tree from the sequence data?
+                          Species tree
+
+
+
+
+                            Gorilla Human        Chimp Orangutan
+
+                               Gene evolution model
+       Gene tree               Gene tree                Gene tree                 Gene tree
+
+
+
+      Human      Orang.                    Orang.    Chimp       Orang.
+Chimp                                                                                      Orang.
+           Gorilla      Gorilla Human    Chimp Human       Gorilla        Chimp    Human
+
+
+                            Sequence evolution model
+               Sequence data                                    Sequence data
+                (Alignments)                                     (Alignments)
+    ACTGCACACCG              CTGAGCATCG          1
+                                                      AGCAGCATCGTG          CAGGCACGCACGAA
+    ACTGC-CCCCG              CTGAGC-TCG               AGCAGC-TCGTG          AGC-CACGC-CATA
+    AATGC-CCCCG              ATGAGC-TC-               AGCAGC-TC-TG          ATGGCACGC-C-TA
+    -CTGCACACGG              CTGA-CAC-G               C-TA-CACGGTG          AGCTAC-CACGGAT
+                          Species tree
+
+
+
+
+                            Gorilla Human        Chimp Orangutan
+
+                               Gene evolution model
+       Gene tree               Gene tree                Gene tree                 Gene tree
+
+
+
+      Human      Orang.                    Orang.    Chimp       Orang.
+Chimp                                                                                      Orang.
+           Gorilla      Gorilla Human    Chimp Human       Gorilla        Chimp    Human
+
+
+                            Sequence evolution model
+               Sequence data                                    Sequence data
+                (Alignments)                                     (Alignments)
+    ACTGCACACCG              CTGAGCATCG          2
+                                                      AGCAGCATCGTG          CAGGCACGCACGAA
+    ACTGC-CCCCG              CTGAGC-TCG               AGCAGC-TCGTG          AGC-CACGC-CATA
+    AATGC-CCCCG              ATGAGC-TC-               AGCAGC-TC-TG          ATGGCACGC-C-TA
+    -CTGCACACGG              CTGA-CAC-G               C-TA-CACGGTG          AGCTAC-CACGGAT
+                            Gorilla Human       Chimp Orangutan
+
+
+                       StepGene evolution
+                            2: infer      model
+                                     species trees
+       Gene tree               Gene tree               Gene tree                 Gene tree
+
+
+
+      Human      Orang.                   Orang.    Chimp       Orang.
+Chimp                                                                                     Orang.
+           Gorilla      Gorilla Human   Chimp Human       Gorilla        Chimp    Human
+
+
+
+      Step 1: inferSequence evolution
+                    gene trees        model methods)
+                                (traditional
+    ACTGCACACCG               CTGAGCATCG        3
+                                                     AGCAGCATCGTG           CAGGCACGCACGAA
+    ACTGC-CCCCG               CTGAGC-TCG             AGCAGC-TCGTG           AGC-CACGC-CATA
+    AATGC-CCCCG               ATGAGC-TC-             AGCAGC-TC-TG           ATGGCACGC-C-TA
+    -CTGCACACGG               CTGA-CAC-G             C-TA-CACGGTG           AGCTAC-CACGGAT
+                                                                         Suppose we can estimate all the
+                                                                         gene trees correctly.
+
+                                                                         Can we estimate the species trees
+                                                                         from lots of true gene trees?
+                            Gorilla Human       Chimp Orangutan
+
+
+                       StepGene evolution
+                            2: infer      model
+                                     species trees
+       Gene tree               Gene tree               Gene tree                  Gene tree
+
+
+
+      Human      Orang.                   Orang.    Chimp       Orang.
+Chimp                                                                                      Orang.
+           Gorilla      Gorilla Human   Chimp Human       Gorilla         Chimp    Human
+
+
+
+      Step 1: inferSequence evolution
+                    gene trees        model methods)
+                                (traditional
+    ACTGCACACCG               CTGAGCATCG        3
+                                                     AGCAGCATCGTG             CAGGCACGCACGAA
+    ACTGC-CCCCG               CTGAGC-TCG             AGCAGC-TCGTG             AGC-CACGC-CATA
+    AATGC-CCCCG               ATGAGC-TC-             AGCAGC-TC-TG             ATGGCACGC-C-TA
+    -CTGCACACGG               CTGA-CAC-G             C-TA-CACGGTG             AGCTAC-CACGGAT
+How to estimate a 4-leaf species tree
+
+  Theorem (Allman et al.): Under the multi-species coalescent
+  model, for any four taxa A, B, C, and D, the most probable
+  unrooted gene tree on {A,B,C,D} is identical to the unrooted
+  species tree induced on {A,B,C,D}.
+How to estimate a 4-leaf species tree
+
+  Theorem (Allman et al.): Under the multi-species coalescent
+  model, for any four taxa A, B, C, and D, the most probable
+  unrooted gene tree on {A,B,C,D} is identical to the unrooted
+  species tree induced on {A,B,C,D}.
+ Species tree estimation from
+ unrooted gene trees
+
+Corollary: Under the multi-species coalescent model, the
+species tree is identifiable from the gene tree distribution
+
+Proof: For every four species, select most frequently
+observed tree as the species tree. Then combine quartet
+trees!
+Species tree estimation from
+  unrooted gene trees
+
+Corollary: Under the multi-species coalescent model, the
+species tree is identifiable from the gene tree distribution
+
+Proof: For every four species, select most frequently
+observed tree as the species tree. Then combine quartet
+trees!
+                          ASTRAL
+                   [Mirarab, et al., ECCB/Bioinformatics, 2014]
+
+•    Optimization Problem (NP-Hard):
+
+    Find the species tree with the maximum number of induced
+    quartet trees shared with the collection of input gene trees
+
+                                                                  Set of quartet trees
+                                                                     induced by T
+                                    X
+                  Scor e(T ) =             |Q(T ) \ Q(t)|
+           a gene tree              t2 T
+                                                             all input gene trees
+
+•    Theorem: Statistically consistent under the multi-
+     species coalescent model when solved exactly
+                                        15
+ASTRAL
+• Statistically consistent under the MSC, and runs in polynomial time
+• Solves constrained version of the NP-hard Maximum Quartet Support
+  problem using dynamic programming
+   • Input: Gene trees and set X of allowed bipartitions
+   • Output: Species tree T that maximizes the quartet support criterion, subject
+     to drawing its bipartitions from the set X
+ASTRAL – great, but…
+• The good: ASTRAL is
+   • increasingly used in practice
+   • statistically consistent given true gene trees
+   • sometimes more accurate than concatenation, but impacted by gene tree
+     estimation error
+   • very fast for many datasets (faster than concatenation)
+• The bad: ASTRAL can fail to complete on large enough datasets within
+  reasonable time frames (days of computation)
+The alternatives are worse
+• Concatenation Analyses (e.g., using RAxML):
+   • most commonly used method, not statistically consistent, sometimes more
+     accurate than summary methods
+   • computationally intensive (e.g., 250 CPU years for the Avian Phylogenomics
+     project with only 48 species) and do not scale to large numbers of species
+• Co-estimation of gene trees and species trees: too expensive
+• Other statistically consistent methods: not as accurate as ASTRAL
+Divide-and-Conquer using Disjoint Tree Mergers
+                                                                       Note: use most
+                                                                       accurate method
+                          Decompose                                    on subsets, and
+                          species set into                             treat as absolute
+                          pairwise disjoint                            constraints
+           Full           subsets.
+         species
+           set
+
+                                                                  Build a tree on each
+                                                                  subset
+        Auxiliary
+          Info
+        (e.g., distance              Tree
+            matrix)                 on full
+                                  species set
+
+
+                          Compute tree on entire set of species
+                          using “Disjoint Tree Merger” method
+TreeMerge
+    • Molloy and Warnow, ISMB 2019 and Bioinformatics, Volume 35,
+      Issue 14, July 2019, Pages i417–i426
+    • TreeMerge is a direct improvement to NJMerge (which it uses
+      on pairs of trees)
+    • Github site: https://github.com/ekmolloy/treemerge
+
+
+    Algorithmic strategy:
+    • divide species set into disjoint subsets,
+    • compute species trees on the subsets using selected species
+      tree method, and
+    • merge subset trees using a distance-based method
+Divide-and-Conquer using Disjoint Tree Mergers
+                                                                       Note: use most
+                                                                       accurate method
+                          Decompose                                    on subsets, and
+                          species set into                             treat as absolute
+                          pairwise disjoint                            constraints
+           Full           subsets.
+         species
+           set
+                                                                                           ASTRAL
+                                                                  Build a tree on each
+                                                                  subset
+        Auxiliary
+          Info
+        (e.g., distance              Tree
+            matrix)                 on full
+                                  species set
+
+
+                          Compute tree on entire set of species
+                          using “Disjoint Tree Merger” method
+                                                                                TreeMerge
+      Impact of using TreeMerge with ASTRAL-III on 1000 species and 1000 genes
+
+
+
+
+                                                                                                                 Theorem:
+                                                                                                                 TreeMerge+ASTRAL
+                                                                                                                 is statistically consistent
+                                                                                                                 and polynomial time
+
+                                                                                                                 Empirical: TreeMerge
+                                                                                                                 maintains accuracy,
+                                                                                                                 reduces running time,
+                                                                                                                 and improves scalability
+
+
+Bioinformatics, Volume 35, Issue 14, July 2019, Pages i417–i426, https://doi.org/10.1093/bioinformatics/btz344
+The content of this slide may be subject to copyright: please see the slide notes for details.
+Guide Tree Merger
+    • Smirnov and Warnow, RECOMB-Comparative Genomics
+    • Guide Tree Merger (GTM): Another Disjoint Tree Merger
+      method, but does not allow blending
+    • Github site: https://github.com/vlasmirnov/GTM
+
+
+    Algorithmic strategy:
+    • divide species set into disjoint subsets,
+    • compute species trees on the subsets using selected species
+      tree method, and
+    • connect subset trees by adding edges, so as to minimize
+      distance to the given guide tree (polynomial time!)
+ASTRAL+GTM: better than ASTRAL!
+Summary
+   • The best tree estimation methods are
+     computationally intensive, and tree-space grows
+     exponentially
+   • Statistical consistency is important but not sufficient
+   • Parallel implementations of expensive methods are
+     helpful but not enough
+   • Divide-and-conquer improves scalability, maintains
+     statistical consistency, and can maintain accuracy (or
+     only lose a small amount)
+   • Divide-and-conquer is highly parallelizable
+        “Boosters”, or “Meta-Methods”
+
+• Meta-methods use divide-and-conquer and iteration (or other
+  techniques) to “boost” the performance of base methods
+  (phylogeny reconstruction, alignment estimation, etc)
+
+
+
+
+        Base method M         Meta-method      M*
+Interesting things to consider about methods
+• What optimization problems are worth solving?
+   • Statistical properties (consistency, sample complexity)
+   • Performance on simulated and biological data
+• How hard is it to solve the problem? NP-hard, approximable, etc?
+• What techniques can I use to solve the problem well?
+   • Constrained optimization
+   • Approximation algorithm
+   • Local search strategies
+   • Divide-and-conquer
+• How well do my new algorithms (and software) compare to other methods?
+    • With respect to theory
+    • With respect to empirical performance
+     Phylogenetic Inference
+                                    “Big Data”:
+                                    • Heterogeneous
+                                    • Large
+                                    • Noisy
+                                    • Error-ridden
+                                    • Streaming
+                                    • Model-misspecification
+Approaches:
+• NP-hard optimization problems and large datasets
+• Statistical estimation under stochastic models of evolution
+• Probabilistic analysis of algorithms
+• Graph-theoretic divide-and-conquer
+• Chordal graph theory
+• Combinatorial optimization
+Final project
+
+• Think about what you want to do for the course project:
+   • Algorithm design?
+   • implementation and evaluation?
+   • Dataset analysis?
+• In person meeting (required) to discuss your ideas (email:
+  warnow@Illinois.edu)
+Open problems (and possible course projects)
+• Multiple Sequence Alignment:
+    • Merging two alignments
+    • Consensus alignments
+• Supertree estimation
+    • Need to scale to 100,000+ species with high accuracy
+    • Approximation algorithms
+• Species tree and phylogenetic network estimation
+    • Address gene tree heterogeneity due to multiple causes (including horizontal gene transfer)
+    • Theoretical guarantees under stochastic models
+    • Scalability to large numbers of species with whole genomes
+• Statistical Models of evolution
+     • New models of tree shape, sequence evolution
+     • New theory regarding identifiability and consistency
+     • Evaluating methods under these new models
+• Deep learning to improve large-scale phylogenetic tree and network estimation
+• Applications to historical linguistics, microbiome analysis, protein structure and function prediction, tumor evolution, etc.
+

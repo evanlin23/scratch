@@ -15,3 +15,9 @@ container (Sonnet; prompt = WORKER_PROMPT.md) and pushes results to its branch.
 
 Collect results: `git fetch origin 'refs/heads/claude/cs581-worker-*:refs/remotes/origin/claude/cs581-worker-*'`
 then copy each branch's `cs581/experiments/runs/*` (see aggregate.sh).
+
+## Other sessions
+
+| purpose | branch | session |
+|---|---|---|
+| maximum-likelihood exploration (literature, ML tree harness on the MAGUS datasets, pilots, report in `cs581/ml/REPORT.md`) | claude/cs581-ml | session_015LodS6GpCKvPXaDh4pLyME |
