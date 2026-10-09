@@ -24,6 +24,8 @@ def method_fn(name, src, wd):
         w, m = M.astral4(src, out, os.path.join(wd, name))
     elif name == "tqmc":
         w, m = M.tqmc(src, out, os.path.join(wd, name))
+    elif name == "scs":
+        w, m = M.scs(src, out, os.path.join(wd, name))
     elif name == "mrlft":
         w, m = M.mrl_fasttree(src, out, os.path.join(wd, name))
     elif name.startswith("dc"):
