@@ -21,7 +21,7 @@ import methods as M  # noqa: E402
 from gdlsim import simulate  # noqa: E402
 from phylo import parse_newick, rf_error  # noqa: E402
 
-MODES = [("multi", "mean", False), ("pro", "mean", True), ("pro", "mean", False),
+MODES = [("multi", "mean", False), ("pro", "mean", True), ("pro", "mean", "root"), ("pro", "mean", False),
          ("pro", "min", False), ("ortho_all", "mean", False), ("spec_all", "mean", False)]
 
 
@@ -54,11 +54,12 @@ def run(tree, rates, default, nfam, seed, min_species, astral=True, quartets=Non
     tagged_true = [M.root_and_tag(g, sp_of, idx, truetags=True) for g in G]
     for mode, agg, tt in (modes or MODES):
         tg = tagged_true if tt else tagged_inf
-        per = [M.gene_distances(rt, t, ls, len(species), mode=mode, agg=agg) for rt, t, ls in tg]
+        per = [M.gene_distances(rt, t, ls, len(species), mode=mode, agg=agg, count_root=(tt == "root"))
+               for rt, t, ls in tg]
         D, nmiss = M.average_matrix(per)
         T = M.fastme_tree(D, species)
         fn = rf_error(T, st)[0]
-        name = "%s-%s%s" % (mode, agg, "-truetags" if tt else "")
+        name = "%s-%s%s" % (mode, agg, "-truetags-countroot" if tt == "root" else "-truetags" if tt else "")
         r = {"FN": fn, "missing": nmiss}
         if quartets:
             r["quartets"] = {"".join(q): {k: round(v, 4) for k, v in quartet_sums(D, idx, q).items()}
