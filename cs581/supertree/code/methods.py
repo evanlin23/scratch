@@ -16,7 +16,9 @@ def astral3(src, out, wd, mem="6g"):
     os.makedirs(wd, exist_ok=True)
     inp = os.path.join(wd, "in.tre")
     _clean_input(src, inp)
-    return timed(f"java -Xmx{mem} -jar {ASTRAL3} -i {inp} -o {out}", log=os.path.join(wd, "astral3.log"))
+    lim = os.environ.get("ASTRAL_TIMEOUT")  # seconds; whole-dataset runs at 10k taxa can take hours
+    pre = f"timeout {lim} " if lim else ""
+    return timed(f"{pre}java -Xmx{mem} -jar {ASTRAL3} -i {inp} -o {out}", log=os.path.join(wd, "astral3.log"))
 
 
 def astral4(src, out, wd, threads=1, extra=""):
@@ -27,6 +29,12 @@ def astral4(src, out, wd, threads=1, extra=""):
 def tqmc(src, out, wd, extra=""):
     os.makedirs(wd, exist_ok=True)
     return timed(f"{ENV}/tree-qmc {extra} -i {src} -o {out}", log=os.path.join(wd, "tqmc.log"))
+
+
+def scs(src, out, wd):
+    os.makedirs(wd, exist_ok=True)
+    here = os.path.dirname(os.path.abspath(__file__))
+    return timed(f"python3 {here}/scs_run.py {src} {out}", log=os.path.join(wd, "scs.log"))
 
 
 # ---------------------------------------------------------------- decomposition
