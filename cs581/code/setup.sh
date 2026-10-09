@@ -31,7 +31,7 @@ if [ ! -d "$HERE/MAGUS" ]; then
   git clone -q https://github.com/vlasmirnov/MAGUS.git "$HERE/MAGUS"
   git -C "$HERE/MAGUS" checkout -q 39041fc8da5dcb44c95e90c212c667cf225ec129
 fi
-pip install -q -e "$HERE/MAGUS" numpy scipy pandas matplotlib
+pip install -q -e "$HERE/MAGUS" numpy scipy pandas matplotlib scikit-learn joblib
 
 # 5. Benchmark data from the MAGUS paper (Illinois Data Bank IDB-2643961, Datasets.zip, ~390 MB):
 #    ROSE 1000-taxon (L1-3, M1-4, S1-3; 20 reps), RNASim 1k/10k, 16S (CRW), BAliBASE

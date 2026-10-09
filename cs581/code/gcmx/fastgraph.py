@@ -168,6 +168,8 @@ def buildMatrix(context):
     if os.environ.get("GCMX_BACKBONE_WEIGHTS"):
         weights = json.load(open(os.environ["GCMX_BACKBONE_WEIGHTS"]))
     total = sp.csr_matrix((n, n), dtype=np.int64)
+    learn = bool(os.environ.get("GCMX_EDGE_DUMP") or os.environ.get("GCMX_EDGE_MODEL"))
+    occupancy, support = [], sp.csr_matrix((n, n), dtype=np.int64)  # for gcmx.learnweights
     for alignedFile in files:
         Configs.log("[gcmx:fastgraph] Feeding backbone {} to the graph..".format(alignedFile))
         pp_path = os.path.join(os.environ.get("GCMX_PP_DIR", ""), os.path.basename(alignedFile))
@@ -179,11 +181,18 @@ def buildMatrix(context):
         else:
             A = _column_matrix(_backbone_alignmap(context, alignedFile), n)
             product = (A.T @ A).tocsr()
+            if learn:
+                occupancy.append(np.asarray(A.sum(axis=0)).ravel().astype(float))
+                support = support + (product > 0).astype(np.int64)
             if os.environ.get("GCMX_PP_DIR"):
                 product = product * 100  # same scale as posterior-weighted backbones
         if weights:
             product = product * int(round(100 * weights.get(os.path.basename(alignedFile), 1.0)))
         total = total + product
+
+    if learn:
+        from . import learnweights
+        total = learnweights.transform(context, total.tocsr(), occupancy, support.tocsr())
 
     if Configs.graphBuildRestrict:
         coo = total.tocoo()
