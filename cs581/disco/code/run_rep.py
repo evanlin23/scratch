@@ -189,6 +189,7 @@ def main():
     ap.add_argument("--tags", action="store_true", help="also compute tagging accuracy")
     ap.add_argument("--iter", action="store_true", help="one extra DISCO-R round from the ASTRAL-DISCO-R tree")
     ap.add_argument("--maxgenes", type=int, default=0)
+    ap.add_argument("--nsample", type=int, default=200, help="gene trees used to root S0 by min DL")
     a = ap.parse_args()
     os.makedirs(a.outdir, exist_ok=True)
     W = a.outdir
@@ -257,7 +258,7 @@ def main():
     if a.s0root == "outgroup":
         s0r = root_outgroup(s0, a.outgroup)
     else:
-        s0r = root_mindl(s0, genes)
+        s0r = root_mindl(s0, genes, a.nsample)
     res["time"]["s0-root"] = time.time() - t0
     t = treeswift.read_tree_newick(s0r)
     res["s0_root_correct"] = root_split(t) == root_split(treeswift.read_tree_newick(strue))
@@ -269,7 +270,7 @@ def main():
     disco_run("DISCOR-oracle", "dl", Strue, "overlap")
     if a.iter:
         t1 = r1["ASTRAL"]
-        s1r = root_outgroup(t1, a.outgroup) if a.s0root == "outgroup" else root_mindl(t1, genes)
+        s1r = root_outgroup(t1, a.outgroup) if a.s0root == "outgroup" else root_mindl(t1, genes, a.nsample)
         disco_run("DISCOR-it2", "dl", discor.SpeciesTree(s1r), "overlap")
 
     # 4. tagging accuracy vs truth
