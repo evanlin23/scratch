@@ -129,15 +129,35 @@ def root_and_tag(t, sp_of, sp_index, keep_root=False, truetags=False):
     return rt, tags, leafsp
 
 
+def _edge_support(t, u, v):
+    """Support of the undirected edge u-v of the original tree (internal label of the
+    child endpoint), or None."""
+    c = u if t.parent[u] == v else v if t.parent[v] == u else None
+    if c is None:  # edge created by suppressing a degree-2 root
+        vals = [_num(t.label[x]) for x in (u, v) if t.children[x]]
+        vals = [x for x in vals if x is not None]
+        return max(vals) if vals else None
+    return _num(t.label[c]) if t.children[c] else None
+
+
+def _num(x):
+    try:
+        return float(x)
+    except (TypeError, ValueError):
+        return None
+
+
 def _build_rooted(t, nb, a, b):
     rt = Tree()
     root = rt.add(-1)
     rt.root = root
+    rt.length[root] = None
     stack = [(a, b, root), (b, a, root)]
     while stack:
         v, frm, p = stack.pop()
         i = rt.add(p)
         rt.label[i] = t.label[v] if len(nb[v]) == 1 else None
+        rt.length[i] = _edge_support(t, v, frm) if len(nb[v]) > 1 else None  # support of edge above i
         for q in nb[v]:
             if q != frm:
                 stack.append((q, v, i))
@@ -180,7 +200,7 @@ def _loss_score(rt, sp_of, sp_index):
 
 # ---------------------------------------------------------------- distances
 
-def gene_distances(rt, tags, leafsp, nsp, mode="pro", agg="mean"):
+def gene_distances(rt, tags, leafsp, nsp, mode="pro", agg="mean", weighted=False):
     """Per-gene species distance: returns (sum matrix, count matrix) for this gene,
     where for agg='mean' entries are (avg, 1) and for 'min' (min, 1)."""
     n = len(rt.parent)
@@ -195,12 +215,18 @@ def gene_distances(rt, tags, leafsp, nsp, mode="pro", agg="mean"):
     if len(rt.children[root]) < 3:
         counted[root] = False  # degree-2 root is not a node of the unrooted tree
     need_ortho = mode in ("pro", "ortho_all")
-    # cum[v] = number of counted nodes on root..v inclusive
-    cum = [0] * n
+    # cum[v] = (weighted) number of counted nodes on root..v inclusive; with weighted=True a
+    # node counts with the support of the branch above it (stored in rt.length by _build_rooted)
+    wt = [1.0] * n
+    if weighted:
+        for v in range(n):
+            x = rt.length[v]
+            wt[v] = 1.0 if x is None else (x / 100.0 if x > 1.0 else x)
+    cum = [0.0] * n
     order = rt.postorder()[::-1]
     for v in order:
         p = rt.parent[v]
-        cum[v] = (cum[p] if p >= 0 else 0) + (1 if counted[v] else 0)
+        cum[v] = (cum[p] if p >= 0 else 0) + (wt[v] if counted[v] else 0)
     leaves_under = [None] * n
     tot = np.zeros((nsp, nsp))
     cnt = np.zeros((nsp, nsp))
@@ -219,7 +245,7 @@ def gene_distances(rt, tags, leafsp, nsp, mode="pro", agg="mean"):
                 a, b = L[i], L[j]
                 ca = np.array([cum[rt.parent[x]] for x in a])
                 cb = np.array([cum[rt.parent[x]] for x in b])
-                d = ca[:, None] + cb[None, :] - 2 * cum[v] + (1 if counted[v] else 0)
+                d = ca[:, None] + cb[None, :] - 2 * cum[v] + (wt[v] if counted[v] else 0)
                 sa = np.array([leafsp[x] for x in a])
                 sb = np.array([leafsp[x] for x in b])
                 SA = np.broadcast_to(sa[:, None], d.shape).ravel()
@@ -326,11 +352,12 @@ def astral_pro(gene_tree_file, mapping_file, out_file, threads=1):
 # ---------------------------------------------------------------- pipeline helper
 
 def species_tree_from_genes(gene_trees, sp_of, species, mode="pro", agg="mean",
-                            keep_root=False, tagged=None, truetags=False):
+                            keep_root=False, tagged=None, truetags=False, weighted=False):
     """gene_trees: list of Tree. tagged: optional precomputed list of (rt, tags, leafsp)."""
     sp_index = {s: i for i, s in enumerate(species)}
     if tagged is None:
         tagged = [root_and_tag(t, sp_of, sp_index, keep_root=keep_root, truetags=truetags) for t in gene_trees]
-    per = [gene_distances(rt, tg, ls, len(species), mode=mode, agg=agg) for rt, tg, ls in tagged]
+    per = [gene_distances(rt, tg, ls, len(species), mode=mode, agg=agg, weighted=weighted)
+           for rt, tg, ls in tagged]
     D, nmiss = average_matrix(per)
     return fastme_tree(D, species), nmiss

@@ -108,7 +108,7 @@ def leaf_species(g):
     return out
 
 
-def simulate(stree, lam, mu, nfam, seed, min_species=4, root_len=0.0, cap=5000):
+def simulate(stree, lam, mu, nfam, seed, min_species=4, root_len=0.0, cap=1500, max_over=200):
     rng = random.Random(seed)
     fams, tries, over = [], 0, 0
     while len(fams) < nfam:
@@ -116,6 +116,8 @@ def simulate(stree, lam, mu, nfam, seed, min_species=4, root_len=0.0, cap=5000):
         g = simulate_family(stree, lam, mu, rng, root_len=root_len, cap=cap)
         if g == "OVERFLOW":
             over += 1
+            if over > max_over:
+                raise RuntimeError("too many overflowing families")
             continue
         if g is None or g.kind == "L":
             continue

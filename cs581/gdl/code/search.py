@@ -16,13 +16,13 @@ SHAPES = {
     "bal4": ("((A:{A},B:{B})x:{x},(C:{C},D:{D})y:{y})r;", "ABCDxy"),
     "cat5": ("((((A:{A},B:{B})x:{x},C:{C})y:{y},D:{D})z:{z},E:{E})r;", "ABCDExyz"),
 }
-LAM = [0, 0.3, 1, 2, 4]
+LAM = [0, 0.3, 1, 2]
 MU = [0, 0.3, 1, 2, 4]
 with open(out, "a") as f:
     for i in range(ncfg):
         shape = rng.choice(list(SHAPES))
         tmpl, nodes = SHAPES[shape]
-        bl = {n: round(rng.choice([0.1, 0.3, 1.0, 2.0]), 2) for n in nodes}
+        bl = {n: round(rng.choice([0.1, 0.3, 1.0, 1.5]), 2) for n in nodes}
         rates = {n: (rng.choice(LAM), rng.choice(MU)) for n in nodes}
         tree = tmpl.format(**bl)
         try:
