@@ -176,6 +176,7 @@ int main(int argc, char** argv) {
   string cmd = argv[1], gfile, tfile, wfile, mode = "raw";
   unsigned seed = 1;
   double tlimit = 1e9;
+  int radius = 4;  // max edge distance between the pruning point and the regraft edge (0 = unlimited)
   for (int a = 2; a < argc; a++) {
     string o = argv[a];
     if (o == "-g") gfile = argv[++a];
@@ -184,6 +185,7 @@ int main(int argc, char** argv) {
     else if (o == "-m") mode = argv[++a];
     else if (o == "-s") seed = atoi(argv[++a]);
     else if (o == "-T") tlimit = atof(argv[++a]);
+    else if (o == "-r") radius = atoi(argv[++a]);
   }
   auto gstr = read_trees(gfile);
   auto tstr = read_trees(tfile);
@@ -278,9 +280,16 @@ int main(int argc, char** argv) {
           for (int y : T.adj[x]) if (y != u && !insub[y]) { insub[y] = 1; st.push_back(y); }
         }
         T.unlink(u, a); T.unlink(u, b); T.link(a, b);
+        // distance (in nodes) from the joined edge (a, b) within the remaining tree
+        vector<int> dd(T.adj.size(), -1);
+        vector<int> bq = {a, b};
+        dd[a] = dd[b] = 0;
+        for (size_t h = 0; h < bq.size(); h++)
+          for (int y : T.adj[bq[h]])
+            if (dd[y] < 0 && !insub[y] && y != u) { dd[y] = dd[bq[h]] + 1; bq.push_back(y); }
         vector<pair<int, int>> edges;
         for (int x = 0; x < (int)T.adj.size(); x++)
-          if (x != u && !insub[x])
+          if (x != u && !insub[x] && (radius == 0 || (dd[x] >= 0 && dd[x] < radius)))
             for (int y : T.adj[x])
               if (y > x && !insub[y] && y != u && !(min(x, y) == min(a, b) && max(x, y) == max(a, b)))
                 edges.push_back({x, y});
