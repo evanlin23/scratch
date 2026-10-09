@@ -16,6 +16,9 @@ clustering cost are vectorized as well. Weights stay integers, so MCL sees the
 same graph.
 """
 
+import json
+import os
+
 import numpy as np
 import scipy.sparse as sp
 
@@ -126,11 +129,19 @@ def buildMatrix(context):
         if path not in files:
             files.append(path)
 
+    # optional per-backbone weights: GCMX_BACKBONE_WEIGHTS = JSON file {basename: weight};
+    # weights are scaled by 100 and rounded so that graph weights stay integers
+    weights = {}
+    if os.environ.get("GCMX_BACKBONE_WEIGHTS"):
+        weights = json.load(open(os.environ["GCMX_BACKBONE_WEIGHTS"]))
     total = sp.csr_matrix((n, n), dtype=np.int64)
     for alignedFile in files:
         Configs.log("[gcmx:fastgraph] Feeding backbone {} to the graph..".format(alignedFile))
         A = _column_matrix(_backbone_alignmap(context, alignedFile), n)
-        total = total + (A.T @ A).tocsr()
+        product = (A.T @ A).tocsr()
+        if weights:
+            product = product * int(round(100 * weights.get(os.path.basename(alignedFile), 1.0)))
+        total = total + product
 
     if Configs.graphBuildRestrict:
         coo = total.tocoo()
