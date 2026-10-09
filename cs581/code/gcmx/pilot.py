@@ -20,14 +20,10 @@ PROGDP = "--graphclustermethod none --graphtracemethod progdp"
 # Variant names must not contain ":" (experiment.py splits "name:args" on the first colon).
 VARIANTS = [
     ("default", ""),
-    ("default+opt", "--graphtraceoptimize true"),
     ("fm+opt", "--graphtracemethod fm --graphtraceoptimize true"),
     ("progdp", PROGDP + " --gcmx-order upgma"),
-    ("progdp+opt", PROGDP + " --gcmx-order upgma --graphtraceoptimize true"),
-    # soft constraints: split each subset alignment into m similarity groups, merge all groups at once
-    ("soft-m2", "-s {rep}/split_m2 -b {bb}"),
-    ("soft-m3", "-s {rep}/split_m3 -b {bb}"),
-    ("soft-m2-random", "-s {rep}/split_m2_random -b {bb}"),  # control: random instead of similar groups
+    # Soft constraints with MAGUS's normal evidence ("soft-m2", "soft-m3", "soft-m2-random" on
+    # -b {bb}) and default+opt / progdp+opt were run on the first replicates and dropped: no gain.
     # richer evidence: the same backbones HMM-extended to all sequences (MAGUS "Slow" evidence)
     ("slow", "-b {ext}"),
     ("slow-soft-m2", "-s {rep}/split_m2 -b {ext}"),
@@ -51,7 +47,8 @@ def main():
     done = set()
     if os.path.exists(results_path):
         with open(results_path) as f:
-            done = {(r["dataset"], r["variant"]) for r in map(json.loads, f)}
+            # only successful runs count as done, so failed variants (e.g. out of memory) are retried
+            done = {(r["dataset"], r["variant"]) for r in map(json.loads, f) if "avgErr" in r}
 
     for rep in replicates:
         rep = os.path.abspath(rep)
