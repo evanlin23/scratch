@@ -24,7 +24,10 @@ def load(fn):
     rows = [json.loads(l) for l in open(fn) if l.strip()]
     err = [r for r in rows if "error" in r]
     rows = [r for r in rows if "error" not in r]
-    return pd.DataFrame(rows), err
+    df = pd.DataFrame(rows)
+    if "key" in df:
+        df = df.drop_duplicates("key", keep="first")  # a resumed run can re-do in-flight replicates
+    return df, err
 
 
 def paired(df, a, b, n):
@@ -105,6 +108,26 @@ def main():
             for a, b in COMPARE:
                 md, w, t, l, p, nn = paired(dl, a, b, 500)
                 out.append(f"| {LABEL.get(a, a)} | {LABEL.get(b, b)} | {md:+.4f} | {w}/{t}/{l} | {p:.2g} | {nn} |")
+    ff = os.path.join(R, "followup.jsonl")
+    if os.path.exists(ff):
+        du, erru = load(ff)
+        if not du.empty:
+            out.append(f"\n### Follow-up: saturation handling and FastME-guided controls ({len(du)} replicates, {len(erru)} errors)\n")
+            cs = ["NJ_cap2", "NJ_cap1.2", "NJ_cap5", "NJ_pcap", "FastME_cap2", "FastME_cap1.2", "FastME_cap5",
+                  "FastME_pcap", "FGTM_FastME", "CompGTM_FastME", "DecGTM_FastME_25", "DecGTM_FastME_50",
+                  "FGTM_FastME_pcap"]
+            out.append("| regime | k | reps | " + " | ".join(cs) + " |")
+            out.append("|---|---|---|" + "---|" * len(cs))
+            for (reg, k), g in du.groupby(["regime", "k"]):
+                out.append(f"| {reg} | {k} | {len(g)} | " + " | ".join(fmt(g[f'FN_{c}'].mean()) for c in cs) + " |")
+            out.append("\n| regime | k | A | B | mean diff | W/T/L | p |")
+            out.append("|---|---|---|---|---|---|---|")
+            for (reg, k), g in du.groupby(["regime", "k"]):
+                for a, b in (("FGTM_FastME_pcap", "FastME_pcap"), ("FGTM_FastME", "FastME_cap2"),
+                             ("FGTM_FastME", "CompGTM_FastME"), ("FGTM_FastME", "DecGTM_FastME_25"),
+                             ("FastME_pcap", "FastME_cap2")):
+                    md, w, t, l, pv, nn = paired(g, a, b, 100)
+                    out.append(f"| {reg} | {k} | {a} | {b} | {md:+.4f} | {w}/{t}/{l} | {pv:.2g} |")
     open(os.path.join(R, "summary.md"), "w").write("\n".join(out) + "\n")
     # plots
     series = [("NJ", "#2a78d6", "o"), ("FastME", "#eb6834", "s"), ("FastTree", "#1baf7a", "^"),
