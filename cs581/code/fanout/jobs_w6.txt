@@ -1,0 +1,9 @@
+1000M4_R0 /opt/data/Datasets/ROSE/1000M4/R0/rose.aln.true.fasta 25
+BBA0067_R0 cs581/data/balibase_clean/RV100_BBA0067.fasta 25
+BBA0039_R0 cs581/data/balibase_clean/RV100_BBA0039.fasta 25
+1000M3_R1 /opt/data/Datasets/ROSE/1000M3/R1/rose.aln.true.fasta 25
+1000L1_R2 /opt/data/Datasets/ROSE/1000L1/R2/rose.aln.true.fasta 25
+1000S1_R2 /opt/data/Datasets/ROSE/1000S1/R2/rose.aln.true.fasta 25
+1000L3_R3 /opt/data/Datasets/ROSE/1000L3/R3/rose.aln.true.fasta 25
+1000S3_R3 /opt/data/Datasets/ROSE/1000S3/R3/rose.aln.true.fasta 25
+1000M3_R4 /opt/data/Datasets/ROSE/1000M3/R4/rose.aln.true.fasta 25

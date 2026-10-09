@@ -1,0 +1,2 @@
+16S.T_R0 /opt/data/Datasets/Gutell/16S.T/R0/true_align_clean.txt 100 default,progdp,oracle:estSub+trueFull,oracle:trueSub+estBB
+16S.3_R0 /opt/data/Datasets/Gutell/16S.3/R0/true_align_clean.txt 100 default,progdp,oracle:estSub+trueFull,oracle:trueSub+estBB

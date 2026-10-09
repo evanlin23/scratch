@@ -11,6 +11,12 @@ Weight Trace for two alignments:
 with zero gap penalty (as in WITCH-NG's two-alignment MWT). Each row is
 vectorised: D[i] = cummax(max(D[i-1][1:], D[i-1][:-1] + s_i)).
 
+Optional refinement ("--gcmx-refine R"): R rounds of leave-one-out
+re-merging. Each constraint alignment is removed from the merged alignment
+and merged back with the exact two-alignment DP. Its old placement is a
+feasible solution of that DP, so the total MWT score never decreases
+(coordinate ascent on MWT-AM with exact steps).
+
 Merge order ("--gcmx-order"):
   upgma  merge the pair with the highest average inter-alignment weight
          T(A,B) / (|A| |B|) (|.| = number of constraint alignments), then
@@ -27,17 +33,18 @@ from magus.align.merge import merger
 from magus.align.merge.graph_trace import tracer
 from magus.configuration import Configs
 
-_state = {"order": "upgma"}
+_state = {"order": "upgma", "refine": 0}
 
 
-def install(order="upgma"):
+def install(order="upgma", refine=0):
     _state["order"] = order
+    _state["refine"] = refine
     original = tracer.findTrace
 
     def findTrace(graph):
         if Configs.graphTraceMethod != "progdp":
             return original(graph)
-        progressiveMerge(graph, _state["order"])
+        progressiveMerge(graph, _state["order"], _state["refine"])
         graph.writeClustersToFile(graph.tracePath)
         Configs.log("Found a trace with {} clusters and a total cost of {}".format(
             len(graph.clusters), graph.computeClusteringCost(graph.clusters)))
@@ -95,7 +102,28 @@ def mergePair(A, B, W):
     return merged, D[p, q]
 
 
-def progressiveMerge(graph, order):
+def refine(columns, graph, W, rounds):
+    k = len(graph.subalignmentLengths)
+    sub = {}
+    for i in range(k):
+        for j in range(graph.subalignmentLengths[i]):
+            sub[graph.subsetMatrixIdx[i] + j] = i
+    for r in range(rounds):
+        changed = 0
+        for i in range(k):
+            rest = [[n for n in column if sub[n] != i] for column in columns]
+            rest = [column for column in rest if column]
+            own = [[graph.subsetMatrixIdx[i] + j] for j in range(graph.subalignmentLengths[i])]
+            before = set(tuple(sorted(column)) for column in columns)
+            columns, _ = mergePair(rest, own, W)
+            changed += len(set(tuple(sorted(column)) for column in columns) - before)
+        Configs.log("[gcmx:progdp] refinement round {}: {} columns changed".format(r + 1, changed))
+        if changed == 0:
+            break
+    return columns
+
+
+def progressiveMerge(graph, order, rounds=0):
     k = len(graph.subalignmentLengths)
     W = interSubalignmentWeights(graph)
     Configs.log("[gcmx:progdp] {} constraint alignments, {} weighted inter-alignment edges, order={}".format(
@@ -147,6 +175,8 @@ def progressiveMerge(graph, order):
             sizes[new] = sizes.pop(a) + sizes.pop(b)
         final = next(iter(groups.values()))
 
+    if rounds:
+        final = refine(final, graph, W, rounds)
     graph.clusters = [sorted(column) for column in final]
     Configs.log("[gcmx:progdp] merged into {} columns; sum of pairwise-merge MWT scores {}".format(
         len(final), total))

@@ -23,7 +23,7 @@ def fastsp(reference, estimate):
         est = os.path.join(tmp, "est.fa")
         fasta.write(fasta.upper(fasta.read(reference)), ref)
         fasta.write(fasta.upper(fasta.read(estimate)), est)
-        out = subprocess.run(["java", "-Xmx4g", "-jar", FASTSP_JAR, "-r", ref, "-e", est],
+        out = subprocess.run(["java", "-Xmx" + os.environ.get("FASTSP_XMX", "4g"), "-jar", FASTSP_JAR, "-r", ref, "-e", est],
                              capture_output=True, text=True, check=True)
     stats = {}
     for line in (out.stdout + out.stderr).splitlines():

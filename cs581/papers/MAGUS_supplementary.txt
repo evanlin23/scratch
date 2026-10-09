@@ -1,0 +1,340 @@
+picture(0,0)(-35,0)(1,0)30 (0,35)(0,-1)30 picture                                                                                                  picture(0,0)(35,0)(-1,0)30 (0,35)(0,-1)30 picture
+
+
+
+                   GCM                                                                                                                                                         1
+
+
+                   Supplementary Materials                                                             Clustering the graph is done by invoking the Markov Clustering
+                                                                                                   software. According to Azad et al. (2018), the runtime of MCL is optimized
+                   Materials and methods
+                                                                                                   to O(V d2 ), where V is the number of nodes, and d is their average degree.
+                   Commands                                                                        Let S denote the number of constraint alignments being merged and C
+                   PASTA 1.8.3                                                                     be the average number of columns per constraint alignment. In the best
+                                                                                                   case, if our alignment graph is sparse, we would have SC nodes with an
+                   python3 run_pasta.py -i sequences -o ouput_dir
+                                                                                                   average degree of O(S), giving us a runtime of O(S 3 C). In the worst
+                   -t start_tree --iter-limit iterations
+                                                                                                   case, however, the runtime will be O(SC(Bn Bm )2 ), since the worst
+                   --temporaries temp_dir
+                                                                                                   case would match every constraint alignment column with Bm different
+                       Comment: PASTA always uses its default starting tree, but we run it         neighbors in each of Bn backbone alignments. Informally spot-checking
+                   for varying numbers of iterations.                                              some of our graphs in this study has shown sparsities of over 99%, so such
+                                                                                                   degenerate cases are unlikely to appear empirically.
+                   MAGUS (Fast)
+                                                                                                       The last phase (fixing/ordering the clusters to build the trace) is
+                   python3 magus.py -d working_dir -o result                                       somewhat more difficult to characterize, as it relies on a heuristic that
+                   -i sequences --graphbuildhmmextend false                                        does not have a natural Big-O asymptotic complexity. However, it
+                   --maxsubsetsize 0 --maxnumsubsets num_subsets                                   seems reasonable to say that the A* algorithm’s naive time complexity
+                   -r num_backbones -m backbone_size                                               is exponential in the worst case: O(S SC ), since S is the worst-case
+                                                                                                   branching factor in our search space, the SC is the worst-case length
+                   MAGUS (Slow)                                                                    of a path from the start state to an end state. To prevent this worst case, we
+                   python3 magus.py -d working_dir -o result                                       impose a hard constant limit on the number of states that can be explored
+                   -i sequences --graphbuildhmmextend true                                         before the algorithm is forced to make progress–forced to order a cluster
+                   --maxsubsetsize 0 --maxnumsubsets num_subsets                                   irreversibly. Thus, the worst-case runtime of this step within GCM is
+                   -r num_backbones -m backbone_size                                               O(SCF ), where SC is the length of the longest possible search path
+                                                                                                   and F is a constant that roughly describes the maximum number of non-
+                        Comment: MAGUS is available in open source form in Github. The             progressing states that can be explored before the algorithm is forced to
+                   decomposition repeats until one or both of the following constraints hold:      advance along this path.
+                   (1) the number of subsets is at least maxnumsubsets, and (2) the maximum
+                                                                                                   Comments on MCL To use MCL in GCM, we normalize the adjacency
+                   subset size is at most maxsubsetsize; hence, this command makes the
+                                                                                                   matrix for the graph G so that it defines a stochastic matrix (i.e., the
+                   decomposition produce 25 subsets, without concern for size.
+                                                                                                   entries in the matrix are non-negative and the column sums are 1). MCL
+                   HMMER 3.1b2 (called within MAGUS)                                               alternates between “expansion” and “inflation” phases. The “expansion”
+                                                                                                   phase simply multiplies this matrix by itself, which propagates the random
+                   hmmbuild --ere 0.59 --cpu 1 --symfrac 0.0
+                                                                                                   walk probabilities between nodes. In fact, this operation is very similar to
+                   --informat afa hmm_model alignment
+                                                                                                   the consistency propagation operation in Probcons, a method for amino
+                                                                                                   acid sequence alignment (Do et al., 2005), where the matrix of pairwise
+                   hmmalign -o result hmm_model sequences
+                                                                                                   probabilities between residues was repeatedly multiplied to propagate
+                   Comment: this is used for the HMM-extension calculation, described              consistency. MCL allows us to tap into the same mechanism to take
+                   below.                                                                          advantage of the same principle. The “inflation” step serves to gradually
+                                                                                                   put more emphasis on more probable paths and less emphasis on less
+                   MCL 14-137 (called within MAGUS)                                                probable paths, driving the algorithm to converge to a clustering.
+                   mcl alignment_graph --abc -o clusters -I 4                                          The chief algorithmic parameter in MCL is the inflation factor I, which
+                                                                                                   governs the “inflation” operator and roughly controls the granularity of the
+                   Computing Alignment Error - FastSP 1.6.0                                        clustering. The guidelines about choosing I in Von Dongen (2012) says “A
+                                                                                                   good set of starting values is 1.4, 2, 4, and 6"; our preliminary exploration
+                   java -jar FastSP_1.6.0.jar -r
+                                                                                                   (Figure 1) using an early version of our approach on one replicate of one
+                   true_alignment -e estimated_alignment
+                                                                                                   of our model conditions showed that I = 1.4 produced poor results, and
+                                                                                                   i = 2, 4, 6 were very similar; we set I = 4 for all subsequent studies.
+                   Additional Details
+                   Runtime Complexity Because GCM uses a local search heuristic in its             HMM-Extension (Slow vs. Fast Mode) GCM “slow” mode extends the
+                   design, its running time does not have a nice Big-O form, but a discussion      backbone alignments to contain all of the input sequences, and it does this
+                   of the different steps is informative about its worst case and typical case     using HMMER (Eddy, 2020). The process is nearly identical to the initial
+                   running time. GCM’s steps have the following components: 1) generating          alignment procedure: after our 200 sequences are aligned with MAFFT,
+                   backbone alignments, 2) compiling the alignment graph, 3) clustering the        we use hmmbuild to produce an HMM over this alignment, and hmmalign
+                   graph, and 4) fixing/ordering the clustering into a trace.                      to add all of the remaining sequences to it.
+                       The first step involves generating the backbone alignments, where
+                   we used 10 runs of MAFFT -linsi. The running time of MAFFT -linsi
+                   is O(N 2 L2 ), where N is the number of sequences and L is their
+                   length(Katoh and Toh, 2008). Then, if Bn is the number of backbone
+                   alignments, Bl is their average length, and Bm is the maximum number
+                   of sequences in each backbone, we have O(Bn Bm      2 B 2 ).
+                                                                            l
+                       After we compute the backbone alignments, constructing the alignment
+                   graph is O(Bn Bl Bm   2 ): this follows from reading all B 2 residue pairs in
+                                                                              m
+                   each backbone alignment column, of which we have Bn Bl .
+
+
+
+
+picture(0,0)(-35,0)(1,0)30 (0,-35)(0,1)30 picture                                                                                                  picture(0,0)(35,0)(-1,0)30 (0,-35)(0,1)30 picture
+
+    “output” — 2020/10/24 — page 1 — #1
+picture(0,0)(-35,0)(1,0)30 (0,35)(0,-1)30 picture                                                                                                                                                                                                         picture(0,0)(35,0)(-1,0)30 (0,35)(0,-1)30 picture
+
+
+
+                      2                                                                                                                                                                                                                                            Smirnov and Warnow
+
+                                                                                                                                                  MAGUS(1.4, Fast)
+                                                                                                                                                  MAGUS(2, Fast)                                                                                                                       PASTA SPFN
+                                                                                                                                                  MAGUS(4, Fast)             0.8                                                                                                       PASTA SPFP
+                                                                                                                                                  MAGUS(6, Fast)
+                                                                                                                                                  MAGUS(1.4, Slow)                                                                                                                     MAGUS(Fast) SPFN
+                               0.20                                                                                                               MAGUS(2, Slow)             0.7                                                                                                       MAGUS(Fast) SPFP
+                                                                                                                                                  MAGUS(4, Slow)
+                                                                                                                                                  MAGUS(6, Slow)                                                                                                                       MAGUS(Slow) SPFN
+                                                                                                                                                                             0.6                                                                                                       MAGUS(Slow) SPFP
+                               0.15
+                                                                                                                                                                             0.5
+                   (FN+FP)/2
+
+
+
+
+                                                                                                                                                                     Error
+                                                                                                                                                                             0.4
+                               0.10
+                                                                                                                                                                             0.3
+
+                               0.05                                                                                                                                          0.2
+                                                                                                                                                                             0.1
+                               0.00                     10                                      25                                      50                                   0.0     BBA0081(195) BBA0067(274) BBA0154(295) BBA0101(322) BBA0190(343) BBA0134(370) BBA0117(423) BBA0039(732)   16S.M(740)
+                                                                                      Number of Subsets                                                                                                                                   Dataset
+
+
+                      Fig. 1. Experiment 1: Exploring impact of the MCL inflation parameter. MAGUS(X, Y)                                                              Fig. 4. Experiment 2: Error rates for MAGUS and PASTA on 8 small datasets from Balibase
+                      indicates MAGUS being run with inflation parameter X and mode Y. The error rates are the                                                        and 16S.M. The error rates are SPFN and SPFP. The x-axis shows the dataset, with the
+                      average of SPFN and SPFP, and are averaged across the 19 replicates of the 1000M1 model                                                         number of sequences in parentheses. These datasets were modified to remove sequences
+                      condition. Error bars indicate standard error. The x-axis shows the impact of changing the                                                      with length more than 20% above or below the median. PASTA and MAGUS were both
+                      number of subsets.                                                                                                                              run in default mode.
+
+
+
+
+                                                                                                                                                 PASTA
+                                                                                                                                                                                                                                                                                   PASTA SPFN
+                               0.7                                                                                                               MAGUS(Fast)                 0.175                                                                                                 PASTA SPFP
+                                                                                                                                                 MAGUS(Slow)                                                                                                                       MAGUS(Fast) SPFN
+                               0.6                                                                                                                                           0.150                                                                                                 MAGUS(Fast) SPFP
+                                                                                                                                                                                                                                                                                   MAGUS(Slow) SPFN
+                                                                                                                                                                             0.125                                                                                                 MAGUS(Slow) SPFP
+                               0.5
+                                                                                                                                                                     Error
+
+
+
+
+                                                                                                                                                                             0.100
+                   (FN+FP)/2
+
+
+
+
+                               0.4
+                                                                                                                                                                             0.075
+                               0.3
+                                                                                                                                                                             0.050
+                               0.2
+                                                                                                                                                                             0.025
+                               0.1
+                                                                                                                                                                             0.000      1000L3 1000S1 1000M2 RNASim 1000L1 1000S2 1000S3 1000M3 1000L2 1000M4
+                               0.0    BBA0081(195) BBA0067(274) BBA0154(295) BBA0101(322) BBA0190(343) BBA0134(370) BBA0117(423) BBA0039(732)     16S.M(740)                                                           Dataset
+                                                                                            Dataset
+
+                                                                                                                                                                      Fig. 5. Experiment 2: Error rates for MAGUS and PASTA on the simulated 1000-taxon
+                      Fig. 2. Experiment 2: Error rates for MAGUS and PASTA on 8 small biological datasets
+                                                                                                                                                                      nucleotide datasets. The error rates are SPFN and SPFP, averaged over 20 replicates. Error
+                      from Balibase and 16S.M. The error rates are the average of SPFN and SPFP. The x-
+                                                                                                                                                                      bars indicate standard error. The x-axis shows the dataset. PASTA and MAGUS were both
+                      axis shows the dataset, with the number of sequences in parentheses. These datasets were
+                                                                                                                                                                      run in default mode.
+                      modified to remove sequences with length more than 20% above or below the median.
+                      PASTA and MAGUS were both run in default mode.
+
+
+
+
+                                                                                                                                                                             0.16                                                                                                  PASTA SPFN
+                                                                                                                                                                                                                                                                                   PASTA SPFP
+                                                                                                                                                                             0.14                                                                                                  MAGUS(Fast) SPFN
+                                          PASTA                                                                                                                                                                                                                                    MAGUS(Fast) SPFP
+                               20.0       MAGUS(Fast)                                                                                                                        0.12
+                                          MAGUS(Slow)
+                               17.5                                                                                                                                          0.10
+                                                                                                                                                                     Error
+
+
+
+
+                               15.0                                                                                                                                          0.08
+                               12.5                                                                                                                                          0.06
+                   Minutes
+
+
+
+
+                               10.0                                                                                                                                          0.04
+                                7.5                                                                                                                                          0.02
+                                5.0                                                                                                                                          0.00          16S.3(5489)                   16S.T(5548)            RNASim10K(10000)                 16S.B.ALL(24246)
+                                2.5                                                                                                                                                                                                        Dataset
+                                0.0    BBA0081(195) BBA0067(274) BBA0154(295) BBA0101(322) BBA0190(343) BBA0134(370) BBA0117(423) BBA0039(732)    16S.M(740)
+                                                                                            Dataset
+                                                                                                                                                                      Fig. 6. Experiment 2: Error rates for MAGUS and PASTA on on the larger nucleotide
+                                                                                                                                                                      datasets. The error rates are SPFN and SPFP. RNASim is simulated (averaged over 10
+                      Fig. 3. Experiment 2: Running time (minutes) for MAGUS and PASTA on 8 small datasets                                                            replicates, error bars indicate standard error); the other datasets are biological and were
+                      from Balibase and 16S.M. The x-axis shows the dataset, with the number of sequences in                                                          modified to remove sequences with length more than 20% above or below the median.
+                      parentheses. These datasets were modified to remove sequences with length more than 20%                                                         The x-axis shows the dataset, with the number of sequences in parentheses. PASTA and
+                      above or below the median. PASTA and MAGUS were both run in default mode.                                                                       MAGUS were both run in default mode.
+
+
+
+
+picture(0,0)(-35,0)(1,0)30 (0,-35)(0,1)30 picture                                                                                                                                                                                                         picture(0,0)(35,0)(-1,0)30 (0,-35)(0,1)30 picture
+
+    “output” — 2020/10/24 — page 2 — #2
+picture(0,0)(-35,0)(1,0)30 (0,35)(0,-1)30 picture                                                                                                                                                                      picture(0,0)(35,0)(-1,0)30 (0,35)(0,-1)30 picture
+
+
+
+                      GCM                                                                                                                                                                                                                               3
+
+                               0.8
+                                                                                                                                             PASTA(3)                 0.16                                                          PASTA(3) SPFN
+                               0.7                                                                                                           PASTA(4)                                                                               PASTA(3) SPFP
+                                                                                                                                             PASTA(3)+GCM             0.14                                                          PASTA(4) SPFN
+                               0.6                                                                                                                                                                                                  PASTA(4) SPFP
+                                                                                                                                                                      0.12                                                          PASTA(3)+GCM SPFN
+                               0.5                                                                                                                                                                                                  PASTA(3)+GCM SPFP
+                                                                                                                                                                      0.10
+                   (FN+FP)/2
+
+
+
+
+                                                                                                                                                              Error
+                               0.4                                                                                                                                    0.08
+                               0.3                                                                                                                                    0.06
+                               0.2                                                                                                                                    0.04
+                               0.1                                                                                                                                    0.02
+
+                               0.0                                                                                                                                    0.00   16S.3(5489)       16S.T(5548)       RNASim10K(10000)   16S.B.ALL(24246)
+                                       BBA0081(195) BBA0067(274) BBA0154(295) BBA0101(322) BBA0190(343) BBA0134(370) BBA0117(423) BBA0039(732)   16S.M(740)
+                                                                                            Dataset                                                                                                          Dataset
+
+
+                      Fig. 7. Experiment 3: Error rates for PASTA(3),PASTA(4), and PASTA(3)+GCM on small                                                       Fig. 10. Experiment 3: Error rates for PASTA(3), PASTA(4), and PASTA(3)+GCM on
+                      biological datasets from Balibase and 16S.M. The error rates are the average of SPFN and                                                 the larger nucleotide datasets. The error rates are SPFN and SPFP. RNASim is simulated
+                      SPFP. The x-axis shows the dataset, with the number of sequences in parentheses. These                                                   (averaged over 10 replicates, error bars indicate standard error); the other datasets are
+                      datasets were modified to remove sequences with length more than 20% above or below                                                      biological and were modified to remove sequences with length more than 20% above
+                      the median. GCM was run in slow mode.                                                                                                    or below the median. The x-axis shows the dataset, with the number of sequences in
+                                                                                                                                                               parentheses. PASTA was run in default mode. GCM was run in fast mode.
+
+
+
+
+                                                                                                                                       PASTA(3) SPFN
+                               0.8                                                                                                     PASTA(3) SPFP
+                                                                                                                                       PASTA(4) SPFN
+                               0.7                                                                                                     PASTA(4) SPFP
+                                                                                                                                       PASTA(3)+GCM SPFN
+                               0.6                                                                                                     PASTA(3)+GCM SPFP
+
+                               0.5
+                   Error
+
+
+
+
+                               0.4
+                               0.3
+                               0.2
+                               0.1
+                               0.0     BBA0081(195) BBA0067(274) BBA0154(295) BBA0101(322) BBA0190(343) BBA0134(370) BBA0117(423) BBA0039(732)   16S.M(740)
+                                                                                            Dataset
+
+
+                      Fig. 8. Experiment 3: Error rates for PASTA(3), PASTA(4), and PASTA(3)+GCM on
+                      8 small datasets from Balibase and 16S.M. The error rates are SPFN and SPFP. The x-
+                      axis shows the dataset, with the number of sequences in parentheses. These datasets were
+                      modified to remove sequences with length more than 20% above or below the median.
+                      PASTA was run in default mode. GCM was run in slow mode.
+
+
+
+
+                                                                                                                                   PASTA(3) SPFN
+                               0.175                                                                                               PASTA(3) SPFP
+                                                                                                                                   PASTA(4) SPFN
+                               0.150                                                                                               PASTA(4) SPFP
+                                                                                                                                   PASTA(3)+GCM SPFN
+                               0.125                                                                                               PASTA(3)+GCM SPFP
+                  Error
+
+
+
+
+                               0.100
+                               0.075
+                               0.050
+                               0.025
+                               0.000       1000L3 1000S1 1000M2 RNASim 1000L1 1000S2 1000S3 1000M3 1000L2 1000M4
+                                                                          Dataset
+
+
+                      Fig. 9. Experiment 3: Error rates for PASTA(3), PASTA(4), and PASTA(3)+GCM on the
+                      simulated 1000-taxon nucleotide datasets. The error rates are SPFN and SPFP, averaged
+                      over 20 replicates. Error bars indicate standard error. The x-axis shows the dataset. PASTA
+                      was run in default mode. GCM was run in slow mode.
+
+
+
+
+picture(0,0)(-35,0)(1,0)30 (0,-35)(0,1)30 picture                                                                                                                                                                      picture(0,0)(35,0)(-1,0)30 (0,-35)(0,1)30 picture
+
+    “output” — 2020/10/24 — page 3 — #3
+picture(0,0)(-35,0)(1,0)30 (0,35)(0,-1)30 picture                                                                                                        picture(0,0)(35,0)(-1,0)30 (0,35)(0,-1)30 picture
+
+
+
+                    4                                                                                                                                         Smirnov and Warnow
+
+
+                    References                                                                             330–340.
+                                                                                                         Eddy, S. R. (2020). HMMER website. http://hmmer.org/, last accessed September
+                    Azad, A., Pavlopoulos, G. A., Ouzounis, C. A., Kyrpides, N. C., and Buluç, A.
+                                                                                                           25, 2020.
+                     (2018). HipMCL: a high-performance parallel implementation of the Markov
+                                                                                                         Katoh, K. and Toh, H. (2008). Recent developments in the MAFFT multiple sequence
+                     clustering algorithm for large-scale networks. Nucleic Acids Res, 46(6), e33–e33.
+                                                                                                           alignment program. Brief Bioinf , 9(4), 286–298.
+                    Do, C. B., Mahabhashyam, M. S., Brudno, M., and Batzoglou, S. (2005). Probcons:
+                                                                                                         Von Dongen, S. M. (2012). MCL manual. https://micans.org/mcl/man/mcl.html.
+                     Probabilistic consistency-based multiple sequence alignment. Genome Res, 15(2),
+
+
+
+
+picture(0,0)(-35,0)(1,0)30 (0,-35)(0,1)30 picture                                                                                                        picture(0,0)(35,0)(-1,0)30 (0,-35)(0,1)30 picture
+
+    “output” — 2020/10/24 — page 4 — #4
+

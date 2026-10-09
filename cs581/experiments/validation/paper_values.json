@@ -1,0 +1,38 @@
+{
+  "_note": "Average alignment error (SPFN+SPFP)/2 and runtime digitized by eye from Smirnov & Warnow 2021 (Bioinformatics 37:1666) Fig. 4 and Fig. 5, Fig. 2 (1000M1, 25 subsets, 10x200 backbones) and Supplementary Fig. 2. Precision about +/-0.005 error; hours about +/-0.02. MAGUS runs used 16-28 cores on the UIUC Campus Cluster.",
+  "error": {
+    "1000L3":    {"PASTA(3)": 0.175, "MAGUS(Fast)": 0.110, "MAGUS(Slow)": 0.104},
+    "1000S1":    {"PASTA(3)": 0.157, "MAGUS(Fast)": 0.111, "MAGUS(Slow)": 0.107},
+    "1000M2":    {"PASTA(3)": 0.137, "MAGUS(Fast)": 0.098, "MAGUS(Slow)": 0.091},
+    "RNASim":    {"PASTA(3)": 0.098, "MAGUS(Fast)": 0.096, "MAGUS(Slow)": 0.093},
+    "1000L1":    {"PASTA(3)": 0.080, "MAGUS(Fast)": 0.062, "MAGUS(Slow)": 0.058},
+    "1000S2":    {"PASTA(3)": 0.076, "MAGUS(Fast)": 0.054, "MAGUS(Slow)": 0.052},
+    "1000S3":    {"PASTA(3)": 0.062, "MAGUS(Fast)": 0.045, "MAGUS(Slow)": 0.044},
+    "1000M3":    {"PASTA(3)": 0.048, "MAGUS(Fast)": 0.035, "MAGUS(Slow)": 0.034},
+    "1000L2":    {"PASTA(3)": 0.037, "MAGUS(Fast)": 0.029, "MAGUS(Slow)": 0.028},
+    "1000M4":    {"PASTA(3)": 0.010, "MAGUS(Fast)": 0.010, "MAGUS(Slow)": 0.010},
+    "1000M1":    {"MAGUS(Fast)": 0.122},
+    "16S.3":     {"PASTA(3)": 0.103, "MAGUS(Fast)": 0.103},
+    "16S.T":     {"PASTA(3)": 0.129, "MAGUS(Fast)": 0.100},
+    "RNASim10K": {"PASTA(3)": 0.108, "MAGUS(Fast)": 0.083},
+    "16S.B.ALL": {"PASTA(3)": 0.054, "MAGUS(Fast)": 0.042},
+    "BBA0081":   {"PASTA(3)": 0.741, "MAGUS(Fast)": 0.570, "MAGUS(Slow)": 0.553},
+    "BBA0067":   {"PASTA(3)": 0.257, "MAGUS(Fast)": 0.256, "MAGUS(Slow)": 0.258},
+    "BBA0154":   {"PASTA(3)": 0.224, "MAGUS(Fast)": 0.211, "MAGUS(Slow)": 0.209},
+    "BBA0101":   {"PASTA(3)": 0.292, "MAGUS(Fast)": 0.285, "MAGUS(Slow)": 0.292},
+    "BBA0190":   {"PASTA(3)": 0.239, "MAGUS(Fast)": 0.231, "MAGUS(Slow)": 0.233},
+    "BBA0134":   {"PASTA(3)": 0.203, "MAGUS(Fast)": 0.187, "MAGUS(Slow)": 0.185},
+    "BBA0117":   {"PASTA(3)": 0.121, "MAGUS(Fast)": 0.121, "MAGUS(Slow)": 0.128},
+    "BBA0039":   {"PASTA(3)": 0.042, "MAGUS(Fast)": 0.045, "MAGUS(Slow)": 0.044},
+    "16S.M":     {"PASTA(3)": 0.130, "MAGUS(Fast)": 0.130, "MAGUS(Slow)": 0.130}
+  },
+  "hours": {
+    "1000L3": {"PASTA(3)": 0.66, "MAGUS(Fast)": 0.23}, "1000S1": {"PASTA(3)": 0.51, "MAGUS(Fast)": 0.18},
+    "1000M2": {"PASTA(3)": 0.54, "MAGUS(Fast)": 0.21}, "RNASim": {"PASTA(3)": 1.03, "MAGUS(Fast)": 0.64},
+    "1000L1": {"PASTA(3)": 0.52, "MAGUS(Fast)": 0.20}, "1000S2": {"PASTA(3)": 0.37, "MAGUS(Fast)": 0.16},
+    "1000S3": {"PASTA(3)": 0.37, "MAGUS(Fast)": 0.15}, "1000M3": {"PASTA(3)": 0.36, "MAGUS(Fast)": 0.16},
+    "1000L2": {"PASTA(3)": 0.43, "MAGUS(Fast)": 0.19}, "1000M4": {"PASTA(3)": 0.31, "MAGUS(Fast)": 0.12},
+    "16S.3": {"PASTA(3)": 1.90, "MAGUS(Fast)": 0.75}, "16S.T": {"PASTA(3)": 1.93, "MAGUS(Fast)": 0.80},
+    "RNASim10K": {"PASTA(3)": 3.37, "MAGUS(Fast)": 2.37}, "16S.B.ALL": {"PASTA(3)": 6.15, "MAGUS(Fast)": 3.13}
+  }
+}

@@ -20,10 +20,11 @@ def main():
     parser.add_argument("--gcmx-weight", default="count", choices=weighting.SCHEMES)
     parser.add_argument("--gcmx-alpha", type=float, default=1.0)
     parser.add_argument("--gcmx-order", default="upgma", choices=("upgma", "grow"))
+    parser.add_argument("--gcmx-refine", type=int, default=0, help="leave-one-out refinement rounds (progdp)")
     known, rest = parser.parse_known_args()
 
     weighting.install(known.gcmx_weight, known.gcmx_alpha)
-    progressive.install(known.gcmx_order)
+    progressive.install(known.gcmx_order, known.gcmx_refine)
 
     from magus.main import main as magus_main
     sys.argv = [sys.argv[0]] + rest

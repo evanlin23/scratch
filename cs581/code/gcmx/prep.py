@@ -35,6 +35,9 @@ def main():
 
     workdir = os.path.join(out, "magus_work")
     result = os.path.join(out, "magus_default.fasta")
+    # MAGUS coordinates tasks through files in workdir/tasks; a killed run leaves
+    # "running" entries behind that make a restarted run wait forever.
+    shutil.rmtree(os.path.join(workdir, "tasks"), ignore_errors=True)
     start = time.time()
     with open(os.path.join(out, "magus_default.log"), "w") as log:
         subprocess.run([sys.executable, "-m", "gcmx.run_magus", "-np", str(args.threads), "-d", workdir,
