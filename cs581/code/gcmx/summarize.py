@@ -80,11 +80,11 @@ def main():
             sum(ratios) / len(ratios) if ratios else float("nan"), sum(r["seconds"] for r, _ in pairs) / len(pairs)))
 
     print("\n### 3. Oracle decomposition (average error %, same subsets)\n")
-    print("| condition | MAGUS | true backbones | true full alignment as backbone | true subset alignments | split m=2 + true full backbone |")
+    print("| condition | MAGUS | true backbones | true full alignment as backbone | true subset alignments | split m=3 + true full backbone |")
     print("|---|---|---|---|---|---|")
     for g in groups:
-        cells = [pct(by[v, g]) for v in ("default", "oracle:estSub+trueBB", "oracle:estSub+trueFull",
-                                         "oracle:trueSub+estBB", "oracle:soft-m2+trueFull")]
+        cells = [pct(by[v, g]) for v in ("default", "oracle-estSub-trueBB", "oracle-estSub-trueFull",
+                                         "oracle-trueSub-estBB", "oracle-soft-m3-trueFull")]
         print("| {} | {} |".format(g, " | ".join(cells)))
 
 
