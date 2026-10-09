@@ -51,7 +51,8 @@ def main():
     done = set()
     if os.path.exists(results_path):
         with open(results_path) as f:
-            done = {(r["dataset"], r["variant"]) for r in map(json.loads, f)}
+            # only successful runs count as done, so failed variants (e.g. out of memory) are retried
+            done = {(r["dataset"], r["variant"]) for r in map(json.loads, f) if "avgErr" in r}
 
     for rep in replicates:
         rep = os.path.abspath(rep)
