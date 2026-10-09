@@ -1,0 +1,44 @@
+diff --git a/internal/prep/quartetfilter.go b/internal/prep/quartetfilter.go
+index d3ebdcd..1e2ee98 100644
+--- a/internal/prep/quartetfilter.go
++++ b/internal/prep/quartetfilter.go
+@@ -1,6 +1,8 @@
+ package prep
+ 
+ import (
++	"math"
++	"os"
+ 	"cmp"
+ 	"fmt"
+ 	"slices"
+@@ -70,9 +72,29 @@ func (thresh Threshold) Keep(counts []uint32) bool {
+ 	}
+ 	slices.Sort(counts)
+ 	sum := counts[0] + counts[1]
+-	return uint32(float64(thresh)*float64(sum)) < counts[1]-counts[0]
++	ratio := uint32(float64(thresh)*float64(sum)) < counts[1]-counts[0]
++	if zCrit <= 0 {
++		return ratio
++	}
++	// sample-size-aware test of the two minor topologies (H0: equal under ILS);
++	// normal approx. to the binomial sign test, with continuity correction
++	diff := float64(counts[1]) - float64(counts[0])
++	sig := sum > 0 && (diff-1)/math.Sqrt(float64(sum)) > zCrit
++	switch zMode {
++	case "only":
++		return sig
++	case "or":
++		return ratio || sig
++	default: // "and"
++		return ratio && sig
++	}
+ }
+ 
++var zCrit, zMode = func() (float64, string) {
++	z, _ := strconv.ParseFloat(os.Getenv("CAMUS_Z"), 64)
++	return z, os.Getenv("CAMUS_ZMODE")
++}()
++
+ func filterQuartets(qCounts map[gr.Quartet]uint32, opts QuartetFilterOptions) {
+ 	for q := range qCounts {
+ 		quartets := q.AllQuartets()
