@@ -1,0 +1,3 @@
+1000M4_R4 /opt/data/Datasets/ROSE/1000M4/R4/rose.aln.true.fasta 25
+1000S2_R4 /opt/data/Datasets/ROSE/1000S2/R4/rose.aln.true.fasta 25
+RNASim_R1 /opt/data/Datasets/RNASim/1000/R1/true_align.txt 25
