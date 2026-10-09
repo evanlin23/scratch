@@ -64,7 +64,7 @@ def cox(r):
 
 def m1(r):
     cc = f"{M}/CreateConstraintTrees"
-    return f"{MT}/{r}/rose.mt", {
+    return f"{MT}/{r}/rose.tt", {
         "FastTree": f"{cc}/FastTree/500/{r}/output/fasttree.out",
         "IQ-TREE": f"{M}/IQTree/{r}/iqtree-result.treefile",
         "RAxML-NG": f"{M}/RAxML-ng/{r}/raxmlng-result.raxml.lastTree.TMP",
