@@ -18,9 +18,9 @@ DEV = {f"{i:02d}" for i in range(1, 6)}
 
 RATE = {"0": "0", "0.000000002": "0.08", "0.000000005": "0.2", "0.00000002": "0.8", "0.0000002": "8", "0.0000005": "20"}
 PAIRS = [("ls[astral4]", "astral4"), ("ls[treeqmc]", "treeqmc"), ("ls[wqfm]", "wqfm"), ("ls[astrid]", "astrid"),
-         ("harvest", "astral4"), ("capminor", "astral4"), ("vote", "astral4"), ("reweight", "astral4"),
+         ("harvest", "astral4"), ("astral3+e", "astral3"), ("astral3", "astral4"), ("astral3+e", "astral4"), ("capminor", "astral4"), ("vote", "astral4"), ("reweight", "astral4"),
          ("treeqmc", "astral4"), ("wqfm", "astral4"), ("astrid", "astral4"), ("wastral", "astral4")]
-METHODS = ["astral4", "wastral", "treeqmc", "wqfm", "astrid", "ls[astral4]", "ls[treeqmc]", "ls[wqfm]", "ls[astrid]",
+METHODS = ["astral4", "astral3", "astral3+e", "wastral", "treeqmc", "wqfm", "astrid", "ls[astral4]", "ls[treeqmc]", "ls[wqfm]", "ls[astrid]",
            "harvest", "capminor", "vote", "reweight"]
 
 
@@ -122,6 +122,36 @@ def main():
             if s:
                 out.append(f"| {k[0]} | {k[1]} | {k[2]} | {c} | {s['n']} | {100*s['mean']:+.2f} | "
                            f"{s['w']}/{s['t']}/{s['l']} | {fmt_p(s['p'])} |")
+
+    out.append("\n## Headroom: does ASTRAL-IV already reach the best quartet score found by any method? (held-out reps)\n")
+    out.append("best = max normalized quartet score over all methods and local searches on that replicate. "
+               "'err(best)' = mean error of the best-scoring tree (ties broken by the ASTRAL-IV tree).\n")
+    out.append("| data | genes | n | ASTRAL-IV = best | mean gap x100 | max gap x100 | err ASTRAL-IV % | err best-score tree % | err true-tree-closest method % |")
+    out.append("|---|---|---|---|---|---|---|---|---|")
+    for (ds, ng) in sorted(pooled):
+        L = [r for r in pooled[(ds, ng)] if "astral4" in r]
+        if not L:
+            continue
+        gaps, eb, ea, eo = [], [], [], []
+        for r in L:
+            ms = [m for m in METHODS if m in r]
+            best = max(ms, key=lambda m: (r[m]["nscore"], m == "astral4"))
+            gaps.append(r[best]["nscore"] - r["astral4"]["nscore"])
+            eb.append(err(r[best])); ea.append(err(r["astral4"])); eo.append(min(err(r[m]) for m in ms))
+        g = np.array(gaps)
+        out.append(f"| {ds} | {ng} | {len(L)} | {int((g <= 1e-12).sum())}/{len(L)} | {100*g.mean():.4f} | {100*g.max():.4f} | "
+                   f"{100*np.mean(ea):.2f} | {100*np.mean(eb):.2f} | {100*np.mean(eo):.2f} |")
+
+    out.append("\n## Is the quartet score aligned with accuracy? Score of the TRUE species tree vs ASTRAL-IV (held-out reps)\n")
+    out.append("| data | genes | n | true < ASTRAL-IV | true = | true > | mean (true − ASTRAL-IV) x100 |")
+    out.append("|---|---|---|---|---|---|---|")
+    for (ds, ng) in sorted(pooled):
+        L = [r for r in pooled[(ds, ng)] if "astral4" in r and "truetree" in r]
+        if not L:
+            continue
+        d = np.array([r["truetree"]["nscore"] - r["astral4"]["nscore"] for r in L])
+        out.append(f"| {ds} | {ng} | {len(L)} | {int((d < -1e-12).sum())} | {int((abs(d) <= 1e-12).sum())} | "
+                   f"{int((d > 1e-12).sum())} | {100*d.mean():+.4f} |")
 
     out.append("\n## Development replicates 01-05 (pooled; not used for claims)\n")
     out.append("| data | genes | candidate | baseline | n | Δerr (pp) | W/T/L |")

@@ -58,6 +58,11 @@ def main():
         record(name, out, time.time() - t0)
 
     p = lambda x: os.path.join(d, x)
+    # quartet score of the true species tree (diagnostic: is the MQSST objective aligned with accuracy?)
+    if "truetree" not in res:
+        with open(p("true.tre"), "w") as f:
+            f.write(true_tree + "\n")
+        record("truetree", p("true.tre"), 0.0)
     # ---------------- baselines
     run("astral4", f"{BIN}/astral4 -t 1 -u 0 -o {p('astral4.tre')} {g}", p("astral4.tre"))
     if gtype == "est":  # wASTRAL needs gene-tree support values (FastTree SH-like)
@@ -85,6 +90,17 @@ def main():
                     continue
                 f.write(open(p(s + ".tre")).read().strip().split("\n")[0] + "\n")
     run("harvest", f"{BIN}/astral4 -t 1 -u 0 -g {p('guide.tre')} -o {p('harvest.tre')} {g}", p("harvest.tre"))
+    # ASTRAL-III: exact DP over its default X, and over X enlarged with the harvested trees (-e)
+    A3 = "java -Xmx3g -jar /opt/mm/root/envs/phy/share/astral-tree-5.7.8-1/astral.5.7.8.jar"
+    run("astral3", f"{A3} -t 0 -i {g} -o {p('astral3.tre')} 2>/dev/null", p("astral3.tre"))
+    if "astral3+e" not in res:  # ASTRAL-III rejects extra trees with polytomies: resolve arbitrarily
+        import treeswift
+        with open(p("guide3.tre"), "w") as f:
+            for t in read_newick_list(p("guide.tre")):
+                ts = treeswift.read_tree_newick(t)
+                ts.resolve_polytomies()
+                f.write(ts.newick() + "\n")
+    run("astral3+e", f"{A3} -t 0 -i {g} -e {p('guide3.tre')} -o {p('astral3e.tre')} 2>/dev/null", p("astral3e.tre"))
     # ---------------- (c) HGT-aware variants
     for mode in ["capminor", "vote"]:
         run(f"{mode}", f"{QT} search -m {mode} -g {g} -t {p('astral4.tre')} > {p(mode + '.tre')}", p(mode + ".tre"))
