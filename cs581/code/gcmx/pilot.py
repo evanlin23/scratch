@@ -9,8 +9,10 @@ replicates finish. PILOT_ONLY=name1,name2 restricts the variants (for large
 datasets); PILOT_JOBS sets how many variants run concurrently.
 """
 
+import glob
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -50,6 +52,15 @@ def main():
         with open(results_path) as f:
             # only successful runs count as done, so failed variants (e.g. out of memory) are retried
             done = {(r["dataset"], r["variant"]) for r in map(json.loads, f) if "avgErr" in r}
+
+    # free disk: drop working files (graphs are ~1 GB) of variants that already finished
+    for log in glob.glob(os.path.join(results_dir, "*", "*", "log.txt")):
+        workdir = os.path.dirname(log)
+        if "finished in" in open(log, errors="replace").read():
+            for item in os.listdir(workdir):
+                if item not in ("log.txt", "stdout.log"):
+                    path = os.path.join(workdir, item)
+                    shutil.rmtree(path, ignore_errors=True) if os.path.isdir(path) else os.remove(path)
 
     for rep in replicates:
         rep = os.path.abspath(rep)
