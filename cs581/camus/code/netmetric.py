@@ -219,11 +219,19 @@ def displayed_tree_newicks(root, fixed=None):
     choices = [None] if fixed is not None else itertools.product(*[range(len(hnodes[k])) for k in keys])
     for choice in choices:
         keep = fixed if fixed is not None else {k: id(hnodes[k][c]) for k, c in zip(keys, choice)}
+        emitted = set()
 
         def rec(v):
             if not v.children:
                 return v.label
-            parts = [rec(c) for c in v.children if not (id(c) in keep and keep[id(c)] != id(v))]
+            parts = []
+            for c in v.children:
+                if id(c) in keep:
+                    # keep exactly one in-edge of a reticulation (also handles parallel edges)
+                    if keep[id(c)] != id(v) or id(c) in emitted:
+                        continue
+                    emitted.add(id(c))
+                parts.append(rec(c))
             parts = [p for p in parts if p is not None]
             if not parts:
                 return None
