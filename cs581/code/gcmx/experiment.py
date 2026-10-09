@@ -54,6 +54,12 @@ def run_variant(args, name, extra):
                     record["aborted"] = True
     if os.path.exists(output):
         record.update(score.fastsp(args.true, output))
+    # keep only logs: graph files of soft-constraint merges are ~1 GB each and fill the disk
+    if not os.environ.get("GCMX_KEEP_WORKDIR"):
+        for item in os.listdir(workdir):
+            if item not in ("log.txt", "stdout.log"):
+                path = os.path.join(workdir, item)
+                shutil.rmtree(path) if os.path.isdir(path) else os.remove(path)
     return record
 
 
