@@ -23,7 +23,24 @@ from . import fasta
 TOOLS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "MAGUS", "magus", "tools", "hmmer")
 
 
-def extend(backbone_path, unaligned, out_path):
+PP_VALUE = {"*": 0.975, **{str(d): (0.025 if d == 0 else d / 10.0) for d in range(10)}}
+
+
+def stockholm_posteriors(path):
+    """name -> per-residue posterior characters (HMMER #=GR PP lines), in residue order."""
+    rows, pps = {}, {}
+    with open(path) as f:
+        for line in f:
+            if line.startswith("#=GR") and line.split()[2] == "PP":
+                _, name, _, value = line.split()
+                pps[name] = pps.get(name, "") + value
+            elif line.strip() and not line.startswith("#") and not line.startswith("//"):
+                name, value = line.split()
+                rows[name] = rows.get(name, "") + value
+    return {n: "".join(p for c, p in zip(rows[n], pps[n]) if c not in "-.") for n in pps}
+
+
+def extend(backbone_path, unaligned, out_path, pp_dir=None):
     backbone = fasta.read(backbone_path)
     queries = {n: s for n, s in unaligned.items() if n not in backbone}
     with tempfile.TemporaryDirectory() as tmp:
@@ -35,6 +52,8 @@ def extend(backbone_path, unaligned, out_path):
         sto = os.path.join(tmp, "aligned.sto")
         subprocess.run([os.path.join(TOOLS, "hmmalign"), "-o", sto, hmm, query_path], check=True, capture_output=True)
         extended = sequenceutils.readFromStockholm(sto, includeInsertions=True)
+        if pp_dir:
+            fasta.write(stockholm_posteriors(sto), os.path.join(pp_dir, os.path.basename(out_path)))
     with open(out_path, "w") as f:
         for name, seq in backbone.items():
             f.write(">{}\n{}\n".format(name, seq))
@@ -49,11 +68,16 @@ def main():
     parser.add_argument("unaligned")
     parser.add_argument("outdir")
     parser.add_argument("--jobs", type=int, default=4)
+    parser.add_argument("--pp-dir", default=None,
+                        help="also write per-residue HMMER posteriors here (use with GCMX_PP_DIR)")
     args = parser.parse_args()
     unaligned = fasta.upper(fasta.read(args.unaligned))
     os.makedirs(args.outdir, exist_ok=True)
+    if args.pp_dir:
+        os.makedirs(args.pp_dir, exist_ok=True)
     with concurrent.futures.ThreadPoolExecutor(args.jobs) as pool:
-        futures = [pool.submit(extend, os.path.join(args.backbones, f), unaligned, os.path.join(args.outdir, f))
+        futures = [pool.submit(extend, os.path.join(args.backbones, f), unaligned, os.path.join(args.outdir, f),
+                               args.pp_dir)
                    for f in sorted(os.listdir(args.backbones))]
         for fut in futures:
             print("extended", fut.result())
