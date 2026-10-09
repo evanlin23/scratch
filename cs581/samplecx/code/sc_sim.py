@@ -21,8 +21,12 @@ SHAPES = ["cat", "bal"]
 ASTRAL_ARGS = ("-r", "1", "-s", "0")
 
 
-def kgrid(f):
-    return [k for k in KGRID if k <= 60 / f ** 2]
+ACAP = {8: 5000, 16: 5000, 32: 2000, 64: 1000}   # ASTRAL is superlinear in k: cap its grid
+DCAP = {8: 5000, 16: 5000, 32: 5000, 64: 2000}   # distance methods
+
+
+def kgrid(f, n=8):
+    return [k for k in KGRID if k <= 60 / f ** 2 and k <= DCAP[n]]
 
 
 def run(job):
@@ -32,7 +36,7 @@ def run(job):
     tb, _ = stree.bipartitions(true)
     tb = sorted(tb, key=lambda s: (len(s), sorted(s)))
     seed = int(1000003 * n + 7919 * round(f * 1000) + 31 * rep + (0 if shape == "cat" else 17))
-    ks = kgrid(f)
+    ks = kgrid(f, n)
     genes = msc.sim_genes(sp, ks[-1], seed)
     taxa = [f"t{i}" for i in range(n)]
     acc = stree.Accumulator(taxa)
@@ -46,7 +50,8 @@ def run(job):
         ests = {}
         t0 = time.time(); ests["astrid"] = stree.fastme(M, taxa); ta = time.time() - t0
         ests["njst"] = stree.nj(M, taxa)
-        t0 = time.time(); ests["astral"] = stree.astral(genes[:k], ASTRAL_ARGS); tq = time.time() - t0
+        if k <= ACAP[n]:
+            t0 = time.time(); ests["astral"] = stree.astral(genes[:k], ASTRAL_ARGS); tq = time.time() - t0
         for m, e in ests.items():
             eb, _ = stree.bipartitions(e)
             missed = [i for i, b in enumerate(tb) if b not in eb]

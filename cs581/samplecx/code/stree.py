@@ -125,6 +125,9 @@ def gene_contrib(nwk, taxa_index, mode="plain", p=0.0, clip=None, count_root=Fal
             elif mode == "expected":
                 # exact expectation of the plain observed count under iid deletion (full trees in)
                 w = 1.0 - p ** k
+            elif mode == "ht1":
+                # first-order HT: exact for K=1 nodes, 1 otherwise (bounded by 1/q)
+                w = 1.0 / q if k == 1 else 1.0
             elif mode == "plugin":
                 # plug-in: K_hat = k/q, weight 1/(1 - p^K_hat)  (bounded, biased, low variance)
                 w = 1.0 / (1.0 - p ** (k / q)) if p > 0 else 1.0
@@ -200,6 +203,9 @@ def fastme(M, taxa, mode="astrid"):
     if np.isnan(M).any():  # ASTRID fills missing entries; here: replace by row means (rare)
         fill = np.nanmax(M)
         M[np.isnan(M)] = fill
+    off = ~np.eye(n, dtype=bool)
+    if M[off].min() < 0:  # BME/NJ topology is invariant to a constant shift of off-diagonal entries
+        M[off] += 1.0 - M[off].min()
     with tempfile.TemporaryDirectory() as d:
         fi = os.path.join(d, "in.phy")
         fo = os.path.join(d, "out.tre")
@@ -311,7 +317,8 @@ def strip(nwk):
         nd.edge_length = None
         if not nd.is_leaf():
             nd.label = None
-    return t.newick()
+    out = t.newick()
+    return out.split("] ", 1)[1] if out.startswith("[&") else out
 
 
 def _adj_newick(adj, lab, start):

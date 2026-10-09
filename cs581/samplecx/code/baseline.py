@@ -55,7 +55,7 @@ def published(args):
     gd = f"{gdir(h, r, 'full' if pat == 'full-0' else pat)}/{rep:02d}"
     for gt, fname in [("true", "true-genes.tre" if pat == "full-0" else "true-genes-w-missing-data-na.tre"),
                       ("raxml", "raxml-genes.tre")]:
-        genes = stree.read_trees(f"{gd}/{fname}", limit=ng)
+        genes = [g for g in stree.read_trees(f"{gd}/{fname}", limit=ng) if "(" in g]
         taxa = sorted({l for g in genes for l in stree.parse(g).labels(internal=False)})
         M, C = stree.distance_matrix(genes, taxa, count_root=True)
         ours = stree.fastme(M, taxa)
@@ -70,7 +70,7 @@ def published(args):
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    with Pool(4) as pool:
+    with Pool(2) as pool:
         s1 = pool.map(tableS1, [(h, r, rep) for h in HEIGHTS for r in RATES for rep in range(1, 21)])
         with open(f"{OUT}/baseline_tableS1.csv", "w") as fh:
             w = csv.DictWriter(fh, fieldnames=list(s1[0]))
