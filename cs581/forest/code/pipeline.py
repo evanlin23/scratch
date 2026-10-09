@@ -241,8 +241,27 @@ def forest_gtm(forest, guide_nwk, names, D, guide_method, refine, workdir):
     return out, unresolved
 
 
+def centroid_decomposition(guide_splits, n, max_size):
+    """recursively cut the (induced) guide tree at its most balanced edge until subsets <= max_size"""
+    out, stack = [], [list(range(n))]
+    while stack:
+        L = stack.pop()
+        if len(L) <= max_size:
+            out.append(np.array(L))
+            continue
+        S = restrict_global(guide_splits, L)
+        c = len(L)
+        best = max(S, key=lambda x: min(F.popcount(x), c - F.popcount(x)))
+        A = [i for i in L if (best >> i) & 1]
+        B = [i for i in L if not (best >> i) & 1]
+        stack += [A, B]
+    return out
+
+
 # ---------------------------------------------------------------- one replicate
-def run_replicate(n, k, regime, model, seed, workdir, small_grid=False, do_fasttree=True):
+def run_replicate(n, k, regime, model, seed, workdir, small_grid=False, do_fasttree=None):
+    if do_fasttree is None:
+        do_fasttree = k < 100000
     rec = dict(n=n, k=k, regime=regime, model=model, seed=seed)
     tf, aln = simulate(n, k, regime, model, seed, workdir)
     names, X = read_fasta(aln)
@@ -288,4 +307,17 @@ def run_replicate(n, k, regime, model, seed, workdir, small_grid=False, do_fastt
             fn, fp, _ = score_tree(splits_from_newick(nw, names), T, n)
             rec[f"FN_{name}"], rec[f"FP_{name}"] = fn, fp
             rec[f"unres_{name}"] = unres
+    # controls: (a) forest components, forest splits dropped, subset NJ refinement;
+    #           (b) centroid decomposition of the NJ guide tree (subsets <= 25), subset NJ, GTM
+    t0 = time.time()
+    fo_nosplit = dict(fo, splits=[set() for _ in fo["comps"]])
+    nw, _ = forest_gtm(fo_nosplit, trees["NJ"], names, D, "N", "sub", workdir)
+    rec["t_CompGTM_NJ"] = time.time() - t0 + rec["t_Forest"] + rec["t_NJ"]
+    rec["FN_CompGTM_NJ"], rec["FP_CompGTM_NJ"], _ = score_tree(splits_from_newick(nw, names), T, n)
+    t0 = time.time()
+    subsets = centroid_decomposition(splits_from_newick(trees["NJ"], names), n, 25)
+    dec = dict(comps=subsets, splits=[set() for _ in subsets])
+    nw, _ = forest_gtm(dec, trees["NJ"], names, D, "N", "sub", workdir)
+    rec["t_DecGTM_NJ"] = time.time() - t0 + rec["t_NJ"]
+    rec["FN_DecGTM_NJ"], rec["FP_DecGTM_NJ"], _ = score_tree(splits_from_newick(nw, names), T, n)
     return rec
