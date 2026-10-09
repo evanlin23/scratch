@@ -37,3 +37,26 @@ then copy each branch's `cs581/experiments/runs/*` (see aggregate.sh).
 | GTM-Blend exploration: validate GTM on the published DTM data, pilot a blending merger (`cs581/gtm/REPORT.md`) | claude/cs581-gtm | session_01Q8g6VEyCooDvxCvUjRZhMd |
 | controlled runtime benchmark A (1000L3_R0, 1000M2_R0) | claude/cs581-timing-a | session_01BSVu1PkMDdK1YPBRF8CVrC |
 | controlled runtime benchmark B (1000S2_R0, BBA0101_R0, RNASim_R0) | claude/cs581-timing-b | session_012V4tkNQ9BcgKy53szBAjDi |
+
+## Exploration sessions (all slide open questions; launched 2026-10-09 22:46 UTC)
+
+Each pilots one idea from `cs581/literature/slide_open_problems.md`: prior art, baseline
+reproduction, paired pilot with runtime, and `cs581/<dir>/REPORT.md` with a verdict.
+
+| idea | dir / branch | session |
+|---|---|---|
+| ASTRID under GDL: consistency probe + ASTRID-Pro | cs581/gdl, claude/cs581-gdl | session_01XKSHzvHypk3AcgwZBnTa2Y |
+| ASTRID/NJst sample complexity + missing-data correction | cs581/samplecx, claude/cs581-samplecx | session_01G7cWtFUbRG4EbXXYgioKNN |
+| DISCO-R (species-tree-guided root and tag) | cs581/disco, claude/cs581-disco | session_01Xmq8bA62x69pyxo7ZqohoW |
+| CAMUS base tree / quartet filter | cs581/camus, claude/cs581-camus | session_019m2PfNkuX9mdkgzEKuJPbZ |
+| Quartet amalgamation (ILS + HGT) | cs581/quartets, claude/cs581-quartets | session_019bppS3hdNG9kPeDaumUP6z |
+| Linguistic evolution models and methods | cs581/ling, claude/cs581-ling | session_01SHe3R3FJaRhu1ZfHVdtBCg |
+| Alignment criteria vs ML tree accuracy (incl. soft-MAGUS) | cs581/alncrit, claude/cs581-alncrit | session_01NgvCDj8KAVSiKtmcxkoUwQ |
+| Merging two alignments (PASTA pairwise merger) | cs581/pairmerge, claude/cs581-pairmerge | session_01Aw3VmUYbcCjZkwsBjhiVCU |
+| Supertrees at scale | cs581/supertree, claude/cs581-supertree | session_01RFzDUN2Z8wuQKvjvTBz7qB |
+| Forest+DTM | cs581/forest, claude/cs581-forest | session_01QJAxbbXp6GDNfvQ1ZXGxJP |
+| Learned evidence weights for GCM (deep learning x merging) | cs581/code/gcmx (local, this session) | orchestrating session |
+
+The ML session (claude/cs581-ml) was asked to also cover "better ML heuristics" and
+"scaling concatenation"; the GTM session covers DTM blending; consensus alignments run
+on claude/cs581-consensus-1..4.
