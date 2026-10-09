@@ -14,6 +14,6 @@ leaves = sorted(set(c for c in tree if c.isupper()))
 qs = list(itertools.combinations(leaves, 4))
 for seed in sys.argv[4:]:
     r = run(tree, rates, (0, 0), nfam, int(seed), 2, astral=False, quartets=qs,
-            modes=[("multi", "mean", False), ("pro", "mean", True), ("pro", "mean", False)])
+            modes=[("multi", "mean", False), ("pro", "mean", True)] if os.environ.get("LIGHT") else [("multi", "mean", False), ("pro", "mean", True), ("pro", "mean", False)])
     r["seed"] = seed
     print(json.dumps(r), flush=True)
