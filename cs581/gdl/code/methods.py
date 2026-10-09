@@ -200,7 +200,7 @@ def _loss_score(rt, sp_of, sp_index):
 
 # ---------------------------------------------------------------- distances
 
-def gene_distances(rt, tags, leafsp, nsp, mode="pro", agg="mean", weighted=False):
+def gene_distances(rt, tags, leafsp, nsp, mode="pro", agg="mean", weighted=False, count_root=False):
     """Per-gene species distance: returns (sum matrix, count matrix) for this gene,
     where for agg='mean' entries are (avg, 1) and for 'min' (min, 1)."""
     n = len(rt.parent)
@@ -212,8 +212,9 @@ def gene_distances(rt, tags, leafsp, nsp, mode="pro", agg="mean", weighted=False
     for v in range(n):
         if not rt.children[v]:
             counted[v] = False
-    if len(rt.children[root]) < 3:
+    if len(rt.children[root]) < 3 and not count_root:
         counted[root] = False  # degree-2 root is not a node of the unrooted tree
+    # count_root=True (theory version): the root counts like any other node (if speciation)
     need_ortho = mode in ("pro", "ortho_all")
     # cum[v] = (weighted) number of counted nodes on root..v inclusive; with weighted=True a
     # node counts with the support of the branch above it (stored in rt.length by _build_rooted)

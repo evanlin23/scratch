@@ -6,7 +6,7 @@
 - **No ILS.** The gene-family tree equals the locus tree. Extinct lineages are pruned and unifurcations suppressed.
 - **Ideal input.** Gene trees are true and correctly rooted, and their nodes carry the true duplication/speciation (D/S) tags.
 
-**ASTRID-Pro distance.** Take a pair of copies (a, b) from species A ≠ B. The pair is *orthologous* if its LCA in the gene tree is an S node, which is then the image of L = LCA_S(A, B). Define d(a, b) as the number of S nodes on the gene-tree path, counting the LCA. The per-gene distance δ̂(A, B) is the mean of d over orthologous pairs. The species distance is the mean of δ̂ over the genes that contain such pairs. (Not counting the gene-tree root only adds a constant across the root split, which keeps a tree metric a tree metric.)
+**ASTRID-Pro distance.** Take a pair of copies (a, b) from species A ≠ B. The pair is *orthologous* if its LCA in the gene tree is an S node, which is then the image of L = LCA_S(A, B). Define d(a, b) as the number of S nodes on the gene-tree path, counting the LCA. The per-gene distance δ̂(A, B) is the mean of d over orthologous pairs. The species distance is the mean of δ̂ over the genes that contain such pairs. **The root must be counted.** It is a speciation node at the species root. If it is not counted (ASTRID's unrooted convention), every pair crossing the root split loses 1. That shortens the root-split edge of the limiting tree metric and can make it negative. Example: a balanced quartet ((A:1,B:0.1),(C:1,D:1.5)) with GDL rates. Without the root: AB|CD = 1.87 > AC|BD = 1.76, wrong. With the root: AB|CD = 2.00 < 3.74/3.76, correct. The code exposes this as `count_root=True` (variant `pro-mean-truetags-countroot` in `probe.py`).
 
 ## Lemma (expected distance)
 For an internal species node v strictly inside path_S(A, B) other than L, let off(v) be the child of v that is *not* on the path. Define s(c) as the probability that a single copy entering the branch above c leaves at least one descendant at the leaves.
@@ -50,7 +50,7 @@ For **segment sums**, P_* denotes the sum of s(off(v)) over the internal nodes o
 - On the branch above x, set λ = 3, μ = 0. On A, B and C set λ = 0, μ = 3. All other branches have no events.
 - Then s_xA = s_xB = s_yC = e⁻³ ≈ 0.05. About e³ ≈ 20 copies reach x, so s_yx ≈ 0.7. Hence (★) fails: 0.7 > 0.15.
 - Prediction: AC|BD = AD|BC = 1 + 3e⁻³ = 1.149 and AB|CD = 1 + s_yx. Here d_CD = s_yx because the gene-tree root is not counted.
-- **Simulation** (`results/counterexample.jsonl`; true gene trees, true tags; families with at least 2 species):
+- **Simulation** (`results/counterexample.jsonl`; true gene trees, true tags; families with at least 2 species). The numbers below are without root counting; with root counting every sum is exactly 1 larger (2.695 vs 2.1515/2.1508, `results/counterexample_countroot.jsonl`), so the conclusion is the same:
   - 20,000 families: AC|BD = 1.1515, AD|BC = 1.1508, AB|CD = 1.695.
   - The wrong split is the strict minimum and the other two sums are equal, as predicted. FastME returns the wrong tree (FN = 1) at both 2,000 and 20,000 families.
 - On the same families these methods are all correct (FN = 0): ASTRAL-Pro (Zhang et al. 2020 prove it must be), ASTRID-multi, ASTRID-DISCO, and ASTRID-Pro with *inferred* tags.
