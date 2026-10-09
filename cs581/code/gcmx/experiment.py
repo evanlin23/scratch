@@ -12,6 +12,7 @@ import argparse
 import json
 import os
 import shlex
+import shutil
 import subprocess
 import sys
 import time
@@ -23,7 +24,12 @@ from . import score
 def run_variant(args, name, extra):
     workdir = os.path.join(args.outdir, args.dataset, name)
     output = os.path.join(args.outdir, args.dataset, name + ".fasta")
-    os.makedirs(workdir, exist_ok=True)
+    # always start clean: MAGUS reuses graph/cluster files and waits on stale task
+    # entries left in its working directory by an interrupted run
+    shutil.rmtree(workdir, ignore_errors=True)
+    if os.path.exists(output):
+        os.remove(output)
+    os.makedirs(workdir)
     extra_args = shlex.split(extra)
     cmd = [sys.executable, "-m", "gcmx.run_magus", "-np", str(args.threads), "-d", workdir, "-o", output]
     if "-s" not in extra_args:
