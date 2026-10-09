@@ -32,12 +32,14 @@ def quartet_sums(D, idx, q):
             "%s%s|%s%s" % (q[0], q[3], q[1], q[2]): D[a, d] + D[b, c]}
 
 
-def run(tree, rates, default, nfam, seed, min_species, astral=True, quartets=None, root_len=0.0):
+def run(tree, rates, default, nfam, seed, min_species, astral=True, quartets=None, root_len=0.0, modes=None):
     st = parse_newick(tree)
     lam = [default[0]] * len(st.parent)
     mu = [default[1]] * len(st.parent)
     for v in range(len(st.parent)):
-        if st.label[v] in rates:
+        if callable(rates):
+            lam[v], mu[v] = rates(st, v)
+        elif st.label[v] in rates:
             lam[v], mu[v] = rates[st.label[v]]
     species = sorted(st.label[v] for v in st.leaves())
     idx = {s: i for i, s in enumerate(species)}
@@ -50,7 +52,7 @@ def run(tree, rates, default, nfam, seed, min_species, astral=True, quartets=Non
     sp_of = M.simphy_species
     tagged_inf = [M.root_and_tag(g, sp_of, idx) for g in G]
     tagged_true = [M.root_and_tag(g, sp_of, idx, truetags=True) for g in G]
-    for mode, agg, tt in MODES:
+    for mode, agg, tt in (modes or MODES):
         tg = tagged_true if tt else tagged_inf
         per = [M.gene_distances(rt, t, ls, len(species), mode=mode, agg=agg) for rt, t, ls in tg]
         D, nmiss = M.average_matrix(per)
@@ -81,8 +83,9 @@ def run(tree, rates, default, nfam, seed, min_species, astral=True, quartets=Non
             with open(mf, "w") as f:
                 for l in sorted(labs):
                     f.write("%s %s\n" % (l, sp_of(l)))
+            t0 = time.time()
             T = M.astral_pro(gf, mf, of, threads=1)
-            res["methods"]["astral-pro"] = {"FN": rf_error(T, st)[0]}
+            res["methods"]["astral-pro"] = {"FN": rf_error(T, st)[0], "secs": round(time.time() - t0, 1)}
     return res
 
 
