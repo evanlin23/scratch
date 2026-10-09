@@ -54,6 +54,12 @@ def install(order="upgma", refine=0):
 
 
 def interSubalignmentWeights(graph):
+    csr = getattr(graph.matrix, "csr", None)  # fastgraph's compact graph
+    if csr is not None:
+        coo = csr.tocoo()
+        sub = np.array([s for s, _ in graph.matSubPosMap])
+        keep = sub[coo.row] != sub[coo.col]
+        return sp.csr_matrix((coo.data[keep].astype(float), (coo.row[keep], coo.col[keep])), shape=csr.shape)
     rows, cols, vals = [], [], []
     for a in range(graph.matrixSize):
         asub = graph.matSubPosMap[a][0]
