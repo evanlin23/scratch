@@ -16,6 +16,9 @@ clustering cost are vectorized as well. Weights stay integers, so MCL sees the
 same graph.
 """
 
+import json
+import os
+
 import numpy as np
 import scipy.sparse as sp
 
@@ -24,6 +27,7 @@ from magus.align.merge.graph_build import graph_builder as gb
 from magus.configuration import Configs
 from magus.tasks import task
 
+from . import fasta
 from .weighting import _backbone_alignmap
 
 
@@ -118,6 +122,38 @@ def _column_matrix(alignmap, n):
     return sp.csr_matrix((np.array(vals, dtype=np.int64), (rows, cols)), shape=(len(alignmap), n))
 
 
+PP_VALUE = {"*": 0.975, **{str(d): (0.025 if d == 0 else d / 10.0) for d in range(10)}}
+
+
+def _weighted_column_matrix(context, alignedFile, pp_path, n):
+    """Like MAGUS's backboneToAlignMap, but each residue counts with its HMMER posterior
+    (residues without a posterior, i.e. the backbone's own sequences, count 1)."""
+    graph = context.graph
+    backbone = fasta.read(alignedFile)
+    pps = fasta.read(pp_path)
+    rows, cols, vals = [], [], []
+    for taxon, backboneseq in backbone.items():
+        sub = context.taxonSubalignmentMap[taxon]
+        subsetseq = context.backboneSubalignment[taxon].seq
+        unaligned = context.unalignedSequences[taxon].seq
+        posarray = [n_ for n_, ch in enumerate(subsetseq) if ch not in "-."]
+        weights = [PP_VALUE.get(ch, 1.0) for ch in pps[taxon]] if taxon in pps else None
+        i = col = 0
+        for c in backboneseq:
+            if i == len(unaligned):
+                break
+            if c == unaligned[i]:
+                rows.append(col)
+                cols.append(graph.subsetMatrixIdx[sub] + posarray[i])
+                vals.append(weights[i] if weights else 1.0)
+            if c.upper() == unaligned[i]:
+                i += 1
+            if c == c.upper() and c != ".":
+                col += 1
+    length = max(rows) + 1 if rows else 1
+    return sp.csr_matrix((np.array(vals), (rows, cols)), shape=(length, n))
+
+
 def buildMatrix(context):
     graph = context.graph
     n = graph.matrixSize
@@ -126,11 +162,28 @@ def buildMatrix(context):
         if path not in files:
             files.append(path)
 
+    # optional per-backbone weights: GCMX_BACKBONE_WEIGHTS = JSON file {basename: weight};
+    # weights are scaled by 100 and rounded so that graph weights stay integers
+    weights = {}
+    if os.environ.get("GCMX_BACKBONE_WEIGHTS"):
+        weights = json.load(open(os.environ["GCMX_BACKBONE_WEIGHTS"]))
     total = sp.csr_matrix((n, n), dtype=np.int64)
     for alignedFile in files:
         Configs.log("[gcmx:fastgraph] Feeding backbone {} to the graph..".format(alignedFile))
-        A = _column_matrix(_backbone_alignmap(context, alignedFile), n)
-        total = total + (A.T @ A).tocsr()
+        pp_path = os.path.join(os.environ.get("GCMX_PP_DIR", ""), os.path.basename(alignedFile))
+        if os.environ.get("GCMX_PP_DIR") and os.path.exists(pp_path):
+            A = _weighted_column_matrix(context, alignedFile, pp_path, n)
+            product = (A.T @ A).tocsr()
+            product = sp.csr_matrix((np.rint(100 * product.data).astype(np.int64), product.indices, product.indptr),
+                                    shape=product.shape)  # keep integer weights (x100) for MCL
+        else:
+            A = _column_matrix(_backbone_alignmap(context, alignedFile), n)
+            product = (A.T @ A).tocsr()
+            if os.environ.get("GCMX_PP_DIR"):
+                product = product * 100  # same scale as posterior-weighted backbones
+        if weights:
+            product = product * int(round(100 * weights.get(os.path.basename(alignedFile), 1.0)))
+        total = total + product
 
     if Configs.graphBuildRestrict:
         coo = total.tocoo()

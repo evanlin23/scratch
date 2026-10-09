@@ -9,10 +9,13 @@ replicates finish. PILOT_ONLY=name1,name2 restricts the variants (for large
 datasets); PILOT_JOBS sets how many variants run concurrently.
 """
 
+import glob
 import json
 import os
+import shutil
 import subprocess
 import sys
+import time
 
 from . import oracle
 
@@ -50,6 +53,15 @@ def main():
             # only successful runs count as done, so failed variants (e.g. out of memory) are retried
             done = {(r["dataset"], r["variant"]) for r in map(json.loads, f) if "avgErr" in r}
 
+    # free disk: drop working files (graphs are ~1 GB) of variants that already finished
+    for log in glob.glob(os.path.join(results_dir, "*", "*", "log.txt")):
+        workdir = os.path.dirname(log)
+        if "finished in" in open(log, errors="replace").read():
+            for item in os.listdir(workdir):
+                if item not in ("log.txt", "stdout.log"):
+                    path = os.path.join(workdir, item)
+                    shutil.rmtree(path, ignore_errors=True) if os.path.isdir(path) else os.remove(path)
+
     for rep in replicates:
         rep = os.path.abspath(rep)
         dataset = os.path.basename(rep)
@@ -59,17 +71,25 @@ def main():
             oracle.main(os.path.join(rep, "true.fasta"), os.path.join(inputs, "subalignments"),
                         os.path.join(inputs, "backbones"), oracle_dir)
         code_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        timing = {"dataset": dataset, "variant": "_timing"}  # seconds of the extra (non-merge) steps
+        start = time.time()
         for m, method in SPLITS:
             split_dir = os.path.join(rep, "split_m{}{}".format(m, "_random" if method == "random" else ""))
             if not os.path.exists(split_dir):
                 subprocess.run([sys.executable, "-m", "gcmx.split", os.path.join(inputs, "subalignments"),
                                 split_dir, str(m), "--method", method], check=True, cwd=code_dir)
+        timing["split_seconds_all_variants"] = round(time.time() - start, 1)
         ext_dir = os.path.join(rep, "ext_backbones")
         if not os.path.exists(ext_dir + ".DONE"):  # marker outside: MAGUS reads every file in a -b dir
+            start = time.time()
             subprocess.run([sys.executable, "-m", "gcmx.extend", os.path.join(inputs, "backbones"),
                             os.path.join(rep, "unaligned.fasta"), ext_dir,
                             "--jobs", str(os.cpu_count())], check=True, cwd=code_dir)
             open(ext_dir + ".DONE", "w").close()
+            timing["extend_seconds"] = round(time.time() - start, 1)
+            timing["extend_jobs"] = os.cpu_count()
+            with open(results_path, "a") as f:
+                f.write(json.dumps(timing) + "\n")
         fields = {"o": oracle_dir, "rep": rep, "bb": os.path.join(inputs, "backbones"), "ext": ext_dir}
         only = set(filter(None, os.environ.get("PILOT_ONLY", "").split(",")))
         todo = [(name, extra.format(**fields)) for name, extra in VARIANTS + ORACLES
