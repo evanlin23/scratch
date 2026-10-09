@@ -1,6 +1,10 @@
 """Write the validation report (Markdown) comparing our numbers to the MAGUS paper.
 
-    python -m gcmx.validation_report PUBLISHED.jsonl PAPER_VALUES.json RUNS_DIR PILOT_RESULTS.jsonl > report.md
+    python -m gcmx.validation_report PUBLISHED.jsonl PAPER_VALUES.json RUNS_DIR > report.md
+
+RUNS_DIR holds one directory per replicate with prep.json (our full MAGUS run)
+and pilot.jsonl (merge variants on its cached inputs), as written by
+fanout/worker.sh.
 
 1. Paper figures vs our FastSP rescoring of the paper's own published alignments.
 2. Our MAGUS reruns (paper flags) vs the published MAGUS alignment of the same replicate.
@@ -32,7 +36,7 @@ def pct(x):
 
 
 def main():
-    published_path, paper_path, runs_dir, pilot_path = sys.argv[1:5]
+    published_path, paper_path, runs_dir = sys.argv[1:4]
     paper = json.load(open(paper_path))
     rows = [json.loads(l) for l in open(published_path)] if os.path.exists(published_path) else []
     pub = collections.defaultdict(list)
@@ -86,8 +90,8 @@ def main():
     print("| replicate | full pipeline | merge-only rerun (`default`) | identical error? |")
     print("|---|---|---|---|")
     pilot = {}
-    if os.path.exists(pilot_path):
-        for r in map(json.loads, open(pilot_path)):
+    for path in glob.glob(os.path.join(runs_dir, "*_R*", "pilot.jsonl")):
+        for r in map(json.loads, open(path)):
             if r["variant"] == "default" and "avgErr" in r:
                 pilot[r["dataset"]] = r
     for path in sorted(glob.glob(os.path.join(runs_dir, "*_R*", "prep.json"))):
