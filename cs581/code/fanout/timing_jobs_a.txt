@@ -1,0 +1,2 @@
+1000L3_R0 /opt/data/Datasets/ROSE/1000L3/R0/rose.aln.true.fasta 25
+1000M2_R0 /opt/data/Datasets/ROSE/1000M2/R0/rose.aln.true.fasta 25
