@@ -1,0 +1,216 @@
+--- slide 1 ---
+Phylogenomics – part 2
+							CS 581
+						Fall 2026
+			
+--- slide 2 ---
+Today’s lecture
+Previously, we focused on estimating species trees in the presence of incomplete lineage sorting (ILS)
+Today: 
+Some more theory about species tree estimation in the presence of ILS
+Estimating species trees in the presence of gene duplication and loss (GDL)
+Estimating species trees in the presence of random horizontal gene transfer (HGT)
+
+--- slide 3 ---
+Orangutan
+Gorilla
+Chimpanzee
+Human
+From the Tree of the Life Website,University of Arizona
+Phylogeny(evolutionary tree)
+--- slide 4 ---
+Statistical Consistency
+error
+Data
+
+--- slide 5 ---
+Genome-scale data?
+error
+Data
+
+--- slide 6 ---
+Questions 
+Is the model tree identifiable?
+Which estimation methods are statistically consistent under this model?
+How much data does the method need to estimate the model tree correctly with high probability (i.e., what is the method’s sample complexity)?
+--- slide 7 ---
+				        Phylogenomics 
+Phylogeny + genomics = genome-scale phylogeny estimation
+. 
+--- slide 8 ---
+Multiple causes for discord, including 
+Incomplete Lineage Sorting (ILS), 
+Gene Duplication and Loss (GDL), and
+Hybridization and Horizontal Gene Transfer 
+--- slide 9 ---
+Multiple causes for discord, including 
+Incomplete Lineage Sorting (ILS), 
+Gene Duplication and Loss (GDL), and
+Hybridization and Horizontal Gene Transfer 
+--- slide 10 ---
+Major challenge:
+Massive gene tree heterogeneity consistent with ILS
+--- slide 11 ---
+Impact of Gene Tree Estimation Error(from Molloy and Warnow 2017)
+Error is fraction
+of bipartitions
+that are not 
+recovered
+Note:
+Summary
+methods
+better than
+CA-ML
+for low
+GTEE,
+then worse!
+--- slide 12 ---
+Statistical Consistency for summary methods
+error
+Data
+
+Data are gene trees, presumed to be randomly sampled true gene trees.
+--- slide 13 ---
+Multiple studies show that summary methods can be less accurate than concatenation in the presence of high gene tree estimation error.
+Genome-scale data includes a range of markers, not all of which have substantial signal.  Furthermore, removing sites due to model violations reduces signal.  
+Some researchers also argue that “gene trees” should be based on very short alignments, to avoid intra-locus recombination. 
+
+		
+Gene tree estimation error: key issue in the debate
+--- slide 14 ---
+Question #1: Do any summary methods converge to the species tree as the number of loci increase, but where each locus has only a constant number of sites? 
+Answer #1: Roch & Warnow, Syst Biol, March 2015:
+Strict molecular clock: Yes for some new methods, even for a single site per locus
+No clock: Unknown for all methods, including 	     MP-EST, ASTRAL, etc.
+
+S. Roch and T. Warnow. "On the robustness to gene tree estimation error (or lack thereof)
+of coalescent-based species tree methods", Systematic Biology, 64(4):663-676, 2015
+What about performance on bounded number of sites?
+--- slide 15 ---
+Question #1: Do any summary methods converge to the species tree as the number of loci increase, but where each locus has only a constant number of sites?  
+Answer #2: Roch, Nute, & Warnow, Syst Biol 2019.
+No! Summary methods are not only not consistent, they can be positively misleading! (Felsenstein Zone)
+What about performance on bounded number of sites?
+--- slide 16 ---
+Question #2: What about concatenation using maximum likelihood?  
+Answer: Roch, Nute, & Warnow, Syst Biol 2019
+Not if fully partitioned! Concatenation using maximum likelihood, if fully partitioned is also not consistent and can be positively misleading (even if there is NO ILS)! (Felsenstein Zone)
+What about performance on bounded number of sites?
+--- slide 17 ---
+Statistically consistent methods
+Coalescent-based summary methods: Estimate gene trees, and then combine together (ASTRAL, ASTRID, MP-EST, NJst, and others)
+
+Co-estimation methods:  Co-estimate gene trees and species trees (TOO EXPENSIVE)
+
+Site-based methods:  estimate the species tree from the concatenated alignment, and do not estimate gene trees (NOT WELL STUDIED)
+--- slide 18 ---
+Statistically consistent methods (??)
+Coalescent-based summary methods: Estimate gene trees, and then combine together (ASTRAL, ASTRID, MP-EST, NJst, and others)
+
+Co-estimation methods:  Co-estimate gene trees and species trees (TOO EXPENSIVE)
+
+Site-based methods:  estimate the species tree from the concatenated alignment, and do not estimate gene trees (NOT WELL STUDIED)
+--- slide 19 ---
+Multiple causes for discord, including 
+Incomplete Lineage Sorting (ILS), 
+Gene Duplication and Loss (GDL), and
+Hybridization and Horizontal Gene Transfer 
+--- slide 20 ---
+1KP: Thousand Transcriptome Project
+103 plant transcriptomes, 400-800 single copy “genes”
+Next phase will be much bigger
+Wickett, Mirarab et al., PNAS 2014
+G. Ka-Shu Wong
+U Alberta
+N. Wickett
+Northwestern
+J. Leebens-Mack
+U Georgia
+N. Matasci
+iPlant
+T. Warnow,                S. Mirarab,                N. Nguyen
+UT-Austin                  UT-Austin                 UT-Austin
+Major Challenge:
+Multi-copy genes omitted (9500 -> 400)
+Massive gene tree heterogeneity consistent with ILS
+--- slide 21 ---
+--- slide 22 ---
+New Results (Legried et al.)
+Under the GDL model, the unrooted species tree topology is identifiable from the distribution of unrooted gene family trees (MUL-trees) 
+Proof establishes that for every four species, the most probable quartet tree is the same as the species tree
+Legried, Molloy, Warnow, and Roch. RECOMB and J. Computational Biology 2020.
+--- slide 23 ---
+New Results (Legried et al.)
+Under the GDL model, the unrooted species tree topology is identifiable from the distribution of unrooted gene family trees (MUL-trees) 
+Corollary: ASTRAL-multi (i.e., ASTRAL designed for multi-individual gene trees) and ASTRAL-One are statistically consistent under GDL models
+Legried, Molloy, Warnow, and Roch. RECOMB and J. Computational Biology 2020.
+--- slide 24 ---
+Empirical performance vs Theory
+Unknown if distance-based species tree estimation (e.g., ASTRID-multi) is statistically consistent under GDL models
+ASTRAL-multi is statistically consistent, but other methods that are not established to be statistically consistent have better accuracy
+--- slide 25 ---
+ASTRAL-Pro
+New variant of ASTRAL for MUL-trees
+Algorithm:
+”Root and tag” the gene trees
+Tagging means determining for each node if it is a duplication of speciation node. 
+Rooting is done to minimize total number of DUPLICATIONS + LOSSES
+Weight quartet trees under the assumption of correct rooting and tagging
+Solve the same optimization problem (MQSST)
+--- slide 26 ---
+ASTRAL-Pro
+New variant of ASTRAL for MUL-trees
+Algorithm:
+”Root and tag” the gene trees
+Note: Not at all obvious how to do this well! But if ASTRAL-Pro correctly roots and tags the gene trees, then the method is statistically consistent under GDL
+Weight quartet trees under the assumption of correct rooting and tagging
+Solve the same optimization problem (MQSST)
+--- slide 27 ---
+DISCO (Willson et al., Systematic Biology 2022)
+Input: Set of gene family trees
+Output: Set of single copy gene trees (obtained by decomposing gene family trees)
+Technique:
+Use ASTRAL-Pro to root and tag each gene family tree
+Decompose from the “bottom-up”, aiming to keep at least one large subtree
+Follow with method that requires single-copy genes (e.g., ASTRAL, ASTRID, Concatenation Analysis using maximum likelihood)
+
+Variants we examined: ASTRID-DISCO, ASTRAL-DISCO, CA-DISCO
+
+--- slide 28 ---
+--- slide 29 ---
+Results on 101 species with GDL and ILS
+--- slide 30 ---
+Results on 1000 species and 1000 genes
+--- slide 31 ---
+Genome-scale discordance: very complex
+--- slide 32 ---
+What about HGT?
+HGT also makes heterogeneous gene trees
+Under some assumptions of random HGT operating, it may be possible to define the “underlying” species tree.
+Statistical consistency of quartet-based methods for computing the underlying species tree established by:
+Roch & Snir, JCB 2013
+Daskalakis & Roch, arXiv 2015
+Simulation study (Davidson et al. 2015) shows ASTRAL and wQMC (Snir et al.) more accurate than concatenation and NJst when ILS+HGT is present
+--- slide 33 ---
+Accuracy in the presence of HGT + ILS
+Davidson et al., RECOMB-CG, BMC Genomics 2015
+--- slide 34 ---
+Gene trees -> Species trees, using Quartet Trees
+Recurring theme: the most probable quartet tree is the species tree for:
+ILS (Multi-species coalescent): Allman et al.
+GDL: Legried et al
+ILS+GDL (DLCOAL) – Martin and Eulenstein  Bioinf 2021
+Random (but bounded) HGT: Snir & Roch, Daskalakis & Roch
+Hence, quartet-based species tree estimation (from gene trees) is often statistically consistent, if performed properly.
+Finding MQSST (within a constrained search space) a powerful approach that maintains consistency and is computationally efficient
+Interestingly, MQSST is also fairly robust
+--- slide 35 ---
+(Some) Open Questions 
+Which other existing species tree estimation methods are statistically consistent under GDL and DLCOAL models?  
+Is ASTRAL-Pro statistically consistent for GDL under some random model of error for rooting and tagging?
+What is the sample complexity for ASTRID and NJst under the  MSC?
+Can we find a distance correction for GDL so that ASTRID and NJst are statistically consistent under GDL models?
+Can we improve DISCO? 
+Can we design better quartet amalgamation methods?
+How can we scale concatenation to large datasets?
+What can we do about phylogenetic networks?
