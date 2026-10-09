@@ -3,20 +3,32 @@
 # then the merge-variant pilot on the cached subalignments/backbones, and commit
 # + push the (small) results to BRANCH after every job.
 #
-#   bash cs581/code/fanout/worker.sh JOBFILE BRANCH
+#   bash cs581/code/fanout/worker.sh JOBFILE BRANCH [BASE_BRANCH]
 #
 # JOBFILE lines: NAME SOURCE_TRUE_ALIGNMENT NUM_SUBSETS [PILOT_ONLY]
-# (SOURCE is absolute or relative to the repo root.) Restartable: jobs whose
-# results are already committed under cs581/experiments/runs/NAME are skipped,
-# and leftovers of a killed previous run are cleaned up first.
+# (SOURCE is absolute or relative to the repo root.)
+# - Restartable: jobs with results committed under cs581/experiments/runs/NAME
+#   are skipped, and leftovers of a killed previous invocation are cleaned up.
+# - Before every job BASE_BRANCH (default: the orchestrating session's branch)
+#   is merged in, so code fixes and job-list changes pushed there take effect.
 set -u
-REPO=$(git -C "$(dirname "$0")" rev-parse --show-toplevel)
-JOBS=$(realpath "$1")
+if [ -z "${WORKER_REEXEC:-}" ]; then
+  # run from a private copy, since the merge below may rewrite this file
+  export WORKER_REPO
+  WORKER_REPO=$(git -C "$(dirname "$0")" rev-parse --show-toplevel)
+  copy=$(mktemp /tmp/worker.XXXXXX.sh)
+  cp "$0" "$copy"
+  WORKER_REEXEC=1 exec bash "$copy" "$(realpath "$1")" "${@:2}"
+fi
+REPO=$WORKER_REPO
+JOBS=$1
 BRANCH=$2
+BASE=${3:-claude/charming-pasteur-yl6k2v}
 OUT=$REPO/cs581/experiments/runs
 RUNS=/opt/runs
 mkdir -p "$OUT" "$RUNS"
 cd "$REPO/cs581/code"
+GIT() { git -C "$REPO" -c user.name="Claude" -c user.email="noreply@anthropic.com" "$@"; }
 
 # leftovers from a previous (killed) invocation
 pkill -f "gcmx\.(prep|pilot|experiment|run_magus)" 2>/dev/null
@@ -27,26 +39,37 @@ sleep 2
 
 push() {
   for i in 1 2 3 4 5; do
-    git -C "$REPO" push -q -u origin "HEAD:$BRANCH" && return 0
+    GIT push -q -u origin "HEAD:$BRANCH" && return 0
     sleep $((2 ** i))
   done
   echo "push failed (will retry after next job)"
 }
 
-exec 3< "$JOBS"
-while read -r -u 3 name src k only; do
-  [ -z "${name:-}" ] && continue
-  [ -f "$OUT/$name/prep.json" ] && { echo "skip $name (done)"; continue; }
+next_job() {
+  while read -r name rest; do
+    [ -z "${name:-}" ] && continue
+    [ -f "$OUT/$name/prep.json" ] || [ -f "$RUNS/FAILED_$name" ] || { echo "$name $rest"; return; }
+  done < "$JOBS"
+}
+
+while true; do
+  GIT pull -q --no-rebase --no-edit origin "$BASE" || echo "$(date +%T) could not merge $BASE"
+  job=$(next_job)
+  [ -z "$job" ] && break
+  read -r name src k only <<< "$job"
   case "$src" in /*) ;; *) src=$REPO/$src ;; esac
   flags="--maxsubsetsize 0 --maxnumsubsets $k --decompstrategy pastastyle --decompskeletonsize 300
          --graphbuildmethod mafft --graphbuildhmmextend false --graphclustermethod mcl
          --graphtracemethod minclusters --graphtraceoptimize false -r 10 -m 200 -f 4"
   echo "$(date +%T) start $name"
   if [ ! -f "$RUNS/$name/prep.json" ]; then
-    python3 -m gcmx.prep "$src" "$RUNS/$name" --threads "$(nproc)" $flags \
-      || { echo "$(date +%T) FAILED prep $name"; continue; }
+    if ! python3 -m gcmx.prep "$src" "$RUNS/$name" --threads "$(nproc)" $flags < /dev/null; then
+      echo "$(date +%T) FAILED prep $name"
+      touch "$RUNS/FAILED_$name"
+      continue
+    fi
   fi
-  PILOT_ONLY=${only:-} PILOT_JOBS=2 python3 -m gcmx.pilot "$RUNS/pilot" "$RUNS/$name" \
+  PILOT_ONLY=${only:-} PILOT_JOBS=2 python3 -m gcmx.pilot "$RUNS/pilot" "$RUNS/$name" < /dev/null \
     || echo "$(date +%T) pilot errors for $name"
 
   mkdir -p "$OUT/$name"
@@ -57,9 +80,8 @@ rows = [l for l in open(sys.argv[1]) if json.loads(l)['dataset'] == sys.argv[2]]
 open(sys.argv[3], 'w').writelines(rows)" "$RUNS/pilot/results.jsonl" "$name" "$OUT/$name/pilot.jsonl"
   # cached inputs, so later merge experiments need not rerun MAFFT
   tar -C "$RUNS/$name" -cJf "$OUT/$name/inputs.tar.xz" inputs
-  git -C "$REPO" add "cs581/experiments/runs/$name"
-  git -C "$REPO" -c user.name="Claude" -c user.email="noreply@anthropic.com" commit -q \
-    -m "fanout: MAGUS (paper settings) + merge variants on $name" \
+  GIT add "cs581/experiments/runs/$name"
+  GIT commit -q -m "fanout: MAGUS (paper settings) + merge variants on $name" \
     -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
   push
   echo "$(date +%T) done $name"
