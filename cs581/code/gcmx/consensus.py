@@ -51,7 +51,7 @@ def agreement(a, b):
     return 1.0 - s["avgErr"]
 
 
-def build(out, workdir, inputs, group_size=13, primary="auto", threads=1):
+def build(out, workdir, inputs, group_size=13, primary="auto", threads=1, weight_power=0.0):
     os.makedirs(workdir, exist_ok=True)
     evidence = os.path.join(workdir, "evidence")
     os.makedirs(evidence, exist_ok=True)
@@ -62,15 +62,21 @@ def build(out, workdir, inputs, group_size=13, primary="auto", threads=1):
         fasta.write(aln, dest)
         alns.append((dest, aln))
 
-    if primary == "auto":
+    centrality = None
+    if primary == "auto" or weight_power:
         k = len(alns)
         agree = np.zeros((k, k))
         for i, j in itertools.combinations(range(k), 2):
             agree[i, j] = agree[j, i] = agreement(alns[i][0], alns[j][0])
         centrality = agree.sum(axis=1) / max(k - 1, 1)
-        p = int(np.argmax(centrality))
-    else:
-        p, centrality = int(primary), None
+    p = int(np.argmax(centrality)) if primary == "auto" else int(primary)
+    env = dict(os.environ)
+    if weight_power:
+        # M-Coffee-style: trust inputs that agree more with the others (no reference needed)
+        w = (centrality / centrality.max()) ** weight_power
+        weights_path = os.path.join(workdir, "weights.json")
+        json.dump({os.path.basename(path): float(x) for (path, _), x in zip(alns, w)}, open(weights_path, "w"))
+        env["GCMX_BACKBONE_WEIGHTS"] = weights_path
     names, dist = p_distance_matrix(alns[p][1])
     n_groups = max(1, round(len(names) / group_size))
     labels = fcluster(linkage(squareform(dist, checks=False), method="average"), t=n_groups, criterion="maxclust")
@@ -89,7 +95,7 @@ def build(out, workdir, inputs, group_size=13, primary="auto", threads=1):
     with open(os.path.join(workdir, "gcm.log"), "w") as log:
         subprocess.run([sys.executable, "-m", "gcmx.run_magus", "-np", str(threads), "-d", magus_dir,
                         "-s", groups_dir, "-b", evidence, "-o", out], cwd=CODE, stdout=log, stderr=subprocess.STDOUT,
-                       check=True)
+                       check=True, env=env)
     return {"primary": p, "centrality": None if centrality is None else centrality.round(4).tolist(),
             "groups": len(members)}
 
@@ -101,8 +107,11 @@ def main():
     parser.add_argument("inputs", nargs="+")
     parser.add_argument("--group-size", type=int, default=13)
     parser.add_argument("--primary", default="auto")
+    parser.add_argument("--weight-power", type=float, default=0.0,
+                        help="weight inputs by (centrality / max centrality) ** power; 0 = equal weights")
     args = parser.parse_args()
-    print(json.dumps(build(args.out, args.workdir, args.inputs, args.group_size, args.primary)))
+    print(json.dumps(build(args.out, args.workdir, args.inputs, args.group_size, args.primary,
+                           weight_power=args.weight_power)))
 
 
 if __name__ == "__main__":
