@@ -74,19 +74,21 @@ def main():
     # data summaries
     out.append('## Simulated data summaries (all reps; compare with IE: lexical ~14.3 states/char, morph ~9-10, phon 2.3)')
     out.append('')
-    keys = list(rows[0]['summary'])
+    keys = ['states_L', 'states_M', 'states_P', 'poly_char_frac', 'poly_cell_frac']
     out.append('| cond | ' + ' | '.join(keys) + ' | borrow events |')
     out.append('|' + '---|' * (len(keys) + 2))
     for c in conds:
         rr = [r for r in rows if r['cond'] == c]
-        out.append(f'| {c} | ' + ' | '.join(f'{np.mean([r["summary"][k] for r in rr]):.2f}' for k in keys)
+        out.append(f'| {c} | ' + ' | '.join(f'{np.mean([r["summary"].get(k, np.nan) for r in rr]):.2f}' for k in keys)
                    + f' | {np.mean([r["borrow"] for r in rr]):.1f} |')
     out.append('')
 
     # paired tests
     comps = [(best_u, 'MP'), (best_u, 'MC'), (best_u, 'ML-Mk'), (best_u, 'ML-bin'), (best_u, 'NJ'),
              (best_w, 'WMC'), (best_w, best_u), ('MP-poly', 'MP'), ('ML-Mk', 'ML-bin'), ('MP', 'ML-Mk'),
-             ('WMC', 'MC'), ('MP', 'NJ')]
+             ('WMC', 'MC'), ('MP', 'NJ'), ('Cap2', 'MC'), ('Cap2', 'MP'), ('Cap3', 'MP'), ('MC', 'MP'),
+             ('MC', 'ML-Mk'), ('MC', 'ML-bin')]
+    comps = [c for c in dict.fromkeys(comps) if c[0] != c[1]]
     out.append('## Paired Wilcoxon signed-rank tests on TEST reps (A vs B; mean dFN = A - B; W/T/L = A better/tie/worse)')
     out.append('')
     out.append('| A | B | scope | mean dFN | W/T/L | p |')
