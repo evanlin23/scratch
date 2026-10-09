@@ -1,0 +1,332 @@
+  CS 581
+
+Tandy Warnow
+                           Topics
+• Introducing maximum likelihood
+• Exact solutions to maximum likelihood
+   – NP-hardness
+   – Statistical consistency
+• Scoring trees
+   – Scoring a fixed model tree (Felsenstein’s peeling algorithm)
+   – Finding best numeric parameters for a fixed tree
+• Comparison of ML heuristics to other methods
+• Comparison of ML heuristics
+• Bayesian tree estimation
+       CFN Maximum Likelihood
+• Input: Same input as for maximum parsimony
+  (alignment A)
+• Output: CFN model tree T* (tree and numeric
+  parameters) that maximizes Pr(A|T*)
+
+Note: can define maximum likelihood tree
+estimation for all the other models (e.g., Jukes-
+Cantor, GTR)
+        CFN Maximum Likelihood
+• Input: Same input as for maximum parsimony
+  (alignment A)
+• Output: CFN model tree T* (tree and numeric
+  parameters) that maximizes Pr(A|T*)
+
+Comments:
+• NP-hard!
+• Effective heuristics: RAxML, IQ-TREE, FastTree, etc.
+• These heuristics operate by scoring a model tree, then
+  searching through “model tree space” using local
+  search strategies.
+      Statistical consistency of ML?
+• Input: Alignment A
+• Output: CFN model tree T* that maximizes Pr(A|T*), where T* is T
+  with CFN numeric parameters
+
+Comments:
+• If solved exactly, CFN ML tree estimation is statistically consistent
+  for data generated under the CFN model.
+• Similarly, Jukes-Cantor ML tree estimation is statistically consistent
+  for data generated under the Jukes-Cantor model.
+• But note that the model matters (if data generated under a more
+  complex model, estimating under a simple model may not be
+  consistent).
+• Even if generative model and estimation model are same, may not
+  be consistent! Look up “No Common Mechanism Model”
+         Scoring a model tree
+• Input: Alignment A and model tree T* (tree
+  and numeric parameters)
+• Output: Pr(A|T*)
+
+Question: How do we do this?
+Answer: Felsenstein’s peeling algorithm
+(dynamic programming, polynomial time) – see
+textbook.
+Solving ML on a fixed tree topology
+• Input: Alignment A and tree topology T (without
+  numeric parameters)
+• Output: numeric parameters for T that maximizes
+  Pr(A|T*) – where T* is T with numeric
+  parameters
+
+Question: How do we do this? Is it solvable in
+polynomial time?
+Answer: I don’t know. But heuristics use hill-
+climbing techniques that are not guaranteed to be
+accurate.
+        Solving NP-hard problems
+           exactly is … unlikely
+                        #leaves     #trees
+•   Number of             4            3
+    (unrooted) binary
+                          5           15
+    trees on n leaves
+    is (2n-5)!!           6           105
+•   If each tree on       7           945
+    1000 taxa could       8         10395
+    be analyzed in
+                          9         135135
+    0.001 seconds,
+    we would find the     10       2027025
+    best tree in          20      2.2 x 1020
+     2890 millennia      100      4.5 x 10190
+                         1000     2.7 x 102900
+              Approaches for “solving” ML
+   1.     Hill-climbing heuristics (which can get stuck in local optima)
+   2.     Randomized algorithms for getting out of local optima
+
+   Note the need to compute score (here we show absolute value of the log
+   likelihood, and seek to minimize this)
+
+
+
+
+                                                    Local optimum
+|log likelihood|
+
+                                                   Global optimum
+                      Model trees
+         alignment), (2) running the heuristic search strategy anew on this bootstrap alignment until
+         a local optimum is obtained, and then (3) continuing the search from the new tree, but now
+         based on scores computed using the original alignment. This alternation between searches
+         based on the original alignment and the bootstrap replicate alignment can be repeated sev-
+         eral times.
+                                          NNI moves
+            This process repeats until a desired stopping criterion is met (e.g., a time limit, or ev-
+         idence
+Figure 3.13      thatstar-decomposition
+             In the    the search strategy     is not likely
+                                            heuristic,        to find a pairs
+                                                        one repeatedly   betteroffscoring tree).
+                                                                                   two edges     Atare
+                                                                                              that   theincident
+                                                                                                          end, the
+                                                                                                                 to
+         set of
+             theall  best node
+                 central   trees that
+                                  is returned;   thisbest
+                                       provide the     setimprovement
+                                                           can be very oflarge  for maximum
+                                                                           the parsimony    score,parsimony,   but
+                                                                                                   until a resolved
+         searches   for maximum
+             phylogenetic             likelihood trees or for minimum evolution trees usually produce a
+                             tree is obtained.
+         single “best” tree.
+
+
+
+
+                (a) Phylogenetic tree                   (b) One NNI tree                (c) Other NNI tree
+
+Figure 3.14 Nearest neighbor interchange (NNI). (a) An unrooted phylogenetic tree T . The four subtrees
+         Figure 11.1 (Figure 3.14 in Huson et al. (2010)) Trees related by Nearest Neighbor Interchange
+         (NNI)attached
+                 moves. to
+                         In the two ends
+                             an NNI move,ofanthe  edge marked
+                                               internal           “∗”tree
+                                                         edge in the  canisbeselected,
+                                                                               interchanged
+                                                                                       and theinfour
+                                                                                                 foursubtrees
+                                                                                                      different ways,
+                                                                                                              around
+              leading
+         the edge      to two distinct
+                  are identified. Then, phylogenetic    trees, shown
+                                        two of these subtrees   around in
+                                                                        the(b)
+                                                                            edgeand (c).from each side) are swapped.
+                                                                                  (one
+         Thus, trees (b) and (c) are each obtained by one NNI move applied to tree (a).
+
+
+            The
+             treechallenge  in using
+                   T to another    T ′ heuristics
+                                       by applyingto find good solutions for
+                                                      a branch-swapping      NP-hardthat
+                                                                          operation    problems   is thata
+                                                                                           rearranges
+         evenpart
+               the of
+                   best
+                      T .heuristics are only ensured to find good local optima, and local optima are
+         not necessarily  global optima.
+                More precisely,           Furthermore,
+                                   the idea              theseaheuristic
+                                              is to generate    numbersearch  strategies can
+                                                                         of neighboring      take a long
+                                                                                           phylogenetic
+         time (and use large amounts of memory) on large datasets, meaning days, weeks, or even
+              trees in this way and then to move to the one that has the best parsimony score.
+              This is repeated a number of times until no further improvement can be achieved.
+                  (a) Phylogenetic tree                    (b) Subtree prune. . .                  (c) and regraft
+             Figure 11.2
+Figure 3.15 Subtree      (Figure
+                     prune  and3.15
+                                 regraft  TBR moves
+                                     in Huson et (a)
+                                         (SPR).  al. (2010)) Trees related
+                                                      An unrooted          by a Subtree
+                                                                     phylogenetic   treePrune  andsubtree
+                                                                                          T . The  Regraft (SPR)
+                                                                                                            consisting
+               move. In a SPR move, an edge is deleted, creating two trees; these two trees are then re-attached by
+              ofadding
+                  threeanedges  and the two leaves labeled a and b is pruned at the location marked “∗” to
+                          edge between them, with the constraint that the new edge uses one of the endpoints of the
+              produce
+               edge that the two subtrees
+                         was deleted.        shown
+                                      Note that an NNIinmove
+                                                         (b),isand  then
+                                                                an SPR   reattached
+                                                                       move.           into
+                                                                             Tree (c) is    the edge
+                                                                                         obtained      leading
+                                                                                                  by applying oneto the
+               SPRlabeled
+              leaf move to tree (a).
+                            f (c).
+
+
+
+
+                 (a) Tree bisection...              (b) reconnection choice...                (c) and reconnection
+
+Figure 3.16 Tree  bisection
+             Figure          and3.16
+                    11.3 (Figure reconnection     (TBR).
+                                     in Huson et al. (2010))The phylogenetic
+                                                             Trees               treeBisection
+                                                                   related by a Tree   T shown and in (a) is bisected
+                                                                                                    Reconnection
+               (TBR)
+              into   move.
+                   two     In a TBR
+                       subtrees     move, an the
+                                 by deleting edgeedge
+                                                  is deleted from“∗”.
+                                                        marked    the tree, creating two
+                                                                      As illustrated   intrees; the two
+                                                                                          (b), one      trees are
+                                                                                                     possible   choice
+               then re-attached by the introduction of an edge between them. Note that every NNI or SPR move is
+              is to reattach the two subtrees by a new edge joining the middles of the two leaf edges
+               a TBR move. Tree (c) is obtained by applying one TBR move to tree (a).
+              associated with taxa b and f . The resulting new phylogenetic tree is shown in (c).
+
+                  Theofmost
+               more,      CPUgeneral
+                                time. Asbranch-swapping
+                                          an example, a maximummethod    considered
+                                                                   likelihood   analysishere
+                                                                                          for 48is avian
+                                                                                                    calledspecies,
+                                                                                                            tree bisec-
+              tion
+               usingand  reconnection
+                      a concatenated      (TBR).ofToabout
+                                       alignment      apply  this
+                                                           41.8   method
+                                                                million baseto  a phylogenetic
+                                                                             pairs,  took more than  tree,
+                                                                                                        200first
+                                                                                                             CPUbisect
+               years
+              the     andinto
+                   tree    1Tbtwoof memory
+                                     subtreesto by
+                                                findcompletely
+                                                     a local optimum  (Jarvis an
+                                                                 removing      et al.,
+                                                                                  edge 2014).
+                                                                                         fromThus,     maximum
+                                                                                                 the tree.   Then, to
+               likelihoodthe
+              reattach     treetree,
+                                 estimation cantwo
+                                      join the   be very computationally
+                                                     subtrees   by a newintensive,
+                                                                           edge that   even  on small
+                                                                                         leads    fromnumbers
+                                                                                                          somewhere
+               of sequences!
+RF tree error rates for Maximum Likelihood Heuristics
+                on Simulated Datasets
+
+
+
+
+  RAxML and FastTree2 are maximum likelihood heuristics.
+  NJ is a distance-based method (polynomial time and statistically consistent).
+  INC-ML (both Fast and Slow) are polynomial time and statistically consistent.
+
+  Table taken from Thien Le et al., “Using INC Within Divide-and-Conquer
+   Phylogeny Estimation”, Int’l Conf on Alg for Comp Biol. 2019, pp. 167-178.
+RF tree error rates for Maximum Likelihood
+     Heuristics on Simulated Datasets
+
+
+
+
+RAxML and FastTree2 are maximum likelihood heuristics.
+NJ is a distance-based method (polynomial time and statistically consistent).
+INC-ML (both Fast and Slow) are polynomial time and statistically consistent.
+
+Table taken from Thien Le et al., “Using INC Within Divide-and-Conquer
+ Phylogeny Estimation”, Int’l Conf on Alg for Comp Biol. 2019, pp. 167-178.
+    RF tree error rates for Maximum Likelihood
+         Heuristics on Simulated Datasets
+
+
+
+
+RAxML, IQTree, and FastTree are standard ML heuristics. GTM is a new pipeline for
+improving scalability of ML heuristics. Datasets range from 1000 to 50,000 sequences.
+Figure taken from Park et al., Algorithms 2021.
+      Runtimes of Maximum Likelihood
+      Heuristics on Simulated Datasets
+
+
+
+
+RAxML, IQTree, and FastTree are standard ML heuristics. GTM is a new pipeline for
+improving scalability of ML heuristics. Datasets range from 1000 to 50,000 sequences.
+Figure taken from Park et al., Algorithms 2021.
+          Bayesian estimation
+• Similar to maximum likelihood (i.e., you know
+  the model), but now you aren’t trying to find
+  the tree and numeric parameters to maximize
+  probability. You just want to sample from the
+  distribution somehow, and use those
+  samples…
+• Even more computationally intensive than
+  maximum likelihood.
+          Take home message
+• Maximum likelihood is a very desirable
+  approach (e.g., more accurate than distance-
+  based methods), but current heuristics either
+  have computational challenges on large
+  datasets (e.g., RAxML and IQ-TREE) or are not
+  as accurate (e.g., FastTree).
+• We need better heuristics.
+

@@ -1,0 +1,558 @@
+  CS 581
+
+Tandy Warnow
+                               Today
+•   Brief intro to Newick strings, set Q(T) of induced quartet trees
+•   The All Quartets Method
+•   Additive matrices
+•   The Four Point Condition
+•   The Four Point Method
+•   The Naïve Quartet Method
+•   The Cavender-Farris-Neyman model
+•   Estimating Cavender-Farris-Neyman model trees
+•   Estimating Jukes-Cantor model trees
+•   More complicated DNA sequence evolution models
+•   UPGMA
+
+See textbook Chapter 1, 8.1-8.2
+      First… why unrooted trees?
+• Remember that I said that most models of sequence
+  evolution are time-reversible.
+• Hence the best we can do is to infer an unrooted tree.
+• Get used to drawing unrooted trees!
+• Get used to taking a rooted tree and drawing it without
+  the root.
+• You can assume henceforth that I am always talking
+  about unrooted trees – unless I say otherwise.
+• Also: in biology, most of the time, we expect binary
+  rooted evolutionary trees (all internal nodes have two
+  children), so the unrooted trees are also “binary” (all
+  internal nodes have degree 3)
+   Newick strings for rooted trees
+• ((A,B),(C,D))
+• (A,(B,(C,D)))
+• (A,(B,(C,(D,E))))
+• (A,B,C,D) – what is this?
+ Newick strings for unrooted trees
+Take the Newick string, draw the rooted tree,
+then ignore the root
+• ((A,B),(C,D))
+• (A,(B,(C,D)))
+• (A,(B,(C,(D,E))))
+• (A,(C,(B,((D,E),F))))
+           Representations for
+          unrooted quartet trees
+• Instead of writing the Newick string, you can
+  use something simpler:
+  – AB|CD instead of ((A,B),(C,D))
+                 Class exercise
+• Draw the rooted and unrooted trees given by
+  Newick Strings
+  – ((A,B)(C,(D,E)))
+  – (A,(B,(C,(E,D)))
+  – (E,(D,((A,B),C)))
+             Induced subtrees
+• T is a tree with leaves labelled by set S
+• A is a subset of S
+• Question: What is T|A
+
+• Answer: Write T, erase every leaf not in A, and
+  see what you get
+ Q(T): the set of induced quartet trees
+• Every unrooted tree T is uniquely defined by
+  its set Q(T) of induced quartet trees
+• Typical task: given a Newick string, write down
+  the unrooted tree, and then write down the
+  set Q(T)
+                 Class exercise
+• Write down all the induced quartet trees you
+  get for Newick String (remember to treat this
+  as a representation of an unrooted tree):
+  – (A,(X,(U,(Y,Z))))
+               Class exercise
+• What is the (unrooted) tree that induces this
+  set of quartet trees?
+  – AB|CD
+  – AB|CE
+  – AB|DE
+  – AC|DE
+  – BC|DE
+       The All Quartets Method
+• Suppose you are given Q(T), the set of all
+  quartet trees of T
+• Can you construct T from Q(T)? Is T unique?
+• Algorithm?
+      The All Quartets Algorithm
+• Easy if number of leaves is 4
+• If |Q(T)| > 1
+  – Find a ”sibling pair” x,y
+  – Remove x
+  – Recurse on the set of quartet trees that do not
+    include x
+  – Add x as sibling to y
+ Warm-up to “Additive Distances”
+Suppose we now put non-negative branch lengths
+on the edges of the tree. We want to compute the
+matrix of leaf-to-leaf distances (computed by
+summing up branch lengths)
+• Do this calculation for a four-leaf binary tree you
+  make up
+• Do it again, but make the internal branch length
+  zero
+• Do this calculation for a four-leaf non-binary
+  (star) tree
+             Additive Matrices
+• A square matrix D=[dij] is additive if and only if
+  there is a tree T and edge-weighting w such
+  that for all pairs i,j of leaves, dij is the path
+  distance in T between i and j.
+
+• We note this by saying D corresponds to (T,w).
+ Distances, metrics, additive matrices,
+         dissimilarity matrices
+• What is a distance (aka metric)?
+   – symmetric, non-negative, zero on diagonal, and
+     satisfies triangle inequality: see
+     https://jeremykun.com/tag/triangle-inequality/
+• Is every additive matrix a distance?
+• What about Hamming distances?
+• What is a dissimilarity matrix? Satisfies nearly all
+  the requirements for a distance, but not the
+  triangle inequality. This is NEEDED in biological
+  sequence analysis.
+               Class exercise
+Write down the tree on four leaves {A,B,C,D},
+given by the split AB|CD.
+
+Set the internal edge length to 5, and all
+external edge lengths to 1.
+
+What is the additive matrix for this tree?
+          Phylogeny Problem
+  U        V             W         X         Y
+
+
+AGGGCAT   TAGCCCA       TAGACTT   TGCACAA   TGCGCTT
+
+
+
+                                       X
+               U
+
+                                       Y
+
+
+                    V        W
+Distance-based Methods
+         Four Point Condition
+• Theorem: Let D = [dij] be an additive matrix.
+  Then, for every four indices i,j,k,l, the
+  median and maximum of the three
+  pairwise sums are the same:
+     dij + dkl
+     dik + djl
+     dil + djk
+Proof of the Four Point Condition
+   Using the Four Point Condition
+• Given a 4x4 additive matrix D, can you find the
+  tree T (and edge-weighting w) that
+  corresponds to D?
+          Four Point Method
+• Task: Given 4x4 dissimilarity matrix,
+  compute a tree on four leaves
+• Solution: Compute the three pairwise
+  sums, and take the split ij|kl that gives the
+  minimum!
+
+What does this do on additive matrices?
+   Using the Four Point Condition
+• How would you construct a tree on a set of
+  n>4 leaves, if you had an additive matrix?
+       Naïve Quartet Method
+• Compute the tree on each quartet using
+  the four-point method (FPM)
+
+• Merge them into a tree on the entire set if
+  they are compatible:
+  – Find a sibling pair A,B
+  – Recurse on S-{A}
+  – If S-{A} has a tree T, insert A into T by making
+    A a sibling to B, and return the tree
+       Naïve Quartet Method
+• Compute the tree on each quartet using
+  the four-point method (FPM)
+
+• Merge them into a tree on the entire set if
+  they are compatible:
+  – Find a sibling pair A,B (HOW???)
+  – Recurse on S-{A}
+  – If S-{A} has a tree T, insert A into T by making
+    A a sibling to B, and return the tree
+    Naïve Quartet Method, cont.
+• Theorem: Let D=[dij] be an additive matrix
+  corresponding to an edge-weighted tree (T,w).
+  Then the Naïve Quartet Method applied to D
+  returns T.
+• Proof: all estimated quartet trees are correct
+  (by the Four Point Condition), and an
+  induction proof shows the Naïve Quartet
+  Method returns T.
+Distance-based Methods
+         Dissimilarity Matrices
+• A square matrix that is symmetric and zero on
+  the diagonal is called a dissimilarity matrix.
+• A dissimilarity matrix may not satisfy the
+  triangle inequality.
+In phylogenetics, the distance matrices we
+calculate are dissimilarity matrices.
+Can we construct a tree from a dissimilarity
+matrix?
+      Error tolerance for NQM
+• Suppose every pairwise distance is
+  estimated well enough (within f/2, for f the
+  minimum length of any edge).
+• Then the Four Point Method returns the
+  correct tree on every quartet.
+• And so all quartet trees are compatible,
+  and NQM returns the true tree.
+Phylogeny estimation as a
+statistical inverse problem
+   Estimation of evolutionary trees as a
+        statistical inverse problem
+
+• We can consider characters as properties
+  that evolve down trees.
+• We observe the character states at the
+  leaves, but the internal nodes of the tree also
+  have states.
+• The challenge is to estimate the tree from the
+  properties of the taxa at the leaves. This is
+  enabled by characterizing the evolutionary
+  process as accurately as we can.
+      DNA Sequence Evolution
+
+                                                   -3 mil yrs
+                       AAGACTT
+
+                                                   -2 mil yrs
+    AAGGCCT                    TGGACTT
+
+
+                                                   -1 mil yrs
+AGGGCAT              TAGCCCT         AGCACTT
+
+
+
+
+AGGGCAT   TAGCCCA   TAGACTT    AGCACAA   AGCGCTT          today
+          Phylogeny Problem
+  U        V             W         X         Y
+
+
+AGGGCAT   TAGCCCA       TAGACTT   TGCACAA   TGCGCTT
+
+
+
+                                       X
+               U
+
+                                       Y
+
+
+                    V        W
+          Jukes-Cantor (1969) Model
+• The model tree T is binary and has substitution probabilities p(e) on
+  each edge e.
+• The state at the root is randomly drawn from {A,C,T,G} (nucleotides)
+• If a site (position) changes on an edge, it changes with equal probability
+  to each of the remaining states.
+• The evolutionary process is Markovian.
+
+More complex models (such as the General Time Reversible model, or the
+  General Markov model) are also considered, often with little change to
+  the theory.
+    Questions about model trees
+• Is the model tree topology identifiable? – yes
+
+• Are the branch lengths and other numeric
+  parameters of the model tree identifiable? –
+  yes
+
+• Is the root of the model tree identifiable? – no
+     Answers about model trees
+• Is the model tree topology identifiable?   –
+  yes
+
+• Are the branch lengths and other numeric
+  parameters of the model tree identifiable? –
+  yes
+
+• Is the root of the model tree identifiable? –
+  no
+Distance-based Methods
+        Performance criteria
+• Running time
+• Space
+• Statistical performance issues (e.g., statistical
+  consistency and sequence length requirements)
+• “Topological accuracy” with respect to the underlying
+  true tree, typically studied in simulation.
+• Accuracy with respect to a mathematical score (e.g.
+  tree length or likelihood score) on real data
+                  FN
+
+
+
+
+FN: false negative
+    (missing edge)
+FP: false positive
+    (incorrect edge)
+
+
+                       FP
+
+   50% error rate
+        Statistical Consistency
+
+error
+
+
+
+
+            Data
+          Statistical models
+• Simple example: coin tosses.
+• Suppose your coin has probability p of
+  turning up heads, and you want to
+  estimate p. How do you do this?
+                Estimating p
+• Toss coin repeatedly
+• Let your estimate q be the fraction of the time
+  you get a head
+
+• Obvious observation: q will approach p as the
+  number of coin tosses increases
+• This algorithm is a statistically consistent
+  estimator of p. That is, your error |q-p| goes to 0
+  (with high probability) as the number of coin
+  tosses increases.
+   Another estimation problem
+• Suppose your coin is biased either towards
+  heads or tails (so that p is not 1/2).
+• How do you determine which type of coin you
+  have?
+
+• Same algorithm, but say “heads” if q>1/2, and
+  “tails” if q<1/2. For large enough number of
+  coin tosses, your answer will be correct with high
+  probability.
+       Phylogeny Estimation
+• Simplest type of data: presence/absence
+  of a property (e.g., has wings, has hair,
+  has a particular amino acid)
+• Treat this as binary character evolution,
+  with 0 representing absence and 1
+  representing presence.
+• How do we model the evolution of these
+  binary characters?
+          Jukes-Cantor (1969) Model
+• The model tree T is binary and has substitution probabilities p(e) on
+  each edge e.
+• The state at the root is randomly drawn from {A,C,T,G} (nucleotides)
+• If a site (position) changes on an edge, it changes with equal probability
+  to each of the remaining states.
+• The evolutionary process is Markovian.
+
+More complex models (such as the General Time Reversible model, or the
+  General Markov model) are also considered, often with little change to
+  the theory.
+   Cavender-Farris-Neyman (CFN)
+
+• Models binary sequence evolution
+• For each edge e, there is a probability
+  p(e) of the property “changing state”
+  (going from 0 to 1, or vice-versa), with
+  0<p(e)<0.5 (to ensure that unrooted
+  CFN tree topologies are identifiable).
+• Every position evolves under the same
+  process, independently of the others.
+  Estimating trees under statistical
+              models…
+• Instead of directly estimating the tree, we
+  try to estimate the process itself.
+• For example, we try to estimate the
+  probability that two leaves will have
+  different states for a random character.
+     CFN pattern probabilities
+• Let x and y denote nodes in the tree, and
+  pxy denote the probability that x and y
+  exhibit different states.
+• Theorem: Let pi be the substitution
+  probability for edge ei, and let x and y be
+  connected by path e1e2e3…ek. Then
+       1-2pxy = (1-2p1)(1-2p2)…(1-2pk)
+       And then take logarithms
+• The theorem gave us:
+  1-2pxy = (1-2p1)(1-2p2)…(1-2pk)
+
+• If we take logarithms, we obtain
+  ln(1-2pxy) = ln(1-2p1) + ln(1-2p2)+…+ln(1-2pk)
+
+• Since these probabilities lie between 0 and 0.5, these
+  logarithms are all negative. So let’s multiply by -1 to get
+  positive numbers.
+              An additive matrix!
+• Consider a matrix D(x,y) = -ln(1-2pxy)
+
+• This matrix is additive (i.e., fits a tree exactly)!
+
+• Can we estimate this additive matrix from what we
+  observe at the leaves of the tree?
+
+• Key issue: how to estimate pxy.
+
+• (Recall how to estimate the probability of a head…)
+Distance-based Methods
+     Estimating CFN distances
+• Consider
+      dij= -1/2 ln(1-2H(i,j)/k),
+  where k is the number of characters, and H(i,j) is
+  the Hamming distance between si and sj.
+• This is called the CFN distance correction.
+
+• Theorem: as k increases,
+     dij converges to Dij = -1/2 ln(1-2pij),
+   which is an additive matrix.
+     Four Point Method (FPM)
+• Task: Given 4x4 dissimilarity matrix,
+  compute a tree on four leaves
+• Solution: Compute the three pairwise
+  sums, and take the split ij|kl that gives the
+  minimum!
+• When is this guaranteed accurate?
+      Error tolerance for FPM
+• Suppose every pairwise distance is
+  estimated well enough (within f/2, for f the
+  minimum length of any edge).
+• Then the Four Point Method returns the
+  correct tree (i.e., ij+kl remains the
+  minimum)
+  Naïve Quartet Method (NQM)
+• Compute the tree on each quartet using
+  the four-point method
+• Merge them into a tree on the entire set if
+  they are compatible:
+  – Find a sibling pair A,B
+  – Recurse on S-{A}
+  – If S-{A} has a tree T, insert A into T by making
+    A a sibling to B, and return the tree
+      Error tolerance for NQM
+• Suppose every pairwise distance is
+  estimated well enough (within f/2, for f the
+  minimum length of any edge).
+• Then the Four Point Method returns the
+  correct tree on every quartet.
+• And so all quartet trees are compatible,
+  and NQM returns the true tree.
+           In other words:
+• The NQM method is statistically consistent
+  methods for estimating CFN trees!
+• Plus it is polynomial time!
+        Statistical Consistency
+
+error
+
+
+
+
+            Data
+What about DNA sequence evolution?
+
+• The proof of statistical consistency for the
+  NQM under the CFN model only really
+  depended on the guarantee that CFN
+  estimated distances converge, as the
+  sequence length increase, to an additive
+  matrix.
+• What about DNA sequence evolution
+  models?
+          Jukes-Cantor (1969) Model
+• The model tree T is binary and has substitution probabilities p(e) on
+  each edge e.
+• The state at the root is randomly drawn from {A,C,T,G} (nucleotides)
+• If a site (position) changes on an edge, it changes with equal probability
+  to each of the remaining states.
+• The evolutionary process is Markovian.
+
+More complex models (such as the General Time Reversible model, or the
+  General Markov model) are also considered, often with little change to
+  the theory.
+Distance-based Methods
+ Jukes-Cantor Tree Estimation
+• Step 1: Compute Hamming distances
+• Step 2: Correct the Hamming distances,
+  using the JC distance calculation (see
+  textbook for formula)
+• Step 3: Use NQM to construct the tree
+             In other words:
+Theorem: The NQM method is statistically
+consistent methods for estimating JC trees, and
+uses polynomial time!
+
+Notes:
+• This is true for other models – all you need is
+  a statistically consistent technique to estimate
+  an additive matrix that corresponds to an
+  edge-weighting of the model tree.
+• This is also true for other distance-based
+  methods (e.g., neighbor joining).
+Standard DNA site evolution models
+
+
+
+
+ Figure 3.9 from Huson et al., 2010
+                  UPGMA
+• The input is a dissimilarity matrix. UPGMA
+  builds a rooted tree from the bottom-up: finds
+  the pair that has the smallest distance, makes
+  them siblings, and “recurses”.
+• You can turn the tree UPGMA computes into
+  an unrooted tree.
+• Think about what UPGMA does on additive
+  matrices for four leaves.
+                 UPGMA
+• What does UPGMA do on this matrix?
+• What does the Four Point Method do?
+• Is this matrix additive?
+            A      B      C     D
+     A             6      3     7
+     B                    7     11
+     C                          6
+     D
+                                UPGMA
+• What does UPGMA do on this matrix?
+• What does the Four Point Method do?
+• Is this matrix additive?
+                       A            B           C            D
+           A                        6           3            7
+           B                                    7            11
+           C                                                 6
+           D
+
+
+What does this mean about using UPGMA to estimate CFN trees, or JC trees, etc?
+                  Summary
+• Four Point Condition (property of additive
+  matrices)
+• Four Point Method (how to construct a quartet
+  tree from a 4x4 dissimilarity matrix – may not be
+  additive)
+• Naïve Quartet Method (how to construct a n-leaf
+  tree from a nxn dissimilarity matrix – may not be
+  additive)
+• All Quartets Method (how to construct an n-leaf
+  tree from a set of nC4 quartet trees – only works
+  if all quartet trees are correct)
+
