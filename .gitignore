@@ -1,0 +1,7 @@
+# MAGUS is cloned (pinned) by cs581/code/setup.sh, not vendored
+cs581/code/MAGUS/
+__pycache__/
+*.pyc
+# large / regenerable experiment outputs
+cs581/experiments/**/work/
+cs581/data/raw/
