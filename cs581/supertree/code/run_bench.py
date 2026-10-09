@@ -19,7 +19,7 @@ def method_fn(name, src, wd):
     out = os.path.join(wd, name + ".tre")
     info = {}
     if name == "astral3":
-        w, m = M.astral3(src, out, os.path.join(wd, name), mem="8g")
+        w, m = M.astral3(src, out, os.path.join(wd, name), mem=os.environ.get("ASTRAL_MEM", "8g"))
     elif name == "astral4":
         w, m = M.astral4(src, out, os.path.join(wd, name))
     elif name == "tqmc":
