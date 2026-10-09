@@ -11,7 +11,16 @@ container (Sonnet; prompt = WORKER_PROMPT.md) and pushes results to its branch.
 | 4 | jobs_w4.txt | claude/cs581-worker-4 | session_01McxGQrNS5jHLZ6U71i33bE |
 | 5 | jobs_w5.txt | claude/cs581-worker-5 | session_01MQJbogSY6hT4UwkSokSmfx |
 | 6 | jobs_w6.txt | claude/cs581-worker-6 | session_017HQsL4VsUsh8hRcJ25nqjw |
+| 7 | jobs_w7.txt | claude/cs581-worker-7 | session_01Lg23wQ5RtFcNQPgejDFmss |
+| 8 | jobs_w8.txt | claude/cs581-worker-8 | session_0184agjhEq4MAHXx6fyEVDVr |
+| 9 | jobs_w9.txt | claude/cs581-worker-9 | session_019JV6jVL8RzRLn1VoKrDTQA |
+| 10 | jobs_w10.txt | claude/cs581-worker-10 | session_01YYR7PKwA5uZWeB6dEjoDMC |
+| 11 | jobs_w11.txt | claude/cs581-worker-11 | session_01MZ33magJd3UFGYJvqxc2Za |
+| 12 | jobs_w12.txt | claude/cs581-worker-12 | session_01RmGYN29ByRYkDPbCFQFBhh |
 | local | jobs_local_large.txt | claude/charming-pasteur-yl6k2v | orchestrating session |
+
+Workers 7-12 were added at 22:12 UTC; the back halves of lists 1-5 were moved to them
+(workers re-read their job list from the base branch before each job).
 
 Collect results: `git fetch origin 'refs/heads/claude/cs581-worker-*:refs/remotes/origin/claude/cs581-worker-*'`
 then copy each branch's `cs581/experiments/runs/*` (see aggregate.sh).
