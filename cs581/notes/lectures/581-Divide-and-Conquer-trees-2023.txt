@@ -1,0 +1,579 @@
+          New methods for
+         very-large scale tree
+              estimation
+                Tandy Warnow
+           The University of Illinois
+Joint work with: Paul Zaharias and Minhyuk Park
+Phylogeny + genomics = genome-scale phylogeny estimation
+.
+                         Phylogenomic pipeline
+• Select taxon set and markers
+• Gather and screen sequence data, possibly identify orthologs
+• Compute multiple sequence alignments for each locus, and construct gene trees
+• Compute species tree or network:
+   • Combine the estimated gene trees, OR
+   • Estimate a tree from a concatenation of the multiple sequence alignments
+• Get statistical support on each branch (e.g., bootstrapping)
+• Estimate dates on the nodes of the phylogeny
+• Use species tree with branch support and dates to understand biology
+                         Phylogenomic pipeline
+• Select taxon set and markers
+• Gather and screen sequence data, possibly identify orthologs
+• Compute multiple sequence alignments for each locus, and construct gene trees
+• Compute species tree or network:
+   • Combine the estimated gene trees, OR
+   • Estimate a tree from a concatenation of the multiple sequence alignments
+• Get statistical support on each branch (e.g., bootstrapping)
+• Estimate dates on the nodes of the phylogeny
+• Use species tree with branch support and dates to understand biology
+     1KP: Thousand Transcriptome Project
+
+
+G. Ka-Shu Wong J. Leebens-Mack   N. Wickett     N. Matasci   T. Warnow,       S. Mirarab,        N. Nguyen
+U Alberta      U Georgia         Northwestern   iPlant       UT-Austin/UIUC    UT-Austin /UCSD   UT-Austin/UCSD
+
+
+l   2014 PNAS study: 103 plant transcriptomes, 400-800 single copy “genes”
+l   2019 Nature study: much larger!
+
+
+
+     Major Challenges:
+     • Large alignments (and sequence length heterogeneity)
+     • Multi-copy genes omitted (9500 -> 400)
+     • Massive gene tree heterogeneity consistent with ILS
+  Avian Phylogenomics Project
+Erich Jarvis,    MTP Gilbert,   Guojie Zhang,   Siavash Mirarab, Tandy Warnow,
+HHMI             Copenhagen     BGI             Texas            Texas and UIUC
+
+
+
+
+   • Approx. 50 species, whole genomes
+   • 14,000 loci
+   • Multi-national team (100+ investigators)
+   • 8 papers published in special issue of Science 2014
+       Major challenges:
+   Biggest computational challenges:
+       • Multi-copy genes omitted
+       1. Multi-million site maximum likelihood analysis (~300 CPU years,
+       • Massive gene tree heterogeneity consistent with ILS
+           and 1Tb of distributed memory, at supercomputers around world)
+       • Concatenation analysis took 250 CPU years
+       2. Constructing “coalescent-based” species tree from 14,000
+           different gene trees
+          Large datasets are difficult
+• Two dimensions:
+   • Number of loci
+   • Number of species (or individuals)
+• Missing data
+• Heterogeneity
+• Many analytical pipelines involve Maximum likelihood
+  and Bayesian estimation
+What I hope to convince you of:
+• Great progress in large-scale phylogeny estimation (both for gene
+  trees and species trees)
+• “Disjoint tree mergers” (DTMs) are generic methods, that can be used
+  with any phylogeny estimation method (for any kind of data), and
+  enable scalability to large datasets.
+   • The Guide Tree Merger (GTM) is the current leading DTM technique, based on
+     empirical performance.
+   • GTM improves maximum likelihood gene tree estimation and also species
+     tree estimation.
+   • However, GTM does NOT allow blending, and so should be able to be
+     improved.
+• Open problem: Develop a better DTM approach that allows blending.
+This talk
+• Part I: DACTAL
+• Part II: Disjoint Tree Mergers
+• Part III: Discussion and open problems
+Part I: DACTAL
+DACTAL: Divide-and-Conquer Trees (almost) without Alignments
+
+                                                                                                                 Note:
+                                                                                                                 • Originally developed for
+                                                                                                                   tree estimation without
+                                                                                                                   an MSA,
+                                                                                                                 • but the basic approach
+                                                                                                                   can be used to scale tree
+                                                                                                                   estimation to larger
+                                                                                                                   datasets
+
+
+
+
+Bioinformatics, Volume 28, Issue 12, June 2012, Pages i274–i282, https://doi.org/10.1093/bioinformatics/bts218
+The content of this slide may be subject to copyright: please see the slide notes for details.
+DACTAL: Divide-and-Conquer Trees (almost) without Alignments
+
+                                                                                                                 Note:
+                                                                                                                 • Overlapping subsets –
+                                                                                                                   typically by using a
+                                                                                                                   starting tree and using the
+                                                                                                                   PRD (padded recursive
+                                                                                                                   decomposition). Subsets
+                                                                                                                   can be as small as desired.
+                                                                                                                 • Requires Supertree
+                                                                                                                   Method (because
+                                                                                                                   overlapping subsets)
+                                                                                                                 • DACTAL uses SuperFine,
+                                                                                                                   which first computes the
+                                                                                                                   Strict Consensus Merger,
+                                                                                                                   and then refines the
+                                                                                                                   polytomies using a
+                                                                                                                   selected supertree
+                                                                                                                   method (e.g., MRP)
+
+Bioinformatics, Volume 28, Issue 12, June 2012, Pages i274–i282, https://doi.org/10.1093/bioinformatics/bts218
+The content of this slide may be subject to copyright: please see the slide notes for details.
+                     DACTAL on the SATé datasets
+
+                                                                         Notes:
+                                                                         • Simulated data from the SATé
+                                                                           paper
+                                                                         • DACTAL is comparable to SATé for
+                                                                           tree accuracy, but faster
+                                                                         • DACTAL is not compared to trees
+                                                                           computed by SATé-II or PASTA
+
+
+
+
+Fig. 2. Comparisons of 10 iterations of DACTAL to SATé and RAxML trees estimated on different
+alignments on the 1000-sequence datasets from the Liu et al. Science 2009 paper.
+                              Results on 3 biological datasets
+
+                                                                                  Notes:
+                                                                                  • “Accuracy” measured with
+                                                                                    respect to reference trees.
+                                                                                    Biological datasets have
+                                                                                    reference alignments, the
+                                                                                    reference trees are RAxML
+                                                                                    trees on these alignments with
+                                                                                    low support edges collapsed.
+                                                                                  • DACTAL is compared to
+                                                                                    FastTree and RAxML on two
+                                                                                    alignments (QUickTree and
+                                                                                    PartTree).
+
+
+
+
+Fig. 3. DACTAL (based on five iterations) compared with ML trees computed on alignments of three large biological datasets.
+                          Impact of iteration
+                                                                  Notes:
+                                                                  • SATé and DACTAL have comparable accuracy
+                                                                    and both benefit from iteration
+                                                                  • Two iterations seem to be perhaps enough
+                                                                  • DACTAL is faster than SATé
+
+
+
+
+Fig. 4. Impact of number of iterations. Comparisons of DACTAL and SATé iterations with two-phase methods on
+16S.T dataset with 7,350 sequences.
+                                                       Impact of Starting Tree
+
+
+
+                                                                                                                     Notes:
+                                                                                                                     • A bad starting tree hurts accuracy for one
+                                                                                                                       or two iterations, but not more
+
+
+
+
+Fig. 5. Impact of starting tree on DACTAL iterations
+
+
+
+
+    Bioinformatics, Volume 28, Issue 12, June 2012, Pages i274–i282, https://doi.org/10.1093/bioinformatics/bts218
+    The content of this slide may be subject to copyright: please see the slide notes for details.
+DACTAL: Divide-and-Conquer Trees (almost) without Alignments
+
+                                                                                                                 Note:
+                                                                                                                 • Originally developed for
+                                                                                                                   tree estimation without
+                                                                                                                   an MSA,
+                                                                                                                 • but the basic approach
+                                                                                                                   can be used to scale tree
+                                                                                                                   estimation to larger
+                                                                                                                   datasets
+
+
+
+
+Bioinformatics, Volume 28, Issue 12, June 2012, Pages i274–i282, https://doi.org/10.1093/bioinformatics/bts218
+The content of this slide may be subject to copyright: please see the slide notes for details.
+Is method M statistically consistent under
+model G?
+                                           Question answered by
+                                           mathematical proof
+  Error
+  in species tree
+  inferred by
+  method M
+
+
+
+
+                    Amount of data
+                    generated under model G and
+                    then given to method M as input
+Is method M statistically consistent under
+model G?
+                                           Theorem: If used with
+                                           statistically consistent
+  Error                                    method for tree
+  in species tree                          estimation, DACTAL is
+  inferred by                              statistically consistent
+  method M
+
+
+
+
+                    Amount of data
+                    generated under model G and
+                    then given to method M as input
+Comments
+• DACTAL depends on having a scalable and accurate supertree method
+• Supertree methods are generally computationally intensive – even
+  the supertree method used in DACTAL (SuperFine) is not that scalable
+• Unclear that SuperFine will be feasible on really large datasets
+  (because the Strict Consensus Merger may be a star tree)
+• So…
+   • Divide-and-conquer into overlapping subsets may not work that well
+Part II: Disjoint Tree Mergers
+Divide-and-Conquer using Disjoint Tree Mergers
+                                                                       Note: use most
+                                                                       accurate method
+                          Decompose                                    on subsets, and     Erin Molloy,
+                          species set into                             treat as absolute   Introduced this
+                          pairwise disjoint                            constraints         approach
+           Full           subsets.
+         species
+           set
+
+                                                                  Build a tree on each
+                                                                  subset
+         Auxiliary
+           Info
+        (e.g., distance              Tree
+            matrix)                 on full
+                                  species set
+
+
+                          Compute tree on entire set of species
+                          using “Disjoint Tree Merger” method
+Disjoint Tree Mergers (DTMs)
+• NJMerge (Molloy and Warnow, Alg Mol Biol 2019)
+• TreeMerge (Molloy and Warnow, Bioinf 2019)
+• Constrained-INC (Zhang, Rao, and Warnow, Alg Mol Biol 2019)
+• Guide Tree Merger (Smirnov and Warnow, 2020)
+                                                            DTMs Merge Subset Trees
+
+
+
+
+                 Notes:
+                 • Subset trees are requirements (constraint trees)
+                 • Blending is permitted!
+
+Bioinformatics, Volume 35, Issue 14, July 2019, Pages i417–i426, https://doi.org/10.1093/bioinformatics/btz344
+The content of this slide may be subject to copyright: please see the slide notes for details.
+Guide Tree Merger
+
+• Input:
+   • set T of trees Ti on leafset Si (disjoint sets)
+   • “guide tree” T on union of Si
+• Output: Tree T* that induces each Ti and minimizes the bipartition
+  distance to T
+
+• NP-hard
+• If we constrain T* to be formed by adding edges between the trees Ti
+  (i.e., no blending allowed), then solvable in polynomial time.
+• Smirnov and Warnow, BMC Genomics 2020
+Divide-and-Conquer using Disjoint Tree Mergers
+                                                                       Note: use most
+                                                                       accurate method
+                          Decompose                                    on subsets, and     Erin Molloy,
+                          species set into                             treat as absolute   Introduced this
+                          pairwise disjoint                            constraints         approach
+           Full           subsets.
+         species
+           set
+                                                                                           Theorem:
+                                                                  Build a tree on each     If the subtree
+                                                                  subset                   method is
+         Auxiliary                                                                         statistically
+           Info                                                                            consistent, then
+        (e.g., distance              Tree
+                                                                                           many DTM
+            matrix)                 on full
+                                                                                           methods are
+                                  species set
+                                                                                           statistically
+                                                                                           consistent.
+                          Compute tree on entire set of species
+                          using “Disjoint Tree Merger” method
+Species Tree Estimation
+
+
+
+   Orangutan                              Gorilla   Chimpanzee   Human
+
+
+
+
+     From the Tree of the Life Website,
+                 University of Arizona
+          Gene tree discordance
+                                                          Multiple causes for discord,
+                                                          including
+                                                          • Incomplete Lineage Sorting
+                                                            (ILS),
+                                                          • Gene Duplication and Loss
+         gene 1                      gene1000               (GDL), and
+                                                          • Horizontal Gene Transfer (HGT)
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+          Gene tree discordance
+                                                          Multiple causes for discord,
+                                                          including
+                                                          • Incomplete Lineage Sorting
+                                                            (ILS),
+                                                          • Gene Duplication and Loss
+         gene 1                      gene1000               (GDL), and
+                                                          • Horizontal Gene Transfer (HGT)
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+                     MSC+GTR Hierarchical Model
+                            Species tree
+
+                                                                                                      1. Gene trees evolve
+                                                                                                         within the species
+                              Gorilla Human        Chimp Orangutan
+                                                                                                         tree (under the
+                                 Gene evolution model                                                    Multi-Species
+         Gene tree               Gene tree                Gene tree                 Gene tree
+                                                                                                         Coalescent model)
+                                             Orang.
+                                                                                                      2. Sequences evolve
+        Human      Orang.                              Chimp       Orang.                    Orang.
+Chimp        Gorilla      Gorilla Human    Chimp Human       Gorilla        Chimp    Human
+                                                                                                         down the gene
+                             Sequence evolution model                                                    trees (under GTR
+               Sequence data
+                (Alignments)
+                                                                  Sequence data
+                                                                   (Alignments)
+                                                                                                         model)
+    ACTGCACACCG              CTGAGCATCG            1
+                                                        AGCAGCATCGTG          CAGGCACGCACGAA
+    ACTGC-CCCCG              CTGAGC-TCG                 AGCAGC-TCGTG          AGC-CACGC-CATA
+    AATGC-CCCCG              ATGAGC-TC-                 AGCAGC-TC-TG          ATGGCACGC-C-TA
+    -CTGCACACGG              CTGA-CAC-G                 C-TA-CACGGTG          AGCTAC-CACGGAT
+Gene trees inside the species tree (Coalescent Process)
+              Past                                                           Deep coalescence =
+                                                                             INCOMPLETE
+                                                                             LINEAGE
+                                                                             SORTING (ILS):
+                                                                             gene tree can be different
+                                                                             from the species tree
+
+
+
+
+            Present
+       Courtesy James Degnan
+
+
+
+
+                               Gorilla and Orangutan are not siblings in the species tree,
+                               but they are in the gene tree.
+Main Approaches for Species Tree Estimation under ILS
+
+          Species   gene 1 gene 2 … gene k
+
+
+                                 ...
+                                             Concatenation
+                                                             e.g., RAxML
+
+
+                                         Analyze
+                                        separately
+
+
+                                                             e.g., ASTRAL
+                                 ...     Summary Method
+Disjoint Tree Mergers for Species Tree Estimation
+                                                                       Note: use most
+                                                                       accurate method
+                          Decompose                                    on subsets, and     Erin Molloy,
+                          species set into                             treat as absolute   Introduced this
+                          pairwise disjoint                            constraints         approach
+           Full           subsets.
+         species
+           set
+                                                                                           Use ASTRAL or
+                                                                  Build a tree on each     Concatenation
+                                                                  subset                   for subtree
+         Auxiliary                                                                         construction!
+           Info
+        (e.g., distance              Tree
+                                                                                           Combine with
+            matrix)                 on full
+                                                                                           DTM method.
+                                  species set
+
+
+                          Compute tree on entire set of species
+                          using “Disjoint Tree Merger” method
+GTM+ASTRAL:
+faster and more
+accurate than ASTRAL
+Generic Use of Disjoint Tree Mergers
+                                                                       Note: use most
+                                                                       accurate method
+                          Decompose                                    on subsets, and     Erin Molloy,
+                          species set into                             treat as absolute   Introduced this
+                          pairwise disjoint                            constraints         approach
+           Full           subsets.
+         species
+           set
+                                                                                           Theorem:
+                                                                  Build a tree on each     If the subtree
+                                                                  subset                   method is
+         Auxiliary                                                                         statistically
+           Info                                                                            consistent, then
+        (e.g., distance              Tree
+                                                                                           many DTM
+            matrix)                 on full
+                                                                                           methods are
+                                  species set
+                                                                                           statistically
+                                                                                           consistent.
+                          Compute tree on entire set of species
+                          using “Disjoint Tree Merger” method
+What about scaling Maximum Likelihood?
+Divide-and-Conquer Gene Tree Estimation
+                                                                      Note: use most
+                                                                      accurate method
+                         Decompose                                    on subsets, and
+                         species set into                             treat as absolute
+                         pairwise disjoint                            constraints
+          Full           subsets.
+        species
+          set
+                                                                                          RAxML,
+                                                                 Build a tree on each     IQ-TREE,
+                                                                 subset
+                                                                                          etc
+        Auxiliary
+          Info
+       (e.g., distance              Tree
+           matrix)                 on full
+                                 species set
+
+
+                         Compute tree on entire set of species
+                         using “Disjoint Tree Merger” method
+                                                                               Guide Tree Merger
+Figure 2 from “Disjoint Tree Mergers
+for Large-Scale Maximum Likelihood
+Tree Estimation”, Park et al.,
+Algorithms 2021
+
+
+GTM pipeline:
+• starting tree is IQ-Tree or FastTree
+  (smaller datasets),
+• IQ-tree used to compute subset
+  trees,
+• Guide Tree = Starting Tree
+GTM-pipeline:
+• Scales to large datasets
+• Is competitive with RAxML
+  and IQ-TREE for accuracy
+• Is only slightly slower than
+  starting tree (but more
+  accurate)
+Trends
+• On RNASim10k: GTM most accurate topology
+• On RNASim50K:
+    • IQTree failed
+    • RAxML had nearly 100% error
+    • GTM most accurate
+What about biological data?
+• We used the same technique but evaluated maximum likelihood scores on
+  an MAGUS+EMMA alignment of the Recombinase dataset (~70,000 protein
+  sequences) from Kelly Williams, restricting the alignment to approximately
+  1000 sites.
+• Revised GTM pipeline: construct FastTree tree on full-length sequences,
+  and add remaining sequences in using phylogenetic placement method
+  BATCH-SCAMPP (with EPA-ng) – Eleanor Wedell et al. (2023).
+• We let RAxML run with different starting trees: its default approach, using
+  FastTree as a starting tree, and using our GTM tree as a starting tree.
+• We compared these RAxML runs (different starting trees) to each other,
+  using LG+Gamma(4) for the model.
+• Unpublished analyses performed by Minhyuk Park.
+Analysis of Kelly Williams
+dataset (Minhyuk Park et al.,
+NYP)
+
+Choice of starting tree matters!
+
+RAxML continues to improve its
+ML score during the entire 8 day
+period (but most gains are in the
+first 4 days)
+
+GTM takes a bit more than 24
+hours
+On this dataset,
+• Default RAxML worst
+• FastTree is a better
+  starting tree
+• GTM is much better
+
+Large datasets need
+long running times and
+very good starting
+trees!
+Overall summary
+• Large-scale phylogenetic tree estimation is becoming truly feasible!
+   • Large numbers of sequences no longer a major impediment
+   • Heterogeneity across the genome presents challenges, but methods are being
+     developed that address biological heterogeneity
+• Not discussed here (and still needs work):
+   • Phylogenetic networks
+   • Genome rearrangement phylogeny
+   • Multiple whole genome alignment
+Disjoint Tree Mergers
+• “Disjoint tree mergers” (DTMs) are generic methods, that can be used
+  with any phylogeny estimation method (for any kind of data).
+   • DTMs enable scalability to large datasets.
+   • DTMs improve Maximum Likelihood gene tree estimation as well as ASTRAL
+     (species tree estimation).
+   • GTM is the current leading DTM technique, based on empirical performance.
+     However, because it does NOT allow blending, it is unlikely GTM is the best
+     that can be done.
+• Open problem: Develop a better DTM approach that allows blending.
+                      Acknowledgments
+
+
+
+
+Papers available at http://tandy.cs.illinois.edu/papers.html
+Presentations available at http://tandy.cs.illinois.edu/talks.html
+Software on github, links at http://tandy.cs.illinois.edu/software.html
+
+Funding: NSF (CCF 1535977, ABI-1458652, 2006069, Graduate Fellowship to Erin Molloy), the
+Grainger Foundation, the Ira and Debra Cohen Fellowship to Vlad Smirnov, and Sandia National
+Laboratories-Livermore (LDRD)
+Supercomputers: Blue Waters and Campus Cluster, both supported by NCSA
+
+
+              Write to me: warnow@Illinois.edu
+
