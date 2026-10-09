@@ -1,4 +1,4 @@
-# Held-out plan (written 2026-10-09 23:10 UTC, after the training condition finished)
+# Held-out plan (written 2026-10-09 ~23:06 UTC, after the training condition finished)
 
 Training condition: n25 FastTree reps 20-39. This is the same condition the paper used to pick t = 0.5.
 Held-out conditions: n15 IQ-TREE reps 00-19, n25 IQ-TREE reps 00-19, n50 FastTree reps 00-19.
