@@ -30,6 +30,12 @@ def fastsp(reference, estimate):
         tokens = line.split()
         if len(tokens) == 2 and tokens[0] in ("SP-Score", "Modeler", "SPFN", "SPFP", "Compression", "TC"):
             stats[tokens[0]] = float(tokens[1])
+        elif line.startswith("Number of shared homologies"):
+            stats["shared"] = int(line.rsplit(":", 1)[1])
+        elif line.startswith("Number of homologies in the reference alignment"):
+            stats["refHom"] = int(line.rsplit(":", 1)[1])
+        elif line.startswith("Number of homologies in the estimated alignment"):
+            stats["estHom"] = int(line.rsplit(":", 1)[1])
         elif line.startswith("MaxLenNoGap"):
             fields = dict(f.strip().split("= ") for f in line.split(","))
             stats["LenRef"], stats["LenEst"] = int(fields["LenRef"]), int(fields["LenEst"])
