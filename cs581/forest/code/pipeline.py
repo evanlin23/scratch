@@ -128,10 +128,10 @@ def forest_grid(D, nj_nwk, names, small=False):
     il = il[il > 1e-9]
     if len(il) == 0:
         il = np.array([0.01])
-    qs = [0.02, 0.05, 0.1, 0.2, 0.3, 0.5, 0.7] if not small else [0.05, 0.2, 0.5]
+    qs = [0.02, 0.05, 0.1, 0.15, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7] if not small else [0.05, 0.2, 0.5]
     taus = sorted(set(round(float(x), 5) for x in 0.5 * np.quantile(il, qs) if x > 1e-5))
     b = mst_bottleneck(D)
-    ms = [b * f for f in ((1.0001, 0.8, 0.6, 0.45, 0.3) if not small else (1.0001, 0.6, 0.3))]
+    ms = [b * f for f in ((1.0001, 0.9, 0.8, 0.7, 0.6, 0.45, 0.3) if not small else (1.0001, 0.6, 0.3))]
     grid = []
     for m in ms:
         tt = [t for t in taus if m > 3 * t]
