@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang xml:lang>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="[Your name] · [NetID] · October 2026 (draft)" />
+  <title>CS581 proposal</title>
+  <style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+
+ul.task-list[class]{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+font-size: inherit;
+width: 0.8em;
+margin: 0 0.8em 0.2em -1.6em;
+vertical-align: middle;
+}
+.display.math{display: block; text-align: center; margin: 0.5rem auto;}
+</style>
+  <style type="text/css">@page { size: Letter; margin: 0.6in 0.65in; }
+body { font-family: "Times New Roman", Times, serif; font-size: 10.5pt; line-height: 1.25; max-width: none; margin: 0; color: #000; background: #fff; }
+header { text-align: center; margin-bottom: 4pt; }
+h1.title { font-size: 14pt; margin: 0 0 2pt 0; }
+p.author { margin: 0 0 6pt 0; font-size: 10pt; }
+p { margin: 0 0 5pt 0; text-align: justify; }
+ol, ul { margin: 0 0 5pt 0; padding-left: 18pt; }
+li { margin: 0 0 1pt 0; }
+table { border-collapse: collapse; margin: 3pt 0 6pt 0; font-size: 9.5pt; width: 100%; }
+th, td { border-top: 0.5pt solid #888; border-bottom: 0.5pt solid #888; padding: 1.5pt 4pt; text-align: left; vertical-align: top; }
+th { background: #f0f0f0; }
+code { font-size: 9pt; }
+.refs p, .refs li { font-size: 9pt; }
+</style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">CS581 Project Proposal: Soft-Constraint MAGUS —
+Merging All Sub-alignments at Once</h1>
+<p class="author">[Your name] · [NetID] · October 2026 (draft)</p>
+</header>
+<p><strong>Problem.</strong> Divide-and-conquer aligners (SATé, PASTA,
+MAGUS) split the input sequences into subsets, align each subset with
+MAFFT-L-INS-i, and merge the <em>subset alignments</em>, which are kept
+as <strong>hard constraints</strong>. MAGUS [1] improved on PASTA [2]
+with one change: instead of merging pairs of subset alignments and
+completing the merge by transitivity, its Graph Clustering Merger (GCM)
+merges <strong>all subset alignments at once</strong>. GCM builds a
+graph whose nodes are subset-alignment columns, weighted by how often 10
+“backbone” alignments put their letters together, clusters it with MCL
+and orders the clusters with A*. MAGUS is still among the most accurate
+methods for large, full-length nucleotide data (it ties UPP2 on 16S [3]
+and TWILIGHT on RNASim-10K, and beats TWILIGHT on long-branch
+simulations [4]). It is not state-of-the-art for proteins (learnMSA2,
+Muscle5, FAMSA2), for millions of sequences (TWILIGHT, FAMSA2) or for
+fragmentary data (UPP2, WITCH). Warnow lists “the best way to merge
+disjoint alignments” as an open problem [5].</p>
+<p><strong>Pilot observation: the hard constraints, not the merge
+search, limit accuracy.</strong> I replaced MAGUS’s inputs with the true
+alignment (“oracle” runs; identical subsets everywhere):
+PILOT_ORACLE_SENTENCE Errors <em>inside</em> one subset alignment
+propagate to every cross-subset pair, and no merge that keeps the
+constraints can undo them. Under GCM’s own objective (Maximum Weight
+Trace alignment merging, MWT-AM, NP-hard [6]), the oracle merge scores
+<em>lower</em> than MAGUS’s merge. So searching the same objective
+harder does not help: GCM with the FM + optimizer search [6] and my own
+exact progressive pairwise merger (dynamic programming per pair, as in
+WITCH-NG [7]) change accuracy by at most a few tenths of a point.</p>
+<p><strong>Proposed method: soft constraints by splitting.</strong>
+Split each subset alignment into <em>m</em> groups of similar sequences
+(average-linkage clustering on p-distance), induce one alignment per
+group, and let GCM merge <strong>all k·m groups at once</strong>, using
+the same backbones. With <em>m</em> = 1 this is exactly MAGUS; with one
+sequence per group it is MAGUS’s unconstrained mode. In between,
+backbone evidence can re-decide homology <em>between</em> groups of the
+same subset, while the reliable within-group alignments stay fixed. This
+applies the PASTA → MAGUS idea (“merge everything at once”) one level
+further down. It needs no changes to MAGUS: about 100 lines of Python
+prepare the inputs (already prototyped). I will study:</p>
+<ol type="1">
+<li>the number of groups <em>m</em> ∈ {1, 2, 3, 4};</li>
+<li>similarity-based vs random grouping;</li>
+<li>whether to add the original subset alignments as down-weighted extra
+evidence;</li>
+<li>a simple adaptive rule that splits only divergent subsets (high
+average p-distance).</li>
+</ol>
+<p><strong>Evaluation: apples-to-apples with the MAGUS
+paper.</strong></p>
+<ul>
+<li><em>Datasets:</em> exactly those of MAGUS’s main comparison
+(Illinois Data Bank doi:10.13012/B2IDB-2643961_V1):
+<ul>
+<li>ROSE 1000L1–L3, 1000M2–M4, 1000S1–S3 and RNASim-1K (1000 sequences
+each);</li>
+<li>8 BAliBASE protein sets and 16S.M;</li>
+<li>stretch goals: 16S.3, 16S.T, RNASim-10K.</li>
+</ul></li>
+<li><em>Settings:</em> MAGUS(Fast) with the paper’s flags (25 subsets,
+10 backbones × 200 sequences, MCL inflation 4, minclusters; 100 subsets
+for 16S.3/16S.T, as in the published runs). The new method reuses
+<strong>the same subsets and backbones</strong> per replicate, so only
+the merge changes (paired design).</li>
+<li><em>Criteria:</em> SPFN, SPFP and their average via FastSP [8], as
+in the paper; also total-column score, alignment length relative to the
+reference (MAGUS is reported to over-inflate columns), and running
+time.</li>
+<li><em>Statistics:</em> paired Wilcoxon signed-rank tests across
+replicates for each model condition. The <em>m</em> rule is tuned on
+replicates R0–R1 and tested on R2–R4.</li>
+<li><em>Baselines:</em> the authors’ published MAGUS(Fast), MAGUS(Slow)
+and PASTA alignments (rescored); our MAGUS rerun; GCM(fm+opt) [6].</li>
+</ul>
+<p><strong>Validation already done.</strong> Rescoring the authors’
+published alignments reproduces the paper’s figures to within 0.1
+percentage points on every dataset checked (e.g. 1000L3: MAGUS 11.1% vs
+11.0% in the paper, PASTA 17.5% vs 17.5%; 16S.T: 9.9% vs 10.0%).
+VALIDATION_RERUN_SENTENCE</p>
+<p>PILOT_TABLE</p>
+<p><strong>Four-week plan.</strong></p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Work</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Finish baseline MAGUS reruns (5 replicates × 10 conditions +
+BAliBASE + 16S.M; scripted, about 40 CPU-hours); oracle error
+decomposition for every condition.</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Sweep <em>m</em>, grouping and evidence weighting on R0–R1; fix one
+rule.</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Held-out evaluation on R2–R4, BAliBASE and 16S.M; statistical tests;
+16S.T/16S.3 if time allows.</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Analysis (which conditions benefit: rate of evolution, gappiness,
+column inflation) and write-up.</td>
+</tr>
+</tbody>
+</table>
+<p><em>Scope fallback:</em> if splitting does not help, the deliverable
+is a per-condition breakdown of MAGUS’s error (subset alignment vs
+backbone vs merge), which is still new and informative.</p>
+<p><strong>Related work.</strong></p>
+<ul>
+<li>[1] Smirnov &amp; Warnow, MAGUS, <em>Bioinformatics</em> 37:1666
+(2021).</li>
+<li>[2] Mirarab et al., PASTA, <em>J Comput Biol</em> 22:377 (2015); Liu
+et al., SATé, <em>Science</em> 324:1561 (2009).</li>
+<li>[3] Park et al., UPP2, <em>Bioinformatics</em> 39:btad007
+(2023).</li>
+<li>[4] Tseng, Walia &amp; Turakhia, TWILIGHT, <em>Bioinformatics</em>
+41:i332 (2025).</li>
+<li>[5] Warnow, “Advances in large-scale MSA” (talk, 2025).</li>
+<li>[6] Zaharias, Smirnov &amp; Warnow, MWT-AM, <em>IEEE/ACM TCBB</em>
+20:1700 (2023).</li>
+<li>[7] Liu &amp; Warnow, WITCH-NG, <em>Bioinform Adv</em> 3:vbad024
+(2023); Shen, Park &amp; Warnow, WITCH, <em>J Comput Biol</em> 29:782
+(2022).</li>
+<li>[8] Mirarab &amp; Warnow, FastSP, <em>Bioinformatics</em> 27:3250
+(2011).</li>
+<li>[9] Smirnov, Recursive MAGUS, <em>PLOS Comput Biol</em> 17:e1008950
+(2021).</li>
+<li>[10] Kececioglu, maximum weight trace, CPM (1993).</li>
+<li>[11] Wheeler &amp; Kececioglu, Opal, <em>Bioinformatics</em> 23:i559
+(2007).</li>
+<li>[12] Edgar, Muscle5, <em>Nat Commun</em> 13:6968 (2022).</li>
+<li>[13] Becker &amp; Stanke, learnMSA2, <em>Bioinformatics</em> 40:ii79
+(2024).</li>
+<li>[14] Gudyś et al., FAMSA2, <em>Nat Biotechnol</em> (2026).</li>
+</ul>
+</body>
+</html>
