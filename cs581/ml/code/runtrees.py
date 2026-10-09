@@ -126,12 +126,15 @@ def job(ds, rep, aln, method, out_path, lock):
     work = tempfile.mkdtemp(prefix="ml_%s_%s_%s_%s_" % (ds, rep, aln, method))
     try:
         start = None
-        if method.endswith("_ft"):  # start from the FastTree tree on the same alignment
-            start = os.path.join(d, "trees", "%s.fasttree.tre" % aln)
+        if method.endswith("_ft") or "_from_" in method:
+            # start from an earlier tree on the same alignment: *_ft = FastTree, *_from_<m> = method m
+            src = "fasttree" if method.endswith("_ft") else method.split("_from_")[1]
+            start = os.path.join(d, "trees", "%s.%s.tre" % (aln, src))
             if not os.path.exists(start):
                 print("SKIP (no FastTree start tree)", ds, rep, aln, method, flush=True)
                 return
-        sec, lnl = estimate(method, clean, tree, work, start_tree=start)
+        sec, lnl = estimate(method.split("_from_")[0] + ("_ft" if "_from_" in method else ""),
+                            clean, tree, work, start_tree=start)
     except subprocess.CalledProcessError as e:
         print("FAILED", ds, rep, aln, method, e, "logs in", work, flush=True)
         return
