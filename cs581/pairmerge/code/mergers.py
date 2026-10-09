@@ -27,8 +27,11 @@ from gcmx import fasta  # noqa: E402
 
 BIO = "/opt/mm/root/envs/bio"
 PASTA_BIN = os.environ.get("PASTA_TOOLS", "")  # set by find_pasta_tools()
+# MAGUS(Fast) flags from the paper; backbone size -m is 200 in the paper, PAIRMERGE_M (default 100) here
+# because MAFFT-L-INS-i on 200 ~1000-bp sequences costs ~6 core-minutes per backbone.
 MAGUS_FLAGS = ("--graphbuildmethod mafft --graphbuildhmmextend false --graphclustermethod mcl "
-               "--graphtracemethod minclusters --graphtraceoptimize false -r 10 -m 200 -f 4").split()
+               "--graphtracemethod minclusters --graphtraceoptimize false -r 10 -f 4 -m").split() + [
+    os.environ.get("PAIRMERGE_M", "100")]
 
 
 def find_pasta_tools():

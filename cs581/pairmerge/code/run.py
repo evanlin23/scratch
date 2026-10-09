@@ -1,12 +1,13 @@
 """Isolate merger error: merge two halves of a replicate with each merger and score.
 
-    python run.py RESULTS.jsonl DATASET:REP_DIR [DATASET:REP_DIR ...] [--jobs 4] [--conditions oracle,linsi]
+    python run.py RESULTS.jsonl DATASET:REP_DIR [DATASET:REP_DIR ...] [--jobs 4] [--conditions oracle,fftnsi]
                   [--mergers mafft-merge,muscle3,opal,gcm,progdp]
 
 Per replicate (work dir /opt/runs/pairmerge/<dataset>/<rep>):
   * split the taxa into two halves at the centroid edge of the TRUE tree;
   * sub-alignments: `oracle` = true alignment restricted to each half (merger error only),
-    `linsi` = MAFFT L-INS-i on each half;
+    `fftnsi` = MAFFT FFT-NS-i (--retree 2 --maxiterate 2) on each half
+    (L-INS-i on 500 x ~1000-bp sequences takes >30 core-minutes per half: over budget);
   * every merger merges the same two sub-alignments; GCM runs first and its
     MAGUS-built backbones are reused by progdp (same evidence, only the trace differs).
 Scores: FastSP SPFN/SPFP on the full alignment, plus SPFN/SPFP restricted to
@@ -80,14 +81,14 @@ def prepare(dataset, rep_dir, conditions):
     for name, half in (("A", A), ("B", B)):
         fasta.write(fasta.restrict(true, half), os.path.join(work, "oracle_{}.fa".format(name)))
         fasta.write(fasta.ungap({t: true[t] for t in half}), os.path.join(work, "unaligned_{}.fa".format(name)))
-        out = os.path.join(work, "linsi_{}.fa".format(name))
-        if "linsi" in conditions and not os.path.exists(out):
+        out = os.path.join(work, "fftnsi_{}.fa".format(name))
+        if "fftnsi" in conditions and not os.path.exists(out):
             start = time.time()
             with open(out + ".tmp", "w") as o:
-                subprocess.run(["mafft", "--localpair", "--maxiterate", "1000", "--thread", "1", "--quiet",
+                subprocess.run(["mafft", "--retree", "2", "--maxiterate", "2", "--thread", "1", "--quiet",
                                 os.path.join(work, "unaligned_{}.fa".format(name))], stdout=o, check=True)
             os.replace(out + ".tmp", out)
-            info["linsi_seconds_" + name] = round(time.time() - start, 1)
+            info["fftnsi_seconds_" + name] = round(time.time() - start, 1)
     return work, true, set(A), info
 
 
@@ -147,7 +148,7 @@ def main():
     p.add_argument("results")
     p.add_argument("replicates", nargs="+", help="DATASET:REP_DIR")
     p.add_argument("--jobs", type=int, default=4)
-    p.add_argument("--conditions", default="oracle,linsi")
+    p.add_argument("--conditions", default="oracle,fftnsi")
     p.add_argument("--mergers", default=",".join(ALL_MERGERS))
     args = p.parse_args()
     done = set()
