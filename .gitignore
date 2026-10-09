@@ -5,3 +5,6 @@ __pycache__/
 # large / regenerable experiment outputs
 cs581/experiments/**/work/
 cs581/data/raw/
+# course slides: keep the extracted text, not the large binaries
+cs581/notes/lectures/*.pdf
+cs581/notes/lectures/*.pptx
