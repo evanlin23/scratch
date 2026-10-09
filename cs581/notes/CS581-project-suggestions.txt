@@ -1,0 +1,261 @@
+	
+CS 581: Final Project (suggestions)
+CS 581 (Fall 2026) Final Project Suggestions
+The textbook (Computational Phylogenetics: An Introduction
+	to Designing Methods for Phylogeny Estimation) has several
+	suggestions for
+	projects, many of which would be good for this course.
+	You may also have your own ideas for a project!
+	The suggestions below are just to get you started with thinking
+	about what you might do.
+(Note, however, that some projects--especially those that
+evaluate and explore Bayesian methods, may be too computationally
+intensive to do as a course project, and would be better as a 
+post-581 project.)
+Also, please note that the course project is evaluated with 
+respect to writing (including style, low-level writing, and reproducibility)
+as well as the content. 
+Writing counts 25% of the grade!
+Specific projects of  current interest to me (TW)
+Note: projects that are probably fairly straightforward (and so should be easy for
+students in CS 581 who have basic coding skills) are put in 
+boldface
+.
+ Projects related to TIPP (see 
+the TIPP paper
+) and its  descendents, including
+the TIPP3 preprint
+.
+ Evaluate taxon identification methods, comparing
+methods that place into taxonomies (like TIPP) to methods that place
+ into a gene tree and then inherit
+the taxonomic information from the leaf labels.
+ For TIPP, TIPP2, and TIPP3, we used BLAST to assign reads to marker
+genes.  Evaluate HIPPI in this context (see 
+the HIPPI paper
+).
+ Evaluate TIPP3 with BSCAMPP(p) instead of BSCAMPP(e)
+(see 
+the BSCAMPP preprint
+).
+ Projects related to gene and species tree estimation
+ Design a divide-and-conquer strategy that uses supertree methods, and evaluate in comparison to GTM. 
+ Test GTM  (see 
+the GTM paper
+) in a pipeline with methods other than maximum likelihood
+(e.g., neighbor joining or FastME).
+ Test GTM  and TreeMerge (https://doi.org/10.1093/bioinformatics/btz344), two Disjoint Tree Merger methods,
+under conditions with different model tree topologies (balanced vs. 
+caterpillar).  
+More generally, see if you can find a condition where GTM is less
+accurate than TreeMerge.
+ Develop a new Disjoint Tree Merger pipeline and test
+it in comparison to GTM
+ Develop a new quartet amalgamation method
+and compare to Quartets Max Cut (DOI: 10.1109/TCBB.2008.133)
+and other quartet amalgamation methods
+ Develop techniques for rooting gene trees with respect to 
+species trees that are not fully resolved (expand on ideas in NOTUNG)
+Evaluate methods for tree construction and alignment estimation in the presence of rogue taxa (that are nevertheless homologs); how does the inclusion of 
+the rogue taxa impact the accuracy of the alignment or tree restricted to the non-rogue taxa?
+Also consider whether removing rogue taxa before alignment and tree estimation improves accuracy.
+ Projects related to ensembles of HMMs
+  Develop a rigorous way of designing ensembles of profile HMMs (think
+cross-validation)
+ Extend design or use of ensemble of HMMs to 
+some other generative model (not pHMMs)
+ Projects related to multiple sequence alignment (MSA)
+ Projects about collections of alignments
+ Motivation: There are many cases where we are given a collection of MSAs on the same
+set of sequences, including (a) using different MSA methods on the same input,
+(b) looking at iterative methods (like PASTA) that produce a new MSA in each iteration,
+(c) using the same MSA method but with different parameters,
+(d) using a method like BAli-Phy, which produces a set of alignments during 
+its MCMC run. 
+We'd like to do different things with this set. 
+A course project could be to take just one of the problems below, come up with 
+a few ways to solve the problem, and evaluate whether your solution is useful (or accurate).
+ get a point estimate (i.e., a single MSA) from the set (see what BAli-Phy does, 
+but also look at M-Coffee)
+  use the set to annotate a given alignment in terms of the reliability of
+each site, 
+ use the alignments to come up with a better estimate of the evolutionary tree
+for the sequences,
+ use the alignments to come up with a better profile HMM for the sequences.
+ come up with a compact representation of the set of alignments
+ Projects specifically for protein MSA 
+Many protein MSA methods have been evaluated only using
+a limited set of benchmark datasets, or only using TC and sometimes SP-score.
+Take some such method and improve the evaluation.
+See if any of the better performing ones can be modified to work with DNA sequences.
+ Projects related to learnMSA2
+The learnMSA2 paper
+.
+The evaluation of learnMSA2 was done only using HomFam, and only explored
+SP-score and TC score. 
+Evaluate learnMSA on other protein benchmarks and also using Modeler score.
+For this, exploring a wide range of datasets (in terms of number of
+sequences, percent ID, etc.)  is important.
+It seems possible that learnMSA2 could be used as the base method within
+MAGUS, PASTA, etc.  Try one of these and see how well it works.
+See if the HMM in learnMSA2 can be used for protein classification.
+If so, use it in other tools, such as for HIPPI
+ Projects related to MAGUS
+ The goal here is to improve MAGUS if possible. You should look at both the 
+original paper and the follow-up, on Recursive-MAGUS.
+MAGUS is run using just one iteration.  Evaluate the impact of iteration on
+MAGUS accuracy.
+ Modify the MAGUS design by using a different clustering method
+instead of the Markov Clustering algorithm within GCM.
+MAGUS has mainly been studied for use with MAFFT.  Now that there are new MSA methods, study MAGUS with different base methods.
+(Start by finding methods that are more accurate than MAGUS and MAFFT-l-insi)
+ Modify the impact of changing  how the "backbone alignment" subsets are selected.
+ Projects related to adding sequences into an alignment (e.g., UPP, WITCH, EMMA, etc.)
+Most of these methods have been designed for handling sequences that are 
+short but not necessarily sequences that are long nor sequences that are
+reads (and so have errors).  Explore one of these differences.
+Evaluate  UPP and other existing MSA methods on datasets with sequence length
+heterogeneity where some sequences are very  long (and possibly 
+design a new method that addresses this problem better)
+ Develop and test methods for merging three or more disjoint alignments of different lengths (compare to GCM in MAGUS)
+ Projects comparing existing methods 
+Test Prank in comparison to MAFFT as evolutionary diameter
+and deviation from a clock increase, when
+given a guide tree
+ Evaluate Prank or Probcons within PASTA or MAGUS, and compare 
+to default MAGUS and PASTA
+ Compare Regressive (https://doi.org/10.1038/s41587-019-0333-6) to PASTA
+and MAGUS
+ Parallel algorithms projects:
+ Parallelize UPP (multiple sequence alignment, by Nam-phuong Nguyen et al.)
+ Parallelize GTM (Guide Tree Merger, by Vlad Smirnov and me)
+ Parallelize Balanced Minimum Evolution within FastME
+ Historical linguistics
+ For these problems, see 
+Canby et al.,Transactions of the Philological society
+. 
+Evaluate different Bayesian  methods (e.g., BEAST) in comparison to 
+Gray and Atkinson on simulated data 
+ Run  maximum likelihood methods on simulated data for
+language evolution 
+Suggestions from prior years
+Projects related to multiple sequence alignment
+ Modify the sequence evolution simulator Indelible
+	(Fletcher and Yang) so that it allows
+	the root sequence to be specified.
+	The code is open source and written in C++.
+ Compare methods that can align two or more alignments, and evaluate
+	for accuracy on simulated datasets.
+	Examples of such methods: Opal, Muscle, Prime, and GCM.
+ Test POY using gap penalties that are not affine gap penalties
+	for accuracy.
+ Examine ways of computing a consensus alignment on the output from
+	PASTA, and evaluate for accuracy in comparison to the single alignment
+	returned by PASTA.
+	For example, compute the posterior
+	decoding of a random sample of the alignments PASTA computes (after
+	removing the first few alignments).
+	To compute the posterior decoding, you can install 
+	BAli-Phy (Redelings and Suchard), using
+	the directions on the website:
+	http://balip-phy.org/README.html#installation. 
+	Once the software is installed, there is a folder of
+	executable files called "bin", and within that
+	folder
+	there is a folder called "alignment-max".
+	Examine ways to annotate the sites in a multiple sequence alignment
+	for reliability, based on examining
+	a set of alternate alignments obtained
+	by running a basic alignment method using different strategies
+	(e.g., different parameter settings).
+	Find codes for computing a point estimate of
+	an alignment given 
+	an arbitrary set of multiple sequence alignments
+	(e.g., the posterior decoding algorithm in BAli-Phy, but also
+	look at T-Coffee), and compare them for accuracy and/or scalability.
+	Explore BAli-Phy to see if you can improve it.
+	For example, determine if you can use it 
+         to find a tree given a fixed alignment.
+	or to find the best alignment on a fixed tree.
+	In "Benchmarking statistical multiple sequence alignment" (bioRxiv doi: https://doi.org/10.1101/304659), my students and I showed a strange trend in which
+	BAli-Phy did very well on simulated 
+	amino acid
+	datasets but not very well 
+	on biological amino acid datasets.
+	Try to do this evaluation on nucleotide datasets.
+Evaluate the impact of violating the strict molecular clock on
+	either multiple sequence alignment or phylogenetic tree estimation,
+	especially when using statistical methods (such as
+	BAli-Phy, Prank, etc.).
+Projects related to supertree estimation or phylogenomic species tree estimation
+Develop a good method for weighted quartet tree amalgamation.
+	Compare to Weighted Quartets MaxCut by Avni et al. (2014), 
+	DOI: 10.1093/sysbio/syu087.
+	Evaluate Weighted Quartets MaxCut (Avni et al. 2014)
+	as a supertree method on the SMIDgen datasets (Swenson et al.).
+	Implement a parallel version of some good supertree method, such as
+	FastRFS (Vachaspati and Warnow), 
+	Quartets MaxCut (Snir and Rao), etc.
+	Quartet-based supertree methods have computational limitations
+	in that they depend on computing all quartet trees.
+	Evaluate variants  that 
+	only require computing a subset of the quartet trees.
+	Evaluate the impact of multiple sequence alignment error on
+	SVDquartets (Chifman and Kubatko, as implemented in PAUP*).
+Projects related to maximum likelihood gene tree estimation
+Evaluate the impact of the starting tree on FastTree-2.
+ ML methods have been explored in terms of the impact of the
+	tree topology or the ML score, and in general RAxML has been
+	found to be better than other methods for ML score but only rarely
+	better than FastTree-2 in terms of tree topology.
+	Try to characterize the conditions in which RAxML is generally
+	more accurate than FastTree-2 (or other ML methods) for tree topology.
+Modify some maximum likelihood method to take support values
+	per site into account.
+Develop a new Disjoint Tree Merger (DTM) method, and test it
+        in comparison to GTM.
+Evaluate the impact of violating the strict molecular clock on
+	on phylogenetic tree estimation,
+	especially when using statistical methods such as
+	BAli-Phy.
+Evaluate the impact of tree shape (e.g., the Aldous beta-splitting
+	model) on tree estimation. 
+Other
+Develop a method that can compute a tree from an
+	incomplete dissimilarity
+	matrix (i.e., matrices where some of the entries
+	do not have  
+	values).
+	Compare to the "NJ*" methods from
+	Criscuolo and Gascuel (2008),
+	https://doi.org/10.1186/1471-2105-9-166,
+	on some simulated datasets.
+Find an application area (other than
+	biological phylogenetics) where tree estimation (especially of
+	large datasets) is important and not necessarily solved well, 
+	and where accuracy can be measured.
+	Try to develop a new approach to tree estimation,
+	and compare to the current best methods.
+Explore the "ensemble of profile HMMs" approach
+	with some other generative model
+        or some other biological application
+	Develop a method that  performs taxon identification of 
+	sequences
+	that takes the following as input:
+	a taxonomy T and a tree T' in which
+	all but one of the leaves is assigned
+	a taxonomic label using T.
+	Test your method 
+	where T' is produced by adding
+	a single short sequence (i.e., read) into
+	an  estimated maximum likelihood
+	tree on full length sequences for a single gene.
+	Thus, your method will rely on a phylogenetic placement
+	method.
+	Develop a divide-and-conquer approach to phylogenetic
+	network estimation, and test it.
+	Test divide-and-conquer DTM methods for use
+	with genome rearrangement phylogeny estimation methods.
+	Find some published dataset and re-analyze it
+	using the new methods for phylogeny estimation
+	(either gene trees or species trees).
