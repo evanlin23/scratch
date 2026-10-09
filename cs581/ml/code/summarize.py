@@ -23,7 +23,7 @@ def main():
             datasets.append(r["dataset"])
         if key not in cols:
             cols.append(key)
-        cell[(r["dataset"],) + key].append(r[a.metric])
+        cell[(r["dataset"],) + key].append(r.get(a.metric))
     print("| alignment | method | " + " | ".join(datasets) + " |")
     print("|---|---|" + "---|" * len(datasets))
     for aln, m in sorted(cols):
