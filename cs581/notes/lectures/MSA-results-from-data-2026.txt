@@ -1,0 +1,583 @@
+Multiple sequence alignment methods:
+      evidence from data, 2026
+
+           Tandy Warnow
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+                 Benchmarks
+• Simulations: can control everything, and true
+  alignment is not disputed
+  – Different simulators
+
+• Biological: can’t control anything, and
+  reference alignment might not be true
+  alignment
+  – BAliBASE, HomFam, Prefab
+  – CRW (Comparative Ribosomal Website)
+       Alignment Error/Accuracy
+• SPFN: percentage of homologies in the true alignment
+  that are not recovered (false negative homologies)
+• SPFP: percentage of homologies in the estimated
+  alignment that are false (false positive homologies)
+
+• TC: total number of columns correctly recovered
+• SP-score: percentage of homologies in the true
+  alignment that are recovered
+• Pairs score: 1-(avg of SP-FN and SP-FP)
+               Other Criteria
+• Tree topology error
+• Tree branch length error
+
+• Gap length distribution
+• Insertion/deletion ratio
+• Alignment length
+• Number of indels
+            Alignment criteria
+• Does the relative performance of methods
+  depend on the alignment criterion?
+• Which alignment criteria are predictive of tree
+  accuracy?
+• How should we design MSA methods to
+  produce best accuracy?
+      Alignment Methods (Sample)
+•   Clustal-Omega
+•   MAFFT
+•   Muscle
+•   Opal
+•   Prank/Pagan
+•   Probcons
+
+Co-estimation of trees and alignments
+• Bali-Phy and Alifritz (statistical co-estimation)
+• SATe-1, SATe-2, and PASTA (divide-and-conquer co-
+  estimation)
+• POY and Beetle (treelength optimization)
+    Choice of best MSA method
+• Does it depend on type of data (DNA or amino
+  acids?)
+• Does it depend on rate of evolution?
+• Does it depend on gap length distribution?
+• Does it depend on existence of fragments?
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+From Katoh and Standley, 2013 (dealing with fragmentary sequences)
+Mol. Biol. Evol. 30(4):772–780 doi:10.1093/molbev/mst010
+                Important!
+• Each method can be run in different ways – so
+  you need to know the exact command used,
+  to be able to evaluate performance. (You also
+  need to know the version number!)
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+        Nelesen et al., PSB 2008
+• Pacific Symposium on Biocomputing, 2008
+• MSA methods:
+  – ClustalW, Muscle, Probcons, MAFFT, and FTA (Fixed
+    Tree Alignment, using POY on the guidetree)
+• Guide trees:
+  – Default for each method
+  – Two different UPGMA trees
+  – Probtree (ML on Probcons+GT alignment)
+• Examined results on simulated datasets with
+  respect to alignment error and tree error
+          Impact of guide tree
+• Most MSA methods use “progressive
+  alignment” techniques, that
+  – First compute a guide tree T
+  – Align the sequences from the bottom-up using the
+    guide tree
+• Hence, there is a potential for the guide tree
+  to impact the final alignment.
+• Many authors have studied this issue… here’s
+  our take on it (Nelesen et al., PSB 2008)
+How does the guide tree impact accuracy?
+
+• Does improving the accuracy of the guide tree
+  help?
+• Do all alignment methods respond identically?
+  (Is the same guide tree good for all methods?)
+• Do the default settings for the guide tree work
+  well?
+Figure from Nelesen et al., Pacific Symposium on Biocomputing, 2008
+Figure from Nelesen et al., Pacific Symposium on Biocomputing, 2008
+•   Guide tree choice did not seem to affect alignment SP error
+•   Guide tree choice affected tree error – but impact depended on dataset size (25
+    vs. 100) and MSA method.
+                      Observations
+
+
+
+
+Impact of MSA/guide tree on tree error, focusing on 100 taxa:
+• Probcons very impacted by guide tree (and that may be because its own
+  default guide tree is poorly chosen).
+• FTA very impacted by guide tree. Note that FTA on the true tree is MORE
+  accurate than ML on the true alignment.
+• For analyses of 100-taxon datasets, Probtree is a good guide tree.
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+         Treelength optimization
+• POY is the most well-known method for co-estimating
+  alignments and trees using treelength criteria (however
+  – note that the developers of POY say to ignore the
+  alignment and only use the tree).
+• The accuracy of the final tree depends on the edit
+  distance formulation – as noted by several studies.
+  Affine gap penalties are more biologically realistic than
+  simple gap penalties.
+• We developed BeeTLe (Better Tree Length), a heuristic
+  that is guaranteed to always be as least as accurate as
+  POY for the treelength criterion.
+          Treelength questions
+• Is it better to use affine than simple gap
+  penalties?
+• Does POY solve its treelength problem? Is
+  BeeTLe actually better (as promised)?
+• How accurate are the alignments?
+• How accurate are the trees, compared to
+  – MP analyses of good alignments
+  – ML analyses of good alignments
+optimization is unlikely to produce trees or alignments that are        iteration involves the estimation of a new alignment (produced
+as accurate as maximum likelihood on the leading alignment              using divide-and-conquer) and then uses RAxML to produce an
+methods; it also showed that SATé trees and alignments were even       ML tree on that new alignment. However, the ML model used in
+more accurate than maximum likelihood trees on leading                  estimating the tree is GTR+Gamma, and so indels are treated in
+alignments. Thus, parsimony-style co-estimation (as in POY and          the standard way, which is as missing data – rather than treating
+
+
+
+
+Figure 5. Alignment SP-FN error of different methods on 100-taxon model conditions. Averages and standard error bars are shown; n~ 20
+for each reported value.
+doi:10.1371/journal.pone.0033104.g005
+
+
+      PLoS ONE | www.plosone.org                                    6                          March 2012 | Volume 7 | Issue 3 | e33104
+
+
+
+          Simulated 100-sequence DNA datasets with varying rates of evolution
+          Results from Liu and Warnow, PLoS ONE 2012
+Maximum Parsimony (MP) on different alignments
+
+
+
+
+Simulated 100-sequence DNA datasets with varying rates of evolution
+Results from Liu and Warnow, PLoS ONE 2012
+    Maximum Likelihood (ML) on different alignments
+
+
+
+
+Simulated 100-sequence DNA datasets with varying rates of evolution
+Results from Liu and Warnow, PLoS ONE 2012
+          Treelength questions
+• Is it better to use affine than simple gap
+  penalties?
+• Does POY solve its treelength problem? Is
+  BeeTLe actually better (as promised)?
+• How accurate are the alignments?
+• How accurate are the trees, compared to
+  – MP analyses of good alignments
+  – ML analyses of good alignments
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+                         Prank
+• Prank (Loytynoja and Goldman, Science 2008) is a
+  “phylogeny-aware” progressive alignment strategy.
+• Their study focused on evaluating MSAs with respect to
+  TC score, but also atypical criteria, such as:
+   – Gene tree branch length estimation
+   – Alignment length estimation (compression issue)
+   – Insertion/deletion ratio
+   – Number of insertions/deletions
+• They explored very small simulated datasets, evolving
+  sequences down trees.
+From Loytyjoja and Goldman, Science 2008:
+From Loytynoja and Goldman, Science 2008
+E: Alignment
+length evaluation:
+Results < 1 indicate
+compression (over-alignment)
+                        From Loytynoja and Goldman, Science 2008
+              Observations - I
+• Prank is best!
+• Prank avoids the problems with other
+  alignment methods through its “phylogeny-
+  aware” strategy, and assumes the guide tree is
+  the true tree
+• In these simulations, the guide tree is indeed
+  the true tree (only way to tell is read the
+  supplementary materials)
+             Observations - II
+• Most alignment methods “over-align”
+  (produce compressed alignments)
+• Compression results in
+  – Over-estimations of branch lengths
+  – Under-estimation of insertions
+• Clustal is least accurate, other methods in
+  between
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+          Clustal-Omega study
+• Clustal-Omega (Sievers et al., Molecular
+  Systems Biology 2011) is the latest in the
+  Clustal family of MSA methods
+• Clustal-Omega is designed primarily for amino
+  acid alignment, but can be used on nucleotide
+  datasets
+• Alignment criterion: TC (column score)
+• Datasets: biological with structural alignments
+TC Score shown (larger is better) on Prefab structural benchmark of AA alignments
+Note that best performing method depends on the “%ID” (measure of similarity)
+
+                From Sievers et al., Molecular Systems Biology 2011
+BAliBASE is a collection of structurally-based alignments of amino acid sequences
+
+               From Sievers et al., Molecular Systems Biology 2011
+HomFam is a set of structurally-based alignments of sets of amino acid sequences
+
+               From Sievers et al., Molecular Systems Biology 2011
+               Observations
+• Relative and absolute accuracy (wrt TC score)
+  impacted by degree of heterogeneity and
+  dataset size
+• Some methods cannot run on large datasets
+• On small datasets, Clustal-Omega not as
+  accurate as best methods (Probalign, MAFFT,
+  and MSAprobs)
+• On large datasets, Clustal-Omega more
+  accurate than other methods
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+               SATé “Family”
+• Iterative divide-and-conquer methods
+  – Each iteration uses the current tree with divide-
+    and-conquer, to produce an alignment (running
+    preferred MSA methods on subsets, and aligning
+    alignments together)
+  – Each iteration computes an ML tree on the current
+    alignment, under Markov models of evolution that
+    do not consider indels
+                                SATé Family
+•   SATé-I(2009):
+     – Up to about 10,000 sequences
+     – Good accuracy and reasonable speed
+     – “Center-tree” decomposition
+•   SATé-II (2012)
+     – Up to about 50,000 sequences
+     – Improved accuracy and speed
+     – Centroid-edge recursive decomposition
+•   PASTA (2014)
+     – Up to 1,000,000 sequences
+     – Improved accuracy and speed
+     – Combines centroid-edge decomposition with transitivity merge
+•   MAGUS (2021)
+     – Up to 1,000,000 sequences
+     – Better than PASTA (Improved accuracy and speed)
+     – Only change: how subset alignments are merged
+                               SATé Algorithm
+
+Obtain initial alignment and
+estimated ML tree
+
+                                        Tree
+                                                Use tree to compute
+Estimate ML tree on new                         new alignment
+alignment
+
+
+                                    Alignment
+                      SATé iteration
+      (actual decomposition produces 32 subproblems)
+
+A           C
+       e                              A   B
+                 Decompose based on
+                     input tree       C   D
+B           D
+                                                 Align
+                                              subproblems
+
+
+                                                A      B
+
+                                                C      D
+
+    Estimate ML tree
+                                              Merge
+       on merged             ABCD
+                                           subproblems
+        alignment
+              1000 taxon models, ordered by difficulty
+
+
+
+24 hour SATé-I analysis, on desktop machines
+(Similar improvements for biological datasets)
+        Members of SATé family
+• SATé-1 used Central Tree decomposition
+• SATé-2 improves on SATé-1 by changing
+  decomposition (removes centroid edges)
+• PASTA improves on SATé-2 by changing how
+  subset alignments are merged (pairwise, then
+  transitivity)
+• MAGUS improves on PASTA by changing how
+  subset alignments are merged (all at once, using
+  a graph clustering routine)!
+ SATé-I
+vs. SATé-
+    II
+
+SATé-II
+• Faster and
+  more accurate
+  than SATé-I
+•   Longer analyses
+    or use of ML to
+    select
+    tree/alignment
+    pair slightly
+    better results
+PASTA vs SATe-II
+                   MAGUS
+• Most recent member of the SATé family, but
+  only does one iteration and outputs MSA
+• Nearly identical to PASTA:
+  – Get initial alignment and tree
+  – Divide sequences into subset using PASTA
+    decomposition
+  – Align subsets using MAFFT
+  – Merge subset alignments using GCM
+      Fig. 1. MAGUS (merging subset alignments using the Graph Clustering Merger)
+
+
+
+
+Bioinformatics, Volume 37, Issue 12, 15 June 2021, Pages 1666–1672, https://doi.org/10.1093/bioinformatics/btaa992
+The content of this slide may be subject to copyright: please see the slide notes for details.
+Fig. 4. Experiment 2: MAGUS versus PASTA on the 1000-taxon datasets.
+Top: Alignment error. Bottom: running time.
+            Results for MAGUS
+• MAGUS achieves its superior accuracy (compared
+  to PASTA) by merging subset alignments
+  differently:
+  – Not pairwise mergers but all at once
+• The key is the GCM technique, which uses a
+  graph clustering step (Markov Clustering).
+• Perhaps some other graph clustering method
+  would be as good or better, and more scalable?
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+Sequence length heterogeneity
+                     UPP
+• UPP (Ultra-large alignments using Phylogeny-
+  aware Profiles) was developed to enable
+  accurate alignments in the presence of
+  sequence length heterogeneity
+• Nguyen, Mirarab, and Warnow. Genome
+  Biology 2015
+                        UPP
+• Approach:
+    • Find set of “full-length” sequences
+    • Align set using PASTA
+    • Build model of the PASTA MSA using “ensemble of
+      Hidden Markov Models”
+    • Add remaining sequences into the PASTA MSA using the
+      ensemble
+Impact of fragmentary sequences
+Impact of fragmentary sequences
+Impact of fragmentary sequences
+           Studies we will discuss
+• Katoh and Standley, MBE 2013 (about MAFFT)
+• Nelesen et al., PSB 2008 (Impact of guide tree)
+• Liu and Warnow, PLoS ONE 2012 (about treelength criteria)
+• Loytynoja and Goldman, Science 2008 (about Prank)
+• Sievers et al., Molecular Systems Biology 2011 (Clustal-
+  Omega paper)
+• Liu et al., Science 2009 (SATé-I) and Mirarab et al. J.
+  Computational Biology 2014 (PASTA), Smirnov and Warnow
+  Bioinformatics 2021 (MAGUS)
+• Nguyen et al., Genome Biology 2014 (UPP)
+• Nute et al., Systematic Biology 2019 (Evaluating BAli-Phy)
+                    BAli-Phy
+• Statistical co-estimation of alignments and trees,
+  using Bayesian MCMC
+• Assumes model of sequence evolution that
+  includes both indels and substitutions
+• SATe-1 paper (supplement) showed BAli-Phy
+  produced superior alignments compared to SATe
+• BAli-Phy is computationally intensive due to its
+  need to converge
+• Redelings and Suchard, Systematic Biology 2005
+           Evaluating BAli-Phy
+• Nute, Saleh, & Warnow (2019). Evaluating
+  statistical multiple sequence alignment in
+  comparison to other alignment methods on
+  protein data sets. Systematic biology, 68(3),
+  396-411.
+• Compared BAli-Phy to other methods on both
+  simulated and biological datasets
+Results on simulated amino acid data with 27 sequences for 6 different model conditions
+that vary by the substitution rate and indel rate; averages over 20 replicates are shown
+Results on four biological benchmarks with structural alignments
+                          Results on biological datasets
+
+
+
+
+Syst Biol, Volume 68, Issue 3, May 2019, Pages 396–411, https://doi.org/10.1093/sysbio/syy068
+The content of this slide may be subject to copyright: please see the slide notes for details.
+Figure A. Average SP-scores (i.e., recall) for the top methods on the 1192 biological
+benchmark data sets, with data sets binned by average pairwise sequence identity (ID) levels.
+Figure B. Average Modeler Scores (i.e., precision) for the top methods on the 1192 biological
+benchmark data sets, binned into different average pairwise sequence identity (ID) levels
+               Observations
+• BAli-Phy is best on simulated data, but not
+  great on biological data
+• Why?
+                        Results so far
+• Relative accuracy depends on the alignment criterion
+• Tree accuracy is not that well correlated with alignment accuracy.
+• Different alignment criteria are optimized using different techniques
+• Dataset properties that impact accuracy:
+   – Dataset size
+    – Heterogeneity (rate of evolution)
+    – Degree of fragmentation
+    – Perhaps other things (gap length distribution, deviation from
+      molecular clock?)
+• BAli-Phy accuracy is outstanding on simulated data, but not on biological
+  data (????)
+• Exact command matters (always check details)
+   Choice of method impacts accuracy
+• Trees and alignments based on Treelength-based optimization currently not
+  as accurate as some standard techniques (e.g., ML on MAFFT alignments)
+• Guide tree has an impact!
+• Low heterogeneity datasets are easier to align (inspiration for divide-and-
+  conquer)
+• Fragmentary sequences create problems
+• Many MSA methods give excellent results on small datasets – Probcons,
+  Probalign, Bali-Phy, etc… but most are not in use because of dataset size
+  limitations
+• High accuracy on large datasets possible using PASTA
+• Co-estimation under statistical models might be the way to go, IF…
+• And what’s going on with the difference between results on biological and
+  simulated datasets?
+               Other papers
+• Some of my own:
+  – In the presence of sequence length heterogeneity:
+    UPP2, EMMA, WITCH and WITCH-ng, HMMerge
+  – For improving Bali-Phy scalability
+  – Using multiple sequence alignments in
+    metagenomics (TIPP, TIPP2, TIPP3)
+• Alignment-free tree estimation
+• Genome alignment
+           Research Projects
+• Design your own MSA method, or just modify
+  an existing one in some simple way (e.g.,
+  different guide tree)
+• Testing alignment-free tree estimation in
+  comparison to other methods
+        Other Research Projects
+• Improve MAGUS?
+  – Different clustering method
+  – Other ways of merging constraint alignments
+• Test Prank
+  – Find the conditions where it does well
+  – Find conditions where it does not do well
+• Understand why Bali-Phy is not so good on
+  biological data
+  – Gap length distribution?
+  – Something else?
+        Other research projects
+• Design ensemble alignment method (best current
+  examples M-Coffee and T-Coffee)
+• Evaluate difference on downstream analyses
+  (tree estimation, branch length estimation,
+  detecting positive selection, etc.) of different
+  methods
+  – Specifically look at alignments that are very long
+    versus those that are short
+  – Test impact of alignment “masking” on these
+    questions
+
