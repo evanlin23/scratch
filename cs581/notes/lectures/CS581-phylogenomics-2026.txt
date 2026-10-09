@@ -1,0 +1,533 @@
+          CS 581
+Introduction to Phylogenomics
+                                Phylogeny
+                            (evolutionary tree)
+
+
+
+Orangutan                              Gorilla   Chimpanzee   Human
+
+
+
+
+  From the Tree of the Life Website,
+              University of Arizona
+        Statistical Consistency
+error
+
+
+
+
+              Data
+        Genome-scale data?
+error
+
+
+
+
+            Data
+                 Questions
+• Is the model tree identifiable?
+• Which estimation methods are statistically
+  consistent under this model?
+• How much data does the method need to
+  estimate the model tree correctly with high
+  probability (i.e., what is the method’s sample
+  complexity)?
+              Phylogenomics
+
+
+
+
+Phylogeny + genomics = genome-scale phylogeny estimation
+.
+          Gene tree discordance
+                                                          Multiple causes for discord,
+                                                          including
+                                                          • Incomplete Lineage Sorting
+                                                             (ILS),
+                                                          • Gene Duplication and Loss
+         gene 1                      gene1000                (GDL), and
+                                                          • Hybridization and Horizontal
+                                                             Gene Transfer
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+          Gene tree discordance
+                                                          Multiple causes for discord,
+                                                          including
+                                                          • Incomplete Lineage Sorting
+                                                             (ILS),
+                                                          • Gene Duplication and Loss
+         gene 1                      gene1000                (GDL), and
+                                                          • Hybridization and Horizontal
+                                                             Gene Transfer
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+             1KP: Thousand Transcriptome
+                       Project
+
+G. Ka-Shu Wong J. Leebens-Mack   N. Wickett     N. Matasci   T. Warnow,   S. Mirarab,   N. Nguyen
+U Alberta      U Georgia         Northwestern   iPlant       UT-Austin    UT-Austin     UT-Austin
+
+
+     ⚫    103 plant transcriptomes, 400-800 single copy “genes”
+     ⚫    Next phase will be much bigger
+     ⚫    Wickett, Mirarab et al., PNAS 2014
+
+
+     Major Challenge:
+     • Massive gene tree heterogeneity consistent with ILS
+  Avian Phylogenomics Project
+Erich Jarvis,     MTP Gilbert,   Guojie Zhang,   Siavash Mirarab, Tandy Warnow,
+HHMI              Copenhagen     BGI             Texas            Texas and UIUC
+
+
+
+
+   • Approx. 50 species, whole genomes
+   • 14,000 loci
+   • Multi-national team (100+ investigators)
+   • 8 papers published in special issue of Science 2014
+
+   Biggest computational challenges:
+   Major challenge:
+      1. Multi-million site maximum likelihood analysis (~300 CPU years,
+   • Massive gene tree heterogeneity consistent with ILS
+            and 1Tb of distributed memory, at supercomputers around world)
+        2. Constructing “coalescent-based” species tree from 14,000
+            different gene trees
+              Main competing approaches
+          gene 1   gene 2 . . .    gene k
+Species
+
+
+
+
+                            ...               Concatenation
+
+
+
+
+                                         Analyze
+                                        separately
+
+
+
+
+                             ...            Summary Method
+              Gene trees inside the species tree
+                    (Coalescent Process)
+       Past
+
+
+
+
+     Present
+Courtesy James Degnan
+
+
+
+
+                        Gorilla and Orangutan are not siblings in the species tree,
+                        but they are in the gene tree.
+              Gene trees inside the species tree
+                    (Coalescent Process)
+       Past                                                           Deep coalescence =
+                                                                      INCOMPLETE
+                                                                      LINEAGE
+                                                                      SORTING (ILS):
+                                                                      gene tree can be different
+                                                                      from the species tree
+
+
+
+
+     Present
+Courtesy James Degnan
+
+
+
+
+                        Gorilla and Orangutan are not siblings in the species tree,
+                        but they are in the gene tree.
+                  Class Exercises
+
+Let T be a rooted species tree with topology ((A,B),(C,D))
+• Draw T and identify the LCA of A&B
+• Draw 2 of the rooted gene trees inside T (and draw them
+   inside T)
+• Draw 2 of the rooted gene trees inside T that have
+   unrooted topology AB|CD (and draw them inside T)
+• Draw 2 of the rooted gene trees inside T that have
+   unrooted topology AC|BD (and draw them inside T)
+                       Class Exercises
+Let T be a rooted species tree with topology ((A,B),(C,D)).
+• Draw T, and identify LCA of A&B, LCA of C&D
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(A,B). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(C,D). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is no coalescence on any
+  edge below the root. Can its unrooted tree be different from T?
+
+• Assuming the probability of coalescence on each edge is strictly
+  between 0 and 1, what can be said about the relative probabilities of
+  the three unrooted quartet trees? What is the most probable
+  unrooted quartet tree?
+                       Class Exercises
+Let T be a rooted species tree with topology ((A,B),(C,D)).
+• Draw T, and identify LCA of A&B, LCA of C&D
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(A,B). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(C,D). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is no coalescence on any
+  edge below the root. Can its unrooted tree be different from T?
+
+• Assuming the probability of coalescence on each edge is strictly
+  between 0 and 1, what can be said about the relative probabilities of
+  the three unrooted quartet trees? What is the most probable
+  unrooted quartet tree?
+                       Class Exercises
+Let T be a rooted species tree with topology ((A,B),(C,D)).
+• Draw T, and identify LCA of A&B, LCA of C&D
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(A,B). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(C,D). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is no coalescence on any
+  edge below the root. Can its unrooted tree be different from T?
+
+• Assuming the probability of coalescence on each edge is strictly
+  between 0 and 1, what can be said about the relative probabilities of
+  the three unrooted quartet trees? What is the most probable
+  unrooted quartet tree?
+                       Class Exercises
+Let T be a rooted species tree with topology ((A,B),(C,D)).
+• Draw T, and identify LCA of A&B, LCA of C&D
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(A,B). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is a coalescence on the
+  edge above LCA(C,D). Can its unrooted tree be different from T?
+
+• Suppose a gene evolves within T and there is no coalescence on any
+  edge below the root. Can its unrooted tree be different from T?
+
+• Assuming the probability of coalescence on each edge is strictly
+  between 0 and 1, what can be said about the relative probabilities of
+  the three unrooted quartet trees? What is the most probable
+  unrooted quartet tree?
+                         Class Exercise
+Let T be a model rooted MSC species tree with topology (A,(B,(C,D))) and
+probability of coalescence on each edge in (0,1).
+
+1.   Suppose a gene evolves within T under the MSC (Multi-species coalescent)
+     model, but without any deep coalescence. What does its rooted tree look
+     like? What is the unrooted tree topology?
+2.   Suppose a gene evolves within T under the MSC, and there is a coalescence
+     on the edge above the LCA of C,D.
+         1. What are the possible rooted trees for this gene?
+         2. What are the possible unrooted trees?
+3.   Suppose a gene evolves within T under the MSC, and there is no coalescence
+     on the edge above the LCA of C,D but there is one on the edge above the
+     LCA of B,C,D. What is the probability of each of the three gene trees?
+4.   Suppose a gene evolves within T and there are no coalescences below the
+     root. What is the probability of each unrooted gene tree?
+5.   Overall, what unrooted tree topology has the highest probability?
+     Species tree estimation from
+        unrooted gene trees
+Theorem (Allman et al.): Under the multi-species coalescent
+model, for any four taxa A, B, C, and D, the most probable
+unrooted gene tree on {A,B,C,D} is identical to the unrooted
+species tree induced on {A,B,C,D}.
+     Species tree estimation from
+        unrooted gene trees
+Theorem (Allman et al.): Under the multi-species coalescent
+model, for any four taxa A, B, C, and D, the most probable
+unrooted gene tree on {A,B,C,D} is identical to the unrooted
+species tree induced on {A,B,C,D}.
+     Species tree estimation from
+        unrooted gene trees
+Corollary: Under the multi-species coalescent model, the
+unrooted species tree is identifiable from the distribution on
+unrooted gene trees.
+     Species tree estimation from
+        unrooted gene trees
+Corollary: Under the multi-species coalescent model, the
+unrooted species tree is identifiable from the distribution on
+unrooted gene trees.
+
+Proof: For every four species, select most frequently
+observed tree as the species tree. Then combine quartet
+trees!
+Statistically consistent methods
+• Coalescent-based summary methods: Estimate
+  gene trees, and then combine together (ASTRAL,
+  ASTRID, MP-EST, NJst, and others)
+
+
+• Co-estimation methods: Co-estimate gene trees
+  and species trees (TOO EXPENSIVE)
+
+
+• Site-based methods: estimate the species tree
+  from the concatenated alignment, and do not
+  estimate gene trees (NOT WELL STUDIED)
+What about summary methods?
+
+       ...
+What about summary methods?
+
+              ...
+
+
+
+
+Techniques:
+   Most frequent gene tree?
+   Consensus of gene trees?
+   Other?
+     Species tree estimation from
+        unrooted gene trees
+Theorem (Allman et al.): Under the multi-species coalescent
+model, for any four taxa A, B, C, and D, the most probable
+unrooted gene tree on {A,B,C,D} is identical to the unrooted
+species tree induced on {A,B,C,D}.
+     Species tree estimation from
+        unrooted gene trees
+Corollary: Under the multi-species coalescent model, the
+unrooted species tree is identifiable from the distribution on
+unrooted gene trees.
+
+Proof: For every four species, select most frequently
+observed tree as the species tree. Then combine quartet
+trees!
+   Species tree estimation for ILS
+• Identifiability from gene trees established, but
+  what about methods?
+  – All Quartets Method (applied to most frequently
+    observed quartet for every four species)?
+  – Other quartet amalgamation methods?
+              Gene trees inside the species tree
+                    (Coalescent Process)
+       Past                                                           Deep coalescence =
+                                                                      INCOMPLETE
+                                                                      LINEAGE
+                                                                      SORTING (ILS):
+                                                                      gene tree can be different
+                                                                      from the species tree
+
+
+
+
+     Present
+Courtesy James Degnan
+
+
+
+
+                        Gorilla and Orangutan are not siblings in the species tree,
+                        but they are in the gene tree.
+                          ASTRAL
+                   [Mirarab, et al., ECCB/Bioinformatics, 2014]
+
+•    Optimization Problem (NP-Hard):
+
+    Find the species tree with the maximum number of induced
+    quartet trees shared with the collection of input gene trees
+
+                                                                  Set of quartet trees
+                                                                     induced by T
+                                    X
+                  Scor e(T ) =             |Q(T ) \ Q(t)|
+           a gene tree              t2 T
+                                                             all input gene trees
+
+•    Theorem: Statistically consistent under the multi-
+     species coalescent model when solved exactly
+                                        15
+       ASTRAL solves the Constrained
+       Maximum Quartet Support Tree
+• Input: Set T = {t1,t2,…,tk} of unrooted gene trees, with each tree on set S
+  with n species, and set X of allowed bipartitions
+• Output: Unrooted tree T on leafset S, maximizing the total quartet tree
+  similarity to T, subject to T drawing its bipartitions from X.
+
+Theorems (Mirarab et al., 2014):
+• If X contains the bipartitions from the input gene trees (and perhaps
+   others), then an exact solution to this problem is statistically consistent
+   under the MSC.
+• The constrained MQST problem can be solved in O(|X|2nk) time. (We use
+   dynamic programming, and build the unrooted tree from the bottom-up,
+   based on “allowed clades” – halves of the allowed bipartitions.)
+
+Conjecture: MQST is NP-hard
+       ASTRAL solves the Constrained
+       Maximum Quartet Support Tree
+• Input: Set T = {t1,t2,…,tk} of unrooted gene trees, with each tree on set S
+  with n species, and set X of allowed bipartitions
+• Output: Unrooted tree T on leafset S, maximizing the total quartet tree
+  similarity to T, subject to T drawing its bipartitions from X.
+
+Theorems (Mirarab et al., 2014):
+• If X contains the bipartitions from the input gene trees (and perhaps
+   others), then an exact solution to this problem is statistically consistent
+   under the MSC.
+• The constrained MQST problem can be solved in O(|X|2nk) time. (We use
+   dynamic programming, and build the unrooted tree from the bottom-up,
+   based on “allowed clades” – halves of the allowed bipartitions.)
+
+Conjecture: MQST is NP-hard
+       ASTRAL solves the Constrained
+       Maximum Quartet Support Tree
+• Input: Set T = {t1,t2,…,tk} of unrooted gene trees, with each tree on set S
+  with n species, and set X of allowed bipartitions
+• Output: Unrooted tree T on leafset S, maximizing the total quartet tree
+  similarity to T, subject to T drawing its bipartitions from X.
+
+Theorems (Mirarab et al., 2014):
+• If X contains the bipartitions from the input gene trees (and perhaps
+   others), then an exact solution to this problem is statistically consistent
+   under the MSC.
+• The constrained MQST problem can be solved in O(|X|2nk) time. (We use
+   dynamic programming, and build the unrooted tree from the bottom-up,
+   based on “allowed clades” – halves of the allowed bipartitions.)
+        Constrained Maximum Quartet
+                 Support Tree
+• Input: Set T = {t1,t2,…,tk} of unrooted gene trees, with each tree on set S
+  with n species, and set X of allowed bipartitions
+• Output: Unrooted tree T on leafset S, maximizing the total quartet tree
+  similarity to T, subject to T drawing its bipartitions from X.
+
+Theorems (Mirarab et al., 2014):
+• If X contains the bipartitions from the input gene trees (and perhaps
+   others), then an exact solution to this problem is statistically consistent
+   under the MSC.
+• The constrained MQST problem can be solved in O(|X|2nk) time. (We use
+   dynamic programming, and build the unrooted tree from the bottom-up,
+   based on “allowed clades” – halves of the allowed bipartitions.)
+         Default vs Exact ASTRAL
+• ASTRAL solves this Constrained Maximum
+  Quartet Support Tree, which assumes a set X of
+  allowed bipartitions is provided
+
+• Default ASTRAL: X is all bipartitions from the
+  input gene trees
+
+• Exact ASTRAL: X is all possible bipartitions
+Statistically consistent methods
+• Coalescent-based summary methods: Estimate gene trees,
+  and then combine together (ASTRAL, ASTRID, MP-EST, NJst,
+  and others)
+
+
+• Co-estimation methods: Co-estimate gene trees and
+  species trees (e.g., *BEAST): TOO EXPENSIVE
+
+
+• Site-based methods: estimate the species tree from the
+  concatenated alignment, and do not estimate gene trees
+  (e.g., SVDquartets): NOT AS SCALABLE, NOT WELL STUDIED
+                       Simulation study
+•   Variable parameters:
+                                                           True(model) speciestree           Truegenetrees          Sequencedata
+
+    •   Number of species: 10 – 1000
+
+    •   Number of genes: 50 – 1000                           Finch Falcon Owl Eagle Pigeon
+
+
+                                               look at all pairs of leaves chosen each from one of the children of
+                                                                                                        0
+                                               u. For each such pair of leaves, thereare u2 quartet treesthat put
+    • Amount of ILS: low, medium, high         that pair together, whereu0 isthenumber of leavesoutsidethenode
+                                               u. Thiswill
+                                                       Finch Owl e xam
+                                                                 Falcon   inee
+                                                                        Eagle      achpair of nodesineachof theinput k nodes
+                                                                              Pigeon
+
+                                               exaEctly
+                                                   s matedspeciestree
+                                                          once and would therefore           Es re
+                                                                                                mated
+                                                                                                  quiregenetrees
+                                                                                                        O(n2k) computations.
+    • Deep versus recent speciation            Theﬁnal scorecanbenormalized by themaximumnumber of input
+                                               quartet treesthat includeapair of taxa.
+                                                 Given the similarity matrix, we calculate an UPGMA tree and
+•   11 model conditions (50 replicas each) with heterogenous
+                                               adda  ll itsbipartitionstothes         gene      treeuris
+                                                                                         et X. Thishe   error
+                                                                                                          tic addsrelatively few
+                                               bipartitions, but thematrix isusedinthenext heuristic, whichisour
+                                               main addition mechanism.
+•   Compare to NJst, MP-EST, concatenation (CA-ML)
+                                             Greedy: We estimate the greedy consensus of the gene trees at
+                                                 different thresholdlevels(0, 1/ 100, 2/ 100, 5/ 100, 1/ 10, 1/ 4, 1/ 3).
+                                                 For each polytomy in each greedy consensus tree, we resolve the
+•   Evaluate accuracy using FN rate: the percentage
+                                                 polytomy of in mbranches
+                                                                 ultiple ways andinaddthe     trueimplied by those
+                                                                                        bipartitions
+    tree that are missing from the estimated treeresolutionsto theset X. First, weresolvethepolytomy by applying
+                                                 the UPGMA algorithm to the similarity matrix, starting from the
+                                                 clades given by the polytomy. Then, we sample one taxon from
+                                                          Used SimPhy, Mallo and Posada, 2015
+                                                 each sideof theploytomy randomly, and usethegreedy consensus
+                                            14   of the gene trees restricted to this subsample to ﬁnd a resolution
+                                                 of the polytomy (we randomly resolve any multifunctions in this
+Statistically consistent methods
+• Coalescent-based summary methods: Estimate gene trees,
+  and then combine together (ASTRAL, ASTRID, MP-EST, NJst,
+  and others)
+
+
+• Co-estimation methods: Co-estimate gene trees and
+  species trees (e.g., *BEAST): TOO EXPENSIVE
+
+
+• Site-based methods: estimate the species tree from the
+  concatenated alignment, and do not estimate gene trees
+  (e.g., SVDquartets): NOT AS SCALABLE, NOT WELL STUDIED
+            Impact of Gene Tree Estimation Error
+                         (from Molloy and Warnow 2017)
+
+
+
+Error is fraction
+of bipartitions
+that are not
+recovered
+
+
+
+
+                    Summary Methods          Site-based Method
+            Impact of Gene Tree Estimation Error
+                         (from Molloy and Warnow 2017)
+
+
+                                                                 Note:
+Error is fraction                                                Summary
+of bipartitions                                                  methods
+that are not                                                     better than
+recovered                                                        CA-ML
+                                                                 for low
+                                                                 GTEE,
+                                                                 then worse!
+
+
+
+
+                    Summary Methods          Site-based Method
+

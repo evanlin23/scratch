@@ -1,0 +1,639 @@
+                  CS 581
+Maximum Parsimony, Characters, and Bipartitions
+
+              Tandy Warnow
+         Outline - will use two days
+• Review of previous lectures
+• Brief discussion about HW 2
+• Constructing unrooted trees from bipartitions
+• Strict consensus and majority consensus trees
+• Comparing two trees, plus computing tree error (false negatives,
+  false positives, and Robinson-Foulds)
+• Maximum parsimony
+    – Definition and computational complexity
+    – Statistical consistency and positively misleading (Felsenstein Zone)
+    – Scoring a single tree using Dynamic Programming (Sankoff and Fitch)
+    – Heuristic search techniques
+• Characters, homoplasy-free characters, and character compatibility
+• And other consensus trees (greedy consensus and compatibility)
+                      Review
+Recall:
+• All Quartets Method: Constructing a tree T from its set
+  of quartet trees Q(T)
+• Additive matrices and the Four Point Method
+• Naïve Quartet Method: How to construct Q(T) from an
+  additive matrix, and from a nearly additive matrix
+• How to construct rooted trees from rooted triplet trees
+  and from rooted subset trees
+• How to construct rooted trees from set of clades
+• How to test compatibility of a set of rooted triplet
+  trees, or rooted subset trees
+               HW 2 material
+• Computing normalized Hamming distances
+  and CFN distances from sequences
+• Ultrametric, additive, dissimilarity matrices
+• Caterpillar trees, rogue taxa, strict consensus
+• FN and FP, and how to normalize
+                 Bipartitions
+• Bipartitions are defined by edge deletions in
+  unrooted trees. The set of bipartitions for tree
+  T is denoted by C(T).
+• Example: If T= (A,(B,(C,(D,E)))), then C(T) is
+  – AB|CDE
+  – ABC|DE
+• A set X of bipartitions is “compatible” if there
+  is a tree T such that C(T) contains X.
+   Testing bipartition compatibility =
+ Construct unrooted tree T from set C(T)
+• Problems:
+  1. Given set X of bipartitions on leafset S, is the set X
+     compatible?
+  2. Given X, produce the tree T such that C(T)=X (or say
+     no such tree exists)
+• How to solve these problems?
+  – Recall how to test compatibility of clades.
+  – Recall pairwise compatibility of clades implies setwise
+    compatibility of clades
+  – What is your theorem for bipartition compatibility?
+  – What algorithms do you propose?
+                Class exercise
+• For each set of bipartitions, determine if it is
+  compatible (and if so, produce the tree)
+  – AB|CDEF, ABD|CEF, ABDF|CE
+  – ABC|DEF, ABD|CEF
+          Strict Consensus Trees
+• The strict consensus tree of a set of trees is
+  the tree that has only those bipartitions that
+  appear in all the trees.
+• What is the strict consensus of these unrooted
+  trees?
+  – (A,(B,(C,(D,(E,F)))))
+  – (B,(C,(A,(E,(D,F)))))
+           Majority Consensus
+• Given a set of trees (all on the same leaf set),
+  find a tree that has exactly those bipartitions
+  that appear in the strict majority of the input
+  trees
+• Does this tree always exist?
+• How would you calculate it?
+          Comparing two trees
+• Given two trees, T1 and T2, on the same set of
+  leaves S. How can we compare them?
+  – Examine C(T1) \ C(T2) and C(T2) \ C(T1)
+  – Robinson-Foulds is the total number of bipartitions
+    that are unique to one or the other tree
+• Suppose T* is the true tree and T is an estimated
+  tree. How can we quantify error?
+  – False Negatives error rates (normalized)
+  – False Positives (normalized)
+  – Robinson-Foulds (normalized)
+               Class Exercise
+• Create two binary trees on 6 leaves
+  (A,B,C,D,E,F). Calculate FN, FP, and RF.
+• Create binary tree T on 6 leaves. Collapse 2
+  edges, to get tree T’. Calculate FN, FP, and RF.
+• Create three trees on the same leafset.
+  Calculate strict consensus and majority
+  consensus trees.
+          Maximum Parsimony
+• Introducing maximum parsimony
+• Analyzing statistical performance:
+  – Maximum parsimony is not statistically consistent
+    under standard models of sequence evolution!
+• Solving maximum parsimony
+  – On a fixed tree (dynamic programming)
+  – Searching for the best tree
+         Maximum Parsimony Problem
+• Input: Set S of n aligned sequences of length k
+• Output:
+   – A phylogenetic tree T leaf-labeled by sequences in S
+   – additional sequences of length k labeling the internal nodes
+     of T
+
+
+
+
+is minimized, where H(i,j) denotes the Hamming
+   distance between sequences at nodes i and j
+ Hamming Distance Steiner Tree Problem
+• Input: Set S of n aligned sequences of length k
+• Output:
+   – A phylogenetic tree T leaf-labeled by sequences in S
+   – additional sequences of length k labeling the internal nodes
+     of T
+
+
+
+
+is minimized, where H(i,j) denotes the Hamming
+   distance between sequences at nodes i and j
+  Maximum parsimony (example)
+• Input: Four sequences
+  – ACT
+  – ACA
+  – GTT
+  – GTA
+• Question: which of the three trees has the best
+  MP scores?
+      Maximum Parsimony
+ACT     GTA       ACA     ACT
+
+GTT    ACA        GTT     GTA
+
+
+
+
+       ACA       GTA
+
+
+       ACT       GTT
+                 Maximum Parsimony
+ACT                   GTA                      ACA                  ACT
+      2 GTT GTA                                       ACA ACA 1
+           1    2                              GTT   3       2
+GTT                   ACA                                           GTA
+       MP score = 5                                  MP score = 6
+
+
+
+
+                      ACA                     GTA
+                              ACA GTA
+                              1  2    1
+                      ACT                     GTT
+                              MP score = 4
+                            Optimal MP tree
+MP: computational complexity
+For four leaves, we can do this by inspection
+
+
+
+
+          ACA                                   GTA
+                        ACA         GTA
+                       1        2         1
+          ACT                                   GTT
+                       MP score = 4
+MP: solvable in polynomial time if the
+            tree is given
+ Optimal labeling can be computed in O(r2nk) time
+
+
+
+
+          ACA                                  GTA
+                       ACA         GTA
+                       1       2         1
+          ACT                                  GTT
+                       MP score = 4
+
+
+  r = # states (4 for nucleotides, 20 for AA, etc.)
+  n = # leaves
+  k = # characters (or sequence length)
+Is Maximum Parsimony statistically
+     consistent under CFN?
+• Recall the CFN model of binary sequence
+  evolution: iid site evolution, and each site
+  changes with probability p(e) on edge e,
+  with 0 < p(e) < 0.5.
+• Is MP statistically consistent under this
+  model?
+   Statistical consistency under CFN
+
+• We will say that a method M is statistically
+  consistent under the CFN model if:
+  – For all CFN model trees (T,Θ) (where Θ
+    denotes the set of substitution probabilities on
+    each of the branches of the tree T), as the
+    number L of sites goes to infinity, the
+    probability that M(S)=T converges to 1, where
+    S is a set of sequences of length L.
+  Is MP statistically consistent?
+• We will start with 4-leaf CFN trees, so the
+  input to MP is a set of four sequences, A, B, C,
+  D.
+• Note that there are only three possible
+  unrooted trees that MP can return:
+  – ((A,B),(C,D))
+  – ((A,C),(B,D))
+  – ((A,D),(B,C))
+  Analyzing what MP does on four
+              leaves
+• MP has to pick the tree that has the least
+  number of changes among the three
+  possible trees.
+• Consider a single site (i.e., all the
+  sequences have length one).
+• Suppose the site is A=B=C=D=0. Can we
+  distinguish between the three trees?
+ Analyzing what MP does on four
+             leaves
+• Suppose the site is A=B=C=D=0.
+• Suppose the site is A=B=C=D=1
+• Suppose the site is A=B=C=0, D=1
+• Suppose the site is A=B=C=1, D=0
+• Suppose the site is A=B=D=0, C=1
+• Suppose the site is A=C=D=0, B=1
+• Suppose the site is B=C=D=0, A=1
+   Uninformative Site Patterns
+Uninformative site patterns are ones that fit
+every tree equally well. Note that any site
+that is constant (same value for A,B,C,D) or
+splits 3/1 is parsimony uninformative.
+
+On the other hand, all sites that split 2/2 are
+parsimony informative!
+  Parsimony Informative Sites
+• [A=B=0, C=D=1] or [A=B=1, C=D=0]
+  – These sites support ((A,B),(C,D))
+
+
+• [A=C=1, B=D=0] or [A=C=0, B=D=1]
+  – These sites support ((A,C),(B,D))
+
+
+• [A=D=0,B=C=1] or [A=D=1, B=C=0]
+  – These sites support ((A,D),(B,C))
+       Calculating which tree MP picks
+When the input has only four sequences, calculating what MP does is
+easy!
+
+1. Remove the parsimony uninformative sites
+2. Let I be the number of sites that support ((A,B),(C,D))
+3. Let J be the number of sites that support ((A,C),(B,D))
+4. Let K be the number of sites that support ((A,D),(B,C))
+5. Whichever tree is supported by the largest number of sites, return
+   that tree. (For example, if I >max{J,K}, then return ((A,B),(C,D).)
+6. If there is a tie, return all trees supported by the largest number of
+   sites.
+               Class exercise
+• What tree does MP return on this input?
+  – A=000001
+  – B=111110
+  – C=111111
+  – D=100000
+
+• And what about this?
+  – A=00000
+  – B=11110
+  – C=11010
+  – D=10100
+               MP on 4 leaves
+• Consider a four-leaf tree CFN model tree ((A,B),(C,D))
+  with a very high probability of change (close to ½) on the
+  internal edge (separating AB from CD) and very small
+  probabilities of change (close to 0) on the four external
+  edges.
+• What parsimony informative sites have the highest
+  probability? What tree will MP return with probability
+  increasing to 1, as the number of sites increases?
+                 MP on 4 leaves
+• Consider a four-leaf tree CFN model tree ((A,B),(C,D))
+  with a very high probability of change (close to ½) on the
+  internal edge (separating AB from CD) and very small
+  probabilities of change (close to 0) on the four external
+  edges.
+• Comments:
+   – Every site pattern (e.g., A=B=1, C=D=0) has positive
+     probabilities, but some are more likely than others
+   – Visualize the tree (using CF branch lengths instead of
+     probabilities to help you notice things) – long branches when
+     p(e) is large, short branches when p(e) is small
+                MP on 4 leaves
+• Consider a four-leaf tree CFN model tree ((A,B),(C,D))
+  with a very high probability of change (close to ½) on the
+  internal edge (separating AB from CD) and very small
+  probabilities of change (close to 0) on the four external
+  edges.
+• If you are given p(e) for each edge in the model tree,
+  how would you calculate
+   – Pr(A=B)?
+   – Pr(A=C)?
+               MP on 4 leaves
+• Consider a four-leaf tree CFN model tree ((A,B),(C,D)) with
+  a very high probability of change (close to ½) on the
+  internal edge (separating AB from CD) and very small
+  probabilities of change (close to 0) on the external edges.
+• Which of the three parsimony-informative site patterns has
+  the highest probability?
+   – A=B, C=D
+   – A=C, B=D
+   – A=D, B=C
+• Do you think maximum parsimony will be statistically
+  consistent on this model tree?
+     The Felsenstein Zone Tree
+• Consider CFN model tree ((A,B),(C,D)) with very high
+  probability of change (close to ½) on the two edges
+  incident with A and C, and very small probabilities of
+  change (close to 0) on all other edges.
+• Which parsimony informative site pattern has the highest
+  probability?
+   – A=B, C=D
+   – A=C, B=D
+   – A=D, B=C
+• Is maximum parsimony statistically consistent on this
+  model tree?
+        Summary so far for MP
+• Maximum Parsimony: Hamming distance
+  Steiner Tree problem
+• Solving MP on inputs with four sequences
+  – Parsimony informative sites
+• Analyzing what MP returns for a 4-leaf CFN
+  model tree
+• Is MP statistically consistent for all CFN model
+  trees?
+• Next: solving MP on fixed trees
+           Two variants of MP
+• Unweighted MP: all substitutions have the same
+  cost
+• Weighted MP: there is a substitution cost matrix
+  that allows different substitutions to have
+  different costs. For example: transversions and
+  transitions can have different costs. Even if
+  symmetric, this complicates the calculation – but
+  not by much.
+• Suppose the tree T is given, and we want to
+  score the tree (i.e., find the best labelling for the
+  internal nodes). How should we do this?
+ Dynamic programming algorithms
+• Dynamic programming algorithms on trees
+  are common – there is a natural ordering
+  on the nodes given by the tree.
+
+• Example: computing the longest leaf-to-
+  leaf path in a tree can be done in linear
+  time, using dynamic programming
+  (bottom-up).
+       Dynamic programming
+• F(0)=F(1)=1
+• F(n)=F(n-1)+F(n-2) if n>1
+• What algorithm should we use to compute
+  F(n)?
+ Sankoff’s DP algorithm for MP
+Input: a given rooted binary tree T and a single
+  character (site in an alignment), and maybe a
+  substitution weight matrix
+Output: the best achievable MP cost, and (if
+ desired) a labelling achieving that MP cost
+This algorithm can be used to solve maximum
+  parsimony (MP) for weighted or unweighted
+  cases.
+To do this for an entire alignment, you just do it for
+  each site at a time.
+         Sankoff DP algorithm
+Two phases:
+• The first phase (bottom-up) finds the best
+  score.
+• The second phase (top-down) assigns labels
+  (states) to each node (using the usual back-
+  tracking approach in dynamic programming)
+We will focus on describing phase 1 (bottom-
+up): we root the tree arbitrarily.
+          Sankoff DP algorithm
+• Assume T is rooted and we are looking at a single
+  site
+• Cost(u,x) is the best parsimony score achievable
+  for the clade rooted at u, given that we label u by
+  state x.
+• Base cases: Cost(u,x) for u a leaf (think infinite
+  cost and 0 cost)
+• What we want: Cost(root,x) for each possible
+  state x. Then we take the minimum across all x.
+Applying Sankoff to a fixed tree
+                            r
+
+
+                                          Assume all substitutions have cost 1
+
+                                                     What is Cost(u1,0)?
+                                                     What is Cost(u1,1)?
+                                                     What is Cost(u2,0)?
+                                                     What is Cost(u2,1)?
+                                                     What is Cost(A,0)?
+                                                     What is Cost(B,0)?
+     A                                               What is Cost(r,0)?
+                   B
+
+
+u1       u2                          u6             u7
+              u3       u4       u5
+ 0        0                           0             1
+               0        1        1
+         DP algorithm (cont.)
+Cost(v,x) =
+  miny{Cost(v1,y)+cost(x,y)} +
+  miny{Cost(v2,y)+cost(x,y)}
+where v1 and v2 are the children of v, and y
+  ranges over the possible states (e.g.,
+  nucleotides), and cost(x,y) is an arbitrary cost
+  function.
+ Sankoff’s DP algorithm (cont.)
+BOTTOM-UP: Compute cost
+ We compute Cost(v,x) for every node v and
+ every state x, from the “bottom up”.
+
+  The optimal cost is
+   minx{Cost(root,x)}
+
+TOP-DOWN: labelling each node with a state
+ Fitch’s algorithm for unweighted
+        MP on a fixed tree
+
+• We process the characters independently.
+• Let c be the character we are examining, and
+  let c(v) be the state of leaf v.
+• Let A(v) denote the set of optimal nucleotides
+  at node v (for an MP solution to the subtree
+  rooted at v). Hence A(v)={c(v)} if v is a leaf.
+Fitch’s algorithm for fixed-tree (unweighted) maximum parsimony
+But finding the best tree is NP-hard!
+  Optimal labeling can be computed in O(r2nk) time
+
+
+
+
+           ACA                                  GTA
+                         ACA        GTA
+                        1       2         1
+            ACT                                  GTT
+                        MP score = 4
+       Solving NP-hard problems
+          exactly is … unlikely
+                      #leaves     #trees
+• Number of             4            3
+  (unrooted) binary
+                        5           15
+  trees on n leaves
+  is (2n-5)!!           6           105
+• If each tree on       7           945
+  1000 taxa could       8         10395
+  be analyzed in
+                        9         135135
+  0.001 seconds,
+  we would find the     10       2027025
+  best tree in          20      2.2 x 1020
+   2890 millennia      100      4.5 x 10190
+                       1000     2.7 x 102900
+        Approaches for “solving” MP
+1.   Hill-climbing heuristics (which can get stuck in local optima)
+2.   Randomized algorithms for getting out of local optima
+3.   Approximation algorithms for MP (based upon Steiner Tree
+     approximation algorithms).
+
+
+
+
+                                            Local optimum
+
+     Cost
+
+                                            Global optimum
+                 Phylogenetic trees
+NNI moves
+TBR moves
+          Summary (so far)
+• Maximum Parsimony is an NP-hard
+  optimization problem, but can be solved
+  exactly (using dynamic programming) in
+  polynomial time on a fixed tree.
+• Heuristics for MP are reasonably fast, but
+  apparent convergence can be misleading.
+  And some datasets can take a long time.
+           Summary (updated)
+• Maximum Parsimony (MP) is statistically consistent on
+  some CFN model trees.
+• However, there are some other CFN model trees in
+  which MP is not statistically consistent. Worse, MP is
+  positively misleading on some CFN model trees. This
+  phenomenon is called “long branch attraction”, and the
+  trees for which MP is not consistent are referred to as
+  “Felsenstein Zone trees” (after the paper by
+  Felsenstein).
+• The problem is not limited to 4-leaf trees…
+                  Characters
+• A character is a function c: S -> Z, where S is the
+  set of leaves and Z is the set of possible states
+  (could be integers, could be nucleotides, etc.)
+• The sites in an DNA alignment can be characters,
+  in which case the states are nucleotides
+• Presence/absence of a property can be a
+  character (with 0 representing absence, 1
+  representing presence)
+                   Homoplasy
+• Homoplasy means back-mutation or parallel evolution
+• We say a character evolves with homoplasy on a tree if
+  it used back-mutation or parallel evolution
+• Wings (presence or absence) is a homoplastic character
+• Homoplasy-free characters are ones that evolve
+  without homoplasy on a tree
+• A character c is said to be “compatible” with (or on) a
+  tree T if you can demonstrate that c evolves without
+  homoplasy on T (by showing states at internal nodes).
+• You may be asked: is this character compatible on T?
+                 Homoplasy
+• Consider a tree T with four leaves, T= ij|kl
+• Character C has states as follows
+  – C(i)=0
+  – C(j)=0
+  – C(k)=1
+  – C(l)=2
+• Is C homoplasy-free on T?
+• Give an example of a character that is not
+  homoplasy-free on T.
+                   Homoplasy
+• What if I tell you two characters C and C’, and
+  I’d like to know if there is a tree T on which
+  both characters are compatible (homoplasy-
+  free) – and if the tree exists, I want to find it.
+• Leaf set is {u,v,w,x,y}
+• Characters
+   – C(u)=C(v)=0, C(w)=C(x)=C(y)=1,
+   – C’(u)=C’(v)=C’(w)=0, C’(x)=C’(y)=1
+                   Homoplasy
+• What if I tell you two characters C and C’, and
+  I’d like to know if there is a tree T on which
+  both characters are compatible (homoplasy-
+  free) – and if the tree exists, I want to find it.
+• Leaf set is {u,v,w,x,y}
+• Characters
+   – C(u)=C(v)=0, C(w)=C(x)=C(y)=1,
+   – C’(u)=C’(v)=C’(w)=2, C’(x)=C’(y)=3
+                   Homoplasy
+• What if I tell you two characters C and C’, and
+  I’d like to know if there is a tree T on which
+  both characters are compatible (homoplasy-
+  free) – and if the tree exists, I want to find it.
+• Leaf set is {u,v,w,x,y}
+• Characters
+   – C(u)=C(v)=0, C(w)=C(x)=C(y)=1,
+   – C’(u)=C’(v)=C’(y)=0, C’(w)=C’(x)=1
+                   Homoplasy
+• What if I tell you two characters C and C’, and
+  I’d like to know if there is a tree T on which
+  both characters are compatible (homoplasy-
+  free) – and if the tree exists, I want to find it.
+• Leaf set is {u,v,w,x,y,z}
+• Characters
+   – C(u)=C(v)=0, C(w)=C(x)=C(y)=1, C(z)=2
+   – C’(u)=C’(v)=C’(z)=0, C’(w)=C’(x)=1, C’(y)=3
+          Something to notice
+• For some of those examples, all the characters
+  were two-state.
+• When the characters are two-state, how can
+  you tell if it is compatible on a tree?
+• If you have a collection of two-state
+  characters, can you test compatibility easily?
+• Note: this doesn’t work when some characters
+  are not two-state.
+                Homoplasy
+• If a character C exhibits r states, how many
+  times must it change (at a minimum) on a
+  tree?
+• If the character exhibits r states and is
+  compatible on a tree T, how many times did it
+  change on T?
+• What is the parsimony score of a character on
+  a tree T if the character is compatible on T?
+          Back to consensus trees
+• Let C(T) denote the bipartition set of a tree T
+• A profile of trees is a set of trees {T1 , T2 ,T3 … Tk} ,
+  all on the same leafset
+• How do we summarize their topologies?
+• We have already seen the Strict Consensus tree
+  and the Majority Consensus tree.
+• There are others:
+   – Greedy Consensus
+   – Compatibility Tree
+              Strict Consensus
+• We are given a profile of trees {T1 , T2 ,T3 … Tk}
+
+• The Strict Consensus is the (unique) tree T so
+  that C(T) is the intersection of C(Ti) over all I
+• Thus, the strict consensus has all the
+  bipartitions that appear in every tree in the
+  profile
+           Majority Consensus
+• We are given a profile of trees
+
+• The majority consensus has all the bipartitions
+  that appear in strictly more than half of the
+  trees in the profile
+              Greedy Consensus
+
+• The greedy consensus is defined algorithmically!
+• Order the bipartitions by the frequency in the
+  profile, most frequent to least frequent
+• Start with a star tree
+• Process each character in turn:
+   – Add it to the previous tree, if it is compatible –
+     otherwise discard
+• Return the tree after all characters are processed
+            Compatibility Tree
+
+• Given a profile of trees, a compatibility tree
+  has every bipartition that appears in any tree
+  in the profile
+• It may or may not exist
+• How do we determine if it exists?
+

@@ -1,0 +1,302 @@
+Introduc)on to Proﬁle HMMs
+
+        Tandy Warnow
+   Proﬁle Hidden Markov Models
+• Basic tool in sequence analysis
+• Look more complicated than they really are
+• Used to model a family of sequences
+• Can be built from a mul)ple sequence
+  alignment
+• Algorithms using proﬁle HMMs are based on
+  dynamic programming (much like Needleman-
+  Wunsch)
+                   Proﬁle
+• Given a gap-less mul)ple sequence alignment,
+  we can build a proﬁle describing what we see:
+
+                                1  2     3    4   5
+• S1 = A C T A G          A   0.75 0.0 0.25 0.50 0.0
+                          C   0.00 0.5 0.00 0.25 0.0
+• S2 = A C A A G          T   0.00 0.5 0.75 0.25 0.0
+                          G   0.25 0.0 0.00 0.00 1.0
+• S3 = A T T T G
+• S4 = G T T C G
+      Dealing with zero-probability
+               emissions
+• Note that our proﬁles had some leYers that had
+  zero probability.
+• Most proﬁle HMMs don’t allow zero-probability
+  emissions for leYers in the alphabet.
+• One way of dealing with this is the “add-one”
+  rule (see Mona Singh’s lecture), but there are
+  others.
+• When you don’t modify your empirical
+  distribu)on at all to create the emission
+  probabili)es, this is called an “unadjusted
+  proﬁle”.
+                               Using a proﬁle
+•              1  2     3    4   5
+•       A    0.75 0.0 0.25 0.50 0.0
+•       C    0.00 0.5 0.00 0.25 0.0
+•       T    0.00 0.5 0.75 0.25 0.0
+•       G    0.25 0.0 0.00 0.00 1.0
+
+
+                  0.75         0.0           0.25          0.50            0.0
+            1.0   0.0    1.0   0.5   1.0     0.0     1.0   0.25     1.0    0.0    1.0
+Start        è    0.0    è     0.5   è       0.75     è    0.25     è      0.0    è     End
+                                                                                        End
+                  0.25         0.0           0.0           0.0             1.0
+
+
+
+
+        The proﬁle yields a probability distribu)on of sequences – here, all of the
+        same length.
+        What is the probability of genera)ng
+                     s = ATATG?
+•              1  2     3    4   5
+•       A    0.75 0.0 0.25 0.50 0.0
+•       C    0.00 0.5 0.00 0.25 0.0
+•       T    0.00 0.5 0.75 0.25 0.0
+•       G    0.25 0.0 0.00 0.00 1.0
+
+
+                  0.75         0.0           0.25          0.50            0.0
+            1.0   0.0    1.0   0.5   1.0     0.0     1.0   0.25     1.0    0.0    1.0
+Start        è    0.0    è     0.5   è       0.75     è    0.25     è      0.0    è     End
+                                                                                        End
+                  0.25         0.0           0.0           0.0             1.0
+
+
+
+
+        The proﬁle yields a probability distribu)on of sequences – here, all of the
+        same length.
+        What is the probability of genera)ng
+                    s = AAAAA?
+•              1  2     3    4   5
+•       A    0.75 0.0 0.25 0.50 0.0
+•       C    0.00 0.5 0.00 0.25 0.0
+•       T    0.00 0.5 0.75 0.25 0.0
+•       G    0.25 0.0 0.00 0.00 1.0
+
+
+                  0.75         0.0           0.25          0.50            0.0
+            1.0   0.0    1.0   0.5   1.0     0.0     1.0   0.25     1.0    0.0    1.0
+Start        è    0.0    è     0.5   è       0.75     è    0.25     è      0.0    è     End
+                                                                                        End
+                  0.25         0.0           0.0           0.0             1.0
+
+
+
+
+        The proﬁle yields a probability distribu)on of sequences – here, all of the
+        same length.
+                  What are the most probable
+                  sequences for this model?
+•              1  2     3    4   5
+•       A    0.75 0.0 0.25 0.50 0.0
+•       C    0.00 0.5 0.00 0.25 0.0
+•       T    0.00 0.5 0.75 0.25 0.0
+•       G    0.25 0.0 0.00 0.00 1.0
+
+
+                  0.75         0.0           0.25          0.50            0.0
+            1.0   0.0    1.0   0.5   1.0     0.0     1.0   0.25     1.0    0.0    1.0
+Start        è    0.0    è     0.5   è       0.75     è    0.25     è      0.0    è     End
+                                                                                        End
+                  0.25         0.0           0.0           0.0             1.0
+
+
+
+
+        The proﬁle yields a probability distribu)on of sequences – here, all of the
+        same length.
+    How would you compute the probability of
+           genera)ng a sequence s?
+•              1  2     3    4   5
+•       A    0.75 0.0 0.25 0.50 0.0
+•       C    0.00 0.5 0.00 0.25 0.0
+•       T    0.00 0.5 0.75 0.25 0.0
+•       G    0.25 0.0 0.00 0.00 1.0
+
+
+                  0.75         0.0           0.25          0.50            0.0
+            1.0   0.0    1.0   0.5   1.0     0.0     1.0   0.25     1.0    0.0    1.0
+Start        è    0.0    è     0.5   è       0.75     è    0.25     è      0.0    è     End
+                                                                                        End
+                  0.25         0.0           0.0           0.0             1.0
+
+
+
+
+        The proﬁle yields a probability distribu)on of sequences – here, all of the
+        same length.
+                     Notes
+• Each proﬁle generates strings of exactly the
+  same length. This is not very useful for dealing
+  with biological data.
+
+• If you are given a sequence that is generated
+  by the proﬁle, then you know exactly what
+  path was used to generate the sequence. That
+  is, none of the states are hidden.
+  Inser)ons and Dele)ons (Indels)
+• Inser)ons: events that increase the sequence
+  length, such as:
+  – AAAAA -> AATCGAAA
+  – AAAAA -> AAAAATCGATTA
+• Dele)ons: events that decrease the sequence
+  length, such as:
+  – ATCGA -> AGA
+  – AAAAA -> AA
+      Allowing for sequence length
+             heterogeneity
+• The proﬁle shown in the previous slides only
+  had match states (indicated by rectangles). It
+  doesn’t allow any inser)ons or dele)ons.
+• To model indels, we just have to add
+  addi)onal states to the graphical model.
+  – Inser)on states: Diamonds (have non-zero
+    emission probabili)es)
+  – Dele)on states: Circles (nothing emiYed)
+From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+How many paths can generate
+        s = AAA?
+
+
+
+
+  From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+How many paths can generate
+         s = AA?
+
+
+
+
+  From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+How many paths can generate
+     the empty string?
+
+
+
+
+  From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+Can you ﬁnd a string for which only
+    one path can generate it?
+
+
+
+
+     From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+A more general topology for a proﬁle HMM
+
+
+
+
+ From hYp://codecereal.blogspot.com/2011/07/protein-proﬁle-with-hmm.html
+What has changed between this model
+      and the previous one?
+
+
+
+
+ From hYp://codecereal.blogspot.com/2011/07/protein-proﬁle-with-hmm.html
+                  HMMER
+• hYp://hmmer.janelia.org
+• One of the most popular collec)on of tools to
+  perform analyses based on proﬁle HMMs.
+• HMMER web server: interac4ve sequence
+  similarity searching, NAR 2011,
+  hYp://nar.oxfordjournals.org/content/39/
+  suppl_2/W29
+• See PFAM, hYp://pfam.xfam.org, for how proﬁle
+  HMMs are used to represent groups of
+  func)onally and structurally related proteins.
+        Building Proﬁle HMMs
+• Proﬁle HMMs can be built from a given
+  mul)ple sequence alignment – this is not too
+  diﬃcult.
+• Proﬁle HMMs can also be built from unaligned
+  sequences. This is a bit complicated, and oken
+  uses the Baum-Welch algorithm.
+           Using Proﬁle HMMs
+• Given a Proﬁle HMM computed for a mul)ple
+  sequence alignment, you can use it to
+  – Classify new sequences into families (e.g., protein
+    families and superfamilies)
+  – Infer func)on of new sequences
+  – Add related sequences into the mul)ple sequence
+    alignment
+  – Compute mul)ple sequence alignments for
+    groups of related sequences
+        Using proﬁle HMMs for
+      Protein Family Classiﬁca)on
+• Given two proﬁle HMMs (H1 and H2), and a
+  sequence s, you can determine which one is
+  more likely to generate s using dynamic
+  programming.
+• Compu)ng Pr(s|H) can be done using dynamic
+  programming (the “forward algorithm”).
+
+Given a set of protein families, compute proﬁle
+HMMs for each, and then ﬁnd the family whose
+proﬁle HMM is most likely to generate s.
+What is the probability of genera)ng
+              s = AAA?
+
+
+
+
+      From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+What paths can generate s = AAA?
+
+
+
+
+     From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+For each path that can generate s =
+    AAA, what is its probability?
+
+
+
+
+     From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+Compu)ng Pr(AAA|H) is not trivial
+
+
+
+
+      From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+What about Pr(A|H)?
+
+
+
+
+From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+               Hidden states
+• For some sequences, there is no path through
+  the proﬁle HMM that can generate the sequence.
+• For some other sequences, there is exactly one
+  path.
+• And then for some others, there is more than one
+  path… and you can’t tell which one generated the
+  sequence! More generally, you can’t tell which
+  state generated each leYer in the sequence – so
+  the states are said to be “hidden”.
+What path is most likely to generate
+          sequence AA?
+
+
+
+
+      From hYp://www.cbs.dtu.dk/~kj/bioinfo_assign2.html
+Can we compute the maximum probability
+    path for the general case?
+
+
+
+
+ From hYp://codecereal.blogspot.com/2011/07/protein-proﬁle-with-hmm.html
+
