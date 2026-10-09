@@ -1,0 +1,384 @@
+CS 581: Phylogenetic
+     Networks
+       Tandy Warnow
+Phylogenetic Networks
+                        This network has one non-tree edge,
+                        indicating horizontal gene transfer
+             Phylogenomics
+
+
+
+
+Phylogeny + genomics = genome-scale phylogeny estimation
+.
+                       Phylogenomic pipeline
+• Select taxon set and markers
+• Gather and screen sequence data, possibly identify orthologs
+• Estimate multiple sequence alignments for each locus, and estimate gene trees
+• Estimate species tree or phylogenetic network:
+   • Combine the estimated gene trees, OR
+   • Estimate a tree from a concatenation of the multiple sequence alignments
+• Get statistical support on each branch (e.g., bootstrapping)
+• Estimate dates on the nodes of the phylogeny
+• Use species tree with branch support and dates to understand biology
+Phylogenetics: Statistical Estimation Problem
+• A statistical model of evolution is provided (high-level, without
+  numeric parameter values): e.g., Jukes-Cantor
+• Then,
+   • given the data (sequences at the leaves of the true, but unknown,
+     phylogeny,
+   • we seek the phylogeny that best fits the data
+DNA Sequence Evolution (Idealized)
+
+                                                         -3 mil yrs
+                             AAGACTT
+
+                                                         -2 mil yrs
+          AAGGCCT                    TGGACTT
+
+
+                                                         -1 mil yrs
+      AGGGCAT              TAGCCCT         AGCACTT
+
+
+
+
+      AGGGCAT   TAGCCCA   TAGACTT    AGCACAA   AGCGCTT          today
+ Phylogeny Problem
+  U        V             W         X         Y
+
+
+AGGGCAT   TAGCCCA       TAGACTT   TGCACAA   TGCGCTT
+
+
+
+                                       X
+               U
+
+                                       Y
+
+
+
+                    V        W
+Markov Models of Sequence Evolution
+The different sites are assumed to evolve i.i.d. down the model tree
+
+Simplest site evolution model (Jukes-Cantor, 1969):
+• The model tree T is binary and has substitution probabilities p(e) on each edge e, with 0<p(e)<3/4.
+• The state at the root is randomly drawn from {A,C,T,G} (nucleotides)
+• If a site (position) changes on an edge, it changes with equal probability to each of the remaining
+  states.
+• The evolutionary process is Markovian.
+
+
+More complex models (such as the Generalized Time Reversible model) are also considered, often
+ with little change to the theory.
+Is method M statistically consistent under
+model G?
+                                            Question answered by
+                                            mathematical proof
+  Error
+  in species tree
+  inferred by
+  method M
+
+
+
+
+                    Amount of data
+                    generated under model G and
+                    then given to method M as input
+Estimating gene trees: difficult but doable!
+• Assuming standard DNA evolution models (e.g., Generalized Time
+  Reversible model)
+• Estimating gene trees (phylogenetic trees for single genes)
+  • Most good approaches are NP-hard (e.g., maximum likelihood) but
+    statistically consistent (error goes to zero as data goes to infinity)
+  • Good heuristics are available, so large trees (thousands of leaves) can be
+    estimated with good accuracy in a few minutes to several hours or days
+          Gene tree discordance
+                                                          Multiple causes for discord,
+                                                          including
+                                                          • Incomplete Lineage Sorting
+                                                             (ILS),
+                                                          • Gene Duplication and Loss
+         gene 1                      gene1000                (GDL), and
+                                                          • Hybridization and Horizontal
+                                                             Gene Transfer (HGT)
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+          Gene tree discordance
+                                                          Multiple causes for discord,
+                                                          including
+                                                          • Incomplete Lineage Sorting
+                                                             (ILS),
+                                                          • Gene Duplication and Loss
+         gene 1                      gene1000                (GDL), and
+                                                          • Hybridization and Horizontal
+                                                             Gene Transfer (HGT)
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+Gene trees inside the species tree (Coalescent Process)
+              Past                                                           Deep coalescence =
+                                                                             INCOMPLETE
+                                                                             LINEAGE
+                                                                             SORTING (ILS):
+                                                                             gene tree can be different
+                                                                             from the species tree
+
+
+
+
+            Present
+       Courtesy James Degnan
+
+
+
+
+                               Gorilla and Orangutan are not siblings in the species tree,
+                               but they are in the gene tree.
+ Species tree estimation from
+ unrooted gene trees
+
+Theorem (Allman et al.): Under the multi-species coalescent
+model, for any four taxa A, B, C, and D, the most probable
+unrooted gene tree on {A,B,C,D} is identical to the unrooted
+species tree induced on {A,B,C,D}.
+ Species tree estimation from
+ unrooted gene trees
+
+Corollary: Under the multi-species coalescent model, the
+unrooted species tree is identifiable from the distribution on
+unrooted gene trees.
+
+Proof: For every four species, select most frequently
+observed tree as the species tree. Then combine quartet
+trees!
+                          ASTRAL
+                   [Mirarab, et al., ECCB/Bioinformatics, 2014]
+
+•    Optimization Problem (NP-Hard):
+
+    Find the species tree with the maximum number of induced                             ASTRAL uses
+    quartet trees shared with the collection of input gene trees                         dynamic
+                                                                                         programming
+                                                                                         to solve this
+                                                                  Set of quartet trees   problem
+                                                                     induced by T
+                                    X                                                    exactly in
+                  Scor e(T ) =             |Q(T ) \ Q(t)|                                O(|X|2kn)
+                                                                                         where there
+           a gene tree              t2 T                                                 are n species
+                                                             all input gene trees
+                                                                                         and k genes,
+                                                                                         and X is the
+•    Theorem: Statistically consistent under the multi-                                  set of allowed
+     species coalescent model when solved exactly                                        bipartitions
+
+                                        15
+                          ASTRAL
+                   [Mirarab, et al., ECCB/Bioinformatics, 2014]
+
+•    Optimization Problem (NP-Hard):
+
+    Find the species tree with the maximum number of induced                             ASTRAL is
+    quartet trees shared with the collection of input gene trees                         provably
+                                                                                         statistically
+                                                                                         consistent
+                                                                  Set of quartet trees   under the
+                                                                     induced by T
+                                    X                                                    MSC, and has
+                  Scor e(T ) =             |Q(T ) \ Q(t)|                                high accuracy
+                                                                                         in practice
+           a gene tree              t2 T
+                                                             all input gene trees
+
+•    Theorem: Statistically consistent under the multi-
+     species coalescent model when solved exactly
+                                        15
+Estimating species trees: difficult but doable!
+• Estimating species trees (phylogenetic trees for multiple genes)
+   • Most good approaches are NP-hard but statistically consistent
+   • Good heuristics available (e.g., ASTRAL), so large trees (thousands of
+     leaves and genes) can be estimated reasonably well in minutes to days
+          Gene tree discordance
+                                                          Multiple causes for discord,
+                                                          including
+                                                          • Incomplete Lineage Sorting
+                                                             (ILS),
+                                                          • Gene Duplication and Loss
+         gene 1                      gene1000                (GDL), and
+                                                          • Hybridization and Horizontal
+                                                             Gene Transfer (HGT)
+Gorilla Human Chimp Orang.   Gorilla Chimp Human Orang.
+Phylogenetic Networks
+                        This network has one non-tree edge,
+                        indicating hybridization or HGT
+Level-1 networks (and others)
+
+
+
+
+        From: Elworth, RA Leo, et al. arXiv arXiv:1808.08662.
+Two problems under the Network Multi-
+Species Coalescent (NMSC) model
+• Problem 1: Given a set of rooted gene trees, find a rooted
+  phylogenetic network that best fits the input
+• Problem 2: Given a set of rooted gene trees and a rooted species
+  tree T, add edges to T to produce a rooted phylogenetic network
+  that best fits the input
+
+Note: these problems are often restricted to level-1 phylogenetic
+networks, since level-2 phylogenetic networks are not identifiable
+Methods
+• PhyloNet (Luay Nakhleh et al.): several tools
+   • Codes for maximum pseudo-likelihood (MPL), maximum parsimony, and
+     maximum likelihood
+   • MPL is preferred due to better scalability than maximum likelihood and
+     statistical consistency
+   • Not limited to level-1 networks
+• SNaQ (Solis-Lemus et al.):
+   • Code for MPL, restricted to level-1 networks
+• And others that are less frequently used in biological studies
+• Plus CAMUS (Willson and Warnow, 2026)
+Some mathematical results
+• Some of the algorithms developed for level-1 phylogenetic
+  network estimation are based on quartet trees.
+• Some strong mathematical properties have been established, but
+  typically are about identifiability rather than estimation given finite
+  and imperfect data! See for example work by
+   • Elizabeth Allman, Cécile Ané, Hector Baños, Philippe Gambette,
+     Katharine Huber, Steven Kelk, Erin Molloy, Vincent Moulton, John Rhodes,
+     Leo Van Irsel
+Phylogenetic Networks
+
+                        Without the red edge, we have a tree T
+
+                        The quartet tree on {A,D,E,G} in T is
+                        • AD|EG
+
+                        • After we add the red edge, we can also get
+                          DE|AG
+
+
+                        We can also obtain some other new quartet
+                        trees, such as DF|BG, DE|BG, CF|AG, etc.
+In other words, they prove that there is only one or two quartet trees for any set
+of four leaves in Q(Nr)!
+• CUPNS: statistically consistent polynomial time method for
+  estimating a level-1 phylogenetic network from SNPs
+• CUPNS is based on being able to infer the quartet trees in
+  Q(Nr)
+CUPNS: pros and cons
+• Statistically consistent, polynomial time
+• But: will fail to return a network when the technique used to infer the quartet
+  trees from Q(Nr) has any mistakes
+
+• This restriction is true of many other theoretically-focused methods
+
+• Hence: We need a method that can reconstruct a good estimate of the level-1
+  phylogenetic network that is robust to this failure
+CAMUS (Willson and Warnow 2026)
+Consider this problem:
+• Input: a rooted tree T and a set Q of quartet trees
+• Output: A level-1 phylogenetic network N built on T that satisfies as many
+  quartet trees in Q as possible
+
+
+CAMUS solves this in polynomial time (using dynamic programming)/
+
+A variant of CAMUS can solve the restricted problem of finding the best level-1
+network with at most a given number of reticulations
+
+
+Published in Bioinformatics 2026, special issue for ISMB 2026
+Using CAMUS in a pipeline
+Given a set of rooted gene trees (from across the genomes):
+1. Estimate the rooted species tree T (e.g., using ASTRAL)
+2. Extract all (unrooted) quartet trees from the gene trees
+3. Restrict to a subset Q* of the quartet trees, based on a
+   statistical test (accounting for ILS) and a threshold t, 0<t<1
+4. Apply CAMUS to (T,Q*), obtaining level-1 network N built on T
+Using CAMUS in a pipeline
+Given a set of rooted gene trees (from across the genomes):
+1. Estimate the rooted species tree T (e.g., using ASTRAL)
+2. Extract all (unrooted) quartet trees from the gene trees
+3. Restrict to a subset Q* of the quartet trees, based on a
+   statistical test (accounting for ILS) and a threshold t, 0<t<1
+4. Apply CAMUS to (T,Q*), obtaining level-1 network N built on T
+Filtering quartet trees
+• Recall: In a level-1 phylogenetic network, there are at most two
+  quartet trees for any four species.
+• If we know exactly which quartet trees are available for every four
+  species, we can construct the level-1 network.
+• Therefore: a key step in the CAMUS pipeline is restricting the set of
+  quartet trees for a given set of four species, to either 1 or 2 trees
+Experiments
+• Methods:
+   • PhyloNet-MPL(FT): using the same input tree T, and not allowed T to change)
+   • PhyloNet-MPL, allowing T to change
+   • SNaQ, allowing T to change
+• Datasets:
+   • 1000 estimated gene trees on varying numbers of species
+      • genes evolve down level-1 phylogenetic networks, sequences evolve down genes, we
+        then estimate gene trees using maximum likelihood heuristics
+• Evaluation:
+   • Measure false negative and false positive rates for *clusters* in the output
+     network
+   • Running time and memory usage (limited to 12 hrs and 256 Gb)
+Results: Computational performance
+Cluster error on networks with 16 species
+
+
+                        • SNaQ is most accurate.
+                        • PhyloNet-MPL, allowing T to
+                          change, is next most accurate,
+                          but CAMUS is close
+                        • PhyloNet-MPL(FT) is much less
+                          accurate
+Cluster error on networks with 26 species
+
+
+                        • SNaQ fails to complete (12 hr max)
+                        • PhyloNet-MPL, allowing T to
+                          change, is most accurate, but
+                          CAMUS is close
+                        • PhyloNet-MPL(FT) is much less
+                          accurate
+Cluster error on networks with 51 species
+•
+
+                        • PhyloNet-MPL and SNaQ do not
+                          complete (12 hour max)
+                        • CAMUS is more accurate than
+                          PhyloNet-MPL(FT)
+Avian analysis
+• We used ~14,000 gene trees for the Jarvis et al. avian
+  phylogenomics project, on 48 birds.
+• We constructed a species tree on these gene trees using ASTRAL,
+  and then ran CAMUS and PhyloNet-MPL(FT)
+• These networks were evaluated by Ed Braun (bird evolutionary
+  biologist), who said the PhyloNet-MPL(FT) network was not very
+  credible, and thought the CAMUS network was reasonable
+Indicates potential hybridization
+involving owls (conjectured in
+Stiller et al., Nature 2024)
+
+Other networks estimated by
+PhyloNet-MPL were less
+believable (personal
+communication, Ed Braun, Univ
+Florida), and had poorer MPL
+scores than this CAMUS
+network
+Summary and Future Work
+• Summary:
+  • CAMUS is fast, can scale at least to 200 species, and has better accuracy
+    compared to PhyloNet-MPL(FT)
+  • For smaller numbers of species, methods that do not fix the tree (i.e.,
+    SNaQ and PhyloNet-MPL ) are slightly more accurate
+  • CAMUS and SNaQ are limited to constructing level-1 networks
+  • No guarantees of statistical consistency, even if the true network is level-1
+• Future work
+  • Improve scalability to more than 200 species
+  • Develop other techniques to estimate the underlying tree T
+  • Extend technique to estimate more complex networks
+

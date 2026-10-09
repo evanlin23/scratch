@@ -1,0 +1,233 @@
+Needleman-Wunsch Pairwise Alignment
+Worked out example
+• S = ACA
+• T = CAT
+
+• Assume substitutions and indels have unit cost
+
+• Warm-up:
+   • If the alignment were ungapped (given above), what would the cost be?
+   • Can you find a less costly alignment?
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+
+
+            -            C                  A                  T
+ -
+ A
+ C
+ A
+Worked out example
+                         Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA                therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                            M(i-1,j)+1,
+• T = CAT                   M(i,j-1)+1,
+                            M(i-1,j-1)+ Mismatch(si,tj)
+                         where we write S = s1s2s3 and T = t1t2t3
+
+
+                 -                C                  A                  T
+ -
+ A
+ C
+ A
+
+     What about M(0,j) and M(i,0)? (Boundary cases?)
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+
+
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1
+ C          2
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          What is M(1,1)?
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1
+ C          2
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          What is M(1,1)?
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1
+ C          2
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          What is M(1,2)?
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1
+ C          2
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          What is M(1,3)?
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1                  2
+ C          2
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          Filling in the rest
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1                  2
+ C          2            1
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          Filling in the rest
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1                  2
+ C          2            1                  2
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          Filling in the rest
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1                  2
+ C          2            1                  2                  2
+ A          3
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          Filling in the rest
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1                  2
+ C          2            1                  2                  2
+ A          3            2
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          Filling in the rest
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1                  2
+ C          2            1                  2                  2
+ A          3            2                  1
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                          Filling in the rest
+            -            C                  A                  T
+ -          0            1                  2                  3
+ A          1            1                  1                  2
+ C          2            1                  2                  2
+ A          3            2                  1                  2
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                      What is the edit
+            -            C                  A                  T                      distance? – see
+                                                                                      bottom right corner.
+ -          0            1                  2                  3
+ A          1            1                  1                  2                      What is the pairwise
+ C          2            1                  2                  2                      alignment yielding
+                                                                                      that distance? -
+ A          3            2                  1                  2                      backtracing
+Worked out example
+                Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA       therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                   M(i-1,j)+1,
+• T = CAT          M(i,j-1)+1,
+                   M(i-1,j-1)+ Mismatch(si,tj)
+                where we write S = s1s2s3 and T = t1t2t3
+                                                                                      What is the edit
+            -            C                  A                  T                      distance? – see
+                                                                                      bottom right corner.
+ -          0            1                  2                  3
+ A          1            1                  1                  2                      What is the pairwise
+ C          2            1                  2                  2                      alignment yielding
+                                                                                      that distance? -
+ A          3            2                  1                  2                      backtracing
+Worked out example
+                        Remember: the (i,j) entry is the cost of aligning the prefix Si to prefix Tj and
+• S = ACA               therefore M(i,j) for i,j > 0 is the minimum of the following three values:
+                           M(i-1,j)+1,
+• T = CAT                  M(i,j-1)+1,
+                           M(i-1,j-1)+ Mismatch(si,tj)
+                        where we write S = s1s2s3 and T = t1t2t3
+                                                                                              What is the edit
+                -                  C                A                  T                      distance? – see
+                                                                                              bottom right corner.
+ -              0                  1                2                  3
+ A              1                  1                1                  2                      What is the pairwise
+ C              2                  1                2                  2                      alignment yielding
+                                                                                              that distance? -
+ A              3                  2                1                  2                      backtracing
+
+     Pairwise alignment: A C A –
+                         - CA T
+
