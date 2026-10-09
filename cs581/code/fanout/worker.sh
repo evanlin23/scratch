@@ -86,5 +86,25 @@ open(sys.argv[3], 'w').writelines(rows)" "$RUNS/pilot/results.jsonl" "$name" "$O
   push
   echo "$(date +%T) done $name"
 done
+
+# Backfill: rerun the pilot on finished replicates this machine computed, so they
+# also get variants added after they were first processed (done variants are skipped).
+while read -r name rest; do
+  [ -f "$RUNS/$name/prep.json" ] && [ -f "$OUT/$name/prep.json" ] || continue
+  GIT pull -q --no-rebase --no-edit origin "$BASE" || true
+  only=$(echo "$rest" | awk '{print $3}')
+  PILOT_ONLY=${only:-} PILOT_JOBS=2 python3 -m gcmx.pilot "$RUNS/pilot" "$RUNS/$name" < /dev/null \
+    || echo "$(date +%T) backfill pilot errors for $name"
+  python3 -c "
+import json, sys
+rows = [l for l in open(sys.argv[1]) if json.loads(l)['dataset'] == sys.argv[2]]
+open(sys.argv[3], 'w').writelines(rows)" "$RUNS/pilot/results.jsonl" "$name" "$OUT/$name/pilot.jsonl"
+  if ! git -C "$REPO" diff --quiet -- "cs581/experiments/runs/$name"; then
+    GIT add "cs581/experiments/runs/$name"
+    GIT commit -q -m "fanout: backfill merge variants on $name" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+    push
+    echo "$(date +%T) backfilled $name"
+  fi
+done < "$JOBS"
 push
 echo "ALL JOBS DONE"
