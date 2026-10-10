@@ -1,0 +1,12 @@
+max-ybar LP on noise-free d: exact recovery of the node measure (random trees n=6-40, random matchings S, generic parameters)
+(k, claw type) recovered/total
+(1, 'no-claw') recovered 121/121 ybar_hat>=true 121
+(2, 'no-claw') recovered 118/118 ybar_hat>=true 118
+(3, 'closed-claw') recovered 0/5 ybar_hat>=true 5
+(3, 'no-claw') recovered 98/106 ybar_hat>=true 106
+(4, 'closed-claw') recovered 0/17 ybar_hat>=true 17
+(4, 'no-claw') recovered 91/108 ybar_hat>=true 108
+(4, 'open-claw') recovered 0/3 ybar_hat>=true 3
+(5, 'closed-claw') recovered 0/14 ybar_hat>=true 14
+(5, 'no-claw') recovered 73/98 ybar_hat>=true 98
+(5, 'open-claw') recovered 0/7 ybar_hat>=true 7
