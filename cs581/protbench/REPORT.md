@@ -161,7 +161,8 @@ Notes on the data:
   papers is the 8 BAliBASE RV100 sets plus 1GADBL_100 and coli_epi_100. Only those two are new data here. The
   8 RV100 sets in this release are the full RV100 files (303-807 sequences, including fragmentary sequences),
   whereas the bbtool sessions use the length-filtered copies in `cs581/data/balibase_clean/` (195-732
-  sequences). I queued the unfiltered RV100 sets last, as a "same families, with fragments" variant.
+  sequences). I queued the unfiltered RV100 sets last, as a "same families, with fragments" variant; only BBA0039 and
+  BBA0067 finished.
 - **HomFam**: clustal.org's full HomFam tarball (`homfam-20110613-25.tar.gz`) returned HTTP 403 from this
   machine, so I used the 10 largest families as distributed with the SALMA/EMMA data. They are far larger than
   5,000 sequences, so each was subsampled to 2,000 sequences: all Homstrad seed sequences plus a uniform random
@@ -173,7 +174,7 @@ Notes on the data:
   (`iqtree3 -r 1000 -rlen 0.001 MEAN 0.8`, MEAN = 0.06 moderate / 0.10 high), then
   `iqtree3 --alisim -m LG+G4 --length 300 --indel 0.05,0.05 --indel-size POW{1.7/40},POW{1.7/40}`, tree seed
   100r+7, sequence seed 100r+13. Calibration (one MAGUS run each, not in the tables): MEAN 0.03 gave MAGUS
-  1.3% error (too easy), MEAN 0.06 gave 11.8%. MEAN 0.10 was not calibrated in advance.
+  1.3% error (too easy), MEAN 0.06 gave 11.8%. MEAN 0.10 was not calibrated in advance and gave 21.5-24.9%.
 
 ## Methods
 
