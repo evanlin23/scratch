@@ -1,0 +1,13 @@
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 0.23, "FN": 4, "FP": 4, "nI": 47, "FNrate": 0.08511}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-multi", "sec": 0.289, "FN": 5, "FP": 5, "nI": 47, "FNrate": 0.10638}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 0.583, "FN": 4, "FP": 4, "nI": 47, "FNrate": 0.08511}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 1.738, "FN": 3, "FP": 3, "nI": 47, "FNrate": 0.06383}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 14.079, "FN": 2, "FP": 2, "nI": 47, "FNrate": 0.04255}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "disco-astral", "sec": 16.228, "FN": 2, "FP": 2, "nI": 47, "FNrate": 0.04255}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 11.522, "FN": 2, "FP": 2, "nI": 47, "FNrate": 0.04255}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "wqfm-gdl", "sec": 66.644, "FN": 3, "FP": 3, "nI": 47, "FNrate": 0.06383}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 0.594, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-multi", "sec": 1.351, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 1.741, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 5.023, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 84.596, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}

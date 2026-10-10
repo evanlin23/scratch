@@ -86,6 +86,33 @@ def strip_root_leaf(path):
         f.write("\n".join(out) + "\n")
 
 
+def rf_shared(est, true):
+    """(FN, FP, nI_true, nI_est) on the leaf set shared by both trees (empirical references may be
+    induced on fewer species); identical to phylo.rf_error when the leaf sets agree."""
+    shared = sorted(set(est.label[v] for v in est.leaves()) & set(true.label[v] for v in true.leaves()))
+    idx = {x: i for i, x in enumerate(shared)}
+    n = len(shared)
+    full = (1 << n) - 1
+
+    def bip(t):
+        mask = [0] * len(t.parent)
+        for v in t.postorder():
+            if t.children[v]:
+                for c in t.children[v]:
+                    mask[v] |= mask[c]
+            elif t.label[v] in idx:
+                mask[v] = 1 << idx[t.label[v]]
+        out = set()
+        for m in mask:
+            if m & 1:
+                m = full ^ m
+            if 2 <= bin(m).count("1") <= n - 2:
+                out.add(m)
+        return out
+    be, bt = bip(est), bip(true)
+    return len(bt - be), len(be - bt), len(bt), len(be)
+
+
 def run_method(m, genes, td, mode):
     u = ["-u"] if mode == "simphy" else []
     out = os.path.join(td, m + ".tre")
@@ -122,9 +149,16 @@ def run_method(m, genes, td, mode):
         mapping(genes, mp, mode)
         sh([ASTRALPRO, "-i", genes, "-a", mp, "-o", out, "-t", "1", "-u", "0"])
     elif m == "asteroid":
-        mp = os.path.join(td, "map.txt")
-        mapping(genes, mp, mode)
-        sh([ASTEROID, "-i", genes, "-m", mp, "-p", os.path.join(td, "ast")])
+        mp = []
+        if mode == "simphy":  # with species labels Asteroid needs no mapping (it rejects identity maps)
+            mp = ["-m", os.path.join(td, "map.txt")]
+            mapping(genes, mp[1], mode)
+        g4 = os.path.join(td, "genes4.trees")  # Asteroid cannot parse gene trees with < 4 leaves
+        with open(genes) as f, open(g4, "w") as g:
+            for line in f:
+                if line.count(",") >= 3:
+                    g.write(line)
+        sh([ASTEROID, "-i", g4, "-p", os.path.join(td, "ast")] + mp)
         shutil.copy(os.path.join(td, "ast.bestTree.newick"), out)
     elif m == "fastmulrfs":
         if mode == "simphy":
@@ -169,7 +203,8 @@ def main():
     todo = [m for m in a.methods.split(",") if (ks, m) not in done]
     if not todo:
         return
-    true = parse_newick(open(a.true).read().strip().split("\n")[0])
+    txt = "".join(l.strip() for l in open(a.true))
+    true = parse_newick(txt[:txt.index(";") + 1].replace("[&R]", "").replace("'", ""))
     with tempfile.TemporaryDirectory(dir=os.environ.get("BENCH_TMP")) as td:
         genes = os.path.join(td, "genes.trees")
         with open(a.genes) as f, open(genes, "w") as g:
@@ -188,7 +223,7 @@ def main():
                 nwk = run_method(m, genes, td, a.label_mode)
                 rec["sec"] = round(time.time() - t0, 3)
                 est = parse_newick(nwk)
-                fn, fp, i1, i2 = rf_error(est, true)
+                fn, fp, i1, i2 = rf_shared(est, true)
                 rec.update(FN=fn, FP=fp, nI=i1, FNrate=round(fn / i1, 5))
             except Exception as e:  # record failures (timeouts, crashes) so reruns skip them
                 rec["sec"] = round(time.time() - t0, 3)
