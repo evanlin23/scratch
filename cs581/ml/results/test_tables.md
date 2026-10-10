@@ -16,6 +16,8 @@
 | IQ-TREE 3 --fast | 5 | 39.3% | +6.7 (0/0/5) | 0.06 | 6 | – |
 | RAxML-NG --fast | 5 | 34.2% | +1.5 (0/1/4) | 0.12 | 8 | -130.5 |
 | RAxML-NG (1 start) | 5 | 32.7% | – | - | 28 | +0.0 |
+| **ours-fast** (constrained) | 1 | 34.4% | +5.2 (0/0/1) | - | 9 | -786.9 |
+| **ours-accurate** (+ fast polish) | 1 | 31.6% | +2.4 (0/0/1) | - | 16 | +0.6 |
 
 ### 16S.M, real 16S rRNA, amplicon-like fragments; reference = CRW tree — true alignment
 
@@ -34,6 +36,8 @@
 | IQ-TREE 3 --fast | 5 | 37.5% | +12.8 (0/0/5) | 0.06 | 7 | – |
 | RAxML-NG --fast | 5 | 29.8% | +5.1 (0/0/5) | 0.06 | 17 | -246.2 |
 | RAxML-NG (1 start) | 5 | 24.7% | – | - | 35 | +0.0 |
+| **ours-fast** (constrained) | 3 | 24.5% | +0.9 (0/0/3) | 0.25 | 14 | -29.1 |
+| **ours-accurate** (+ fast polish) | 3 | 23.6% | +0.0 (1/1/1) | 1.00 | 25 | +3.1 |
 | published RAxML-NG (20 starts, 24 h cap) | 5 | 24.9% | +0.2 (1/1/3) | 0.88 | – | – |
 | published IQ-TREE 2 (default) | 5 | 30.2% | +5.4 (0/0/5) | 0.06 | – | – |
 | published GTM (IQ-TREE start) | 5 | 28.4% | +3.6 (0/0/5) | 0.06 | – | – |
@@ -42,15 +46,17 @@
 
 | method | n | mean FN | Δ FN vs RAxML-NG (W/T/L) | Wilcoxon p | mean CPU min | mean ΔlnL vs RAxML-NG |
 |---|---|---|---|---|---|---|
-| FastTree 2 | 3 | 59.3% | +24.9 (0/0/1) | - | 3 | – |
-| IQ-TREE 3 --fast | 3 | 46.1% | +13.9 (0/0/1) | - | 6 | – |
-| RAxML-NG --fast | 2 | 36.0% | -0.3 (1/0/0) | - | 20 | +3.8 |
-| RAxML-NG (1 start) | 1 | 34.0% | – | - | 44 | +0.0 |
+| FastTree 2 | 3 | 59.3% | +24.0 (0/0/3) | 0.25 | 3 | – |
+| IQ-TREE 3 --fast | 3 | 46.1% | +10.8 (0/0/3) | 0.25 | 6 | – |
+| RAxML-NG --fast | 3 | 35.4% | +0.1 (2/0/1) | 1.00 | 19 | +0.7 |
+| RAxML-NG (1 start) | 3 | 35.3% | – | - | 42 | +0.0 |
 
 ### Pooled over all held-out replicates (paired vs RAxML-NG, 1 start)
 
 | method | n pairs | mean Δ FN | W/T/L | Wilcoxon p | mean CPU ratio vs RAxML-NG |
 |---|---|---|---|---|---|
-| FastTree 2 | 19 | +18.72 | 0/0/19 | 3.81e-06 | 0.06 |
-| IQ-TREE 3 --fast | 19 | +9.14 | 0/0/19 | 0.000131 | 0.19 |
-| RAxML-NG --fast | 19 | +1.97 | 5/2/12 | 0.00987 | 0.36 |
+| FastTree 2 | 21 | +19.18 | 0/0/21 | 9.54e-07 | 0.07 |
+| IQ-TREE 3 --fast | 21 | +9.15 | 0/0/21 | 5.94e-05 | 0.18 |
+| RAxML-NG --fast | 21 | +1.81 | 6/2/13 | 0.0089 | 0.37 |
+| **ours-fast** (constrained) | 4 | +1.99 | 0/0/4 | 0.125 | 0.38 |
+| **ours-accurate** (+ fast polish) | 4 | +0.62 | 1/1/2 | 0.5 | 0.66 |
