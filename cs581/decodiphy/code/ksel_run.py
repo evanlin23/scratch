@@ -34,7 +34,14 @@ NOISE = {"noise0": (0, 1.0), "noise1": (1, 1.0), "noise2": (1, 2.0)}  # (add_noi
 READS = 10 ** 5
 
 
+def _alarm(signum, frame):
+    raise TimeoutError("run exceeded 300 s (authors' hill climbing did not terminate)")
+
+
 def one(args):
+    import signal
+    signal.signal(signal.SIGALRM, _alarm)
+    signal.alarm(300)
     try:
         return _one(args)
     except Exception as e:  # e.g. the authors' OSQP failure path (UnboundLocalError in optimize.py)
@@ -42,6 +49,8 @@ def one(args):
         out = os.path.join(OUT, f"{tname}_k{k}_s{seed}_{nname}.failed")
         open(out, "w").write(repr(e))
         return out
+    finally:
+        signal.alarm(0)
 
 
 def _one(args):

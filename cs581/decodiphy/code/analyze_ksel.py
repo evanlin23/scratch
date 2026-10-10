@@ -21,10 +21,13 @@ D = sys.argv[1]
 OUT = sys.argv[2] if len(sys.argv) > 2 else None
 TRAIN = {"bees", "birds-jarvis", "1kp", "beetles", "hemipteroid"}
 
+MAXSEED = int(sys.argv[3]) if len(sys.argv) > 3 else 10 ** 9
 runs = []
 for fn in glob.glob(os.path.join(D, "*.json")):
     r = json.load(open(fn))
-    runs.append(r)
+    if r["seed"] <= MAXSEED:
+        runs.append(r)
+n_failed = len([f for f in glob.glob(os.path.join(D, "*.failed"))])
 
 
 def adjacent(par, a, b):
@@ -123,7 +126,8 @@ def evaluate(rule, subset):
 
 train = [r for r in runs if r["tree"] in TRAIN]
 test = [r for r in runs if r["tree"] not in TRAIN]
-lines = [f"runs: {len(runs)} (train {len(train)}, test {len(test)})"]
+lines = [f"runs: {len(runs)} (train {len(train)}, test {len(test)}); seeds <= {MAXSEED}; "
+         f"runs where the authors' solver crashed (excluded): {n_failed}"]
 # tune on train (per noise level is NOT done: one global parameter, noise level unknown in practice)
 lams = [0.1, 0.25, 0.5, 1, 2, 4, 8, 16]
 taus = [0.05, 0.1, 0.2, 0.3, 0.5, 0.7, 0.9]
