@@ -7,3 +7,6 @@
 {"setting": "S25", "rep": 2, "mode": "true", "nq": 30, "min": 1.0, "median": 1.0, "nneg": 0}
 {"setting": "S25", "rep": 2, "mode": "ovl", "nq": 30, "min": 0.9899328859060402, "median": 1.0, "nneg": 0}
 {"setting": "S25", "rep": 2, "mode": "own", "nq": 30, "min": 0.9576711157068933, "median": 0.986586201554041, "nneg": 0}
+{"setting": "S25het4", "rep": 0, "mode": "true", "nq": 9, "min": 1.0, "median": 1.0, "nneg": 0}
+{"setting": "S25het4", "rep": 0, "mode": "ovl", "nq": 10, "min": -1.0, "median": 1.0, "nneg": 1}
+{"setting": "S25het4", "rep": 0, "mode": "own", "nq": 10, "min": -1.0, "median": 1.0, "nneg": 1}

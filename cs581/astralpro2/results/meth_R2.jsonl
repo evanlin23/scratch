@@ -62,3 +62,4 @@
 {"pool": "R2.nwk", "method": "ovl", "K": 1000, "block": 5, "topo": "AD|BC", "wrong": true, "scores": {"AD|BC": 242.0, "AC|BD": 235.0, "AB|CD": 231.0}}
 {"pool": "R2.nwk", "method": "own", "K": 1000, "block": 5, "topo": "AD|BC", "wrong": true, "scores": {"AD|BC": 337.6824786324786, "AC|BD": 317.5175213675214, "AB|CD": 258.79999999999995}}
 {"pool": "R2.nwk", "method": "recon_true", "K": 1000, "block": 5, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 231.0}}
+{"pool": "R2.nwk", "method": "recon_first", "K": 1000, "block": 5, "topo": "AD|BC", "wrong": true, "scores": {"AD|BC": 24.0}}
