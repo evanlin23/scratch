@@ -20,6 +20,18 @@ if [ ! -x /opt/mm/root/envs/bio/bin/twilight ]; then
     iqtree=3.1.4 famsa muscle=5.3 twilight pasta
 fi
 
+# 2b. PASTA 1.8.3, the version the MAGUS paper ran (bioconda only has 1.7.8, which breaks on
+#     current DendroPy, and 1.9.x): source at the "1.8.3" commit + its bundled tools
+#     (sate-tools-linux), in a Python 3.7 env with DendroPy 4.4.0. Used by gcmx.e2e_bench.
+if [ ! -x /opt/mm/root/envs/pasta183/bin/python ] || [ ! -f /opt/src/pasta/run_pasta.py ]; then
+  $SUDO mkdir -p /opt/src && $SUDO chown "$(id -u)" /opt/src
+  [ -d /opt/src/sate-tools-linux ] || git clone -q --depth 1 https://github.com/smirarab/sate-tools-linux.git /opt/src/sate-tools-linux
+  [ -d /opt/src/pasta ] || git clone -q https://github.com/smirarab/pasta.git /opt/src/pasta
+  git -C /opt/src/pasta checkout -q 738bec5
+  MAMBA_ROOT_PREFIX=/opt/mm/root /opt/mm/micromamba create -y -q -n pasta183 -c conda-forge -c bioconda python=3.7 dendropy=4.4.0
+  (cd /opt/src/pasta && /opt/mm/root/envs/pasta183/bin/python setup.py develop > /opt/src/pasta_install.log 2>&1)
+fi
+
 # 3. FastSP (alignment accuracy: SPFN/SPFP/TC)
 if [ ! -d /opt/tools/FastSP ]; then
   $SUDO mkdir -p /opt/tools && $SUDO chown "$(id -u)" /opt/tools
