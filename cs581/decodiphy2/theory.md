@@ -12,8 +12,8 @@ N(v) is its neighbour set and N[v] = N(v) ∪ {v}; for a set U, N[U] = ∪_{v∈
 **PDD instance** (Arasti et al. 2026, Problem 1 with Assumption 1). A solution is
 θ = (S, p, x, ȳ): a set S of k *distinct* edges of R, one query on each edge e_q = (a_q, b_q) at
 distance x_q·l(e_q) from a_q, with 0 < x_q < 1, abundances p_q > 0 summing to 1, and mean pendant
-length ȳ ≥ 0. Its mixture distance vector is d_r(θ) = Σ_q p_q (d_R(r, a_q) + …) — explicitly
-d(θ) = F m(θ) + ȳ·1 (Lemma 1). θ is **identifiable** if every θ' with |S'| ≤ |S| and d(θ') = d(θ)
+length ȳ ≥ 0. Its mixture distance vector is d_r(θ) = Σ_q p_q d_R(r, π_q) + ȳ, where π_q is the attachment
+point of query q; equivalently d(θ) = F m(θ) + ȳ·1 (Lemma 1). θ is **identifiable** if every θ' with |S'| ≤ |S| and d(θ') = d(θ)
 equals θ. (Larger S' always exist when ȳ > 0, see C2 of the first report; only the minimal k is
 meaningful, so the question is about k' ≤ k.)
 
@@ -246,11 +246,11 @@ a MILP over all competitors S' with |S'| ≤ k and all α searched for a feasibl
 | 12 | 4 | 37 | 78,420 | 17,636 | 60,784 | 0 |
 | 10 | 5 | 11 | 5,660 | 4,880 | 780 | 0 |
 | 11 | 5 | 18 | 25,120 | 17,604 | 7,516 | 0 |
-| 12 | 5 | 37 | see `results/milp_enum_n12_k4-6_rand.md` | | | 0 |
+| 12 | 5 | 37 | 118,116 | 67,572 | 50,544 | 0 |
 | 8–11 | k > n/2 (5–6) | — | 17,988 | all (Corollary 6) | 0 | — |
 
 (Random lengths; the unit-length rerun for n ≤ 10, k ≤ 6 gives identical counts.) Together with
-k ≤ 3 (Theorems 2–4, proved) and the first report's exhaustive k ≤ 3 tables, about 92k
+k ≤ 3 (Theorems 2–4, proved) and the first report's exhaustive k ≤ 3 tables, about 140k
 continuum-free matchings with k ≥ 4 are certified identifiable.
 
 **The conjecture is false without the matching hypothesis.** For edge sets with an adjacent pair, the
@@ -290,6 +290,6 @@ outside this analysis.
 | closed claw ⇒ edge-set alternatives on an open (generic) parameter set | proved (round 1) |
 | continuum ⇔ Hall deficiency (H) | ⇐ proved; ⇒ verified (145,543 cases) |
 | k > n/2 non-adjacent ⇒ never identifiable | proved (corollary) |
-| general k, non-adjacent: identifiable ⇔ (H) holds for no U | conjecture; 0 counterexamples in ~92k MILP-certified cases with k ≥ 4, n ≤ 12 |
+| general k, non-adjacent: identifiable ⇔ (H) holds for no U | conjecture; 0 counterexamples in ~140k MILP-certified cases with k = 4–5, n ≤ 12 |
 | adjacent placements, k ≥ 3: edge set can change without a continuum | observed (MILP), mechanism explained |
 | per-query pendant lengths | proved (reduces to ȳ) |
