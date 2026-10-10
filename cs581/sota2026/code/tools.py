@@ -37,6 +37,10 @@ TOOLS = {
     "famsa": lambda i, o, t, w: ([FAMSA, "-t", str(t), i, o], None),
     "famsa-medoid": lambda i, o, t, w: ([FAMSA, "-t", str(t), "-medoidtree", i, o], None),
     "twilight": lambda i, o, t, w: (["python3", TWI_ITER, i, o, str(t), os.path.join(w, "twilight_tmp"), "3"], None),
+    # diagnostics: same aligner, true tree as guide tree (WORKDIR/true_tree.nwk, written by diag runs)
+    "twilight-truetree": lambda i, o, t, w: ([os.path.join(BIO, "twilight"), "-i", i, "-t", os.path.join(w, "true_tree.nwk"),
+                                              "-o", o, "-C", str(t), "--overwrite"], None),
+    "famsa-truetree": lambda i, o, t, w: ([FAMSA, "-t", str(t), "-gt", "import", os.path.join(w, "true_tree.nwk"), i, o], None),
     "twilight-1": lambda i, o, t, w: (["python3", TWI_ITER, i, o, str(t), os.path.join(w, "twilight_tmp"), "1"], None),
 }
 
