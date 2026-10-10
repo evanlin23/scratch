@@ -32,7 +32,8 @@ def published():
     for line in open(PUB):
         r = json.loads(line)
         if r.get("published_seconds"):
-            pub["{}_{}".format(r["dataset"], r["rep"])][r["method"]] = (100 * r["avgErr"], r["published_seconds"])
+            key = r["rep"].replace("RV100_", "") + "_R0" if r["dataset"] == "balibase" else "{}_{}".format(r["dataset"], r["rep"])
+            pub[key][r["method"]] = (100 * r["avgErr"], r["published_seconds"])
     return pub
 
 
