@@ -18,7 +18,7 @@ for p in sorted(glob.glob("/opt/gtms/sim/n*_i*/r*/steps.json") + glob.glob("/opt
     if "full_iq" not in S and os.path.exists(fj):
         S["full_iq"] = json.load(open(fj))
     parts = p.split("/")
-    cond, rep = (parts[-3], parts[-2]) if "sim" in p else ("RNASim10K", parts[-2])
+    cond, rep = ("RNASim10K", parts[-2]) if "/rnasim10k/" in p else (parts[-3], parts[-2])
     guides = sorted({k.split("_m")[0] for k in S if "_m" in k and k.endswith("_subtrees")})
     for g in guides:
         pre = [k[:-len("subtrees")] for k in S if k.startswith(g + "_m") and k.endswith("_subtrees")][0]
@@ -29,7 +29,7 @@ for p in sorted(glob.glob("/opt/gtms/sim/n*_i*/r*/steps.json") + glob.glob("/opt
                  fn_guide=S.get("guide_" + g, {}).get("fn"), t_guide=S.get("guide_" + g, {}).get("wall"),
                  fn_subtrees=S[pre + "subtrees"].get("fn"), t_subtrees=S[pre + "subtrees"]["wall"],
                  k=S[pre + "subtrees"]["k"])
-        for a in ("gtm", "blendft", "polishft", "cft", "treemerge"):
+        for a in ("gtm", "blendft", "blendfast", "polishft", "cft", "treemerge", "blendml"):
             if pre + a in S and "fn" in S[pre + a]:
                 r["fn_" + a] = S[pre + a]["fn"]
                 r["t_" + a] = S[pre + a]["wall"]
@@ -50,8 +50,8 @@ for p in sorted(glob.glob("/opt/gtms/sim/n*_i*/r*/steps.json") + glob.glob("/opt
         rows.append(r)
 
 cols = ["cond", "rep", "guide", "k", "fn_guide", "fn_subtrees", "fn_full_ft", "fn_full_iq", "fn_gtm", "fn_blendft",
-        "fn_polishft", "fn_cft", "fn_treemerge", "ind_blendft", "t_guide", "t_subtrees", "t_gtm", "t_blendft",
-        "t_polishft", "t_full_ft", "t_full_iq", "e2e_gtm", "e2e_blendft", "mem_blendft", "mem_full_ft", "mem_full_iq"]
+        "fn_blendfast", "fn_polishft", "fn_cft", "fn_treemerge", "fn_blendml", "ind_blendft", "t_guide", "t_subtrees", "t_gtm", "t_blendft",
+        "t_blendfast", "t_polishft", "t_full_ft", "t_full_iq", "e2e_gtm", "e2e_blendft", "mem_blendft", "mem_full_ft", "mem_full_iq"]
 
 
 def fmt(v):
@@ -105,7 +105,8 @@ with open(f"{out}/paired_tests.txt", "w") as fh:
         tm = lambda k: np.mean([r[k] for r in rs if r.get(k) is not None]) if any(r.get(k) is not None for r in rs) else float("nan")
         fh.write("   mean wall s: e2e GTM %.0f, e2e BlendFT %.0f, full FT %.0f, full IQ(-fast) %.0f\n"
                  % (tm("e2e_gtm"), tm("e2e_blendft"), tm("t_full_ft"), tm("t_full_iq")))
-        for A, B in (("gtm", "blendft"), ("gtm", "polishft"), ("polishft", "blendft"), ("gtm", "treemerge"),
+        fh.write("   mean FN%%: BlendFast %.2f; mean wall s BlendFT %.0f BlendFast %.0f\n" % (mean("fn_blendfast"), tm("t_blendft"), tm("t_blendfast")))
+        for A, B in (("gtm", "blendft"), ("gtm", "blendfast"), ("gtm", "polishft"), ("polishft", "blendft"), ("gtm", "treemerge"),
                      ("full_ft", "blendft"), ("full_iq", "blendft"), ("full_ft", "gtm")):
             paired("   %s -> %s" % (A, B), [r.get("fn_" + A) for r in rs], [r.get("fn_" + B) for r in rs], fh)
     # pooled over simulated ftfast conditions
@@ -124,7 +125,7 @@ with open(f"{out}/paired_tests.txt", "w") as fh:
     for lab, rs in (("simulated, first round (ftfast + kmer guides)", first),
                     ("simulated, iteration round", [r for r in simrows if r["guide"].endswith("+it")]),
                     ("published (1000M1-HF, Cox1-HET; FT + IQ guides)", pub)):
-        for A, B in (("gtm", "blendft"), ("gtm", "polishft"), ("polishft", "blendft")):
+        for A, B in (("gtm", "blendft"), ("gtm", "blendfast"), ("gtm", "polishft"), ("polishft", "blendft")):
             paired("   %s: %s -> %s" % (lab, A, B), [r.get("fn_" + A) for r in rs], [r.get("fn_" + B) for r in rs], fh)
     allp = first + pub
     paired("   ALL first-round + published: gtm -> blendft", [r.get("fn_gtm") for r in allp],

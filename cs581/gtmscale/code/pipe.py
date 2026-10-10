@@ -265,7 +265,7 @@ def main():
         if not os.path.exists(gtm_bin):
             open(gtm_bin, "w").write(resolve(read_tree(gtm)).to_newick() + "\n")
     con = f"{w}/constraints.fa"
-    if ("blendft" in arms or "cft" in arms) and not os.path.exists(con):
+    if ("blendft" in arms or "cft" in arms or "blendfast" in arms) and not os.path.exists(con):
         t0 = time.time()
         nc = constraint_aln(subs, names, con)
         S[pre + "constraints"] = dict(wall=time.time() - t0, ncol=nc)
@@ -274,6 +274,11 @@ def main():
         run(pre + "blendft", [FT, *FTOPT, "-constraints", con, "-intree", gtm_bin, aln], f"{w}/blendft.tre",
             stdout_to_out=True)
         score(pre + "blendft", f"{w}/blendft.tre")
+    if "blendfast" in arms:
+        # cheaper blending: FastTree -fastest with 2 rounds of ML NNI, same constraints, from GTM
+        run(pre + "blendfast", [FT, *FTOPT, "-fastest", "-mlnni", "2", "-constraints", con, "-intree", gtm_bin, aln],
+            f"{w}/blendfast.tre", stdout_to_out=True)
+        score(pre + "blendfast", f"{w}/blendfast.tre")
     if "polishft" in arms:
         run(pre + "polishft", [FT, *FTOPT, "-intree", gtm_bin, aln], f"{w}/polishft.tre", stdout_to_out=True)
         score(pre + "polishft", f"{w}/polishft.tre")
@@ -319,7 +324,7 @@ def main():
         st.save()
         score(pre + "treemerge", f"{w}/treemerge.tre")
     # constraint satisfaction of the blended outputs
-    for a in ("blendft", "cft", "blendml", "polishft"):
+    for a in ("blendft", "blendfast", "cft", "blendml", "polishft"):
         k = pre + a
         p = f"{w}/{a}.tre"
         if k in S and os.path.exists(p) and "induced" not in S[k]:
