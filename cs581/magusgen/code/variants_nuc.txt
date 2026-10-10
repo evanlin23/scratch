@@ -6,5 +6,4 @@ linsi|cons0.7
 ss:linsi
 ss:soft0.5:linsi&fftns2-op3
 soft0.2:linsi&fftns2-op3
-sm0.5:linsi|cons0.7
 ss:soft0.2:linsi&fftns2-op3
