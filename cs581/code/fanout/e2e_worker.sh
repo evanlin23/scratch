@@ -11,7 +11,7 @@ OUTDIR=$REPO/cs581/experiments/e2e
 OUT=$OUTDIR/$(basename "$BRANCH").jsonl
 mkdir -p "$OUTDIR" /opt/runs/e2e
 cd "$REPO/cs581/code"
-GIT() { git -C "$REPO" -c user.name="Claude" -c user.email="noreply@anthropic.com" "$@"; }
+GIT() { git -C "$REPO" -c user.name="Evan Lin" -c user.email="113861384+evanlin23@users.noreply.github.com" "$@"; }
 # leftovers of a killed previous invocation (bracket patterns: do not match this shell)
 pkill -f "[g]cmx\.(e2e_bench|run_magus|extend|split)" 2>/dev/null; pkill -f "[r]un_pasta\.py" 2>/dev/null
 pkill -f "[m]afftdir" 2>/dev/null; pkill -x mcl 2>/dev/null; pkill -x hmmalign 2>/dev/null; pkill -f "[F]astTree" 2>/dev/null
