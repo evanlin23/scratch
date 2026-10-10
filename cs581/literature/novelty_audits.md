@@ -185,3 +185,50 @@ Add: Roch's alternating short/long caterpillar; a fast-converging (local-distanc
 
 Search gaps: Google Scholar cited-by (Semantic Scholar/OpenCitations list one citer of Roch 2018); NJMerge, TREE-QMC and FASTRAL
 experiments not read in full; theses by title only.
+
+## ASTRID-Pro: GDL-corrected internode distance (branch claude/cs581-gdl) - NOVEL (narrowly)
+
+No 2018-Oct 2026 paper proves consistency or inconsistency of ASTRID, NJst, STAR, STAG, MiniNJ or any averaged
+internode-distance method under GDL or DLCoal. DISCO (2022): "to date, no distance-matrix method has been proven
+statistically consistent under a model of GDL"; weighted ASTRID (2023) notes "the lack of such proofs". Parsons et al.
+2026 is about ASTRAL-pro only.
+
+Closest prior work:
+- Willson et al. 2022, DISCO, Syst Biol 71:610, doi:10.1093/sysbio/syab070: ASTRAL-DISCO consistent given correct
+  rooting/tagging; consistency of ASTRID-DISCO, ASTRID-multi and MiniNJ open.
+- Zhang et al. 2020, ASTRAL-Pro, MBE 37:3292, doi:10.1093/molbev/msaa139: consistent via tagging + speciation-driven quartets
+  (ASTRID-Pro is essentially its distance analogue).
+- Rhodes, Nute & Warnow 2020, arXiv:2001.07844: NJst/ASTRID inconsistent under MSC + i.i.d. taxon deletion (additive matrix,
+  wrong topology); our lemma is a missing-data internode expectation; GDL twist: supercritical branch lets s_yx > s_xA + s_xB.
+- Morel, Williams & Stamatakis 2023, Asteroid, Bioinformatics 39:btac832, doi:10.1093/bioinformatics/btac832: proven fix for
+  missingness bias under any gene-independent deletion model (multi-copy via MiniNJ); competes with our survival-weighted
+  correction; not claimed for GDL.
+- Legried et al. 2021, JCB 28:452, doi:10.1089/cmb.2020.0424 (ASTRAL-one/multi consistent under GDL; ASTRID-multi empirical
+  only); Legried 2023, arXiv:2309.01663 (GDL anomaly zones for rooted caterpillar quartets at large lambda; none for balanced,
+  mirroring our pattern).
+- Hernandez-Rosales et al. 2012, BMC Bioinf 13(S19):S6, doi:10.1186/1471-2105-13-S19-S6: with correct event labels, no ILS,
+  the species tree is identifiable (contribution is about the estimator, not identifiability).
+
+Novel: additivity lemma and four-point analysis for a speciation-only, ortholog-only internode distance under GDL; sufficient
+condition lambda_e <= mu_e on every branch; 4-taxon supercritical counterexample; survival-reweighted correction; held-out
+pre-registered gain over ASTRID-multi. ASTRID-multi itself stays unresolved (do not claim to answer that slide question).
+
+Safe phrasing: "To our knowledge, we give the first consistency analysis of an ASTRID/NJst-style averaged internode distance
+under GDL: assuming no ILS and correct rooting and tagging, an orthology-restricted, speciation-node distance converges to a
+tree metric whose topology is the species tree whenever no branch is supercritical, and can be positively misleading otherwise.
+We compare a survival-reweighted correction with Asteroid-style induced-length correction. Consistent quartet-based pipelines
+(ASTRAL-Pro, ASTRAL-DISCO) already exist in this setting."
+
+Search gaps: Google Scholar; citers of Rhodes et al. arXiv; theses (Willson, Legried, Hill, B. Liu); RECOMB/WABI/ISMB 2026;
+Parsons v2 full text; STAG full text; whether Asteroid's theorem covers GDL-induced (dependent) deletion.
+
+## Summary
+
+| candidate | verdict | novel core | must avoid / must add |
+|---|---|---|---|
+| ASTRID-Pro GDL distance theorem | NOVEL (narrowly) | first consistency analysis of an internode-distance method under GDL; supercritical counterexample; correction | do not claim ASTRID-multi answered; compare with Asteroid |
+| ASTRAL-Pro inconsistency via own tagging | PARTIALLY KNOWN, core novel | counterexamples to Zhang et al.'s conjecture; exact 4-taxon formula; threshold | must test constant-rate GDL; numerical, not proofs |
+| GTM blending (ML-scored constrained SPR) | PARTIALLY KNOWN, core novel | likelihood-decided blending; open problem still listed 2025 | not "first blending DTM"; gains only in simulation |
+| Soft-constraint MAGUS | PARTIALLY KNOWN | partial relaxation + self-derived evidence; first held-out test | must run MAGUS `-c false` baseline; not "first to relax constraints" |
+| ASTRID/NJst sample complexity | theory OPEN; empirical PARTIALLY KNOWN | k95 vs n, caterpillar vs balanced, Roch's construction | not "Roch's conjecture"; use Roch's worst-case tree |
+| Fragment-aware ML | PARTIALLY KNOWN (method is known practice) | a benchmark only | used true alignment, n = 5; do not call the method new |
