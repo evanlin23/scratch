@@ -172,7 +172,7 @@ def run_method(m, genes, td, mode):
         if mode != "simphy":
             mp = os.path.join(td, "map.txt")
             mapping(genes, mp, mode)
-        sh(["bash", WQFM, genes, out, mp], env=dict(os.environ, WQFM_MEM="6g"))
+        sh(["bash", WQFM, genes, out, mp], env=dict(os.environ, WQFM_MEM="4g"))
     elif m == "duploss2":
         sp = os.path.join(td, "sp.trees")
         species_relabel(genes, sp, mode)

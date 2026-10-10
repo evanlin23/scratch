@@ -338,6 +338,27 @@ static Tree root_species(const Tree& st, const vector<RTree>& rts, vector<int>& 
 // ---------------------------------------------------------------- distances
 struct Ent { int sp; double n; double s; };  // species, #leaves, sum of path weights to them
 
+// leaf labels of a Newick line, without building the tree (species pre-scan)
+static void scan_species(const string& s) {
+  size_t i = 0, n = s.size();
+  while (i < n) {
+    char c = s[i];
+    if (c == '[') { while (i < n && s[i] != ']') i++; i++; continue; }
+    if (c == '(' || c == ',') {
+      i++;
+      while (i < n && isspace((unsigned char)s[i])) i++;
+      if (i < n && s[i] != '(') {
+        string l;
+        if (s[i] == '\'') { i++; while (i < n && s[i] != '\'') l += s[i++]; i++; }
+        else while (i < n && !strchr(",():;[", s[i])) l += s[i++];
+        if (!l.empty()) spof(l);
+      }
+      continue;
+    }
+    i++;
+  }
+}
+
 int main(int argc, char** argv) {
   string in, out, mode = "pro", first;
   int countroot = 1;
@@ -353,25 +374,24 @@ int main(int argc, char** argv) {
     else if (a == "-s") first = argv[++i];
   }
   auto t0 = chrono::steady_clock::now();
-  vector<string> lines;
-  { ifstream f(in); string l; while (getline(f, l)) if (l.find(';') != string::npos) lines.push_back(l); }
-  vector<Tree> genes;
-  genes.reserve(lines.size());
-  for (auto& l : lines) genes.push_back(parse(l));
-  for (auto& t : genes) for (size_t v = 0; v < t.par.size(); v++) if (t.ch[v].empty()) spof(t.lab[v]);
-  // first-pass species tree for pros: register its species first is not needed; map by name
+  // pass 0: species and gene count (gene trees are streamed; memory does not grow with #genes)
+  size_t G = 0;
+  { ifstream f(in); string l; while (getline(f, l)) if (l.find(';') != string::npos) { scan_species(l); G++; } }
   Tree st;
   if (mode == "pros") { ifstream f(first); string l; getline(f, l); st = parse(l); for (size_t v = 0; v < st.par.size(); v++) if (st.ch[v].empty()) spof(st.lab[v]); }
   int k = (int)SPNAMES.size();
   W = (k + 63) / 64;
-  // species tree structures for pros
+  auto stream = [&](auto&& fn) {  // parse, root and tag each gene tree in turn
+    ifstream f(in); string l; size_t g = 0;
+    vector<uint64_t> S;
+    while (getline(f, l)) {
+      if (l.find(';') == string::npos) continue;
+      Tree t = parse(l);
+      RTree r = root_and_tag(t, S, keep);
+      fn(g++, r);
+    }
+  };
   vector<int> sdepth, sleaf(k, -1);
-  if (mode == "pros") {
-    sdepth.assign(st.par.size(), 0);
-    vector<int> ord{st.root};
-    for (size_t j = 0; j < ord.size(); j++) for (int c : st.ch[ord[j]]) { sdepth[c] = sdepth[ord[j]] + 1; ord.push_back(c); }
-    for (size_t v = 0; v < st.par.size(); v++) if (st.ch[v].empty()) sleaf[spof(st.lab[v])] = (int)v;
-  }
   auto slca = [&](int a, int b) {
     if (a < 0) return b;
     if (b < 0) return a;
@@ -380,67 +400,61 @@ int main(int argc, char** argv) {
     while (a != b) { a = st.par[a]; b = st.par[b]; }
     return a;
   };
-  auto t1 = chrono::steady_clock::now();
-  vector<RTree> rts(genes.size());
-  {
-    vector<uint64_t> S;
-    for (size_t g = 0; g < genes.size(); g++) rts[g] = root_and_tag(genes[g], S, keep);
-  }
-  auto t2 = chrono::steady_clock::now();
+  auto reconcile = [&](const RTree& r, vector<int>& M) {
+    M.assign(r.par.size(), -1);
+    for (int v : r.post) {
+      if (r.ch[v].empty()) { M[v] = sleaf[r.sp[v]]; continue; }
+      int m = -1;
+      for (int c : r.ch[v]) m = slca(m, M[c]);
+      M[v] = m;
+    }
+  };
   bool pro = mode != "multi";
-  if (mode == "pros") st = root_species(st, rts, sleaf);
-  if (mode == "pros") {  // recompute depths and leaf ids for the rerooted tree
+  vector<double> shat;
+  if (mode == "pros") {
+    // pass 1: root the first-pass species tree on <= 200 evenly spaced genes
+    vector<RTree> sample;
+    size_t m = min<size_t>(G, 200), nxt = 0, j = 0;
+    stream([&](size_t g, RTree& r) { if (j < m && g == nxt) { sample.push_back(std::move(r)); j++; nxt = j * G / m; } });
+    st = root_species(st, sample, sleaf);
     sdepth.assign(st.par.size(), 0);
     vector<int> ord{st.root};
-    for (size_t j = 0; j < ord.size(); j++) for (int c : st.ch[ord[j]]) { sdepth[c] = sdepth[ord[j]] + 1; ord.push_back(c); }
+    for (size_t q = 0; q < ord.size(); q++) for (int c : st.ch[ord[q]]) { sdepth[c] = sdepth[ord[q]] + 1; ord.push_back(c); }
     for (size_t v = 0; v < st.par.size(); v++) if (st.ch[v].empty()) sleaf[spof(st.lab[v])] = (int)v;
-  }
-  // pros: reconciliation and survival estimates
-  vector<double> shat;
-  vector<vector<int>> maps(genes.size());
-  if (mode == "pros") {
+    // pass 2: survival estimates by reconciliation.
+    // For a gene node x whose parent p maps strictly above M(x): the lineage crossed every species
+    // node strictly between M(x) and M(p), where the off-path daughter was lost, and then M(p), where
+    // the off-path daughter survived iff p is a speciation.
     int ns = (int)st.par.size();
     vector<double> yes(ns, 0), tot(ns, 0);
-    for (size_t g = 0; g < rts.size(); g++) {
-      RTree& r = rts[g];
-      vector<int>& M = maps[g];
-      M.assign(r.par.size(), -1);
-      for (int v : r.post) {
-        if (r.ch[v].empty()) { M[v] = sleaf[r.sp[v]]; continue; }
-        int m = -1;
-        for (int c : r.ch[v]) m = slca(m, M[c]);
-        M[v] = m;
-      }
-      // x maximal inside clade w=M-side: the species child w of M(p) containing M(x)
+    vector<int> M;
+    stream([&](size_t, RTree& r) {
+      reconcile(r, M);
       for (int x : r.post) {
         int p = r.par[x];
-        if (p < 0) continue;
-        if (M[x] == M[p]) continue;  // x not maximal in a strict sub-clade of M(p)
-        // w = child of species node on the path from M(x) up to (not including) M(p): the
-        // lineage passes through every species node strictly between; at each such node u
-        // (from M(x) upward), the sibling of the child on the path was lost (speciation not seen),
-        // except at M(p) if p is a speciation.
+        if (p < 0 || M[x] == M[p]) continue;
         int w = M[x];
         while (st.par[w] != M[p]) {
           int u = st.par[w];
-          for (int o : st.ch[u]) if (o != w) tot[o] += 1;  // sibling o: lost
+          for (int o : st.ch[u]) if (o != w) tot[o] += 1;
           w = u;
         }
         for (int o : st.ch[M[p]]) if (o != w) { tot[o] += 1; if (!r.dup[p]) yes[o] += 1; }
       }
-    }
+    });
     shat.assign(ns, 1.0);
     for (int v = 0; v < ns; v++) if (tot[v] > 0) shat[v] = max(yes[v] / tot[v], 0.02);
-    // write estimates to stderr
     for (int v = 0; v < ns; v++) if (st.ch[v].empty()) cerr << "shat " << st.lab[v] << " " << shat[v] << " n=" << tot[v] << "\n";
   }
+  auto t1 = chrono::steady_clock::now(), t2 = t1;
   vector<double> SUM((size_t)k * k, 0), NG((size_t)k * k, 0), tot((size_t)k * k, 0), cnt((size_t)k * k, 0);
   vector<int> touched;
   vector<vector<Ent>> E;
   vector<double> cum, wt;
-  for (size_t g = 0; g < rts.size(); g++) {
-    RTree& r = rts[g];
+  vector<int> Mg;
+  stream([&](size_t, RTree& r) {
     int n = (int)r.par.size();
+    if (mode == "pros") reconcile(r, Mg);
     // counted weight of entering node u from child c: stored on c as wt[c]
     wt.assign(n, 0); cum.assign(n, 0);
     vector<char> counted(n, 0);
@@ -451,11 +465,11 @@ int main(int argc, char** argv) {
       if (u < 0 || !counted[u]) continue;
       if (mode == "pros") {
         // other side: species child of M(u) not containing M(c)
-        int w = maps[g][c];
-        if (w == maps[g][u]) { wt[c] = 1.0; continue; }  // inferred S node whose child spans M(u)
-        while (st.par[w] != maps[g][u]) w = st.par[w];
+        int w = Mg[c];
+        if (w == Mg[u]) { wt[c] = 1.0; continue; }  // inferred S node whose child spans M(u)
+        while (st.par[w] != Mg[u]) w = st.par[w];
         int o = -1;
-        for (int q : st.ch[maps[g][u]]) if (q != w) o = q;
+        for (int q : st.ch[Mg[u]]) if (q != w) o = q;
         wt[c] = 1.0 / shat[o];
       } else wt[c] = 1.0;
     }
@@ -501,7 +515,7 @@ int main(int argc, char** argv) {
     }
     for (int id : touched) { SUM[id] += tot[id] / cnt[id]; NG[id] += 1; tot[id] = 0; cnt[id] = 0; }
     touched.clear();
-  }
+  });
   auto t3 = chrono::steady_clock::now();
   double mx = 0;
   int miss = 0;
@@ -523,7 +537,6 @@ int main(int argc, char** argv) {
   }
   fclose(f);
   auto sec = [](auto a, auto b) { return chrono::duration<double>(b - a).count(); };
-  fprintf(stderr, "genes %zu species %d missing_pairs %d parse %.3f root_tag %.3f dist %.3f\n", genes.size(), k, miss,
-          sec(t0, t1), sec(t1, t2), sec(t2, t3));
+  fprintf(stderr, "genes %zu species %d missing_pairs %d prep %.3f dist_pass %.3f\n", G, k, miss, sec(t0, t1), sec(t2, t3));
   return 0;
 }
