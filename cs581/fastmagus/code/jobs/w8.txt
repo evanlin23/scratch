@@ -1,0 +1,2 @@
+RNASim_R1 /opt/data/Datasets/RNASim/1000/R1/true_align.txt 25 magus,magus+ss,pt-r4,pt-r4+ss,pt-r4+ss2,cl-r4,cl-r4+ss,cl-r4+ss2,r4,r4+ss,r4+ss2
+1000S1_R1 /opt/data/Datasets/ROSE/1000S1/R1/rose.aln.true.fasta 25 magus,magus+ss,pt-r4,pt-r4+ss,pt-r4+ss2,cl-r4,cl-r4+ss,cl-r4+ss2,r4,r4+ss,r4+ss2
