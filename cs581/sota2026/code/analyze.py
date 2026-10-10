@@ -124,17 +124,20 @@ def full():
         pts = {}
         for c in cols:
             have = [d for d in dss if (d, c) in err]
-            if len(have) < len(dss) or not have:
+            if not have:
                 continue
             ws = [wall.get((d, c)) for d in have]
             if any(w is None for w in ws):
                 continue
-            pts[c] = (statistics.mean(ws), statistics.mean(err[(d, c)] for d in have))
+            label = c if len(have) == len(dss) else "{} (n={})".format(c, len(have))
+            pts[label] = (statistics.mean(ws), statistics.mean(err[(d, c)] for d in have))
         if not pts:
             continue
         fig, ax = plt.subplots(figsize=(6.4, 4.4))
         front, best = [], float("inf")
         for c, (x, y) in sorted(pts.items(), key=lambda kv: kv[1][0]):
+            if "n=" in c:  # partial coverage: not comparable enough for the front
+                continue
             if y < best:
                 front.append((x, y))
                 best = y
@@ -201,3 +204,36 @@ def subsets():
 if __name__ == "__main__":
     full()
     subsets()
+
+
+def merge_pilot():
+    path = os.path.join(RES, "merge_pilot.jsonl")
+    if not os.path.exists(path):
+        return
+    rows = [r for r in map(json.loads, open(path)) if r["status"] == "ok"]
+    ctl = {r["rep"]: r for r in rows if r["tool"] == "cached-linsi"}
+    out = ["## MAGUS with a different base method (merge pilot)\n",
+           "Same MAGUS decomposition (25 subsets) and the same 10 MAFFT L-INS-i backbones as MAGUS's own run; "
+           "only the subset aligner changes, then MAGUS's GCM merge (paper flags). Control = MAGUS's own "
+           "L-INS-i subsets (reproduces MAGUS(4c)). Errors in %, Δ in points (negative = better than MAGUS).\n",
+           "| rep | base method | subset err (mean of 25) | MAGUS final err | Δ final vs control | subset align s (1 core) |",
+           "|---|---|---|---|---|---|"]
+    deltas = collections.defaultdict(list)
+    for r in sorted(rows, key=lambda r: (r["rep"], r["tool"] != "cached-linsi", r["tool"])):
+        c = ctl.get(r["rep"])
+        d = 100 * (r["avgErr"] - c["avgErr"]) if c else float("nan")
+        if r["tool"] != "cached-linsi" and c:
+            deltas[(dtype(r["rep"]), r["tool"])].append(d)
+        out.append("| {} | {} | {:.2f} | {:.2f} | {} | {} |".format(
+            r["rep"], "L-INS-i (MAGUS's own)" if r["tool"] == "cached-linsi" else r["tool"], 100 * r["subset_err_mean"],
+            100 * r["avgErr"], "–" if r["tool"] == "cached-linsi" else "{:+.2f}".format(d),
+            "–" if r["tool"] == "cached-linsi" else "{:.0f}".format(r["subset_wall"])))
+    out += ["", "| data | base method | n | mean Δ | better/tie/worse |", "|---|---|---|---|---|"]
+    for (g, t), ds in sorted(deltas.items()):
+        w, l = sum(x < -TIE for x in ds), sum(x > TIE for x in ds)
+        out.append("| {} | {} | {} | {:+.2f} | {}/{}/{} |".format(g, t, len(ds), statistics.mean(ds), w,
+                                                                   len(ds) - w - l, l))
+    open(os.path.join(RES, "merge_table.md"), "w").write("\n".join(out) + "\n")
+
+
+merge_pilot()

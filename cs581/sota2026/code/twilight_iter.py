@@ -55,8 +55,9 @@ def main():
     unal, out, threads, work = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
     iters = int(sys.argv[5]) if len(sys.argv) > 5 else 3
     os.makedirs(work, exist_ok=True)
-    letters = set("".join(read(unal).values()).upper())
-    model = ["-gtr", "-nt"] if len(letters - set("ACGTUN-")) <= 2 else []
+    allseq = "".join(read(unal).values()).upper()
+    nt = sum(allseq.count(c) for c in "ACGTUN") / max(1, len(allseq))
+    model = ["-gtr", "-nt"] if nt > 0.9 else []  # 16S has IUPAC ambiguity codes: use the ACGTUN fraction
     seq = os.path.join(work, "seqs.fa")
     with open(seq, "w") as f:  # mafft2nwk maps PartTree's 1-based indices back to names in input order
         for n, s in read(unal).items():
