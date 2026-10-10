@@ -62,3 +62,29 @@
 {"pool": "R1.nwk", "method": "ovl", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {"AB|CD": 99.0, "AC|BD": 145.0, "AD|BC": 127.0}}
 {"pool": "R1.nwk", "method": "own", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {"AB|CD": 165.5, "AC|BD": 286.0, "AD|BC": 266.5}}
 {"pool": "R1.nwk", "method": "recon_true", "K": 1000, "block": 5, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 99.0}}
+{"pool": "R1.nwk", "method": "recon_first", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {"AC|BD": 145.0}}
+{"pool": "R1.nwk", "method": "gtp_dup", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "gtp_dl", "K": 1000, "block": 5, "topo": "AB|CD", "wrong": false, "scores": {}}
+{"pool": "R1.nwk", "method": "apro_bin", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "astral_multi", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "disco_astral", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "wqfm_gdl", "K": 1000, "block": 5, "topo": "AC|BD", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "duploss2", "K": 1000, "block": 5, "topo": "AB|CD", "wrong": false, "scores": {}}
+{"pool": "R1.nwk", "method": "true", "K": 1000, "block": 6, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 6.0}}
+{"pool": "R1.nwk", "method": "ovl", "K": 1000, "block": 6, "topo": "AD|BC", "wrong": true, "scores": {"AD|BC": 149.0, "AB|CD": 90.0, "AC|BD": 135.0}}
+{"pool": "R1.nwk", "method": "own", "K": 1000, "block": 6, "topo": "AD|BC", "wrong": true, "scores": {"AC|BD": 269.2083333333333, "AD|BC": 289.45833333333337, "AB|CD": 172.33333333333331}}
+{"pool": "R1.nwk", "method": "recon_true", "K": 1000, "block": 6, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 90.0}}
+{"pool": "R1.nwk", "method": "recon_first", "K": 1000, "block": 6, "topo": "AD|BC", "wrong": true, "scores": {"AD|BC": 12.0}}
+{"pool": "R1.nwk", "method": "gtp_dup", "K": 1000, "block": 6, "topo": "AD|BC", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "gtp_dl", "K": 1000, "block": 6, "topo": "AB|CD", "wrong": false, "scores": {}}
+{"pool": "R1.nwk", "method": "apro_bin", "K": 1000, "block": 6, "topo": "AD|BC", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "astral_multi", "K": 1000, "block": 6, "topo": "AC|BD", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "disco_astral", "K": 1000, "block": 6, "topo": "AD|BC", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "wqfm_gdl", "K": 1000, "block": 6, "topo": "AD|BC", "wrong": true, "scores": {}}
+{"pool": "R1.nwk", "method": "duploss2", "K": 1000, "block": 6, "topo": "AB|CD", "wrong": false, "scores": {}}
+{"pool": "R1.nwk", "method": "true", "K": 1000, "block": 7, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 11.0}}
+{"pool": "R1.nwk", "method": "ovl", "K": 1000, "block": 7, "topo": "AC|BD", "wrong": true, "scores": {"AD|BC": 145.0, "AC|BD": 155.0, "AB|CD": 87.0}}
+{"pool": "R1.nwk", "method": "own", "K": 1000, "block": 7, "topo": "AC|BD", "wrong": true, "scores": {"AC|BD": 305.0, "AD|BC": 285.0, "AB|CD": 156.0}}
+{"pool": "R1.nwk", "method": "recon_true", "K": 1000, "block": 7, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 87.0}}
+{"pool": "R1.nwk", "method": "recon_first", "K": 1000, "block": 7, "topo": "AC|BD", "wrong": true, "scores": {"AC|BD": 155.0}}
+{"pool": "R1.nwk", "method": "gtp_dup", "K": 1000, "block": 7, "topo": "AC|BD", "wrong": true, "scores": {}}
