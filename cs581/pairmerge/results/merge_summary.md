@@ -32,6 +32,72 @@ Paired vs `opal` on avgErr (negative = better than opal; W/T/L = better/tie/wors
 
 progdp vs gcm (same graph): n=10, mean diff -0.14 points, W/T/L 5/5/0, p=0.084
 
+### Condition: oracle200
+
+Mean (SPFN+SPFP)/2 in %, full alignment; n = replicates
+
+| merger | 1000L2 | 1000M2 | 1000M4 | 1000S2 | RNASim1000 | all |
+|---|---|---|---|---|---|---|
+| opal | 0.20 (n=2) | 0.28 (n=2) | 0.05 (n=2) | 0.38 (n=2) | 1.28 (n=2) | 0.44 (n=10) |
+| muscle3 | 2.84 (n=2) | 14.73 (n=2) | 1.33 (n=2) | 5.93 (n=2) | 27.20 (n=2) | 10.40 (n=10) |
+| mafft-merge | 2.86 (n=2) | 9.30 (n=2) | 1.30 (n=2) | 6.79 (n=2) | 9.10 (n=2) | 5.87 (n=10) |
+| gcm | 0.60 (n=2) | 1.00 (n=2) | 0.15 (n=2) | 0.54 (n=2) | 2.32 (n=2) | 0.92 (n=10) |
+| progdp | 0.55 (n=2) | 0.81 (n=2) | 0.07 (n=2) | 0.38 (n=2) | 2.06 (n=2) | 0.77 (n=10) |
+
+All replicates pooled, in %: full-alignment SPFN/SPFP, cross-half pairs only, runtime
+
+| merger | SPFN | SPFP | cross FN | cross FP | constraints kept | mean seconds |
+|---|---|---|---|---|---|---|
+| opal | 0.44 | 0.44 | 0.87 | 0.89 | 10/10 | 1.4 |
+| muscle3 | 12.32 | 8.49 | 24.68 | 19.34 | 10/10 | 0.7 |
+| mafft-merge | 7.38 | 4.36 | 14.77 | 9.14 | 10/10 | 1.4 |
+| gcm | 1.11 | 0.73 | 2.22 | 1.47 | 10/10 | 1.5 |
+| progdp | 0.79 | 0.76 | 1.58 | 1.52 | 10/10 | 1.6 |
+
+Paired vs `opal` on avgErr (negative = better than opal; W/T/L = better/tie/worse, tie band 0.1 points)
+
+| merger | n | mean diff (points) | W/T/L | Wilcoxon p |
+|---|---|---|---|---|
+| muscle3 | 10 | +9.96 | 0/0/10 | 0.002 |
+| mafft-merge | 10 | +5.43 | 0/0/10 | 0.002 |
+| gcm | 10 | +0.48 | 1/2/7 | 0.014 |
+| progdp | 10 | +0.33 | 2/2/6 | 0.11 |
+
+progdp vs gcm (same graph): n=10, mean diff -0.15 points, W/T/L 7/2/1, p=0.037
+
+### Condition: linsi200
+
+Mean (SPFN+SPFP)/2 in %, full alignment; n = replicates
+
+| merger | 1000L2 | 1000M2 | 1000M4 | 1000S2 | RNASim1000 | all |
+|---|---|---|---|---|---|---|
+| opal | 8.31 (n=2) | 24.05 (n=2) | 1.18 (n=2) | 10.50 (n=2) | 10.21 (n=2) | 10.85 (n=10) |
+| muscle3 | 9.50 (n=2) | 30.35 (n=2) | 1.61 (n=2) | 13.23 (n=2) | 29.51 (n=2) | 16.84 (n=10) |
+| mafft-merge | 10.43 (n=2) | 26.75 (n=2) | 2.21 (n=2) | 13.97 (n=2) | 13.99 (n=2) | 13.47 (n=10) |
+| gcm | 8.07 (n=2) | 20.92 (n=2) | 1.25 (n=2) | 10.45 (n=2) | 9.92 (n=2) | 10.12 (n=10) |
+| progdp | 8.07 (n=2) | 20.89 (n=2) | 1.20 (n=2) | 10.44 (n=2) | 9.88 (n=2) | 10.10 (n=10) |
+
+All replicates pooled, in %: full-alignment SPFN/SPFP, cross-half pairs only, runtime
+
+| merger | SPFN | SPFP | cross FN | cross FP | constraints kept | mean seconds |
+|---|---|---|---|---|---|---|
+| opal | 11.56 | 10.14 | 13.60 | 12.10 | 10/10 | 1.3 |
+| muscle3 | 18.85 | 14.83 | 28.20 | 22.82 | 10/10 | 0.7 |
+| mafft-merge | 15.54 | 11.41 | 21.56 | 14.93 | 10/10 | 1.4 |
+| gcm | 11.09 | 9.16 | 12.66 | 10.14 | 10/10 | 1.6 |
+| progdp | 10.86 | 9.34 | 12.20 | 10.48 | 10/10 | 1.5 |
+
+Paired vs `opal` on avgErr (negative = better than opal; W/T/L = better/tie/worse, tie band 0.1 points)
+
+| merger | n | mean diff (points) | W/T/L | Wilcoxon p |
+|---|---|---|---|---|
+| muscle3 | 10 | +5.99 | 0/0/10 | 0.002 |
+| mafft-merge | 10 | +2.62 | 0/0/10 | 0.002 |
+| gcm | 10 | -0.73 | 4/6/0 | 0.16 |
+| progdp | 10 | -0.75 | 6/4/0 | 0.037 |
+
+progdp vs gcm (same graph): n=10, mean diff -0.03 points, W/T/L 1/9/0, p=0.084
+
 ### Condition: fftnsi
 
 Mean (SPFN+SPFP)/2 in %, full alignment; n = replicates
@@ -64,69 +130,3 @@ Paired vs `opal` on avgErr (negative = better than opal; W/T/L = better/tie/wors
 | progdp | 10 | -1.38 | 7/2/1 | 0.02 |
 
 progdp vs gcm (same graph): n=10, mean diff +1.18 points, W/T/L 3/1/6, p=0.084
-
-### Condition: linsi200
-
-Mean (SPFN+SPFP)/2 in %, full alignment; n = replicates
-
-| merger | 1000L2 | 1000M2 | 1000M4 | 1000S2 | RNASim1000 | all |
-|---|---|---|---|---|---|---|
-| opal | 8.31 (n=2) | 24.05 (n=2) | 1.18 (n=2) | 10.50 (n=2) | 10.46 (n=1) | 10.95 (n=9) |
-| muscle3 | 9.50 (n=2) | 30.35 (n=2) | 1.61 (n=2) | 13.23 (n=2) | 30.00 (n=1) | 15.49 (n=9) |
-| mafft-merge | 10.43 (n=2) | 26.75 (n=2) | 2.21 (n=2) | 13.97 (n=2) | 13.79 (n=1) | 13.39 (n=9) |
-| gcm | 8.07 (n=2) | 20.92 (n=2) | 1.25 (n=2) | 10.45 (n=2) | 10.27 (n=1) | 10.18 (n=9) |
-| progdp | 8.07 (n=2) | 20.89 (n=2) | 1.20 (n=2) | 10.44 (n=2) | 10.21 (n=1) | 10.16 (n=9) |
-
-All replicates pooled, in %: full-alignment SPFN/SPFP, cross-half pairs only, runtime
-
-| merger | SPFN | SPFP | cross FN | cross FP | constraints kept | mean seconds |
-|---|---|---|---|---|---|---|
-| opal | 11.73 | 10.17 | 13.77 | 12.11 | 9/9 | 1.3 |
-| muscle3 | 17.20 | 13.77 | 24.72 | 20.19 | 9/9 | 0.7 |
-| mafft-merge | 15.46 | 11.32 | 21.22 | 14.71 | 9/9 | 1.4 |
-| gcm | 11.24 | 9.13 | 12.78 | 10.04 | 9/9 | 1.6 |
-| progdp | 10.99 | 9.32 | 12.29 | 10.41 | 9/9 | 1.5 |
-
-Paired vs `opal` on avgErr (negative = better than opal; W/T/L = better/tie/worse, tie band 0.1 points)
-
-| merger | n | mean diff (points) | W/T/L | Wilcoxon p |
-|---|---|---|---|---|
-| muscle3 | 9 | +4.54 | 0/0/9 | 0.0039 |
-| mafft-merge | 9 | +2.44 | 0/0/9 | 0.0039 |
-| gcm | 9 | -0.77 | 3/6/0 | 0.3 |
-| progdp | 9 | -0.79 | 5/4/0 | 0.074 |
-
-progdp vs gcm (same graph): n=9, mean diff -0.03 points, W/T/L 1/8/0, p=0.13
-
-### Condition: oracle200
-
-Mean (SPFN+SPFP)/2 in %, full alignment; n = replicates
-
-| merger | 1000L2 | 1000M2 | 1000M4 | 1000S2 | RNASim1000 | all |
-|---|---|---|---|---|---|---|
-| opal | 0.20 (n=2) | 0.28 (n=2) | 0.05 (n=2) | 0.38 (n=2) | 1.78 (n=1) | 0.40 (n=9) |
-| muscle3 | 2.84 (n=2) | 14.73 (n=2) | 1.33 (n=2) | 5.93 (n=2) | 26.97 (n=1) | 8.51 (n=9) |
-| mafft-merge | 2.86 (n=2) | 9.30 (n=2) | 1.30 (n=2) | 6.79 (n=2) | 8.91 (n=1) | 5.49 (n=9) |
-| gcm | 0.60 (n=2) | 1.00 (n=2) | 0.15 (n=2) | 0.54 (n=2) | 2.57 (n=1) | 0.79 (n=9) |
-| progdp | 0.55 (n=2) | 0.81 (n=2) | 0.07 (n=2) | 0.38 (n=2) | 2.18 (n=1) | 0.64 (n=9) |
-
-All replicates pooled, in %: full-alignment SPFN/SPFP, cross-half pairs only, runtime
-
-| merger | SPFN | SPFP | cross FN | cross FP | constraints kept | mean seconds |
-|---|---|---|---|---|---|---|
-| opal | 0.40 | 0.41 | 0.79 | 0.81 | 9/9 | 1.4 |
-| muscle3 | 9.91 | 7.12 | 19.83 | 15.68 | 9/9 | 0.7 |
-| mafft-merge | 6.84 | 4.15 | 13.67 | 8.65 | 9/9 | 1.4 |
-| gcm | 0.98 | 0.61 | 1.95 | 1.23 | 9/9 | 1.5 |
-| progdp | 0.66 | 0.63 | 1.32 | 1.26 | 9/9 | 1.6 |
-
-Paired vs `opal` on avgErr (negative = better than opal; W/T/L = better/tie/worse, tie band 0.1 points)
-
-| merger | n | mean diff (points) | W/T/L | Wilcoxon p |
-|---|---|---|---|---|
-| muscle3 | 9 | +8.11 | 0/0/9 | 0.0039 |
-| mafft-merge | 9 | +5.09 | 0/0/9 | 0.0039 |
-| gcm | 9 | +0.39 | 1/2/6 | 0.027 |
-| progdp | 9 | +0.24 | 2/2/5 | 0.2 |
-
-progdp vs gcm (same graph): n=9, mean diff -0.15 points, W/T/L 6/2/1, p=0.074
