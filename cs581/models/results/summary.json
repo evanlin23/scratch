@@ -12,7 +12,11 @@
     1
    ],
    "mafft-linsi": null,
-   "pasta": null,
+   "pasta": [
+    0.1751953570072558,
+    0,
+    1
+   ],
    "magus": [
     0.0828627987031808,
     0,
@@ -31,7 +35,11 @@
     1
    ],
    "mafft-linsi": null,
-   "pasta": null,
+   "pasta": [
+    0.02834,
+    0,
+    1
+   ],
    "magus": [
     0.02834,
     0,
@@ -43,10 +51,16 @@
     1
    ]
   },
-  "gain_abs": [],
-  "gain_rel": [],
-  "tree_gain_abs": [],
-  "rank": "magus < famsa < mafft-auto"
+  "gain_abs": [
+   0.092332558304075
+  ],
+  "gain_rel": [
+   0.5270262858635631
+  ],
+  "tree_gain_abs": [
+   0.0
+  ],
+  "rank": "magus < pasta < famsa < mafft-auto"
  },
  "base": {
   "sp": {
@@ -124,8 +138,16 @@
     1
    ],
    "mafft-linsi": null,
-   "pasta": null,
-   "magus": null
+   "pasta": [
+    0.21527124947538662,
+    0,
+    1
+   ],
+   "magus": [
+    0.23096594228273415,
+    0,
+    1
+   ]
   },
   "tree": {
    "famsa": [
@@ -139,10 +161,218 @@
     1
    ],
    "mafft-linsi": null,
+   "pasta": [
+    0.1336,
+    0,
+    1
+   ],
+   "magus": [
+    0.13765,
+    0,
+    1
+   ],
+   "true": [
+    0.11741,
+    0,
+    1
+   ]
+  },
+  "gain_abs": [
+   -0.015694692807347532
+  ],
+  "gain_rel": [
+   -0.0729065903858286
+  ],
+  "tree_gain_abs": [
+   -0.004049999999999998
+  ],
+  "rank": "pasta < magus < mafft-auto < famsa"
+ },
+ "pow1.7": {
+  "sp": {
+   "famsa": [
+    0.23862491455280915,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.17577184310657734,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
+   "pasta": [
+    0.07816375428639222,
+    0,
+    1
+   ],
+   "magus": [
+    0.11659216726845956,
+    0,
+    1
+   ]
+  },
+  "tree": {
+   "famsa": [
+    0.04453,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.04453,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
+   "pasta": [
+    0.04453,
+    0,
+    1
+   ],
+   "magus": [
+    0.04453,
+    0,
+    1
+   ],
+   "true": [
+    0.04049,
+    0,
+    1
+   ]
+  },
+  "gain_abs": [
+   -0.03842841298206734
+  ],
+  "gain_rel": [
+   -0.4916398058525378
+  ],
+  "tree_gain_abs": [
+   0.0
+  ],
+  "rank": "pasta < magus < mafft-auto < famsa"
+ },
+ "balanced": {
+  "sp": {
+   "famsa": [
+    0.12529855546744056,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.6493709470479713,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
+   "pasta": null,
+   "magus": [
+    0.03461110205933854,
+    0,
+    1
+   ]
+  },
+  "tree": {
+   "famsa": [
+    0.0,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.23482,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
+   "pasta": null,
+   "magus": [
+    0.0,
+    0,
+    1
+   ],
+   "true": [
+    0.0,
+    0,
+    1
+   ]
+  },
+  "gain_abs": [],
+  "gain_rel": [],
+  "tree_gain_abs": [],
+  "rank": "magus < famsa < mafft-auto"
+ },
+ "caterpillar": {
+  "sp": {
+   "famsa": [
+    0.4440998646286284,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.621377946336082,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
+   "pasta": null,
+   "magus": null
+  },
+  "tree": {
+   "famsa": [
+    0.74494,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.80567,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
    "pasta": null,
    "magus": null,
    "true": [
-    0.11741,
+    0.72065,
+    0,
+    1
+   ]
+  },
+  "gain_abs": [],
+  "gain_rel": [],
+  "tree_gain_abs": [],
+  "rank": "famsa < mafft-auto"
+ },
+ "caterpillarbdh": {
+  "sp": {
+   "famsa": [
+    0.03318652154402957,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.02167236082147933,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
+   "pasta": null,
+   "magus": null
+  },
+  "tree": {
+   "famsa": [
+    0.64777,
+    0,
+    1
+   ],
+   "mafft-auto": [
+    0.59514,
+    0,
+    1
+   ],
+   "mafft-linsi": null,
+   "pasta": null,
+   "magus": null,
+   "true": [
+    0.57895,
     0,
     1
    ]

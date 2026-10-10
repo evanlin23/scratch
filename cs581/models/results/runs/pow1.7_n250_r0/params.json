@@ -1,0 +1,15 @@
+{
+ "out": "/tmp/claude-0/sims/pow1.7_n250_r0",
+ "shape": "bd",
+ "n": 250,
+ "sigma": 0.3,
+ "height": 1.1,
+ "indel": 0.00536,
+ "size": "pow:1.7/200",
+ "length": 1000,
+ "seed": 100,
+ "model": "HKY{2}+F{0.3/0.2/0.2/0.3}",
+ "rtt_cv": 0.08409109058852864,
+ "rtt_max_over_min": 1.4455617279017177,
+ "alisim_cmd": "/opt/mm/root/envs/bio/bin/iqtree3 --alisim /tmp/claude-0/sims/pow1.7_n250_r0/alisim -t /tmp/claude-0/sims/pow1.7_n250_r0/model.tre -m HKY{2}+F{0.3/0.2/0.2/0.3} --length 1000 --indel 0.00268,0.00268 --indel-size POW{1.7/200},POW{1.7/200} --seed 100 -af fasta --no-unaligned -redo"
+}

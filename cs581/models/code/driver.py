@@ -24,6 +24,7 @@ CELLS = {
     "pow1.5": {"size": "pow:1.5/200", "indel": 0.00331},
     "balanced": {"shape": "balanced"},
     "caterpillar": {"shape": "caterpillar"},
+    "caterpillarbdh": {"shape": "caterpillar-bdh"},  # first design, abandoned: spine branches ~0
 }
 
 

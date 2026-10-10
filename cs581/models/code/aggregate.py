@@ -21,10 +21,11 @@ METHODS = ["famsa", "mafft-auto", "mafft-linsi", "pasta", "magus", "true"]
 AXES = {
     "clock (log-normal sigma)": ["clock0", "base", "clock0.7", "clock1.2", "clock2.0"],
     "indel length distribution": ["base", "pow1.7", "pow1.5"],
-    "tree shape": ["base", "balanced", "caterpillar"],
+    "tree shape": ["base", "balanced", "caterpillar", "caterpillarbdh"],
 }
 LABEL = {"clock0": "0", "base": "base", "clock0.7": "0.7", "clock1.2": "1.2", "clock2.0": "2.0",
-         "pow1.7": "Zipf 1.7", "pow1.5": "Zipf 1.5", "balanced": "balanced", "caterpillar": "caterpillar"}
+         "pow1.7": "Zipf 1.7", "pow1.5": "Zipf 1.5", "balanced": "balanced", "caterpillar": "caterpillar",
+         "caterpillarbdh": "caterp.\n(BD heights)"}
 COLORS = {"famsa": "#8c6bb1", "mafft-auto": "#999999", "mafft-linsi": "#e6550d", "pasta": "#3182bd",
           "magus": "#31a354", "true": "#000000"}
 
