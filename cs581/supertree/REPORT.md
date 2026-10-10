@@ -26,7 +26,7 @@ The pipeline:
 | BCD (Fleischauer & Böcker 2017) | min-cut + clade deletion | 10k (SCS-DCM) | ~2 h at 10k | not run |
 | FastRFS (2017) | exact RFS in a constrained space | 2,228 | 3,282 s on CPL | not built (needs an old Bazel); published numbers used |
 | Exact-RFS-2 / GreedyRFS (*AMB* 2021) | exact RFS of 2 trees, O(n²\|X\|); greedy pairwise | 500 taxa, 9 replicates (criterion scores only) | not reported | not run |
-| ASTRAL-II/III | max quartet support | 1,000 (FastRFS paper) | **ASTRAL-III here: 21 s and 1.5 GB at 1k, 185 s and 3.7 GB at 2k; **out of memory at 10k** (13 GB heap, running alone, killed after 33 min); 3.9k and 5k: see §6** | **main baseline** |
+| ASTRAL-II/III | max quartet support | 1,000 (FastRFS paper) | **ASTRAL-III here: 21 s and 1.5 GB at 1k, 185 s and 3.7 GB at 2k; **out of memory at 10k** (13 GB heap, running alone, killed after 33 min); 640 s and 7.0 GB at 5k; 1,937 s and 11.2 GB at 3.9k (SMIDGenOG)** | **main baseline** |
 | ASTER astral4 | quartet placement + subsampling | — | 45 s at 1k | **32.1% RF vs ASTRAL-III 17.2% on SMIDGen-1000 d20** (bad on scaffold supertree input; `-R`: 28.9%) |
 | TREE-QMC (2023) | weighted quartet Max-Cut | "promising as supertree" | 340 s at 1k (O(n³k)) | SMIDGen-1000: 21.3% RF at d20 (ASTRAL-III 17.2%), 11.6% at d100 (tie); 200–370 s |
 | wQFM-TREE (2025), Asteroid (2023) | quartet FM / balanced minimum evolution with missing data | species-tree data | — | not run |
@@ -109,7 +109,7 @@ Paired, all 40 replicates:
 | method | 500 | 1k | 2k | 5k | 10k |
 |---|---|---|---|---|---|
 | SCS | **1.83** | **2.80** | **3.20** | **3.39** | **3.84** (3 reps) |
-| ASTRAL-III | 5.71 | 8.08 | 7.23 | see §6 | **out of memory (15 GB)** |
+| ASTRAL-III | 5.71 | 8.08 | 7.23 | 7.42 (r0 only; on r0 SCS 3.52, DC m = 100 6.79, DC m = 500 7.90) | **out of memory (15 GB)** |
 | MRL-FT | 6.84 | 8.30 | 7.31 | – | 8.03 (1 rep) |
 | DC-GTM, SCS guide, m = 100 | 5.57 | 8.11 | 7.42 | 7.85 | 8.15 |
 | DC-GTM, SCS guide, m = 500 | 5.71 | 8.05 | 8.01 | 8.12 | 8.47 (2 reps) |
@@ -159,7 +159,7 @@ All jobs ran single-threaded inside ProcessPools, with 3–4 jobs sharing 4 core
 | 1k (bd) | 36 s / 1.6 GB | 9 s / 0.2 GB | 15 s | 16 s / 120 MB | < 1 s |
 | 2k (bd) | 185 s / 3.7 GB | 15 s / 0.3 GB | 43 s | 43 s / 120 MB | < 1 s |
 | 3.9k (SMIDGenOG) | **1,937 s / 11.2 GB** with a 13 GB heap, running alone (with an 8 GB heap and shared memory it was killed after 22 min) | 281 s / 1.9 GB | – | 108 s (m = 200) | 0.5 s |
-| 5k (bd) | killed (exit 137) under shared memory; rerun alone pending (`results/bd5000.jsonl`) | 29 s / 0.7 GB | – | 58 s / 120 MB | < 1 s |
+| 5k (bd) | **640 s / 7.0 GB** (13 GB heap, alone; an earlier 8 GB run sharing memory was killed) | 29 s / 0.7 GB | – | 58 s / 120 MB | < 1 s |
 | 10k (bd) | **fails: killed by the kernel (signal 9, out of memory) after 33 min at 13.8 GB RSS with a 13 GB heap, running alone** (an earlier 8 GB-heap run was killed after 32 s) | 65 s / 1.3 GB | 1,033 s / 1.3 GB | 112 s / 120 MB | < 1 s |
 
 DC-GTM's memory is flat (~120 MB at m = 100, ~500 MB at m = 500) and its time is linear in n: about 18 ms per taxon in total for SCS guide + DC (65 s + 112 s = ~3 min at 10k). Extrapolated linearly, 100k taxa would take ~30 min single-threaded, assuming SCS keeps scaling roughly linearly (29 s at 5k, 65 s at 10k). That part of the idea works.
