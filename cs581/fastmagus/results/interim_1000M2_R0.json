@@ -1,0 +1,70 @@
+{
+ "dataset": "1000M2_R0",
+ "threads": 4,
+ "nproc": 4,
+ "nseq": 1000,
+ "magus": {
+  "wall": 1323.1,
+  "cpu": 5029.1,
+  "stages": {
+   "tree": 252.6,
+   "decomp": 252.6,
+   "subsets_done": 1207.0,
+   "backbones_done": 1302.0,
+   "graph": 1051.6,
+   "cluster": 16.2,
+   "trace": 0.8,
+   "merge": 1070.1,
+   "total": 1322.8
+  },
+  "SPFN": 0.11072383033334487,
+  "SPFP": 0.08408539874670762,
+  "avgErr": 0.09740461454002625,
+  "LenEst": 4007,
+  "LenRef": 4068
+ },
+ "magus+ss": {
+  "wall": 1470.2,
+  "cpu": 5352.4,
+  "split_wall": 0.6,
+  "evidence_wall": 66.6,
+  "merge_wall": 79.9,
+  "SPFN": 0.09306077667007351,
+  "SPFP": 0.08208153458699241,
+  "avgErr": 0.08757115562853296,
+  "LenEst": 4970,
+  "LenRef": 4068
+ },
+ "pt-r4": {
+  "wall": 652.3,
+  "cpu": 2456.8,
+  "stages": {
+   "tree": 1.9,
+   "decomp": 1.9,
+   "subsets_done": 602.0,
+   "backbones_done": 597.0,
+   "graph": 617.8,
+   "cluster": 20.8,
+   "trace": 9.6,
+   "merge": 650.1,
+   "total": 652.0
+  },
+  "SPFN": 0.4761739798161554,
+  "SPFP": 0.4188963839030273,
+  "avgErr": 0.44753518185959135,
+  "LenEst": 8253,
+  "LenRef": 4068
+ },
+ "pt-r4+ss": {
+  "wall": 1272.3,
+  "cpu": 3652.2,
+  "split_wall": 0.6,
+  "evidence_wall": 187.0,
+  "merge_wall": 432.4,
+  "SPFN": 0.4273254553991722,
+  "SPFP": 0.3664186201469909,
+  "avgErr": 0.39687203777308155,
+  "LenEst": 13882,
+  "LenRef": 4068
+ }
+}
