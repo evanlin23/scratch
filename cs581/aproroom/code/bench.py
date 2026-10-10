@@ -139,7 +139,7 @@ def run_method(m, genes, td, mode, tagged=None):
     out = os.path.join(td, m + ".tre")
     if m in ("astrid-multi", "astrid-pro"):
         phy = os.path.join(td, m + ".phy")
-        sh([APRO, "-i", genes, "-o", phy, "-M", m.split("-")[1]] + u)
+        sh([APRO, "-i", genes, "-o", phy, "-M", m.split("-")[1], "-t", str(THREADS)] + u)
         fastme(phy, out)
     elif m == "astrid-pro-r0":  # ablation: gene-tree root not counted
         phy = os.path.join(td, m + ".phy")

@@ -285,6 +285,7 @@ def main():
     if len(d):
         d = d.copy()
         d["cfg"] = d["method"] + "@" + d["threads"].astype(str) + "t"
+        d["cond"] = d["cond"].where(d["cond"] != "genes", "genes")
         dd = d.drop_duplicates(["cond", "ngen", "cfg"], keep="last")
         out.write("## Q3. Scaling (idle machine, one job at a time)\n\n")
         for v, lab in [("sec", "wall time (s)"), ("rssMB", "peak RSS (MB)")]:
