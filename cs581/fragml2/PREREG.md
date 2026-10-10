@@ -60,4 +60,13 @@ and median CPU ratio ≤ 0.5. Better = mean ΔFN < −0.5 with p < 0.05.
 Arms not finished in time are reported as not run.
 
 ## Amendments
-(none yet)
+1. (2026-10-10 ~21:45 UTC, before any result other than the R0 graft smoke test was seen; requested by the
+   orchestrating session on behalf of the student) Added **secondary** comparisons; the primary is unchanged:
+   - Smirnov & Warnow 2021-style "backbone + independent placement, no polish" is the existing arm
+     `place_<BB>_<τ>_fix_graft` (EPA-ng + gappa graft); it is reported as its own row and compared with the
+     pipelines and RAxML-NG with the same paired statistics. pplacer is optional (only if it installs quickly).
+   - uDance (Balaban et al. 2024, Nat Biotechnol 42:768) as a baseline on M1HF, if it can be installed and run
+     within ~1 hour of effort; otherwise the reason is recorded.
+   - Published GTM (and IQ-TREE 2) trees stay in the M1HF table, as does IQ-TREE 3 (`--fast`, and default if time).
+   - Order of the queue: tier-2 items for M1HF R5–R9 of the expensive A grid (constr_iqf_*, constr_ft_0.75,
+     place_ft_0.75, rxfull) were placed after tier 3 (RNASimHF) for compute reasons.
