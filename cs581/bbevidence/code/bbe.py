@@ -370,11 +370,19 @@ def run(rep, names):
     for name in names:
         if name in done:
             continue
+        # lanes may share a replicate: one lock per variant, so two processes never share a work dir
+        os.makedirs(os.path.join(rep, "variants"), exist_ok=True)
+        try:
+            os.close(os.open(os.path.join(rep, "variants", safe(name) + ".lock"), os.O_CREAT | os.O_EXCL))
+        except FileExistsError:
+            continue
+        start = time.time()
         files, bb_wall, bb_sum = parse_variant(rep, name)
+        prep_wall = round(time.time() - start, 1)  # alignments (if not cached) + masking/intersection
         out, m_wall = merge(rep, name, files)
         s = score.fastsp(os.path.join(rep, "true.fasta"), out)
         row = {"rep": os.path.basename(rep.rstrip("/")), "variant": name, "nbb": len(files),
-               "bb_wall": bb_wall, "bb_sum": bb_sum, "merge_wall": m_wall,
+               "bb_wall": bb_wall, "bb_sum": bb_sum, "prep_wall": prep_wall, "merge_wall": m_wall,
                **{k: s[k] for k in ("SPFN", "SPFP", "avgErr", "TC", "estHom", "refHom")}}
         row.update(cross_scores(rep, out))
         with open(res, "a") as f:
