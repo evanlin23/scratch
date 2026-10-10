@@ -6,8 +6,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import core
 from phylo import parse_newick
 out, K, nrep = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
-nwk = "(((((A:1,B:1)x:4,C:4)y:0.5,(D1:1,D2:1)u:0.5)r1:0.5,E:1)r2:0.5,(F1:1,F2:1)v:1);"
-rates = {"y": (8, 0.5), "A": (1, 4), "B": (4, 8), "C": (0.5, 1)}  # everything else event-free
+which = sys.argv[4] if len(sys.argv) > 4 else "cand2"
+if which == "cand2":
+    nwk = "(((((A:1,B:1)x:4,C:4)y:0.5,(D1:1,D2:1)u:0.5)r1:0.5,E:1)r2:0.5,(F1:1,F2:1)v:1);"
+    rates = {"y": (8, 0.5), "A": (1, 4), "B": (4, 8), "C": (0.5, 1)}  # everything else event-free
+else:  # cand4: ASTRAL-Pro's own rooting fails
+    nwk = "(((((A:0.5,B:0.5)x:0.5,C:0.2)y:1,(D1:1,D2:1)u:0.5)r1:0.5,E:1)r2:0.5,(F1:1,F2:1)v:1);"
+    rates = {"y": (4, 1), "x": (1, 0.5), "A": (0, 8), "B": (0, 8), "C": (8, 8)}
 st = parse_newick(nwk)
 lam = [rates.get(st.label[v], (0, 0))[0] for v in range(len(st.parent))]
 mu = [rates.get(st.label[v], (0, 0))[1] for v in range(len(st.parent))]

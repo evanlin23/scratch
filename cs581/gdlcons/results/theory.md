@@ -195,6 +195,7 @@ So ASTRAL-Pro is **inconsistent under a random rooting-error model** (re-root at
   - 487 on the A or B lineage;
   - 289 at ABCD | AC or ABCD | BC;
   - only 304 at the true position (ABC | D).
+- **Embedding** (`embed8.py ... cand4`): in an 8-taxon tree containing cand4, stock ASTRAL-Pro3 is wrong in 4/4 datasets of 5,000 families. True tags and correct-root overlap tags are right in 4/4.
 - **Minimum-duplication rooting is attracted to lineages with many duplications** (here the high-turnover C branch). This is a *systematic* rooting error, and it makes the stock software inconsistent with moderate rates. Two caveats: C has λ = μ = 8, so its turnover is high; and A and B lose copies fast.
 
 ## 5. Naive random flips (outside Def. 1)
