@@ -95,3 +95,9 @@ cs581/experiments/bbtool/<branch>.jsonl).
 
 | jobs | branch | session |
 |---|---|---|
+| BBA0039_R0, BBA0067_R0 | claude/cs581-bbtool-1 | session_01PMMNFk2MXnWqcUH1VEDcua |
+| BBA0081_R0, BBA0101_R0 | claude/cs581-bbtool-2 | session_01TWxgcSvAcr1WhRTf4ys2Hf |
+| BBA0117_R0, BBA0134_R0 | claude/cs581-bbtool-3 | session_01LGeoTwv7CU7dgtZqEJYNbE |
+| BBA0154_R0, BBA0190_R0 | claude/cs581-bbtool-4 | session_011WVrS4EKz2bB1BACnFCsv9 |
+| RNASim_R0, 1000M2_R0 (nucleotide control) | claude/cs581-bbtool-5 | session_01TuxaQAE6YiMYWb4HzCi3t7 |
+| 16S.M_R0, 1000L1_R0 (nucleotide control) | claude/cs581-bbtool-6 | session_01UZfnXAvSJ4zJVxqVt8DHJU |
