@@ -1,0 +1,11 @@
+| n | k | shapes | matchings S | with continuum (B) | without continuum | (A) without (B): counterexamples | MILP timeouts | sec |
+|---|---|---|---|---|---|---|---|---|
+| 8 | 4 | 4 | 400 | 292 | 108 | 0 | 0 | 1 |
+| 8 | 5 | 4 | 104 | 104 | 0 | 0 | 0 | 0 |
+| 9 | 4 | 6 | 1652 | 844 | 808 | 0 | 0 | 4 |
+| 9 | 5 | 6 | 888 | 888 | 0 | 0 | 0 | 0 |
+| 10 | 4 | 11 | 6752 | 2556 | 4196 | 0 | 0 | 23 |
+| 10 | 5 | 11 | 5660 | 4880 | 780 | 0 | 0 | 8 |
+
+counterexamples:
+
