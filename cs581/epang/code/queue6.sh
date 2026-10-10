@@ -6,4 +6,4 @@ while pgrep -f "queue[2345].sh" > /dev/null; do sleep 20; done
 export EPA_FIX=/opt/tools/epa/epa-ng-fix2
 KS="500 1000 2000" $C/run_nested.sh . "fix_rson" "frag" 2
 KS="3000 5000" $C/run_nested.sh . "shift simd rs_off" "frag" 2
-$C/run_nested.sh . "fix_noheur" "frag" 2
+KS="2000 3000 5000" $C/run_nested.sh . "fix_noheur" "frag" 2
