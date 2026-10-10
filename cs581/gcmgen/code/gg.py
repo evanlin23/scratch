@@ -172,6 +172,12 @@ def run(rep, names):
     for name in names:
         if name in done:
             continue
+        os.makedirs(os.path.join(rep, "variants"), exist_ok=True)
+        lock = os.path.join(rep, "variants", bbe.safe(name).replace(":", "_c_").replace("#", "_es_") + ".lock")
+        try:  # lanes may share a replicate: never run the same variant twice at once
+            os.close(os.open(lock, os.O_CREAT | os.O_EXCL))
+        except FileExistsError:
+            continue
         start = time.time()
         base, k = (name.split("#es") + [None])[:2]
         got = files_of(rep, base)
