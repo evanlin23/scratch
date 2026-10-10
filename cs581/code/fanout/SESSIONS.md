@@ -115,3 +115,5 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | Identifiability and choosing k in phylogenetic distance deconvolution (theory) | cs581/decodiphy, claude/cs581-decodiphy | session_01D8vRCMw44Lw5ADdqt4qm6W |
 | Downstream payoff of the EPA-ng fix: BSCAMPP with larger subtrees, SIMD speed, TIPP3/PICRUSt2 | cs581/epangdown, claude/cs581-epangdown | session_01XUxoJUYQhJFfVzLYXzkjTJ |
 | Does the EPA-ng bug change PICRUSt2 placements and predictions? | cs581/picrust, claude/cs581-picrust | session_01YN3K4y9shtvUweCRkCx7DK |
+| PASTA rerun on RNASim R0 (-d rna) and 16S.M R0 (-d dna) after the e2e datatype fix | claude/cs581-pastafix | session_01QMhfydVNQZ7wmwthEnGdTM |
+| Held-out test of consistency-filtered GCM evidence (MAFFT-only), pre-registered | cs581/protcons, claude/cs581-protcons | session_01EFnDHNVbHHWbWNFzR63MHi |
