@@ -1,9 +1,9 @@
 method,50,200,1000
-asteroid,0.043,0.115,0.45
-astral,0.212,0.788,4.011
+asteroid,0.039,0.107,0.458
+astral,0.227,0.817,4.258
 astral-pub,,,
-astrid,0.079,0.261,1.057
-astrid-cmp,0.256,0.937,4.337
-astrid-ht,0.076,0.265,1.058
-astrid-plugin,0.072,0.264,1.045
+astrid,0.078,0.266,1.077
+astrid-cmp,0.257,0.949,4.46
+astrid-ht,0.077,0.262,1.077
+astrid-plugin,0.074,0.262,1.077
 astrid-pub,,,

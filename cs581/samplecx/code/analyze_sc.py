@@ -40,6 +40,9 @@ def main():
     nrep = d.groupby(["shape", "n", "f"]).rep.nunique()
     g = d.groupby(["shape", "n", "f", "method", "k"]).agg(p_tree=("ok", "mean"), p_branch=("branch_rec", "mean"),
                                                          reps=("rep", "nunique"), sec=("sec", "mean")).reset_index()
+    # drop grid points run on too few replicates (e.g. ASTRAL above its k cap, early reps only)
+    mx = g.groupby(["shape", "n", "f"]).reps.transform("max")
+    g = g[g.reps >= 0.8 * mx]
     g.to_csv(f"{RES}/sc_sim_curves.csv", index=False)
     out = []
     for (s, n, f, m), x in g.groupby(["shape", "n", "f", "method"]):
@@ -58,7 +61,9 @@ def main():
             y = y[y[tgt] > 10]
             if len(y) >= 3:
                 b, a = np.polyfit(np.log(y.f), np.log(y[tgt]), 1)
+                b2, _ = np.polyfit(np.log(1 - np.exp(-y.f)), np.log(y[tgt]), 1)
                 sl.append(dict(shape=s, n=n, method=m, target=tgt.split("_")[1], slope=round(b, 2),
+                               slope_1mexp=round(b2, 2),
                                c_f2=round(float(np.exp(np.mean(np.log(y[tgt]) + 2 * np.log(y.f)))), 1), npts=len(y)))
     pd.DataFrame(sl).to_csv(f"{RES}/sc_sim_slopes.csv", index=False)
 
@@ -113,6 +118,11 @@ def main():
     print(nrep.to_string())
     print(k95.pivot_table(index=["shape", "n", "f"], columns="method", values="k95_tree", aggfunc="first").to_string())
     print(pd.DataFrame(sl).to_string())
+    r = k95.pivot_table(index=["shape", "f", "n"], columns="method", values="k95_tree_v")
+    r["astrid/astral"] = r["astrid"] / r["astral"]
+    r["njst/astral"] = r["njst"] / r["astral"]
+    r.round(2).to_csv(f"{RES}/sc_sim_ratio.csv")
+    print(r.round(2).to_string())
 
 
 if __name__ == "__main__":
