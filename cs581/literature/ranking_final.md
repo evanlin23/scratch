@@ -9,6 +9,40 @@ Supersedes `ranking_v1.md`. Sources: every exploration session's `cs581/<dir>/RE
 verbatim in the slides or on the instructor's project list, about methods taught in lecture; **medium** =
 methods taught, question ours; **low** = needs material not covered.
 
+## Overnight update (2026-10-10 08:05 UTC): two new leads, one weakened
+
+**New top candidate: EPA-ng large-tree bug** (`claude/cs581-epang`, audit `epang_upstream_audit.md`).
+Answers the open problem in Wedell, Shen & Warnow (BSCAMPP, TCBB 2025): why EPA-ng's placement error more
+than doubles above 2,000 leaves. Root cause: with more than 2,000 tips EPA-ng switches on per-rate scalers,
+and its premasking code (`shift_partition_focus`) shifts the scaler buffers by `offset` instead of
+`offset × rate_cats`, so fragments (queries not starting at column 0) get wrong likelihoods and falsely
+confident placements. Unreported since v0.3.3 (2018); present in bioconda 0.3.8 (bundled by BSCAMPP),
+reaches TIPP3-fast and PICRUSt2 (~26.9K-tip default tree). Evidence (RNASim 10K, 303 paired fragment
+queries, true query alignment): stock mean delta error 1.09/0.97/0.82 at 500/1k/2k leaves, then
+1.74/1.65/1.71 at 3k/5k/9k; forcing scalers on at 500-2k reproduces the jump; `--no-pre-mask` removes it;
+the 5-line patch gives 0.78/0.79/0.73 at 3k/5k/9k (keeps improving); full-length queries unaffected (as
+predicted). End to end: BSCAMPP with the patched EPA-ng at subtree size 9,000: mean delta 0.661 vs 0.798
+for stock BSCAMPP at its default 2,000 (−17%, 1,000 fragment queries), at 1.7× wall-clock and 12.9 vs
+2.7 GB. The second hunk (`|=`) only restores SIMD kernels (speed). Downstream (BSCAMPP at more sizes,
+TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic placement
+(pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
+so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
+
+**Clustal Omega backbones: real on BAliBASE, not general.** Measured end to end with the threading fix,
+MAGUS with Clustal backbones is 3-4× faster on BAliBASE (e.g. BBA0067 254 s vs 985 s; BBA0154 268 vs 940 s)
+and more accurate on BBA0039 (−0.14 to −0.36, 3 draws), BBA0067 (−0.8 to −1.2), BBA0154 (−1.9); cached
+inputs also BBA0101 (−2.8), BBA0190 (−1.2); worse on BBA0117 (+1.3) and BBA0134 (+1.5). But it does not
+generalize: simulated proteins (AliSim LG+G4 with indels) +4.3 to +5.1 points worse, 10AA 1GADBL ≈ 0,
+HomFam aat ≈ 0 paired / +0.8 end to end, and 16S.M (DNA) +7.0. `mafft --auto` backbones are mixed
+(−1.5 on BBA0067, +0.1 to +0.25 elsewhere, −0.4 on 16S.M). Row 3 below is downgraded to "dataset-dependent".
+
+**WITCH-lite** (`claude/cs581-witchlite`): BLAST-guided HMM selection matches WITCH on 16S (+0.01-0.02 SPFN
+at 22-26% of the time) but fails on divergent ROSE (+10 SPFN); best divergent-data variant (beam-2
+descent) +1.1 SPFN at 46% of the time. Leaning not promising.
+
+Still running: prost3di, iqstop, decodiphy (theory: explicit k = 3 non-identifiable instance found),
+bbevidence (mechanism), the bbtool confirmation draws, PASTA reruns on RNASim/16S.M.
+
 | rank | idea (branch) | strongest result | beats strongest baseline? | runtime | novelty (audit) | course | verdict |
 |---|---|---|---|---|---|---|---|
 | 1 | **ASTRAL-Pro is inconsistent under GDL because of its own rooting/tagging** (gdlcons) | Exact 4-taxon formula; with true gene trees stock ASTRAL-Pro3 returns the wrong species tree in 40/40, 20/20, 4/4 datasets (500 / 2k / 10k families); correct with true tags. Holds **even with constant rates** (λ = μ on every branch), but only at extreme turnover (λ = μ = 8: wrong 20/20 and 4/4; never at λ ≤ 4). Tag-error threshold q* = 0.080 ± 0.005 observed vs 0.079 predicted | n/a (theory + simulation) | cheap (simulation) | core result novel: counterexamples to Zhang et al.'s consistency conjecture; partly known context | **high**: slide 35 asks verbatim "Is ASTRAL-Pro consistent for GDL under ... error for rooting and tagging?"; GDL lecture "Phylogenomics, part 2" | promising (theory-led). Caveats: numerical, not proofs; constant-rate failures need extreme rates; wQFM-GDL probably inherits the issue (unverified) |
@@ -47,11 +81,11 @@ Ten ROSE 1000-sequence datasets (R0 of every condition):
 | self-soft MAGUS | 23.8 min | 5.87% | −0.77 (9/1/0, p = 0.004), 1.09× |
 | slow-soft MAGUS | 24.8 min | 5.92% | −0.72 (8/1/1, p = 0.014), 1.13× |
 
-Other datasets: RNASim 1000 R0: MAGUS 9.80%, Slow 9.05%, self-soft 9.42%, slow-soft 9.13% (PASTA failed;
-wall-clock 87–92 min on that machine, about 6× our other RNASim timings, so treat it as unreliable).
+Other datasets: RNASim 1000 R0: MAGUS 9.80%, Slow 9.05%, self-soft 9.42%, slow-soft 9.13% (PASTA failed because it was run with `-d dna` on RNA data;
+wall-clock 87–92 min; a second machine measured 71 min for the same MAGUS run, so this is real: the end-to-end benchmark runs MAGUS's original pure-Python graph builder (`--gcmx-fastgraph false`), which is slow on RNASim's long alignments; the ~15 min seen elsewhere used our vectorized builder, which builds the identical graph).
 BAliBASE BBA0101 / BBA0190: PASTA 5.9 / 12.6 min at 29.68 / 24.16%; MAGUS 14.9 / 41.6 min at 27.98 / 23.22%;
 self-soft 21.0 / 44.0 min at 27.13 / 23.27%. On proteins MAGUS is 2.5–3.3× slower than PASTA, which is
-where cheaper backbones (row 3) would matter. 16S.M R0: PASTA 21.5 min / 13.05%, MAGUS 24.5 / 13.01%,
+where cheaper backbones (row 3) would matter. 16S.M R0: PASTA 21.5 min / 13.05% (invalid: our type check called 16S.M protein because of IUPAC codes, so PASTA ran with `-d protein`; rerun with `-d dna` queued, as is PASTA on RNASim with `-d rna`), MAGUS 24.5 / 13.01%,
 Slow 23.3 / 13.19%, self-soft 26.5 / 12.98%, slow-soft 27.2 / 13.12% (all within 0.2 points).
 
 **Reproduction check (our runs vs the paper's published alignments of the same replicate, rescored with
