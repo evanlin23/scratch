@@ -1,8 +1,4 @@
-BBA0039_R0 cs581/data/balibase_clean/RV100_BBA0039.fasta 25
 BBA0067_R0 cs581/data/balibase_clean/RV100_BBA0067.fasta 25
 BBA0081_R0 cs581/data/balibase_clean/RV100_BBA0081.fasta 25
 BBA0101_R0 cs581/data/balibase_clean/RV100_BBA0101.fasta 25
-BBA0117_R0 cs581/data/balibase_clean/RV100_BBA0117.fasta 25
-BBA0134_R0 cs581/data/balibase_clean/RV100_BBA0134.fasta 25
 BBA0154_R0 cs581/data/balibase_clean/RV100_BBA0154.fasta 25
-BBA0190_R0 cs581/data/balibase_clean/RV100_BBA0190.fasta 25
