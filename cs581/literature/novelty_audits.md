@@ -261,3 +261,23 @@ Audit 2026-10-10 (literature only).
   (feasible at BAliBASE sizes); SPFN and SPFP separately, with HomFam and CRW; the gate vs MUMSA overlap score,
   Muscle5 confidence and TCS as reference-free difficulty predictors.
 - **Not accessed:** MAGUS supplement, Smirnov thesis, Illinois Data Bank pages (403), full texts of UPP2/EMMA/WITCH-NG.
+
+## Quick checks, 2026-10-10 19:40 UTC (check-in 8)
+
+**ASTRID-Pro (orthology-restricted speciation-node distance + FastME).**
+- No method of that name was found.
+- Closest prior work, to cite:
+  - SpeciesRax's MiniNJ (Morel et al., MBE 2022): a distance-based starting tree for multi-copy gene families. It is
+    fast and has no consistency analysis.
+  - CASTLES-Pro (GBE 2025, doi:10.1093/gbe/evaf200): estimates species-tree *branch lengths* under GDL+ILS from
+    orthologous quartets (leaf pairs meeting at speciation nodes). Related use of tags; not a topology method and no
+    consistency theorem for a distance.
+  - ASTRID-multi, ASTRID-DISCO, Asteroid.
+- Search found no consistency proof for any GDL distance method, so the theorem's novelty holds.
+- Safe claim: "first consistency theorem (with an exact condition) for a GDL distance method, given correct tags."
+
+**GCM edge-support threshold (delete cross-subset edges supported by < k of the 10 backbones).**
+- Not described in MAGUS (Smirnov & Warnow 2021) or GCM-improvements (Zaharias, Smirnov & Warnow, TCBB 2022). The
+  latter lists changing GCM's edge weights as future work.
+- Still to check: MAGUS's code (any `minWeight`-style option), and T-Coffee/M-Coffee library pruning, which is the
+  likely closest analogue (low-weight library pairs).
