@@ -28,6 +28,19 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Interim, 15:40 UTC (round-2 sessions still running).**
+- *Consensus GCM evidence on HomFam (`claude/cs581-protcons`):* held-out, so it counts against the proposal.
+  - MAFFT-only `L ∩ FFT-NS-2 --op 3` is mixed: Acetyltransf −1.60, PDZ −0.65, aat −1.00, adh 0.00, blmb +2.09,
+    p450 +0.43; the four other families are within −0.44 to +0.13.
+  - Primary `linsi|cons0.7` hurts on four families (PDZ +3.54, blmb +3.42, p450 +1.10, aat +0.79). The losses come
+    through SPFN (blmb +8.9), consistent with MAGUS on HomFam being recall-limited, and the gate said "filter" there.
+  - 10AA: every variant within ±0.33.
+  - So far, the effect holds on simulated proteins and BAliBASE but not on HomFam. Fresh BAliBASE draws and the
+    nucleotide controls are still running.
+- *magusgen (general MAGUS):* hard filters are catastrophic on 1000L1 DNA (consistency mask +9.2, SPFN 29); self-soft
+  −0.70 there, as before; soft-weighted consensus variants queued next.
+- *gcmgen:* a soft down-weight (w = 0.03 on pairs without consensus) keeps the BAliBASE gain; it is being run on all datasets.
+
 **Check-in 6 (15:30 UTC): DecoDiPhy identifiability, round 2 final (`claude/cs581-decodiphy2`, proofs in
 `cs581/decodiphy2/theory.md`).** Source: Arasti, Şapcı, Rachtman, El-Kebir & Mirarab, RECOMB 2026, which states
 "we suspect (with no proof) that conditions that break identifiability require extreme cases of symmetry … We
