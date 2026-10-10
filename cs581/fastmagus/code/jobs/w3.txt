@@ -1,2 +1,0 @@
-1000L3_R0 /opt/data/Datasets/ROSE/1000L3/R0/rose.aln.true.fasta 25 magus,magus+ss,pt-r4,pt-r4+ss,pt-r4+ss2,cl-r4,cl-r4+ss,cl-r4+ss2,r4,r4+ss,r4+ss2
-1000S2_R0 /opt/data/Datasets/ROSE/1000S2/R0/rose.aln.true.fasta 25 magus,magus+ss,pt-r4,pt-r4+ss,pt-r4+ss2,cl-r4,cl-r4+ss,cl-r4+ss2,r4,r4+ss,r4+ss2

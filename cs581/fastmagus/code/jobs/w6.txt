@@ -1,2 +1,0 @@
-BBA0101_R0 cs581/data/balibase_clean/RV100_BBA0101.fasta 25 magus,magus+ss,pt-r4,pt-r4+ss,pt-r4+ss2,cl-r4,cl-r4+ss,cl-r4+ss2,r4,r4+ss,r4+ss2
-BBA0190_R0 cs581/data/balibase_clean/RV100_BBA0190.fasta 25 magus,magus+ss,pt-r4,pt-r4+ss,pt-r4+ss2,cl-r4,cl-r4+ss,cl-r4+ss2,r4,r4+ss,r4+ss2
