@@ -1,10 +1,14 @@
-t=0.15: 0 sets switched; mean SP linsi 0.7731  switch->linsi3di 0.7731  switch->mc3di 0.7731
-t=0.20: 29 sets switched; mean SP linsi 0.7731  switch->linsi3di 0.7867  switch->mc3di 0.7844
-t=0.25: 73 sets switched; mean SP linsi 0.7731  switch->linsi3di 0.8000  switch->mc3di 0.8029
-t=0.30: 83 sets switched; mean SP linsi 0.7731  switch->linsi3di 0.8021  switch->mc3di 0.8027
-t=0.35: 110 sets switched; mean SP linsi 0.7731  switch->linsi3di 0.7957  switch->mc3di 0.8004
+t=0.15: 0 sets switched; mean SP linsi 0.8181  switch->linsi3di 0.8181  switch->mc3di 0.8181
+t=0.20: 29 sets switched; mean SP linsi 0.8181  switch->linsi3di 0.8281  switch->mc3di 0.8264
+t=0.25: 74 sets switched; mean SP linsi 0.8181  switch->linsi3di 0.8377  switch->mc3di 0.8399
+t=0.30: 91 sets switched; mean SP linsi 0.8181  switch->linsi3di 0.8372  switch->mc3di 0.8394
+t=0.35: 141 sets switched; mean SP linsi 0.8181  switch->linsi3di 0.8298  switch->mc3di 0.8370
 identity [0.15,0.20): n= 29  dSP linsi3di +0.056 (W 18/L 10)  dSP mc2 +0.034
-identity [0.20,0.25): n= 44  dSP linsi3di +0.036 (W 29/L 13)  dSP mc2 +0.031
-identity [0.25,0.30): n= 10  dSP linsi3di +0.025 (W 3/L 7)  dSP mc2 -0.013
-identity [0.30,0.40): n= 36  dSP linsi3di -0.029 (W 10/L 26)  dSP mc2 +0.001
-identity [0.40,1.00): n=  1  dSP linsi3di -0.020 (W 0/L 1)  dSP mc2 +0.008
+identity [0.20,0.25): n= 45  dSP linsi3di +0.035 (W 29/L 14)  dSP mc2 +0.030
+identity [0.25,0.30): n= 17  dSP linsi3di -0.004 (W 5/L 12)  dSP mc2 -0.011
+identity [0.30,0.40): n= 70  dSP linsi3di -0.025 (W 20/L 50)  dSP mc2 +0.002
+identity [0.40,1.00): n=  3  dSP linsi3di -0.023 (W 0/L 3)  dSP mc2 +0.004
+switch t=0.25 ->linsi3di: n=164 dSP +0.0196 W/T/L 47/93/24 p=1.6e-03
+switch t=0.25 ->mc3di: n=164 dSP +0.0218 W/T/L 52/94/18 p=5.7e-06
+switch t=0.3 ->linsi3di: n=164 dSP +0.0191 W/T/L 52/76/36 p=1.6e-02
+switch t=0.3 ->mc3di: n=164 dSP +0.0213 W/T/L 58/77/29 p=3.9e-05
