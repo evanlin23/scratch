@@ -1,14 +1,14 @@
 # High-precision limiting matrices: ((((A,B),C),D),E);
 
-Batches: 34, families: 170000 (two independent seeds pooled). Margin = (smallest wrong split sum) - (true split sum): > 0 means the limiting matrix resolves the quartet correctly. SE: delete-one-batch jackknife.
+Batches: 400, families: 2000000 (two independent seeds pooled). Margin = (smallest wrong split sum) - (true split sum): > 0 means the limiting matrix resolves the quartet correctly. SE: delete-one-batch jackknife.
 
 
 ## multi
 
 | quartet | margin | jackknife SE | z |
 |---|---|---|---|
-| ABCD | +0.2646 | 0.0334 | +7.9 |
-| ABCE | -0.0734 | 0.3541 | -0.2 |
-| ABDE | +0.4436 | 0.2919 | +1.5 |
-| ACDE | +0.1790 | 0.3317 | +0.5 |
-| BCDE | +0.1355 | 0.1958 | +0.7 |
+| ABCD | +0.3551 | 0.0116 | +30.5 |
+| ABCE | +0.4976 | 0.0927 | +5.4 |
+| ABDE | +0.6161 | 0.0502 | +12.3 |
+| ACDE | +0.1185 | 0.0999 | +1.2 |
+| BCDE | +0.1055 | 0.0984 | +1.1 |
