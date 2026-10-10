@@ -50,9 +50,9 @@ True gene trees; disjoint blocks of K families from one pool per configuration.
 | ASTRAL-Pro3 (own root+tags) | 4/40 | 0/40 |  | 0/20 |  | 0/4 |
 | ASTRAL-Pro, naive D->S q=0.02 | 11/40 | 2/40 |  | 0/20 |  | 0/4 |
 | ASTRAL-Pro, naive D->S q=0.1 | 34/40 | 40/40 |  | 20/20 |  | 4/4 |
-| astrid-multi |  | 15/20 |  | 11/18 |  |  |
-| astrid-disco |  | 1/20 |  | 0/18 |  |  |
-| astral-disco |  | 1/20 |  | 0/18 |  |  |
-| fastmulrfs |  | 18/20 |  | 18/18 |  |  |
-| stag |  | 0/20 |  | 0/17 |  |  |
+| astrid-multi |  | 15/20 |  | 12/20 |  | 4/4 |
+| astrid-disco |  | 1/20 |  | 0/20 |  | 0/4 |
+| astral-disco |  | 1/20 |  | 0/20 |  | 0/4 |
+| fastmulrfs |  | 18/20 |  | 20/20 |  | 4/4 |
+| stag |  | 0/20 |  | 0/20 |  | 0/4 |
 
