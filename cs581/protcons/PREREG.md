@@ -61,3 +61,13 @@ One MAGUS draw per dataset. Every comparison is paired on that draw's subsets an
 - If a run fails for a dataset, it is reported as missing, not replaced.
 - No threshold, method parameter or dataset is changed after seeing held-out results; any extra exploratory
   analysis is labelled exploratory.
+
+## Addendum (before any nucleotide or other new data was run; only 10AA coli_epi_100 had been used as a pipeline test)
+
+- Nucleotide controls, held out from the gate's fitting where possible: 1000M2_R1, 1000L1_R0, 1000S1_R0,
+  1000M3_R0, RNASim_R1 (cached MAGUS inputs from the worker branches), plus 16S.M_R0, which was **in sample** for
+  the gate (only one 16S.M replicate exists) and is reported separately.
+- BAliBASE fresh draws run MAGUS end to end on `cs581/data/balibase_clean` (new decomposition and backbones).
+- The reference-free gate (`code/pc.py gate`) reproduces pairdiff.py's `support_a_only` exactly (0.6962 on
+  10AA coli_epi_100).
+- Job order: `jobs.txt` (simulated, 10AA, HomFam, BAliBASE), then `nuc.txt`.
