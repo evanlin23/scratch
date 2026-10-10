@@ -128,3 +128,4 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | ASTRAL-Pro GDL inconsistency: proof + practical reach | cs581/astralpro2, claude/cs581-astralpro2 | session_01VjGVSAAam7ugjhXoweAbar |
 | Distance-mixture identifiability: proofs + identifiability-aware output | cs581/decodiphy2, claude/cs581-decodiphy2 | session_01MHDF53LS457HdYpmfTTir4 |
 | One general improved MAGUS (self-soft + consensus evidence) for DNA, RNA and proteins | cs581/magusgen, claude/cs581-magusgen | session_013Ua7rdYjAfh7cX812BxYh4 |
+| gcmtrees: does the GCM evidence recipe improve ML trees? (FastTree/IQ-TREE on 16 simulated protein sets) | claude/cs581-gcmtrees | session_012jUiaZ8rzSFs56nuL5D3Qt |
