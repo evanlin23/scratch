@@ -28,6 +28,73 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**astridpro2 final (20:27 UTC, `claude/cs581-astridpro2`; verdict "promising", pre-registered go criterion met).**
+- *Pooled simulated data (FastMulRFS 120 + DISCO 80 runs, 100 taxa, estimated gene trees):*
+  - vs ASTRAL-Pro3: −0.0135 FN (84/30/26), Holm p = 6e-8, n = 140. On DISCO alone −0.004 (8/9/3, p = 0.054, n = 20).
+  - vs ASTRID-multi: −0.0034 (p = 0.023, Holm 0.068); on high-duplication DISCO −0.014 (20/4/3, p = 0.003).
+  - Ties ASTRID-DISCO and Asteroid; beats DISCO+ASTRAL and FastMulRFS (−0.024); ties wQFM-GDL.
+- *Speed:* 100 taxa × 1,000 genes in 1–40 s vs 2.5–28 min for ASTRAL-Pro3, which timed out on 4 of 24 heavy runs.
+  14 s at 1,000 taxa.
+- *Theory:* proved (see check-in 7).
+- *Caveats:* 500-gene runs not reached; ASTRAL-Pro3 on DISCO covers reps 01–02 only; ASTRAL-Pro's own Dryad gene
+  trees were blocked (403).
+
+**protcons final (20:17 UTC, `claude/cs581-protcons`; pre-registered; 28 held-out protein sets: 8 simulated, 10
+HomFam, 2 10AA, 8 fresh BAliBASE draws).**
+- *Pre-registered primary `linsi|cons0.7` + gate:* FAILS. −0.59 (15/5/8, p = 0.13).
+  - BAliBASE replicates the pilot (−2.03, 7/1/0), but excluding BAliBASE it is −0.01.
+  - The gate's protein accuracy is 54% (chance).
+- *MAFFT-only `L ∩ FFT-NS-2 --op 3`:* −1.28 (23/1/4, p = 0.0003); excluding BAliBASE −0.97 (p = 0.007); simulated
+  8/8 (−2.28); HomFam −0.15; nucleotides +4.8 (0/0/5).
+- *Post-hoc edge support ≥ 5 of 10 backbones* (k chosen from 3 values on the same data):
+  - proteins −1.90 (17/4/7, p = 0.004); simulated −5.81 (8/0/0, via SPFN −11.6); HomFam −0.11; BAliBASE −0.71;
+  - nucleotides −0.03.
+  - This independently agrees with gcmgen's edge-support result.
+- *Trees (FastTree, 8 simulated sets):* Δ nRF +0.36 (primary), −0.11 (L∩F), all p > 0.4. **No tree gain.**
+- *Runtime:* all recipes cost < 5% of MAGUS on proteins.
+- *Session verdict:* consistency filtering as pre-registered is not promising. The pivot, support-aware GCM graphs
+  (edge-support threshold/weighting, plus L∩F on proteins) pre-registered on fresh data, is "unclear to promising".
+  The suspected mechanism is MCL fragmentation from low-support edges.
+- *Consolidated picture with gcmgen:*
+  - Edge support is the general lever: it helps proteins (mostly simulated, via recall) and is neutral on DNA.
+  - The FFT-NS-2 confirmation adds a BAliBASE (precision) gain.
+  - Neither helps DNA/RNA, and neither yet improves trees.
+
+**bbtool-6 final (20:05 UTC; 16S.M and 1000L1, 3 draws each; Δ vs MAGUS's own merge).**
+- *16S.M:* Clustal +5.4 to +7.1. `mafft --auto` backbones −0.39 / −0.84 / −0.32. Union with Clustal +0.1 to +0.3.
+  L-INS-i without `--ep` and G-INS-i ≈ 0.
+- *1000L1:* Clustal +23 to +25. `--auto` +40 to +44. Union −0.01 / −0.23 / −0.11. L-INS-i without `--ep` +0.4 to
+  +1.7. G-INS-i −0.01 / −0.32 / −0.55.
+- *Conclusion unchanged:* Clustal backbones are protein/BAliBASE-only.
+- *Caveat:* the 16S.M state rows carry `"protein": true` (the old type-check bug). It is a recorded label only:
+  `bbtool_bench` does not use it to choose any tool or option.
+
+**gtmscale final (20:04 UTC, `claude/cs581-gtmscale`): GTM blending is NOT PROMISING as a better DTM.**
+- Blending vs GTM over 46 cases: −0.45 FN points (CI −0.66 to −0.27), 32/7/7, p = 3e-6.
+- IQ-TREE `-fast` is more accurate up to 5K taxa at similar time. At RNASim 10K, blending only ties FastTree
+  (10.42), though IQ-TREE ran out of memory there.
+- One re-decomposition gains 2–6 points; blending gains ~0.5. Hard constraints lock in subset-tree errors
+  (an unconstrained FastTree polish beats blending with poor guides).
+- Only "unclear" if reframed (soft constraints plus iteration, or an analytical negative result).
+- Row 5 is downgraded to not promising.
+
+**gcmgen final (20:02 UTC, `claude/cs581-gcmgen` REPORT.md; 24 replicates, one MAGUS draw each; recipe fixed on 10
+training replicates).**
+- *Recipe `wsoft0.03:linsi&fftns2#es4`:*
+  - Proteins −2.76 (9/1/0, p = 0.002): BAliBASE −1.08, AliSim −5.28.
+  - DNA/RNA +0.01 (6/4/4), worst +0.47 (RNASim_R1).
+  - Held-out only: proteins −4.17 (4/0/0), DNA/RNA +0.06 (4/3/3).
+  - Extra cost: one FFT-NS-2 run per backbone (~1% of L-INS-i).
+- *Edge support alone (`linsi#es3`):* proteins −2.03 (6/3/1), DNA/RNA −0.03 (worst +0.05), BAliBASE ≈ 0.
+- *Second opinions:*
+  - G-INS-i is reliable on ROSE (hard filter +0.87 vs +32.5 with FFT-NS-2) but weaker on BAliBASE.
+  - L-INS-i with a random guide tree is ~600× the cost for no gain.
+- *Reference-free switch:* it only detects ROSE and loses on RNASim; the no-switch recipe is better.
+- *Session verdict:* "yes, a general recipe: clearly helps proteins, neutral (not helpful) on DNA/RNA within ±0.5".
+  Caveats: single draws; 4 simulated and 6 BAliBASE replicates; RNASim loses ~0.4.
+- *Still missing:* end-to-end timing and tree accuracy for the recipe (protcons trees for the hard filter are within
+  noise).
+
 **Check-in 8 (19:30 UTC).**
 - *ASTRID-Pro, empirical (`claude/cs581-astridpro2`; my paired recomputation from `results/{disco,fmrfs}_runs.jsonl`;
   FN rate, ASTRID-Pro minus the other method, negative favours ASTRID-Pro):*
