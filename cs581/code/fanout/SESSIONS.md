@@ -83,3 +83,15 @@ pipeline run for real from unaligned sequences on the same idle 4-core machine
 | 1000L2_R0, 1000M4_R0 | claude/cs581-e2e-5 | session_016uB1sp1SwXKKqGhDJC4EUz |
 | RNASim_R0, 16S.M_R0 | claude/cs581-e2e-6 | session_01XgjLDdFFSFeyfAcVFCo5LL |
 | BBA0101_R0, BBA0190_R0 | claude/cs581-e2e-7 | session_01QLmz7p1YWy9UFKDR1QP8gy |
+
+## Backbone-aligner benchmark (launched 2026-10-10 ~06:05 UTC)
+
+Lead from cs581/sota2026 (merge pilot, n = 5): MAGUS with its GCM backbones aligned by Clustal
+Omega instead of MAFFT L-INS-i had 1.6-1.9 points lower error on BAliBASE (5/5). Confirmation:
+3 fresh MAGUS draws per dataset, paired merge-only comparison on each draw (clustalo, mafft-auto;
+phase 2 adds linsi-noep, ginsi) plus measured end-to-end MAGUS with Clustal backbones
+(`gcmx.bbtool_bench`, `fanout/bb_worker.sh`, `run_magus.py --gcmx-backbonetool`; results in
+cs581/experiments/bbtool/<branch>.jsonl).
+
+| jobs | branch | session |
+|---|---|---|
