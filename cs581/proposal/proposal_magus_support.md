@@ -31,7 +31,7 @@ For scale, MAGUS's own gain over PASTA on the paper's 1,000-sequence data is abo
 (4) *Limits.*
 - The gain is mostly on simulated proteins and through recall (fewer missed homologies); HomFam is flat (−0.1).
 - An earlier variant gave no detectable FastTree gain on 8 simulated protein sets (Δ nRF −0.11, n.s.).
-- On full-length DNA, even the *true* alignment improves ML trees by only about 1 FN point, so any tree gain must come from harder data. On hard simulated proteins, MAGUS trees have 8.5–11.2% RF error vs 5.2–6.6% with the true alignment. A tree test of the final recipe on 16 simulated protein sets is running.
+- On full-length DNA, even the *true* alignment improves ML trees by only about 1 FN point, so any tree gain must come from harder data. On hard simulated proteins, MAGUS trees have 8.5–11.2% RF error vs 5.2–6.6% with the true alignment. A tree test of the final recipe on 16 simulated protein sets is running. A Spring 2025 CS581 project (P. Srinivasan, "Evaluating Tree Estimation Error of MAGUS Alignments") measured FastTree error of MAGUS vs PASTA alignments on DNA only (ROSE 1000M1/M4, RNASim 10K). It found that a larger MAGUS subset size slightly improved trees while lowering alignment accuracy, so alignment and tree accuracy can disagree. We extend that question to proteins and to a change in GCM itself.
 
 **Research questions.**
 1. Does support-aware merging improve MAGUS alignments across the MAGUS paper's benchmarks and HomFam, with several MAGUS runs per dataset, measured end to end (accuracy and runtime)?
