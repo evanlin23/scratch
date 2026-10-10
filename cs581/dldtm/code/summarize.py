@@ -67,9 +67,9 @@ for lab in labels:
     out.append(f"| {lab} | " + " | ".join(cells) + " |")
 
 
-def cmp_table(title, pairs, D):
+def cmp_table(title, pairs, D, unit="replicates"):
     out.append(f"\n## {title}\n")
-    out.append("Difference = B − A in FN percentage points (negative = B better). W/T/L = replicates where B is better/tied/worse. Two-sided Wilcoxon signed-rank p (pooled row pools all conditions).\n")
+    out.append(f"Difference = B − A in FN percentage points (negative = B better). W/T/L = {unit} where B is better/tied/worse. Two-sided Wilcoxon signed-rank p (pooled row pools all conditions).\n")
     out.append("| A | B | condition | n | mean A | mean B | mean diff | W/T/L | p |")
     out.append("|---|---|---|---|---|---|---|---|---|")
     for A, B in pairs:
@@ -127,7 +127,7 @@ for kind, title in (("subset", "Subset trees on the TRUE alignment (pipeline sub
             cells.append("%.2f (n=%d)" % (100 * np.mean(list(v.values())), len(v)) if v else "–")
         out.append(f"| {m} | " + " | ".join(cells) + " | %.1f |" % np.mean(T[m]))
     pp = [(b, dl) for dl in ("PF", "NNJ") for b in ("FT", "IQ", "BME", "NJ") if b in meths and dl in meths]
-    cmp_table(f"Paired, {title}", pp, D)
+    cmp_table(f"Paired, {title}", pp, D, unit="subsets (pooled over replicates; subsets of one replicate are not fully independent)")
 
 open(f"{outd}/SUMMARY.md", "w").write("\n".join(out) + "\n")
 print("\n".join(out))
