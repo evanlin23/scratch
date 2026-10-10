@@ -13,6 +13,7 @@ and the cross-subset scores only when the reference covers every sequence.
 import json
 import os
 import shutil
+import subprocess
 import sys
 import time
 
@@ -39,6 +40,7 @@ def make_rep(work, rep):
         if f.endswith("_mafft.txt"):
             shutil.copy(os.path.join(work, "inputs", "backbones", f), os.path.join(rep, "inputs", "backbones"))
     bbe.prep(rep, os.path.join(work, "true.fasta"))
+    shutil.copy(os.path.join(work, "unaligned.fasta"), os.path.join(rep, "unaligned.fasta"))
     st = json.load(open(os.path.join(work, "state.json")))
     json.dump({"magus": st["magus"], "nseq": st["nseq"], "nref": st["nref"]}, open(os.path.join(rep, "magus.json"), "w"))
 
@@ -59,9 +61,10 @@ def run(rep, names):
         if name in done:
             continue
         start = time.time()
-        files, bb_wall, bb_sum = bbe.parse_variant(rep, name)
+        base, k = (name.split("#es") + [None])[:2]
+        files, bb_wall, bb_sum = bbe.parse_variant(rep, base)
         prep_wall = round(time.time() - start, 1)
-        out, m_wall = bbe.merge(rep, name, files)
+        out, m_wall = merge_edgesup(rep, name, files, int(k)) if k else bbe.merge(rep, name, files)
         s = acc_ref(os.path.join(rep, "true.fasta"), out)
         row = {"rep": os.path.basename(rep.rstrip("/")), "variant": name, "nbb": len(files), "bb_wall": bb_wall,
                "bb_sum": bb_sum, "prep_wall": prep_wall, "merge_wall": m_wall, **s}
@@ -70,6 +73,46 @@ def run(rep, names):
         with open(res, "a") as f:
             f.write(json.dumps(row) + "\n")
         print(json.dumps(row), flush=True)
+
+
+def merge_edgesup(rep, name, files, k):
+    """bbe.merge, but the GCM graph keeps only edges supported by >= k backbones (run_edgesup.py)."""
+    vd = os.path.join(rep, "variants", bbe.safe(name).replace("#", "_es_"))
+    shutil.rmtree(vd, ignore_errors=True)
+    bb = os.path.join(vd, "bb")
+    os.makedirs(bb)
+    for lab, a in files:
+        fasta.write(a, os.path.join(bb, lab + ".txt"))
+    out = os.path.join(vd, "out.fasta")
+    start = time.time()
+    with open(os.path.join(vd, "magus.log"), "w") as log:
+        subprocess.run([sys.executable, os.path.join(HERE, "run_edgesup.py"), str(k), "--gcmx-fastgraph", "false",
+                        "-np", str(bbe.THREADS), "-d", os.path.join(vd, "work"),
+                        "-s", os.path.join(rep, "inputs", "subalignments"), "-b", bb, "-o", out] + bbe.MERGE_FLAGS,
+                       cwd=bbe.CODE, stdout=log, stderr=subprocess.STDOUT, check=True)
+    wall = round(time.time() - start, 1)
+    shutil.rmtree(os.path.join(vd, "work"), ignore_errors=True)
+    return out, wall
+
+
+def new_sets(rep, seed, n=10, per_subset=8):
+    """bbe.new_sets, but sequences come from rep/unaligned.fasta (HomFam: true.fasta holds only the seeds)."""
+    import random
+    d = os.path.join(rep, "sets", "s{}".format(seed))
+    if os.path.isdir(d) and len(os.listdir(d)) == n:
+        return d
+    os.makedirs(d, exist_ok=True)
+    src = os.path.join(rep, "unaligned.fasta")
+    unal = fasta.ungap(fasta.upper(fasta.read(src if os.path.exists(src) else os.path.join(rep, "true.fasta"))))
+    rng = random.Random(1000 + seed)
+    subs = [list(s) for _, s in bbe.subsets(rep)]
+    for b in range(n):
+        taxa = [t for s in subs for t in rng.sample(s, min(per_subset, len(s)))]
+        fasta.write({t: unal[t] for t in taxa}, os.path.join(d, "backbone_{}.fa".format(b + 1)))
+    return d
+
+
+bbe.new_sets = new_sets
 
 
 class FreeRep:
