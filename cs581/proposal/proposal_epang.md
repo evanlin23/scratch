@@ -33,7 +33,13 @@ standalone. Larger subtrees do *not* make BSCAMPP more accurate than its default
 a small gain only on RNASim 10K, −0.125, p = 0.005): the default happens to sit just under the bug's
 trigger. PICRUSt2 2.6.3 is on the affected path; on a 12K-tip subset of its reference, 2.7% of V4 ASVs
 change placement, a few by a lot (nearest-sequenced-taxon index ~32 vs ~1.3), shifting one sample's
-predicted metagenome by 16% (median 0.2%). No issue, release note or paper reports the bug.
+predicted metagenome by 16% (median 0.2%). Most importantly, the BSCAMPP paper's conclusion that whole-tree EPA-ng is "much more" error-prone
+than the subtree pipelines is confounded by the bug: on 8-10K-leaf backbones, stock whole-tree EPA-ng has
+mean delta 1.72-2.55, the patched one 0.78, the same as BSCAMPP(e) at its default (0.79-0.81) and faster
+(24 s vs 43-69 s), with memory (12-13 GB at 10K leaves) as the remaining reason to decompose. Against
+the instructor-suggested comparison, BSCAMPP(p) (pplacer) is about as accurate as BSCAMPP(e) with the
+patched EPA-ng (−0.016, n.s., at 2,000; −0.064, p = 0.006, at 5,000) but 2.6-3.1× slower. No issue,
+release note or paper reports the bug.
 
 **Research questions.**
 (1) *Characterization.* Which queries, data and settings are affected: fragment length and start offset,
@@ -42,7 +48,7 @@ number of rate categories, DNA vs protein, EPA-ng heuristics (`--dyn-heur`, `--b
 (2) *Re-tuning scalable placement.* With a correct EPA-ng, what subtree size should BSCAMPP and SCAMPP use (pilot: larger subtrees tie the default on two large sets, so the question is the accuracy/time/memory trade-off and when larger subtrees help)?
 Accuracy-runtime-memory trade-off on the BSCAMPP benchmarks (RNASim up to 200K leaves, plus a biological
 dataset), compared with BSCAMPP(pplacer), APPLES-2 and EPA-ng on the whole tree; does whole-tree EPA-ng
-remain worse once fixed?
+remain worse once fixed (pilot: no, it ties BSCAMPP on 8-10K-leaf trees; the question becomes memory and scale)?
 (3) *Downstream impact.* How many placements and taxonomic assignments change in TIPP3-fast (which uses
 BSCAMPP) and in PICRUSt2's placement step (EPA-ng on a ~26,900-tip default reference tree), and does that
 change profiling accuracy on simulated communities?
