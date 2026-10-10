@@ -28,6 +28,22 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**aproroom INTERIM (23:45 UTC, `claude/cs581-aproroom`): almost no headroom between GDL summary methods.**
+- *Data:* FastMulRFS, 100 taxa, 100 genes, 60 reps.
+- *FN rate by input:* true trees + true tags / true trees / RAxML 100 bp / 25 bp:
+  - ASTRID-Pro 0.009 / 0.008 / 0.042 / 0.106;
+  - ASTRID-DISCO 0.009 / 0.009 / 0.041 / 0.104;
+  - Asteroid – / 0.010 / 0.040 / 0.105;
+  - ASTRAL-Pro3 – / 0.008 / 0.048 / 0.130;
+  - wQFM-GDL – / 0.007 / 0.040 / 0.116.
+- *Where the error comes from:* tagging error ≈ 0. Gene-tree estimation error is 80–95% of the total.
+- *Headroom:* picking the best of 5 methods per input after the fact (an oracle) gains only 0.001 / 0.008 / 0.012
+  over the best single method. On DISCO with 1000 true gene trees every method has FN 0.
+- *ASTRAL-Pro3:* the true species tree scores below ASTRAL-Pro3's own tree in 60/60 inputs, so its extra error is
+  in its objective, not its search.
+- **Conclusion:** a new summary method cannot gain much over the best existing ones. The remaining error is in the
+  gene trees. Drop ASTRID-Pro as a "beat the state of the art" project.
+
 **wapro INTERIM (23:04 UTC, `claude/cs581-wapro`): weighting does not help ASTRID-Pro.** FastTree-SH gene trees.
 - *Train, FastMulRFS reps 01–03 (n = 36), FN rate:* wQFM-GDL 0.0703 < ASTRID-DISCO 0.0753 ≈ wASTRID-Pro 0.0756 ≈
   ASTRID-Pro 0.0759 < DISCO+wASTRID 0.0765 < Asteroid 0.0782 < ASTRAL-Pro3 0.0899 ≈ DISCO+wASTRAL 0.0901.
