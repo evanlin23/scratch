@@ -1,0 +1,1 @@
+{"dataset": "M1HF", "rep": 0, "aln": "true_align", "arm": "base_fasttree", "fn": 0.48895582329317266, "fp": 0.48946840521564694, "rf": 0.4889669007021063, "est_int": 997, "cpu_s": 108.9, "wall_s": 111.1, "peak_rss_mb": 109.7, "tree": "/opt/data/mlcache/M1HF/R0/trees/true_align.base_fasttree.tre"}
