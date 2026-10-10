@@ -56,6 +56,8 @@ reproduction, paired pilot with runtime, and `cs581/<dir>/REPORT.md` with a verd
 | Supertrees at scale | cs581/supertree, claude/cs581-supertree | session_01RFzDUN2Z8wuQKvjvTBz7qB |
 | Forest+DTM | cs581/forest, claude/cs581-forest | session_01QJAxbbXp6GDNfvQ1ZXGxJP |
 | Learned evidence weights for GCM (deep learning x merging) | cs581/code/gcmx (local, this session) | orchestrating session |
+| Faster MAGUS at equal accuracy (cheaper guide tree / fewer backbones + self-soft) | cs581/fastmagus, claude/cs581-fastmagus | session_016eRY2Kh3vGd3hmAfDk9d2R |
+| Is MAGUS still SOTA in 2026? (TWILIGHT, FAMSA2, MUSCLE5, ...) | cs581/sota2026, claude/cs581-sota2026 | session_012Rgpxy2uEEPz2XSy4Tz17n |
 
 The ML session (claude/cs581-ml) was asked to also cover "better ML heuristics" and
 "scaling concatenation"; the GTM session covers DTM blending; consensus alignments run
