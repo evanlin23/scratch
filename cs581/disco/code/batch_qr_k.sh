@@ -2,7 +2,7 @@
 # QR data with fewer genes (first K gene-family trees, 50 bp gene trees): harder regime. Usage: bash batch_qr_k.sh K [P]
 D=/opt/data/disco/qr/trees; K=$1; R=/opt/runs/qr_k$K; C=$(cd "$(dirname "$0")" && pwd); P=${2:-4}
 jobs=()
-for c in 20_gdl_5e-10_1 20_gdl_1e-9_1 20_gdl_1e-10_1 20_gdl_1e-9_0 20_gdl_1e-10_0 20_gdl_5e-10_0; do
+for c in 20_gdl_5e-10_1 20_gdl_1e-9_1 20_gdl_1e-10_1 20_gdl_1e-10_0 20_gdl_5e-10_0; do  # 20_gdl_1e-9_0 (mean 1800 leaves) only reps run manually
  for ils in _hILS ""; do
   for r in 01 02 03 04 05 06 07 08 09 10; do
     jobs+=("$D/$c$ils/$r $R/$c$ils/$r/g_50")
