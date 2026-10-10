@@ -132,3 +132,5 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | fragml2: fast ML trees with fragmentary sequences (backbone + fixed EPA-ng / constrained ML) | claude/cs581-fragml2 | session_017GJCTSw6j4rhjwWQvYujTi |
 | wapro: weighted ASTRID-Pro (support/length weighting, contraction, missing-data norm) vs best GDL methods | claude/cs581-wapro | session_013LfRmp3zorCpsEbqRSCdPT |
 | aproroom: headroom for GDL species-tree methods (true vs estimated trees/tags, 1000 species, fair speed, hybrid) | claude/cs581-aproroom | session_01S5dW3pZ3M1RoZppz3YMxpv |
+| gcmclust: different clustering method inside GCM (MCL inflation, Leiden/Louvain, CC, agglomerative), with/without support filter | claude/cs581-gcmclust | session_01NkgLadfKkHYrR3iaEo1CYT |
+| basemeth: MAGUS/PASTA with MUSCLE5/FAMSA2/ProbCons/Prank/Clustal subset aligners + Regressive comparison | claude/cs581-basemeth | session_01UZ9gUSWa5AGU8MVZgk2wfJ |
