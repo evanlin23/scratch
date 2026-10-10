@@ -28,6 +28,42 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 3 (10:45 UTC).**
+
+*EPA-ng downstream, final* (`claude/cs581-epangdown`): on nt78 (77K leaves) stock BSCAMPP 1.72 / 4.77 / 5.09
+at 2k / 5k / 10k vs fixed 1.72 / 1.70 / 1.69; RNASim 50K 0.53 / 1.43 vs 0.53 / 0.51 (fix vs stock at 5k:
+p = 1e-80, 1e-55). Bug 2 alone = all of the accuracy (matches the full fix on 98.3% of queries). But fixed
+BSCAMPP at 5k-10k is **not better than stock at its default 2k** on these larger sets (−0.02, n.s.); only the
+RNASim 10K R1 run showed a small gain (−0.125, p = 0.005). Standalone speed: the fix is 3.3× / 2.9× faster on
+fragments at 5k / 10k tips (1.6-1.7× full-length). PICRUSt2 2.6.3 (12K-tip subset of its 26,868-tip tree, 749
+V4 ASVs): 2.7% of ASVs change edge; 5 ASVs at NSTI ~32 (stock) vs ~1.3 (fixed); predicted-metagenome change per
+sample median 0.18%, max 16%. Session verdict: "unclear, leaning not promising as a downstream-accuracy
+project". Net: the EPA-ng project is a diagnosis + correctness + 3× speed story, not a BSCAMPP accuracy story.
+
+*EPA-ng whole-tree result (11:30 UTC, epangdown follow-up)*: on 10K (nt78) and 8K (RNASim) sub-backbones with the
+same 1,000 fragments, stock whole-tree EPA-ng 2.55 / 1.72 vs fixed 0.78 / 0.78 (p = 2e-82, 6e-52) vs BSCAMPP(e)
+b2000 0.79 / 0.81; fixed whole-tree is faster (24 s vs 43-69 s), memory-limited (12-13 GB at 8-10K leaves). The
+BSCAMPP paper's Exp. 5 conclusion (whole-tree EPA-ng "much more" error-prone) is the bug. BSCAMPP(p) vs fixed
+BSCAMPP(e) on nt78: −0.016 (n.s.) at b2000, −0.064 (p = 0.006) at b5000, pplacer 2.6-3.1x slower. Revised
+session verdict: "unclear, but better than first stated".
+
+*Consistency-filtered GCM evidence* (`claude/cs581-bbevidence`, new lead, MAGUS line, MAFFT-only): on proteins
+GCM is precision-limited (Δ evidence precision vs ΔSPFP ρ = −0.66, 182 pairs). One draw per BAliBASE set:
+L-INS-i backbones with columns of cross-backbone consistency < 0.7 masked: −1.97 points (7/0/0, p = 0.016; no
+new alignment, ~10-20 s); L-INS-i ∩ FFT-NS-2 `--op 3`: −1.83 (7/1/0); L ∩ Clustal −2.02; (L + Clustal) masked
+−2.53 (7/0/1). Filtering hurts nucleotides (1000M2 +9.5 to +41); a reference-free gate was fit in-sample.
+Pre-registered held-out test (simulated proteins with trees, HomFam, 10AA, fresh BAliBASE draws, nucleotide
+controls) running on `claude/cs581-protcons`.
+
+*Clustal backbones, protbench final*: outside BAliBASE Clustal backbones hurt: mean +1.85 points, 1/3/11,
+p = 0.005 (simulated proteins +1.6 to +4.8; HomFam mixed, PDZ +7.0); end to end +1.44 (3/1/11), though 2.35×
+faster. Dead as a general method.
+
+*Others*: prost3di (predicted 3Di): RV11 (low identity) +0.048 SP over L-INS-i (48/3/25, p = 0.002) but RV12
+−0.027 (24/0/64); costly (ProstT5 ~60 ms/residue); no verdict written; MAGUS-evidence effect within noise.
+iqstop: KH stopping rules lie on the same speed/lnL frontier as plain `-nstop N` (no better); on empirical 16S
+every faster rule loses lnL. WITCH-lite: "unclear, leaning not promising". decodiphy: promising (theory).
+
 **EPA-ng follow-up (09:15 UTC, `claude/cs581-epang`, `claude/cs581-epangdown`).** Replicated on RNASim R1:
 stock BSCAMPP 0.846 at 2,000 vs 1.682 at 5,000 (the paper's 2× jump), fixed 0.721 at 5,000 (p = 0.005).
 On two more datasets (1,000 fragment queries each, BSCAMPP subtree sizes 2k/5k/10k): nt78, stock 1.72 /

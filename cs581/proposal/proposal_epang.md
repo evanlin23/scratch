@@ -26,21 +26,29 @@ thousands of units, falsely confident LWR = 1.0). Evidence on RNASim (true query
 forcing scalers on at 500-2,000 leaves reproduces the jump; disabling premasking removes it; full-length
 queries are unaffected, as the mechanism predicts. A 5-line patch removes the jump (0.78 / 0.79 / 0.73 at
 3k / 5k / 9k leaves) and reproduces scaler-free placements exactly. A second hunk restores the SIMD kernels
-that the same code path silently drops (speed only). On three more datasets the patched EPA-ng is flat in subtree size where stock EPA-ng degrades 2-3×
-(e.g. a 78K-leaf nucleotide set: stock 1.72 / 4.77 / 5.09 at 2k / 5k / 10k leaves vs patched 1.72 / 1.70 /
-1.69, p = 1e-80 at 5k) and runs 18-22% faster. Whether larger subtrees then *improve* accuracy depends on
-the data: on RNASim 10K, patched BSCAMPP at 5,000-9,000 leaves beats stock BSCAMPP at its default 2,000
-(0.661 vs 0.798; 0.721 vs 0.846, p = 0.005); on the 78K and 16S sets it ties. No issue, release note or
-paper reports the bug.
+that the same code path silently drops (speed only). On two large benchmarks the patched EPA-ng is flat in subtree size where stock EPA-ng degrades
+2.7-3× (77K-leaf nucleotide set: stock 1.72 / 4.77 / 5.09 at 2k / 5k / 10k leaves vs patched 1.72 / 1.70 /
+1.69, p = 1e-80 at 5k; RNASim 50K: 1.43 vs 0.51 at 5k, p = 1e-55), and on fragments it is 2.9-3.3× faster
+standalone. Larger subtrees do *not* make BSCAMPP more accurate than its default 2,000 on these sets (ties;
+a small gain only on RNASim 10K, −0.125, p = 0.005): the default happens to sit just under the bug's
+trigger. PICRUSt2 2.6.3 is on the affected path; on a 12K-tip subset of its reference, 2.7% of V4 ASVs
+change placement, a few by a lot (nearest-sequenced-taxon index ~32 vs ~1.3), shifting one sample's
+predicted metagenome by 16% (median 0.2%). Most importantly, the BSCAMPP paper's conclusion that whole-tree EPA-ng is "much more" error-prone
+than the subtree pipelines is confounded by the bug: on 8-10K-leaf backbones, stock whole-tree EPA-ng has
+mean delta 1.72-2.55, the patched one 0.78, the same as BSCAMPP(e) at its default (0.79-0.81) and faster
+(24 s vs 43-69 s), with memory (12-13 GB at 10K leaves) as the remaining reason to decompose. Against
+the instructor-suggested comparison, BSCAMPP(p) (pplacer) is about as accurate as BSCAMPP(e) with the
+patched EPA-ng (−0.016, n.s., at 2,000; −0.064, p = 0.006, at 5,000) but 2.6-3.1× slower. No issue,
+release note or paper reports the bug.
 
 **Research questions.**
 (1) *Characterization.* Which queries, data and settings are affected: fragment length and start offset,
 number of rate categories, DNA vs protein, EPA-ng heuristics (`--dyn-heur`, `--baseball-heur`,
 `--no-heur`, where the bug is much worse), and how the error depends on tree size above 2,000 tips.
-(2) *Re-tuning scalable placement.* With a correct EPA-ng, what subtree size should BSCAMPP and SCAMPP use?
+(2) *Re-tuning scalable placement.* With a correct EPA-ng, what subtree size should BSCAMPP and SCAMPP use (pilot: larger subtrees tie the default on two large sets, so the question is the accuracy/time/memory trade-off and when larger subtrees help)?
 Accuracy-runtime-memory trade-off on the BSCAMPP benchmarks (RNASim up to 200K leaves, plus a biological
 dataset), compared with BSCAMPP(pplacer), APPLES-2 and EPA-ng on the whole tree; does whole-tree EPA-ng
-remain worse once fixed?
+remain worse once fixed (pilot: no, it ties BSCAMPP on 8-10K-leaf trees; the question becomes memory and scale)?
 (3) *Downstream impact.* How many placements and taxonomic assignments change in TIPP3-fast (which uses
 BSCAMPP) and in PICRUSt2's placement step (EPA-ng on a ~26,900-tip default reference tree), and does that
 change profiling accuracy on simulated communities?
@@ -58,8 +66,9 @@ and recommended BSCAMPP/TIPP3 settings.
 Week 2: subtree-size sweep for BSCAMPP and SCAMPP with the fix (RQ2), memory profiling. Week 3: TIPP3-fast
 and PICRUSt2 downstream study (RQ3), speed (RQ4). Week 4: biological dataset, write-up, upstream report.
 
-**Risks.** (a) The core diagnosis is already done, so the project's contribution is the systematic
-re-evaluation and downstream impact; the quality of RQ2-RQ3 decides its value. (b) Memory grows with
+**Risks.** (a) The core diagnosis is already done, and the pilot shows the downstream accuracy gains are
+small (BSCAMPP ties its default; PICRUSt2 changes 2-3% of placements), so the contribution is the diagnosis,
+correctness on large trees, the 3× speed-up, and a careful characterization rather than a big accuracy gain. (b) Memory grows with
 subtree size (12.9 GB at 9,000 leaves on 4 cores), which may cap the sweep; mitigated by fewer parallel
 jobs. (c) The maintainers might fix it independently; the evaluation stands regardless. (d) Downstream
 effects might be small if most queries are full length; fragments and amplicons are the common case in
