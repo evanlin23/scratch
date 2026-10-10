@@ -16,7 +16,8 @@ for rep in range(reps):
         ref = pat.format(rep)
         with tempfile.TemporaryDirectory() as tmp:
             un = os.path.join(tmp, "u.fa")
-            fasta.write(fasta.ungap(fasta.upper(fasta.read(ref))), un)
+            seqs = fasta.ungap(fasta.upper(fasta.read(ref)))
+            fasta.write({k: v.replace("U", "T") for k, v in seqs.items()}, un)  # RNASim is RNA; FAMSA needs DNA letters
             for m, cmd in (("famsa", ["/opt/mm/root/envs/bio/bin/famsa", "-t", "1", un, os.path.join(tmp, "famsa.fa")]),
                            ("mafft-auto", ["mafft", "--auto", "--thread", "1", un])):
                 if (s, rep, m) in done:
@@ -24,6 +25,8 @@ for rep in range(reps):
                 o = os.path.join(tmp, m + ".fa")
                 with open(o if m == "mafft-auto" else os.devnull, "w") as f:
                     subprocess.run(cmd, stdout=f, stderr=subprocess.DEVNULL, check=True)
-                sc = score.fastsp(ref, o)
+                refT = os.path.join(tmp, "ref.fa")
+                fasta.write({k: v.upper().replace("U", "T") for k, v in fasta.read(ref).items()}, refT)
+                sc = score.fastsp(refT, o)
                 with open(out, "a") as f:
                     f.write(json.dumps({"set": s, "rep": rep, "method": m, "avgErr": sc["avgErr"], "SPFN": sc["SPFN"], "SPFP": sc["SPFP"]}) + "\n")
