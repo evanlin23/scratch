@@ -143,7 +143,7 @@ So the unmodified ASTRAL-Pro3 software, given **true** gene trees under pure GDL
 
 **How common?** From the exact formula on 20,000 random rate configurations (λ, μ ∈ {0, …, 8}, branch lengths 0.05–4; `code/prevalence.py`):
 - `ovl` is inconsistent in **12 of 15,434** informative configurations (0.08%);
-- 11 of these 12 have a supercritical y-branch, usually λ_y = 8;
+- 11 of these 12 have a supercritical y-branch, usually λ_y = 8. The 12th is *critical* with very high turnover (y = (8, 8, 2), O ≈ 4·10⁻⁶; formula only, not simulated);
 - a finite q* exists in 353 configurations, with q* < 1 in only 12.
 
 So this is a corner of parameter space: very high duplication on one short branch above a three-taxon clade, followed by heavy loss. It is not the regime of standard simulations (the DISCO and FastMulRFS data use λ = μ and modest rates).
@@ -175,5 +175,5 @@ The cause: an S label on a node whose children share species makes ASTRAL-Pro co
 
 1. **Proof.** Write the Proposition properly: the class decomposition, the integral formula, and the conditioning argument. Add the version with a root branch, and the general n-taxon statement. For n > 4, a quartet-wise wrong majority does not automatically mean ASTRAL-Pro is wrong. Use a 4-taxon induced example inside a larger tree, or prove inconsistency via a dominating quartet argument.
 2. **Rooting error.** `rovl(p)` and `rsp-X` stayed consistent in every small configuration tried. A formula like the one above, for "random root + overlap tags", is the obvious next step. On random roots, true speciations can be tagged D, which only removes correct mass, and new hidden-paralog-like S nodes appear.
-3. **Sufficient conditions.** Find conditions under which O + H_AB > max H_wrong: for example λ_e ≤ μ_e on the branch above every three-taxon clade, or an upper bound on λ_y·T. In the prevalence scan, only 1 of the 12 failures has a subcritical y-branch, so "no supercritical branch" is a natural conjecture. The sibling session found the same condition for its ortholog distance.
+3. **Sufficient conditions.** Find conditions under which O + H_AB > max H_wrong: for example λ_e ≤ μ_e on the branch above every three-taxon clade, or an upper bound on λ_y·T. The prevalence scan rules out the simple conjecture "no supercritical branch": a critical branch with large λT also fails. The conjecture has to bound turnover, for example λ_y T small or λ < μ strictly. The sibling session's ortholog-distance condition was λ_e ≤ μ_e, so the two problems differ here.
 4. **ASTRAL-multi.** Check whether Legried et al.'s theorem assumes uniform rates [M], since cand2 sits on a near-tie for ASTRAL-multi.
