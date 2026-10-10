@@ -26,14 +26,14 @@ for k, s in seqs.items():
 print(f'{len(amp)}/{len(seqs)} reference 16S contain both V4 primers', file=sys.stderr)
 random.seed(seed)
 pick = sorted(random.sample(sorted(amp), N))
-os.makedirs(f'{out}/ref', exist_ok=True)
+os.makedirs(f'{out}/bac_ref', exist_ok=True)
 with open(f'{out}/queries.fna', 'w') as fo:
     for k in pick: fo.write(f'>{k}\n{amp[k]}\n')
 with open(f'{out}/heldout.txt', 'w') as fo: fo.write('\n'.join(pick) + '\n')
 ps = set(pick)
-with open(f'{out}/ref/bac_ref.fna', 'w') as fo:
+with open(f'{out}/bac_ref/bac_ref.fna', 'w') as fo:
     for k in order:
         if k not in ps: fo.write(f'>{k}\n{seqs[k]}\n')
 for ext in ('hmm', 'model', 'raxml_info'):
-    shutil.copy(f'{R}/bac_ref/bac_ref.{ext}', f'{out}/ref/bac_ref.{ext}')
+    shutil.copy(f'{R}/bac_ref/bac_ref.{ext}', f'{out}/bac_ref/bac_ref.{ext}')
 print('amplicon length mean', sum(len(amp[k]) for k in pick) / N, file=sys.stderr)
