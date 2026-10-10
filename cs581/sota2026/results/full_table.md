@@ -19,18 +19,23 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | 16S.T_R0 | 9.9 (2918s) |  | 12.9 (6979s) | 17.6 (123s) | 12.7 (78s) |  | 18.8 (215s) | 19.4 (241s) |
 | 1000M1_R0 | 11.5 (674s) |  | 13.0 (1993s) | 50.4 (773s) | 97.6 (30s) |  | 98.1 (39s) | 99.2 (25s) |
 | 1000M2_R0 | 8.3 (968s) | 8.2 (1493s) | 13.7 (2007s) | 43.6 (471s) | 97.9 (30s) |  | 98.0 (38s) | 99.0 (23s) |
+| 1000M3_R0 | 4.1 (586s) | 4.5 (1145s) | 5.6 (1328s) | 15.2 (254s) | 88.2 (22s) |  | 83.6 (33s) | 71.8 (17s) |
+| 1000M4_R0 | 1.1 (408s) | 1.2 (992s) | 1.5 (1205s) | 2.5 (27s) | 3.3 (8s) |  | 5.5 (21s) | 5.4 (6s) |
+| 1000S1_R0 | 8.5 (685s) | 9.8 (1563s) | 11.7 (1769s) | 26.5 (39s) | 96.8 (15s) |  | 97.1 (37s) | 98.8 (16s) |
+| 1000S2_R0 | 3.5 (476s) | 4.7 (994s) | 5.7 (1530s) | 13.7 (37s) | 96.7 (15s) |  | 96.8 (37s) | 98.9 (16s) |
+| 1000S3_R0 | 4.5 (533s) | 4.5 (1338s) | 4.9 (1343s) | 24.7 (38s) | 97.2 (16s) |  | 97.7 (38s) | 99.0 (19s) |
 
 ## Paired comparison vs published MAGUS(Fast), same replicate (Δ = tool − MAGUS, points; W/T/L = tool better/tie(±0.05)/worse; Wilcoxon signed-rank)
 
 | data | tool | n | mean Δ | W/T/L | p |
 |---|---|---|---|---|---|
-| ROSE | famsa | 5 | +36.9 | 0/0/5 | 0.062 |
-| ROSE | twilight-1 | 5 | +89.0 | 0/0/5 | 0.062 |
+| ROSE | famsa | 10 | +24.5 | 0/0/10 | 0.002 |
+| ROSE | twilight-1 | 10 | +80.5 | 0/0/10 | 0.002 |
 | ROSE | twilight | 3 | +90.0 | 0/0/3 | – |
-| ROSE | mafft-parttree | 5 | +89.2 | 0/0/5 | 0.062 |
-| ROSE | mafft-auto | 5 | +90.3 | 0/0/5 | 0.062 |
-| ROSE | MAGUS(4c) | 4 | -0.3 | 2/1/1 | – |
-| ROSE | PASTA(pub) | 5 | +2.6 | 0/0/5 | 0.062 |
+| ROSE | mafft-parttree | 10 | +80.5 | 0/0/10 | 0.002 |
+| ROSE | mafft-auto | 10 | +80.4 | 0/0/10 | 0.002 |
+| ROSE | MAGUS(4c) | 9 | +0.2 | 2/2/5 | 0.57 |
+| ROSE | PASTA(pub) | 10 | +2.1 | 0/0/10 | 0.002 |
 | RNASim | twilight-1 | 1 | +4.8 | 0/0/1 | – |
 | RNASim | twilight | 1 | +1.5 | 0/0/1 | – |
 | RNASim | mafft-parttree | 1 | +14.1 | 0/0/1 | – |
@@ -49,10 +54,16 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | 16S | mafft-parttree | 1 | +8.9 | 0/0/1 | – |
 | 16S | mafft-auto | 1 | +9.4 | 0/0/1 | – |
 | 16S | PASTA(pub) | 1 | +3.0 | 0/0/1 | – |
-| all | famsa | 14 | +18.1 | 0/0/14 | 0.00012 |
-| all | twilight-1 | 15 | +35.9 | 0/0/15 | 6.1e-05 |
+| all | famsa | 19 | +16.5 | 0/0/19 | 3.8e-06 |
+| all | twilight-1 | 20 | +45.0 | 0/0/20 | 1.9e-06 |
 | all | twilight | 12 | +28.6 | 0/0/12 | 0.00049 |
-| all | mafft-parttree | 15 | +36.4 | 0/0/15 | 6.1e-05 |
-| all | mafft-auto | 15 | +34.6 | 0/0/15 | 6.1e-05 |
-| all | MAGUS(4c) | 10 | +0.1 | 2/1/7 | 0.32 |
-| all | PASTA(pub) | 15 | +2.5 | 2/0/13 | 0.00061 |
+| all | mafft-parttree | 20 | +45.3 | 0/0/20 | 1.9e-06 |
+| all | mafft-auto | 20 | +43.6 | 0/0/20 | 1.9e-06 |
+| all | MAGUS(4c) | 15 | +0.3 | 2/2/11 | 0.064 |
+| all | PASTA(pub) | 20 | +2.3 | 2/0/18 | 1.9e-05 |
+
+## Diagnostic: same aligner, true tree as guide tree (error %, seconds)
+
+| dataset | MAGUS(pub) | famsa | famsa-truetree | twilight-1 | twilight | twilight-truetree |
+|---|---|---|---|---|---|---|
+| 1000L1_R0 | 8.1 (716s) | 33.1 (48s) |  | 97.9 (17s) | 98.1 (136s) | 29.4 (16s) |

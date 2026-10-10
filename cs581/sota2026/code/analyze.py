@@ -72,7 +72,9 @@ def full():
         if r["status"] == "ok":
             err[key] = 100 * r["avgErr"]
     datasets = list(dict.fromkeys(r["dataset"] for r in rows))
-    tools = list(dict.fromkeys(r["tool"] for r in rows))
+    alltools = list(dict.fromkeys(r["tool"] for r in rows))
+    tools = [t for t in alltools if "truetree" not in t]
+    diag = [t for t in alltools if "truetree" in t]
     for ds in datasets:
         for m, name in (("MAGUS(Fast)", "MAGUS(pub)"), ("PASTA(3)", "PASTA(pub)")):
             if (ds, m) in pub:
@@ -116,6 +118,18 @@ def full():
                 out.append("| {} | {} | {} | {:+.1f} | {}/{}/{} | {} |".format(
                     group, t, s["n"], s["mean"], s["W"], s["T"], s["L"],
                     "{:.2g}".format(s["p"]) if s["p"] == s["p"] else "–"))
+    if diag:
+        out += ["", "## Diagnostic: same aligner, true tree as guide tree (error %, seconds)\n",
+                "| dataset | MAGUS(pub) | famsa | famsa-truetree | twilight-1 | twilight | twilight-truetree |",
+                "|---|---|---|---|---|---|---|"]
+        for ds in datasets:
+            if not any((ds, t) in status for t in diag):
+                continue
+            cells = []
+            for c in ("MAGUS(pub)", "famsa", "famsa-truetree", "twilight-1", "twilight", "twilight-truetree"):
+                cells.append("{:.1f} ({:.0f}s)".format(err[(ds, c)], wall[(ds, c)]) if (ds, c) in err and wall.get((ds, c)) is not None
+                             else (status.get((ds, c), "")))
+            out.append("| {} | {} |".format(ds, " | ".join(cells)))
     open(os.path.join(RES, "full_table.md"), "w").write("\n".join(out) + "\n")
 
     # Pareto plots per data type: mean error vs mean wall-clock over the datasets of that type
@@ -142,10 +156,10 @@ def full():
                 front.append((x, y))
                 best = y
         ax.plot(*zip(*front), color="#999", lw=1, ls="--", zorder=1)
-        for c, (x, y) in pts.items():
+        for k, (c, (x, y)) in enumerate(sorted(pts.items(), key=lambda kv: kv[1])):
             pub_pt = "MAGUS" in c or "PASTA" in c
             ax.scatter(x, y, s=40, marker="s" if pub_pt else "o", color="#c44" if "MAGUS" in c else "#36a", zorder=2)
-            ax.annotate(c, (x, y), textcoords="offset points", xytext=(4, 4), fontsize=8)
+            ax.annotate(c, (x, y), textcoords="offset points", xytext=(4, 4 if k % 2 == 0 else -11), fontsize=8)
         ax.set_xscale("log")
         ax.set_xlabel("mean wall-clock, s (log; 4 threads here; '(pub)' = paper's own hardware)")
         ax.set_ylabel("mean error (SPFN+SPFP)/2, %")
