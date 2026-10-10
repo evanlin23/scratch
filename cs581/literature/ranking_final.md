@@ -40,6 +40,13 @@ V4 ASVs): 2.7% of ASVs change edge; 5 ASVs at NSTI ~32 (stock) vs ~1.3 (fixed); 
 sample median 0.18%, max 16%. Session verdict: "unclear, leaning not promising as a downstream-accuracy
 project". Net: the EPA-ng project is a diagnosis + correctness + 3× speed story, not a BSCAMPP accuracy story.
 
+*EPA-ng whole-tree result (11:30 UTC, epangdown follow-up)*: on 10K (nt78) and 8K (RNASim) sub-backbones with the
+same 1,000 fragments, stock whole-tree EPA-ng 2.55 / 1.72 vs fixed 0.78 / 0.78 (p = 2e-82, 6e-52) vs BSCAMPP(e)
+b2000 0.79 / 0.81; fixed whole-tree is faster (24 s vs 43-69 s), memory-limited (12-13 GB at 8-10K leaves). The
+BSCAMPP paper's Exp. 5 conclusion (whole-tree EPA-ng "much more" error-prone) is the bug. BSCAMPP(p) vs fixed
+BSCAMPP(e) on nt78: −0.016 (n.s.) at b2000, −0.064 (p = 0.006) at b5000, pplacer 2.6-3.1x slower. Revised
+session verdict: "unclear, but better than first stated".
+
 *Consistency-filtered GCM evidence* (`claude/cs581-bbevidence`, new lead, MAGUS line, MAFFT-only): on proteins
 GCM is precision-limited (Δ evidence precision vs ΔSPFP ρ = −0.66, 182 pairs). One draw per BAliBASE set:
 L-INS-i backbones with columns of cross-backbone consistency < 0.7 masked: −1.97 points (7/0/0, p = 0.016; no
