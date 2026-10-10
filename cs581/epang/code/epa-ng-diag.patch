@@ -1,0 +1,23 @@
+diff --git a/src/io/file_io.cpp b/src/io/file_io.cpp
+index 079ffc5..a637852 100644
+--- a/src/io/file_io.cpp
++++ b/src/io/file_io.cpp
+@@ -1,3 +1,4 @@
++#include <cstdlib>
+ #include "io/file_io.hpp"
+ 
+ #include <stdexcept>
+@@ -235,7 +236,12 @@ pll_partition_t *  make_partition(const raxml::Model& model,
+ 
+   if ( (options.scaling == Options::NumericalScaling::kOn) or
+      ( (options.scaling == Options::NumericalScaling::kAuto) and nums.large_tree() ) ) {
+-    attributes = PLL_ATTRIB_RATE_SCALERS;
++    attributes |= PLL_ATTRIB_RATE_SCALERS;
++  }
++  // diagnostic switch: EPA_FORCE_CPU=1 drops the SIMD architecture bits (as v0.3.8 does
++  // whenever rate scalers are on), independently of rate scalers
++  if (std::getenv("EPA_FORCE_CPU") and std::string(std::getenv("EPA_FORCE_CPU")) == "1") {
++    attributes &= ~PLL_ATTRIB_ARCH_MASK;
+   }
+ 
+   if ( options.repeats ) {
