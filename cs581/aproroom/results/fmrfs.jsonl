@@ -772,3 +772,4 @@
 {"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "05", "ngen": 100, "level": "est25", "method": "astrid-multi", "threads": 1, "rssMB": 13.8, "sec": 0.162, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.04124}
 {"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "05", "ngen": 100, "level": "est25", "method": "astrid-pro", "threads": 1, "rssMB": 13.9, "sec": 0.101, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
 {"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "05", "ngen": 100, "level": "est25", "method": "astrid-disco", "threads": 1, "rssMB": 27.4, "sec": 1.077, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "05", "ngen": 100, "level": "est25", "method": "wqfm-gdl", "threads": 1, "rssMB": 284.6, "sec": 77.859, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.04124}
