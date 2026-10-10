@@ -4,3 +4,9 @@
 {"setting": "Rown", "rep": 0, "kind": "est", "method": "astral_pro3", "NG": 1000, "fn": 1, "rf": [1, 1, 1, 1]}
 {"setting": "Rown", "rep": 0, "kind": "est", "method": "astral_multi", "NG": 1000, "fn": 0, "rf": [0, 0, 1, 1]}
 {"setting": "Rown", "rep": 0, "kind": "est", "method": "disco_astral", "NG": 1000, "fn": 0, "rf": [0, 0, 1, 1]}
+{"setting": "Rown", "rep": 1, "kind": "true", "method": "astral_pro3", "NG": 1000, "fn": 1, "rf": [1, 1, 1, 1]}
+{"setting": "Rown", "rep": 1, "kind": "true", "method": "astral_multi", "NG": 1000, "fn": 1, "rf": [1, 1, 1, 1]}
+{"setting": "Rown", "rep": 1, "kind": "true", "method": "disco_astral", "NG": 1000, "fn": 1, "rf": [1, 1, 1, 1]}
+{"setting": "Rown", "rep": 1, "kind": "est", "method": "astral_pro3", "NG": 1000, "fn": 1, "rf": [1, 1, 1, 1]}
+{"setting": "Rown", "rep": 1, "kind": "est", "method": "astral_multi", "NG": 1000, "fn": 1, "rf": [1, 1, 1, 1]}
+{"setting": "Rown", "rep": 1, "kind": "est", "method": "disco_astral", "NG": 1000, "fn": 0, "rf": [0, 0, 1, 1]}

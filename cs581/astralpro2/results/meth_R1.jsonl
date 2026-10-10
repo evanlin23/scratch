@@ -51,3 +51,4 @@
 {"pool": "R1.nwk", "method": "own", "K": 1000, "block": 4, "topo": "AC|BD", "wrong": true, "scores": {"AD|BC": 264.5, "AB|CD": 173.0, "AC|BD": 286.5}}
 {"pool": "R1.nwk", "method": "recon_true", "K": 1000, "block": 4, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 111.0}}
 {"pool": "R1.nwk", "method": "recon_first", "K": 1000, "block": 4, "topo": "AC|BD", "wrong": true, "scores": {"AC|BD": 143.0}}
+{"pool": "R1.nwk", "method": "gtp_dup", "K": 1000, "block": 4, "topo": "AC|BD", "wrong": true, "scores": {}}
