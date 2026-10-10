@@ -75,11 +75,14 @@ def balanced_tree(n, H):
     return build(n, H)
 
 
-def caterpillar_tree(n, rng):
-    # node heights from the same BD node-height distribution as bd_tree, sorted: the caterpillar
-    # attaches one tip per internal node
-    tmp = bd_tree(n, rng)
-    hs = sorted(internal_heights(tmp))
+def caterpillar_tree(n, rng, bd_heights=False):
+    """Caterpillar; one tip attached per internal node. Node heights evenly spaced (as in
+    balanced_tree), so spine branches all have length H/(n-1). bd_heights=True instead sorts
+    birth-death node heights onto the spine, which makes most spine branches ~0 (unresolvable)."""
+    if bd_heights:
+        hs = sorted(internal_heights(bd_tree(n, rng)))
+    else:
+        hs = [(i + 1) / (n - 1) for i in range(n - 1)]
     node = Node(0.0, name="t0")
     for i, h in enumerate(hs):
         node = Node(h, [node, Node(0.0, name="t{}".format(i + 1))])
@@ -173,6 +176,8 @@ def main():
         t = balanced_tree(a.n, 1.0)
     elif a.shape == "caterpillar":
         t = caterpillar_tree(a.n, rng)
+    elif a.shape == "caterpillar-bdh":
+        t = caterpillar_tree(a.n, rng, bd_heights=True)
     else:
         raise ValueError(a.shape)
     tstats = assign_lengths(t, a.sigma, a.height, rng)
