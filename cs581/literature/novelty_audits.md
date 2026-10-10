@@ -279,5 +279,5 @@ Audit 2026-10-10 (literature only).
 **GCM edge-support threshold (delete cross-subset edges supported by < k of the 10 backbones).**
 - Not described in MAGUS (Smirnov & Warnow 2021) or GCM-improvements (Zaharias, Smirnov & Warnow, TCBB 2022). The
   latter lists changing GCM's edge weights as future work.
-- Still to check: MAGUS's code (any `minWeight`-style option), and T-Coffee/M-Coffee library pruning, which is the
+- MAGUS 0.2 code checked: graph_build has no edge-weight threshold or support filter (only recurseThreshold, unrelated). Still to check: T-Coffee/M-Coffee library pruning, which is the
   likely closest analogue (low-weight library pairs).
