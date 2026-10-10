@@ -41,3 +41,27 @@ elif exp == "disco":
                     job(f"{d}/g_{lev[3:]}.trees", d + "/s_tree.trees", dict(k, level=lev), meth)
 open(jobs, "w").write("\n".join(L) + "\n")
 print(len(L), "jobs")
+if exp == "genes":  # few vs many genes: gtrees_10000_l1, est 100 bp
+    for rep in ["%02d" % i for i in range(1, 5)]:
+        d = f"/opt/data/disco/trees/gtrees_10000_l1/{rep}"
+        for ng in (50, 100, 1000, 10000):
+            m = "astrid-pro,astrid-multi,astrid-disco,asteroid" + (",astral-pro3,wqfm-gdl" if ng <= 100 else "")
+            job(d + "/g_100.trees", d + "/s_tree.trees", {"data": "disco", "cond": "gtrees_10000_l1", "rep": rep,
+                "ngen": ng, "level": "est100"}, m, ngen=ng)
+    open(jobs, "w").write("\n".join(L) + "\n")
+if exp == "sp1000":
+    for rep in ["%02d" % i for i in range(1, 4)]:
+        d = f"/opt/data/disco/trees/species_1000/{rep}"
+        p = f"/opt/data/prep/disco/species_1000/{rep}"
+        k = {"data": "disco", "cond": "species_1000", "rep": rep, "ngen": 1000}
+        job(d + "/g_100.trees", d + "/s_tree.trees", dict(k, level="est100"), "astrid-pro,astrid-multi,astrid-disco,asteroid")
+        job(d + "/g_true.trees", d + "/s_tree.trees", dict(k, level="true"), "astrid-pro,astrid-multi,astrid-disco,astrid-pro-tt",
+            tagged=p + "/tt.trees")
+    open(jobs, "w").write("\n".join(L) + "\n")
+if exp == "hybrid":
+    for rep in ("01", "02"):
+        for c in ("default", "ils_2e8", "gdl_1e-9_1", "gdl_5e-10_05", "gdl_1e-10_0"):
+            d = f"/opt/data/disco/trees/{c}/{rep}"
+            job(d + "/g_100.trees", d + "/s_tree.trees", {"data": "disco", "cond": c, "rep": rep, "ngen": 1000,
+                "level": "est100"}, "apro3-guide-fast,apro3-fast")
+    open(jobs, "w").write("\n".join(L) + "\n")

@@ -215,11 +215,12 @@ def main():
         for c, rs in sorted(grp.items()):
             row = [c, len(rs)]
             for m in ["astral-pro3", "disco"]:
+                first = m == "astral-pro3"
                 tp = sum(r[m]["true_para_pairs"] for r in rs)
                 fo = sum(r[m]["false_orth_rate"] * r[m]["true_para_pairs"] for r in rs)
                 to = sum(r[m]["true_orth_pairs"] for r in rs)
                 fp = sum(r[m]["false_para_rate"] * r[m]["true_orth_pairs"] for r in rs)
-                row += [tp / (tp + to), fo / max(tp, 1), fp / max(to, 1)]
+                row += ([tp / (tp + to)] if first else []) + [fo / max(tp, 1), fp / max(to, 1)]
             rows.append(row)
         out.write(f"## Tag accuracy on true gene trees ({f})\n\n" + table(
             ["cond", "reps", "paralog pair frac", "A-Pro3 false-orth", "A-Pro3 false-para", "DISCO/MinDup false-orth",
