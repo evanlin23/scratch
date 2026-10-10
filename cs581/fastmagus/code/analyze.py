@@ -124,20 +124,24 @@ def main():
     fig, ax = plt.subplots(figsize=(7.5, 5))
     xs = {v: p[0] for v, p in points.items()}
     front = []
-    for v, (x, y, n) in sorted(points.items(), key=lambda kv: kv[1][0]):
+    for v, (x, y, n) in sorted(((v, p) for v, p in points.items() if p[2] == max(q[2] for q in points.values())),
+                               key=lambda kv: kv[1][0]):
         if not front or y < front[-1][1]:
             front.append((x, y))
-    ax.plot([f[0] for f in front], [f[1] for f in front], "-", color="#999", lw=1, zorder=1, label="Pareto front")
+    ax.plot([f[0] for f in front], [f[1] for f in front], "-", color="#999", lw=1, zorder=1, label="Pareto front (variants run on all replicates)")
     for v, (x, y, n) in points.items():
+        if y > 8:
+            continue  # alignment-free guide trees: far off the scale, listed in the tables
         c = "#d62728" if v == "magus" else ("#1f77b4" if "+ss" in v else "#7f7f7f")
         ax.scatter(x, y, color=c, zorder=2)
-        ax.annotate(v, (x, y), textcoords="offset points", xytext=(4, 4), fontsize=8)
+        ax.annotate("{} (n={})".format(v, n), (x, y), textcoords="offset points", xytext=(4, 4), fontsize=8)
     if ref:
         ax.scatter(rx, ry, marker="s", color="#2ca02c", zorder=2)
         ax.annotate("PASTA(3), published", (rx, ry), textcoords="offset points", xytext=(4, 4), fontsize=8)
     ax.axhline(0, color="#ccc", lw=0.8)
     ax.axvline(1, color="#ccc", lw=0.8)
     ax.axvline(0.5, color="#ccc", lw=0.8, ls="--")
+    ax.set_ylim(-1.5, 7)
     ax.set_xscale("log")
     ax.set_xlabel("wall-clock relative to MAGUS (log; dashed = 2x faster)")
     ax.set_ylabel("error minus MAGUS error (pts)")
