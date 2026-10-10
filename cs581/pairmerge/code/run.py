@@ -87,7 +87,9 @@ def prepare(dataset, rep_dir, conditions):
             with open(out + ".tmp", "w") as o:
                 subprocess.run(["mafft", "--retree", "2", "--maxiterate", "2", "--thread", "1", "--quiet",
                                 os.path.join(work, "unaligned_{}.fa".format(name))], stdout=o, check=True)
-            os.replace(out + ".tmp", out)
+            # MAFFT writes lower case; MAGUS matches letters case-sensitively against its upper-case backbones
+            fasta.write(fasta.upper(fasta.read(out + ".tmp")), out)
+            os.remove(out + ".tmp")
             info["fftnsi_seconds_" + name] = round(time.time() - start, 1)
     return work, true, set(A), info
 
