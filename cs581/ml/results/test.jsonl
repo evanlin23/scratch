@@ -1,7 +1,3 @@
-5 jobs
-4 jobs
-4 jobs
-4 jobs
 {"dataset": "16SMHF", "rep": "1", "aln": "true_align", "method": "fasttree", "seconds": 132.6, "cpu_seconds": 130.8, "lnl_tool": -203206.481, "fn_rate": 0.5463182897862233, "fp_rate": 0.786114221724524, "rf_rate": 0.5189309576837416, "tree": "/opt/data/mlcache/16SMHF/R1/trees/true_align.fasttree.tre"}
 {"dataset": "16SMHF", "rep": "2", "aln": "true_align", "method": "fasttree", "seconds": 133.0, "cpu_seconds": 131.3, "lnl_tool": -202997.456, "fn_rate": 0.5605700712589073, "fp_rate": 0.7930648769574944, "rf_rate": 0.5261692650334076, "tree": "/opt/data/mlcache/16SMHF/R2/trees/true_align.fasttree.tre"}
 {"dataset": "16SMHF", "rep": "0", "aln": "true_align", "method": "fasttree", "seconds": 148.5, "cpu_seconds": 145.9, "lnl_tool": -202975.559, "fn_rate": 0.4750593824228028, "fp_rate": 0.7527964205816555, "rf_rate": 0.4860801781737194, "tree": "/opt/data/mlcache/16SMHF/R0/trees/true_align.fasttree.tre"}

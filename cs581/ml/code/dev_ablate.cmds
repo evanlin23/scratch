@@ -1,0 +1,1 @@
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 5 6 7 8 9 --alns true_align --methods raxmlng_fastmode raxmlng_fastmode_from_fasttree --workers 1

@@ -107,7 +107,9 @@ def estimate(method, aln, out_tree, work, extra=None, start_tree=None):
                  # RAxML-NG's own fast mode (alias --fast): 1 parsimony start, simplified topology
                  # optimisation, KH-test stopping rule
                  "raxmlng_fastmode": ["--tree", "pars{1}", "--opt-topology", "simplified",
-                                      "--stop-rule", "kh-mult"]}[method]
+                                      "--stop-rule", "kh-mult"],
+                 "raxmlng_fastmode_ft": ["--tree", start_tree or "", "--opt-topology", "simplified",
+                                         "--stop-rule", "kh-mult"]}[method]
         sec = run([RAXMLNG, "--search", "--msa", aln, "--model", "GTR+G", "--threads", "1", "--seed", "1",
                    "--prefix", os.path.join(work, "rx"), "--redo"] + start + extra, os.path.join(work, "rx.out"))
         shutil.copy(os.path.join(work, "rx.raxml.bestTree"), out_tree)
