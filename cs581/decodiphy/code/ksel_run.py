@@ -35,9 +35,19 @@ READS = 10 ** 5
 
 
 def one(args):
+    try:
+        return _one(args)
+    except Exception as e:  # e.g. the authors' OSQP failure path (UnboundLocalError in optimize.py)
+        tname, k, seed, nname = args
+        out = os.path.join(OUT, f"{tname}_k{k}_s{seed}_{nname}.failed")
+        open(out, "w").write(repr(e))
+        return out
+
+
+def _one(args):
     tname, k, seed, nname = args
     out = os.path.join(OUT, f"{tname}_k{k}_s{seed}_{nname}.json")
-    if os.path.exists(out):
+    if os.path.exists(out) or os.path.exists(out[:-5] + ".failed"):
         return out
     import simulate_exp as se
     from treeswift import read_tree_newick

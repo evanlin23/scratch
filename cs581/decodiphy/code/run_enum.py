@@ -84,7 +84,7 @@ def job(args):
 def main():
     os.makedirs(OUT, exist_ok=True)
     jobs = []
-    plan = {4: (None, 10**6, 5), 5: (None, 10**6, 5), 6: (None, 40, 5), 7: (40, 25, 4), 8: (40, 15, 4)}
+    plan = {4: (None, 10**6, 5), 5: (None, 10**6, 5), 6: (None, 40, 5), 7: (10, 25, 4), 8: (8, 15, 4)}
     for n, (ntop, max_true, K) in plan.items():
         tops = all_topologies(n)
         rnd = random.Random(n)
