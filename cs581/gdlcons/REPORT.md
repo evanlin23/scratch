@@ -32,8 +32,8 @@ In (c), the stock software puts the root inside the high-turnover C lineage in 4
 - On the adversarial 4-taxon pools, methods split by mechanism, and **no method is robust on all of them** (Section 5.2):
   - ASTRAL-Pro, ASTRAL-DISCO and ASTRID-DISCO share ASTRAL-Pro's rooting and tagging. They fail on the hidden-paralog pool (cand2) and the own-rooting pool (cand4): 100% wrong.
   - STAG is right on cand2 but wrong on cand4.
-  - FastMulRFS is right on cand4 but wrong on cand1 (17/17), a pool where ASTRAL-Pro is fine.
-  - ASTRID-multi and ASTRAL-multi sit near ties on cand1 and cand2.
+  - FastMulRFS and ASTRID-multi are right on cand4 but wrong on cand1 (4/4 at 10,000 families), a pool where ASTRAL-Pro is fine.
+  - ASTRAL-multi, the only multi-copy method with a GDL proof, sits at near ties on cand1 and cand2.
 - The literature has proofs only for ASTRAL-one/multi (GDL, DLCOAL), ASTRAL-Pro and ASTRAL-DISCO (GDL, *correct tags*), and FastMulRFS (non-adversarial GDL). DLCOAL proofs for tag-based methods exist only as recent, possibly shaky preprints or papers (Section 2).
 
 **Why "promising".**
@@ -238,21 +238,22 @@ Fraction of disjoint datasets on which each method returns a wrong 4-taxon tree.
 
 Full tables: `results/counterexample_summary.md`. Figure: `results/counterexample_curves.png` (top row: ASTRAL-Pro variants; bottom row: atlas).
 
-| method | cand2: hidden paralogs (10,000 families) | cand4: own rooting fails (5,000) | cand1: ASTRAL-Pro fine (2,000) |
+| method | cand2: hidden paralogs (10,000 families) | cand4: own rooting fails (5,000) | cand1: ASTRAL-Pro fine (10,000) |
 |---|---|---|---|
-| ASTRAL-Pro3 | **4/4** | **4/4** | 0/20 |
-| ASTRAL-DISCO | **4/4** | **4/4** | 0/17 |
-| ASTRID-DISCO | **4/4** | **4/4** | 0/17 |
+| ASTRAL-Pro3 | **4/4** | **4/4** | 0/4 |
+| ASTRAL-DISCO | **4/4** | **4/4** | 0/4 |
+| ASTRID-DISCO | **4/4** | **4/4** | 0/4 |
 | ASTRAL-multi (astral4) | 2/4 (block margin −0.003 ± 0.002: tie) | 0/4 (margin +0.021 ± 0.003) | tie (±0.002) |
-| ASTRID-multi | 3/4 (14/20 at 2,000) | 0/4 | 10/17 |
-| FastMulRFS | 3/4 (12/20 at 2,000) | 0/4 | **17/17** |
-| STAG | **0/4** | **4/4** | 0/16 |
+| ASTRID-multi | 3/4 (14/20 at 2,000) | 0/4 | **4/4** (12/20 at 2,000) |
+| FastMulRFS | 3/4 (12/20 at 2,000) | 0/4 | **4/4** (20/20 at 2,000) |
+| STAG | **0/4** | **4/4** | 0/4 |
 
 - **No method is robust on all three pools.**
 - The DISCO pipelines inherit ASTRAL-Pro's rooting and tagging, so they fail exactly when ASTRAL-Pro does.
 - STAG survives hidden paralogs (closest-copy distances) but fails when a high-turnover lineage dominates (cand4).
 - FastMulRFS fails on cand1. That is consistent with its theorem: duplications above the ABC clade followed by loss create "adversarial" bipartitions there.
-- ASTRID-multi and ASTRAL-multi sit near ties on cand1 and cand2, so I make no consistency claim either way.
+- ASTRID-multi is wrong in 4/4 datasets of 10,000 families on cand1. That is a candidate for the sibling session's open question (is ASTRID-multi consistent under GDL?), but 4 datasets are not a proof; it needs the exact-expectation treatment.
+- ASTRAL-multi sits at near ties on cand1 and cand2, so I make no claim either way.
 - All of these use 4-taxon trees with extreme branch-specific rates. They show *how* each method can fail, not that the failures are typical.
 
 
