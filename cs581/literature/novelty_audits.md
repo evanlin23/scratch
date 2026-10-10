@@ -220,7 +220,7 @@ We compare a survival-reweighted correction with Asteroid-style induced-length c
 (ASTRAL-Pro, ASTRAL-DISCO) already exist in this setting."
 
 Search gaps: Google Scholar; citers of Rhodes et al. arXiv; theses (Willson, Legried, Hill, B. Liu); RECOMB/WABI/ISMB 2026;
-Parsons v2 full text; STAG full text; whether Asteroid's theorem covers GDL-induced (dependent) deletion.
+STAG full text; (Parsons v2 full text read 2026-10-10 16:25 UTC: DLCoal + correct tagging, consistency left as Conjecture 1; no inconsistency result; no overlap); whether Asteroid's theorem covers GDL-induced (dependent) deletion.
 
 ## Summary
 

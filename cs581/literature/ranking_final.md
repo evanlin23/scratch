@@ -28,6 +28,28 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**ASTRAL-Pro under GDL, round 2 final (16:15 UTC, `claude/cs581-astralpro2`, proofs in `cs581/astralpro2/theory.md`).**
+Updates row 1: the "numerical, not proofs" caveat is now largely removed.
+- *Proved* on the 4-taxon caterpillar (((A,B),C),D):
+  - closed-form limiting ASTRAL-Pro scores with the correct root and ASTRAL-Pro's own species-overlap tags;
+  - a sign law: at a duplication with unequal copy numbers on its two sides, the wrong pairing wins iff the
+    outgroup-side taxon C survives better than B. Corollary: if c ≤ min(a, b), it is consistent for any process on
+    that branch;
+  - a rigorous inconsistency instance (pure-birth λT = ln 20, survival a = b = 0.01, c = 0.2): correct 2.4025e-4 vs
+    3.2663e-4 per wrong topology (50-digit interval arithmetic);
+  - re-tagging by reconciliation against any tree T makes ASTRAL-Pro return T, so "re-tag against a first-pass
+    tree" cannot fix it.
+- *Not proved:* ASTRAL-Pro3's own min-score rooting makes it 2.6× worse (simulation certificate, z = −117); it turns
+  7 of 30 consistent cells into failures.
+- *Methods (10 blocks of 1,000 families):*
+  - ASTRAL-Pro3, DISCO+ASTRAL and wQFM-GDL: wrong 10/10 (9/9 on a third pool);
+  - duplication+loss parsimony and DupLoss-2: 0/10 wrong;
+  - with FastTree-estimated gene trees, ASTRAL-Pro3 is wrong 5/5.
+- *Practical reach is low:* no failures at published rates (S25, λH ≈ 0.93). Failures need λH ≥ 4 with ~3×
+  per-branch rate heterogeneity, and then affect 0.2–0.4% of quartets.
+- *Verdict:* "promising (theory project)". It gives a negative answer to slide 35's "Is ASTRAL-Pro consistent for GDL
+  …?" Course: high. Risk: low practical relevance. Overlap check (16:25 UTC, Parsons, Liu, Dua, Markin & Molloy, bioRxiv 10.64898/2026.01.20.700722, v2 of Apr 12 2026, full text read): they work under DLCoal with *correct* tagging (their new definition), conjecture consistency (Conjecture 1, "an open question"), describe an adversarial scenario that breaks the exchangeability argument, and leave specific rates λ, μ to future work. No inconsistency result, nothing with ASTRAL-Pro's own tagging. So our result does not overlap; it complements theirs (with ASTRAL-Pro's own tags the answer is negative, even without ILS). Prop 5 (reconciliation against T returns T) is probably folklore; cite it as an observation.
+
 **Interim, 15:40 UTC (round-2 sessions still running).**
 - *Consensus GCM evidence on HomFam (`claude/cs581-protcons`):* held-out, so it counts against the proposal.
   - MAFFT-only `L ∩ FFT-NS-2 --op 3` is mixed: Acetyltransf −1.60, PDZ −0.65, aat −1.00, adh 0.00, blmb +2.09,
