@@ -1,4 +1,4 @@
-Replicates: 477 ok, 0 errors.
+Replicates: 480 ok, 0 errors.
 
 
 ### short U[0.005,0.05] (Kim et al.), n=50
@@ -203,9 +203,9 @@ Mean FN rate (FP rate for Forest in brackets; Forest FN = 1 - correct splits/(n-
 | 100 | 20 | 0.53 | 0.913 | 0.854 | 0.880 | 0.484 | 0.910 [0.184] | 0.775 | 0.827 | 0.761 | 0.804 | 0.829 | 0.889 | 15.6 | 2.45 |
 | 300 | 20 | 0.48 | 0.891 | 0.811 | 0.849 | 0.319 | 0.893 [0.163] | 0.755 | 0.796 | 0.726 | 0.769 | 0.798 | 0.862 | 15.2 | 2.05 |
 | 1000 | 20 | 0.44 | 0.847 | 0.756 | 0.777 | 0.216 | 0.849 [0.030] | 0.689 | 0.745 | 0.642 | 0.710 | 0.716 | 0.795 | 21.8 | 0.40 |
-| 3000 | 19 | 0.35 | 0.763 | 0.678 | 0.678 | 0.140 | 0.784 [0.017] | 0.562 | 0.653 | 0.531 | 0.610 | 0.569 | 0.697 | 21.9 | 0.26 |
-| 10000 | 19 | 0.23 | 0.682 | 0.600 | 0.536 | 0.100 | 0.739 [0.010] | 0.506 | 0.585 | 0.405 | 0.483 | 0.509 | 0.603 | 22.3 | 0.21 |
-| 100000 | 19 | 0.18 | 0.566 | 0.468 | 0.418 | — | 0.638 [0.000] | 0.397 | 0.475 | 0.310 | 0.361 | 0.397 | 0.449 | 20.3 | 0.00 |
+| 3000 | 20 | 0.35 | 0.764 | 0.675 | 0.666 | 0.135 | 0.786 [0.016] | 0.562 | 0.654 | 0.523 | 0.601 | 0.569 | 0.698 | 22.1 | 0.25 |
+| 10000 | 20 | 0.23 | 0.693 | 0.614 | 0.537 | 0.097 | 0.740 [0.010] | 0.504 | 0.590 | 0.405 | 0.488 | 0.507 | 0.603 | 21.9 | 0.20 |
+| 100000 | 20 | 0.19 | 0.571 | 0.470 | 0.425 | — | 0.649 [0.000] | 0.408 | 0.482 | 0.319 | 0.371 | 0.411 | 0.454 | 19.4 | 0.00 |
 
 Paired two-sided Wilcoxon on FN rate (A − B; negative = A better). W/T/L = A better / tie / A worse, tie band |diff| < 0.5/(n−3) (less than one split).
 
@@ -229,23 +229,23 @@ Paired two-sided Wilcoxon on FN rate (A − B; negative = A better). W/T/L = A b
 | 1000 | Forest+GTM(NJ) | Forest comps only+GTM(NJ) | -0.0273 | 7/12/1 | 0.017 |
 | 1000 | Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.1062 | 16/0/4 | 0.00051 |
 | 1000 | Forest+GTM(NJ) | FastTree | +0.4722 | 0/0/20 | 8.8e-05 |
-| 3000 | Forest+GTM(NJ) | NJ | -0.2013 | 19/0/0 | 0.00013 |
-| 3000 | Forest+GTM(FastME) | FastME | -0.1470 | 19/0/0 | 0.00013 |
-| 3000 | Forest+GTM(NJ) | FastME | -0.1156 | 16/1/2 | 0.00033 |
-| 3000 | Forest+GTM(NJ) | Forest comps only+GTM(NJ) | -0.0065 | 2/17/0 | 0.18 |
-| 3000 | Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.1346 | 17/1/1 | 0.00023 |
-| 3000 | Forest+GTM(NJ) | FastTree | +0.4221 | 0/0/19 | 0.00013 |
-| 10000 | Forest+GTM(NJ) | NJ | -0.1763 | 19/0/0 | 0.00013 |
-| 10000 | Forest+GTM(FastME) | FastME | -0.1308 | 19/0/0 | 3.8e-06 |
-| 10000 | Forest+GTM(NJ) | FastME | -0.0298 | 11/0/8 | 0.46 |
-| 10000 | Forest+GTM(NJ) | Forest comps only+GTM(NJ) | -0.0033 | 2/16/1 | 0.29 |
-| 10000 | Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0977 | 16/1/2 | 0.00049 |
-| 10000 | Forest+GTM(NJ) | FastTree | +0.4059 | 0/0/19 | 0.00013 |
-| 100000 | Forest+GTM(NJ) | NJ | -0.1687 | 19/0/0 | 0.00013 |
-| 100000 | Forest+GTM(FastME) | FastME | -0.1074 | 19/0/0 | 0.00013 |
-| 100000 | Forest+GTM(NJ) | FastME | -0.0206 | 10/1/8 | 0.28 |
-| 100000 | Forest+GTM(NJ) | Forest comps only+GTM(NJ) | +0.0000 | 0/19/0 | 1 |
-| 100000 | Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0521 | 17/0/2 | 0.0019 |
+| 3000 | Forest+GTM(NJ) | NJ | -0.2021 | 20/0/0 | 8.8e-05 |
+| 3000 | Forest+GTM(FastME) | FastME | -0.1433 | 20/0/0 | 8.8e-05 |
+| 3000 | Forest+GTM(NJ) | FastME | -0.1041 | 16/1/3 | 0.00054 |
+| 3000 | Forest+GTM(NJ) | Forest comps only+GTM(NJ) | -0.0062 | 2/18/0 | 0.18 |
+| 3000 | Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.1361 | 18/1/1 | 0.00015 |
+| 3000 | Forest+GTM(NJ) | FastTree | +0.4273 | 0/0/20 | 8.8e-05 |
+| 10000 | Forest+GTM(NJ) | NJ | -0.1892 | 20/0/0 | 8.8e-05 |
+| 10000 | Forest+GTM(FastME) | FastME | -0.1325 | 20/0/0 | 1.9e-06 |
+| 10000 | Forest+GTM(NJ) | FastME | -0.0335 | 12/0/8 | 0.34 |
+| 10000 | Forest+GTM(NJ) | Forest comps only+GTM(NJ) | -0.0031 | 2/17/1 | 0.29 |
+| 10000 | Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0990 | 17/1/2 | 0.00031 |
+| 10000 | Forest+GTM(NJ) | FastTree | +0.4067 | 0/0/20 | 8.8e-05 |
+| 100000 | Forest+GTM(NJ) | NJ | -0.1629 | 20/0/0 | 8.8e-05 |
+| 100000 | Forest+GTM(FastME) | FastME | -0.1067 | 20/0/0 | 8.8e-05 |
+| 100000 | Forest+GTM(NJ) | FastME | -0.0170 | 10/1/9 | 0.34 |
+| 100000 | Forest+GTM(NJ) | Forest comps only+GTM(NJ) | -0.0031 | 1/19/0 | 0.32 |
+| 100000 | Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0454 | 17/0/3 | 0.0076 |
 
 Kim et al. style success rates: P(no incorrect split) and P(fully resolved and correct).
 
@@ -254,9 +254,9 @@ Kim et al. style success rates: P(no incorrect split) and P(fully resolved and c
 | 100 | 0.00 | 0.30 | 0.00 | 0.00 | 11.2 / 97 |
 | 300 | 0.00 | 0.35 | 0.00 | 0.00 | 12.4 / 97 |
 | 1000 | 0.00 | 0.65 | 0.00 | 0.00 | 15.1 / 97 |
-| 3000 | 0.00 | 0.79 | 0.00 | 0.00 | 21.2 / 97 |
-| 10000 | 0.00 | 0.89 | 0.00 | 0.00 | 25.5 / 97 |
-| 100000 | 0.00 | 1.00 | 0.00 | 0.00 | 35.1 / 97 |
+| 3000 | 0.00 | 0.80 | 0.00 | 0.00 | 21.0 / 97 |
+| 10000 | 0.00 | 0.90 | 0.00 | 0.00 | 25.4 / 97 |
+| 100000 | 0.00 | 1.00 | 0.00 | 0.00 | 34.0 / 97 |
 
 ### Runtime (mean seconds per replicate, single core)
 
@@ -283,26 +283,28 @@ Kim et al. style success rates: P(no incorrect split) and P(fully resolved and c
 | UH:2.0:1.0 | 100 | 100 | 0.04 | 0.14 | 1.1 | 13.7 | 14.0 | 0.34 |
 | UH:2.0:1.0 | 100 | 300 | 0.05 | 0.14 | 2.3 | 12.8 | 13.2 | 0.33 |
 | UH:2.0:1.0 | 100 | 1000 | 0.05 | 0.14 | 6.5 | 18.9 | 19.3 | 0.35 |
-| UH:2.0:1.0 | 100 | 3000 | 0.05 | 0.12 | 19.6 | 32.4 | 32.8 | 0.33 |
-| UH:2.0:1.0 | 100 | 10000 | 0.04 | 0.11 | 66.8 | 69.3 | 69.6 | 0.36 |
-| UH:2.0:1.0 | 100 | 100000 | 0.05 | 0.09 |  | 65.6 | 65.9 | 0.33 |
+| UH:2.0:1.0 | 100 | 3000 | 0.05 | 0.12 | 19.6 | 32.6 | 32.9 | 0.32 |
+| UH:2.0:1.0 | 100 | 10000 | 0.04 | 0.11 | 66.2 | 66.3 | 66.6 | 0.35 |
+| UH:2.0:1.0 | 100 | 100000 | 0.05 | 0.10 |  | 63.6 | 63.9 | 0.33 |
 
-### Large trees (n=500; reduced grid; 1 replicates, 0 errors)
+### Large trees (n=500; reduced grid; 3 replicates, 0 errors)
 
 | regime | k | reps | NJ | FastME | FastTree | Forest | Forest+GTM(NJ) | Forest+GTM(FastME) | Centroid dec.+GTM(NJ) | Forest #comp | t_Forest (s) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | U:0.1:0.4 | 300 | 1 | 0.326 | 0.278 | 0.048 | 1.000 | 0.326 | 0.278 | 0.344 | 433 | 206 |
+| U:0.1:0.4 | 3000 | 1 | 0.262 | 0.024 | 0.034 | 0.976 | 0.254 | 0.024 | 0.109 | 310 | 246 |
+| UH:2.0:1.0 | 300 | 1 | 0.861 | 0.674 | 0.225 | 0.938 | 0.644 | 0.541 | 0.781 | 141 | 276 |
 
 Paired tests (n=500, all k pooled):
 
 | A | B | mean diff | W/T/L | p | N |
 |---|---|---|---|---|---|
-| Forest+GTM(NJ) | NJ | +0.0000 | 0/1/0 | 1 | 1 |
-| Forest+GTM(FastME) | FastME | +0.0000 | 0/1/0 | 1 | 1 |
-| Forest+GTM(NJ) | FastME | +0.0483 | 0/0/1 | 1 | 1 |
-| Forest+GTM(NJ) | Forest comps only+GTM(NJ) | +0.0000 | 0/1/0 | 1 | 1 |
-| Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0181 | 1/0/0 | 1 | 1 |
-| Forest+GTM(NJ) | FastTree | +0.2777 | 0/0/1 | 1 | 1 |
+| Forest+GTM(NJ) | NJ | -0.0751 | 2/1/0 | 0.5 | 3 |
+| Forest+GTM(FastME) | FastME | -0.0443 | 1/2/0 | 1 | 3 |
+| Forest+GTM(NJ) | FastME | +0.0825 | 1/0/2 | 0.5 | 3 |
+| Forest+GTM(NJ) | Forest comps only+GTM(NJ) | +0.0000 | 0/3/0 | 1 | 3 |
+| Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0034 | 2/0/1 | 1 | 3 |
+| Forest+GTM(NJ) | FastTree | +0.3052 | 0/0/3 | 0.25 | 3 |
 
 ### Follow-up: saturation handling and FastME-guided controls (60 replicates, 0 errors)
 
