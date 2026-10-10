@@ -9,7 +9,8 @@ from scipy.stats import wilcoxon
 
 ORDER = ['WITCH', 'all/k10', 'all/k3', 'all/k1', 'all/k10_t99', 'all/k10_t95', 'hier/k10', 'hier/k10_t99',
          'hier_es/k10', 'beam/k10', 'beam/k10_t99', 'blastpath/k10', 'blastpath/k10_t99', 'blastpath_sib/k10',
-         'blastpath_sib/k10_t99', 'blastpath_sib/k10_t95', 'BLAST-sens', 'BLAST']
+         'blastpath_sib/k10_t99', 'blastpath_sib/k10_t95', 'beam3/k10', 'beam3/k10_t99', 'beam4/k10', 'hyb/b3_100',
+         'BLAST-sens', 'BLAST']
 LABEL = {'WITCH': 'WITCH (default, own run)', 'all/k10': 'all HMMs, k=10 (WITCH re-run via weights)',
          'all/k3': 'all HMMs, k=3', 'all/k1': 'all HMMs, k=1 (UPP-like, adj. bit-score)',
          'all/k10_t99': 'all HMMs, adaptive k (tau=.99)', 'all/k10_t95': 'all HMMs, adaptive k (tau=.95)',
@@ -19,7 +20,9 @@ LABEL = {'WITCH': 'WITCH (default, own run)', 'all/k10': 'all HMMs, k=10 (WITCH 
          'blastpath/k10_t99': 'BLAST path, adaptive k', 'blastpath_sib/k10': 'BLAST path+siblings, k=10',
          'blastpath_sib/k10_t99': 'BLAST path+siblings, adaptive k (tau=.99)',
          'blastpath_sib/k10_t95': 'BLAST path+siblings, adaptive k (tau=.95)', 'BLAST': 'BLASTN only (megablast, TIPP3-fast)',
-         'BLAST-sens': 'BLASTN only (-task blastn)'}
+         'BLAST-sens': 'BLASTN only (-task blastn)', 'beam3/k10': 'beam-3 descent, k=10',
+         'beam3/k10_t99': 'beam-3 descent, adaptive k', 'beam4/k10': 'beam-4 descent, k=10',
+         'hyb/b3_100': 'hybrid: BLAST paths if hit>=100 bits else beam-3 (sel. time est.)'}
 
 for f in sorted(glob.glob(f'{sys.argv[1]}/*.json')):
     r = json.load(open(f))

@@ -37,9 +37,12 @@ def main():
     colidx = {}
     for n, s in bb.items():
         colidx[n] = [c for c, ch in enumerate(s) if ch != '-']
-    maps, top = {}, {}
+    maps, top, top5 = {}, {}, {}
     for line in res.splitlines():
         q, sid, qs_, qe, ss, se, qa, sa, bits = line.split('\t')
+        hits = top5.setdefault(q, [])
+        if sid not in [h[0] for h in hits]:
+            hits.append((sid, float(bits)))
         if q in maps:
             continue  # keep the first (top) HSP only
         qs_, qe, ss, se = int(qs_), int(qe), int(ss), int(se)
@@ -73,6 +76,7 @@ def main():
     t3 = time.time()
     json.dump(maps, open(f'{out}/blast_map.json', 'w'))
     json.dump(top, open(f'{out}/tophit.json', 'w'))
+    json.dump(top5, open(f'{out}/tophits5.json', 'w'))
     with open(f'{out}/blast_time.txt', 'w') as f:
         f.write(f'makeblastdb {t1-t0:.2f}\nblastn {t2-t1:.2f}\nextract {t3-t2:.2f}\ntotal {t3-t0:.2f}\n')
     print(f'blast total {t3-t0:.1f}s, {len(top)}/{len(qs)} queries with hits')

@@ -45,5 +45,41 @@ WITCH default wall 407 s = decomposition 19 s + all-vs-all hmmsearch 320 s + ali
 | BLAST path, adaptive k | 3.11 | 1.39 | +0.39 | 17/823/160 | 3e-20 | 8.2 | 2.5 | 87 | 21% | 18% |
 | BLAST path+siblings, k=10 | 2.80 | 1.42 | +0.08 | 8/951/41 | 0.00015 | 15.3 | 10.0 | 107 | 26% | 23% |
 | BLAST path+siblings, adaptive k (tau=.99) | 2.92 | 1.40 | +0.21 | 10/847/143 | 2.3e-19 | 15.3 | 2.7 | 98 | 24% | 20% |
+| BLAST path+siblings, adaptive k (tau=.95) | 3.07 | 1.39 | +0.35 | 8/752/240 | 7.3e-37 | 15.3 | 2.0 | 93 | 23% | 19% |
 | BLASTN only (-task blastn) | 11.12 | 1.95 | +8.40 | 175/78/747 | 4.2e-104 | - | - | 2 | 1% | 1% |
 | BLASTN only (megablast, TIPP3-fast) | 78.71 | 2.58 | +75.99 | 25/12/963 | 3.3e-162 | - | - | 1 | 0% | 0% |
+
+### roseM1_R0
+
+WITCH default wall 61 s = decomposition 7 s + all-vs-all hmmsearch 40 s + alignment/merge/other 15 s (search = 65% of wall)
+
+| method | SPFN % | SPFP % | dSPFN vs WITCH (pp) | W/T/L vs WITCH | Wilcoxon p | HMMs scored/query | mean k | time (s) | % of WITCH time | % excl. decomposition |
+|---|---|---|---|---|---|---|---|---|---|---|
+| WITCH (default, own run) | 7.85 | 2.30 | +0.00 | 0/300/0 | 1 | all | 10 | 61 | 100% | 100% |
+| all HMMs, k=10 (WITCH re-run via weights) | 7.85 | 2.30 | +0.00 | 0/300/0 | 1 | 203.0 | 8.9 | 60 | 99% | 99% |
+| all HMMs, k=3 | 8.44 | 1.70 | +0.59 | 4/244/52 | 7.4e-07 | 203.0 | 3.0 | 57 | 93% | 92% |
+| all HMMs, k=1 (UPP-like, adj. bit-score) | 10.33 | 1.39 | +2.48 | 4/164/132 | 2.5e-21 | 203.0 | 1.0 | 55 | 91% | 90% |
+| all HMMs, adaptive k (tau=.99) | 8.12 | 2.29 | +0.28 | 0/265/35 | 2.5e-07 | 203.0 | 3.2 | 59 | 97% | 96% |
+| all HMMs, adaptive k (tau=.95) | 8.47 | 2.20 | +0.63 | 2/223/75 | 5.9e-12 | 203.0 | 2.5 | 58 | 95% | 95% |
+| hier descent (UPP2-style), k=10 | 10.96 | 3.24 | +3.11 | 4/255/41 | 1e-07 | 14.4 | 9.0 | 26 | 42% | 35% |
+| hier descent, adaptive k | 11.25 | 3.20 | +3.41 | 3/228/69 | 2.3e-12 | 14.4 | 3.0 | 24 | 40% | 32% |
+| hier EarlyStop (UPP2), k<=10 | 19.13 | 4.63 | +11.29 | 12/121/167 | 7.6e-29 | 7.8 | 5.8 | 23 | 37% | 30% |
+| beam-2 descent, k=10 | 8.95 | 2.59 | +1.11 | 1/285/14 | 0.0015 | 26.1 | 9.0 | 28 | 46% | 40% |
+| beam-2 descent, adaptive k | 9.21 | 2.58 | +1.37 | 1/253/46 | 1.3e-08 | 26.1 | 3.2 | 27 | 44% | 38% |
+| BLAST path, k<=10 | 17.72 | 4.25 | +9.87 | 16/143/141 | 3.7e-24 | 20.0 | 6.2 | 26 | 43% | 36% |
+| BLAST path, adaptive k | 17.84 | 4.06 | +10.00 | 16/134/150 | 1.5e-25 | 20.0 | 2.2 | 25 | 40% | 33% |
+| BLAST path+siblings, k=10 | 14.20 | 4.11 | +6.35 | 16/151/133 | 6e-22 | 26.2 | 8.7 | 29 | 47% | 41% |
+| BLAST path+siblings, adaptive k (tau=.99) | 14.34 | 4.03 | +6.50 | 16/141/143 | 1.7e-23 | 26.2 | 2.8 | 27 | 45% | 38% |
+| BLAST path+siblings, adaptive k (tau=.95) | 14.67 | 3.96 | +6.82 | 13/126/161 | 5.6e-26 | 26.2 | 2.1 | 25 | 42% | 34% |
+| BLASTN only (-task blastn) | 67.65 | 10.01 | +59.80 | 53/11/236 | 1.3e-40 | - | - | 0 | 1% | 1% |
+| BLASTN only (megablast, TIPP3-fast) | 89.16 | 0.10 | +81.31 | 27/7/266 | 4.8e-48 | - | - | 0 | 1% | 1% |
+
+### roseM1_R1
+
+WITCH default wall 65 s = decomposition 6 s + all-vs-all hmmsearch 44 s + alignment/merge/other 14 s (search = 68% of wall)
+
+| method | SPFN % | SPFP % | dSPFN vs WITCH (pp) | W/T/L vs WITCH | Wilcoxon p | HMMs scored/query | mean k | time (s) | % of WITCH time | % excl. decomposition |
+|---|---|---|---|---|---|---|---|---|---|---|
+| WITCH (default, own run) | 10.03 | 4.42 | +0.00 | 0/300/0 | 1 | all | 10 | 65 | 100% | 100% |
+| BLASTN only (-task blastn) | 61.42 | 7.04 | +51.39 | 64/15/221 | 8.9e-37 | - | - | 0 | 1% | 1% |
+| BLASTN only (megablast, TIPP3-fast) | 88.83 | 0.10 | +78.80 | 26/10/264 | 2.1e-47 | - | - | 0 | 1% | 1% |

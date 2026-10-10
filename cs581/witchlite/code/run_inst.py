@@ -60,26 +60,40 @@ bt = float(open(f'{inst}/blast_sens/blast_time.txt').read().split('total')[1])
 record('BLAST-sens', json.load(open(f'{inst}/blast_sens/blast_map.json')), dict(time=bt, time_nodecomp=bt))
 
 # 3) selectors
-for strat in ['all', 'hier', 'hier_es', 'beam', 'blastpath', 'blastpath_sib']:
+for strat in ['all', 'hier', 'hier_es', 'beam', 'blastpath', 'blastpath_sib', 'beam3', 'beam4']:
     od = f'{inst}/lite_{strat}'
     if not os.path.exists(f'{od}/scoring.json'):
         extra = f'--blastdir {inst}/blast_sens' if strat.startswith('blastpath') else ''
+        if strat.startswith('beam') and strat != 'beam':
+            extra = f'--beam {strat[4:]}'; strat = 'beam'
         sh(f'python3 {HERE}/lite.py {inst} {H} {od} {strat} {extra} > /dev/null')
+# hybrid rule (BLAST path(s)+siblings if top hit >= 100 bits, else beam-3), replayed from cached scores
+if not os.path.exists(f'{inst}/sim/weights_hyb_b3_100.txt'):
+    sh(f'python3 {HERE}/sim.py {inst} {inst}/sim --write hyb_b3_100 > {inst}/sim.log')
 
 # 4) WITCH alignment stage on each selection
 variants = [('all', 'k10'), ('all', 'k1'), ('all', 'k3'), ('all', 'k10_t99'), ('all', 'k10_t95'),
             ('hier', 'k10'), ('hier', 'k10_t99'), ('hier_es', 'k10'), ('beam', 'k10'), ('beam', 'k10_t99'),
             ('blastpath', 'k10'), ('blastpath', 'k10_t99'), ('blastpath_sib', 'k10'), ('blastpath_sib', 'k10_t99'),
-            ('blastpath_sib', 'k10_t95')]
+            ('blastpath_sib', 'k10_t95'), ('beam3', 'k10'), ('beam3', 'k10_t99'), ('beam4', 'k10'),
+            ('hyb', 'b3_100')]
 for strat, tag in variants:
-    od = f'{inst}/lite_{strat}'
-    sc = json.load(open(f'{od}/scoring.json'))
     st = f'{inst}/stage_{strat}_{tag}'
+    if strat == 'hyb':
+        # selection time ESTIMATED: sensitive BLAST + (HMM scores/query) x (per-score cost of online beam-3)
+        sim = json.load(open(f'{inst}/sim/sim.json'))['hyb_b3_100']
+        b3 = json.load(open(f'{inst}/lite_beam3/scoring.json'))
+        sc = dict(scores_per_query=sim['scores_per_query'], mean_k={tag: 10.0},
+                  score_time=sim['scores_per_query'] * b3['score_time'] / b3['scores_per_query'])
+        wfile, k = f'{inst}/sim/weights_hyb_b3_100.txt', 10
+    else:
+        od = f'{inst}/lite_{strat}'
+        sc = json.load(open(f'{od}/scoring.json'))
+        wfile, k = f'{od}/weights_{tag}.txt', tag.split('_')[0][1:]
     if not os.path.exists(f'{st}/aln.fasta'):
-        k = tag.split('_')[0][1:]
-        sh(f'bash {HERE}/witch_stage.sh {inst} {H} {od}/weights_{tag}.txt {st} {k}')
+        sh(f'bash {HERE}/witch_stage.sh {inst} {H} {wfile} {st} {k}')
     stage = float(open(f'{st}/stage_wall.txt').read())
-    selt = sc['score_time'] + (bt if strat.startswith('blastpath') else 0)
+    selt = sc['score_time'] + (bt if strat.startswith('blastpath') or strat == 'hyb' else 0)
     est, _ = map_from_alignment(f'{st}/aln.fasta', bbn, truth)
     record(f'{strat}/{tag}', est, dict(select_time=selt, stage_time=stage, time=dec + selt + stage,
                                        time_nodecomp=selt + stage, scores_per_query=sc['scores_per_query'],
