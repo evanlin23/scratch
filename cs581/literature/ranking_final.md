@@ -28,6 +28,15 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**wapro INTERIM (23:04 UTC, `claude/cs581-wapro`): weighting does not help ASTRID-Pro.** FastTree-SH gene trees.
+- *Train, FastMulRFS reps 01–03 (n = 36), FN rate:* wQFM-GDL 0.0703 < ASTRID-DISCO 0.0753 ≈ wASTRID-Pro 0.0756 ≈
+  ASTRID-Pro 0.0759 < DISCO+wASTRID 0.0765 < Asteroid 0.0782 < ASTRAL-Pro3 0.0899 ≈ DISCO+wASTRAL 0.0901.
+- Every weighting, contraction or normalisation lever is within ±0.001 of unweighted ASTRID-Pro, or worse.
+- *Held-out interim (9 sets), wASTRID-Pro minus method:* vs wQFM-GDL +0.008 (n.s.), vs ASTRID-DISCO +0.003, vs
+  ASTRAL-Pro3 −0.0115.
+- The most accurate method here is wQFM-GDL, a quartet method that is slower (~70 s median), not the ASTRID family.
+- Early read: "likely not promising" for beating the best methods.
+
 **magusgen final (22:16 UTC, `claude/cs581-magusgen`): self-soft + consensus as "one general MAGUS" is killed.**
 - 15 sets: 6 DNA/RNA and 9 protein.
 - *Best combination `ss:wsoft0.03:linsi&fftns2`:* DNA −0.88 (6/0/0, p = 0.031); protein −0.27 (5/1/3, n.s.); about
