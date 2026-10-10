@@ -284,7 +284,8 @@ Full tables: `results/counterexample_summary.md`. Figure: `results/counterexampl
 1. **The error-as-selection view.** Rooting and tagging only select which quartets count. Their unrooted topologies are fixed.
 2. **The one-sidedness of overlap-tag errors** on true roots under GDL (D→S on hidden paralogs only).
 3. **The exact 4-taxon limiting-score formula** with its consistency condition O + H_AB > max(H_AC, H_BC), and the threshold q* = O / (max H_wrong − H_AB) for random hidden-paralog mislabelling.
-4. **A refutation of the easy proof route.** The per-node association inequalities (I1, I2) that would give a general proof fail on 4.6% (I1) and 7% (I2) of random survivable rate configurations.
+4. **Rooting counterexamples** (Section 4b of theory.md). Random re-rooting with p = 0.3 (cand3) and ASTRAL-Pro's own min-duplication rooting (cand4) each break consistency, even where correct-root overlap tagging is consistent. No formula yet.
+5. **A refutation of the easy proof route.** The per-node association inequalities (I1, I2) that would give a general proof fail on 4.6% (I1) and 7% (I2) of random survivable rate configurations.
 
 All of these are checked numerically; none are written up as formal proofs yet.
 
@@ -294,7 +295,7 @@ All of these are checked numerically; none are written up as formal proofs yet.
 |---|---|
 | 1 | Write the 4-taxon proposition rigorously: class decomposition, the integral formula, conditioning on the species filter, and the version with a root branch. Read Parsons et al. 2026 in full; get the PDF from a library or the authors. |
 | 2 | **Positive result.** Try to prove ASTRAL-Pro with overlap tags is consistent under GDL when duplication is bounded, for example λ_e < μ_e with bounded turnover λ_e·t_e. "No supercritical branch" alone is *not* enough: the one non-supercritical failure in the scan is critical with huge turnover (λ = μ = 8 on a branch of length 2; formula only, not simulated). Use the formula to map the inconsistency region in (λ_y·T, loss asymmetry). Extend the formula to random rooting (`rovl(p)`). |
-| 3 | **n-taxon and empirical side.** Show inconsistency for n > 4 (the 8-taxon embedding already works empirically). Rerun the atlas on the adversarial region, including estimated gene trees from sequences, to see whether the effect survives gene-tree error. Run under DLCOAL with SimPhy, where tag errors go both ways. |
+| 3 | **n-taxon and empirical side.** Show inconsistency for n > 4 (both 8-taxon embeddings already work empirically). Characterize when min-duplication rooting is attracted to high-turnover lineages (cand4). Rerun the atlas on the adversarial region, including estimated gene trees from sequences, to see whether the effect survives gene-tree error. Run under DLCOAL with SimPhy, where tag errors go both ways. |
 | 4 | Write-up. Optional: a "tag-robust" ASTRAL-Pro variant that downweights S-tagged nodes whose children have very unbalanced copy numbers, or uses closest-copy information as STAG does. Test whether it fixes cand2 without hurting generic accuracy. |
 
 **Deliverables either way:** an exact formula, explicit counterexamples in shipped software (tagging and rooting), a threshold law, and an atlas.
