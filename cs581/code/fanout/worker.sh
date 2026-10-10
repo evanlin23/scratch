@@ -28,7 +28,7 @@ OUT=$REPO/cs581/experiments/runs
 RUNS=/opt/runs
 mkdir -p "$OUT" "$RUNS"
 cd "$REPO/cs581/code"
-GIT() { git -C "$REPO" -c user.name="Claude" -c user.email="noreply@anthropic.com" "$@"; }
+GIT() { git -C "$REPO" -c user.name="Evan Lin" -c user.email="113861384+evanlin23@users.noreply.github.com" "$@"; }
 
 # leftovers from a previous (killed) invocation
 pkill -f "gcmx\.(prep|pilot|experiment|run_magus)" 2>/dev/null
