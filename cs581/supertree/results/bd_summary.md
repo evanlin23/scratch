@@ -34,41 +34,43 @@
 
 ### Paired comparisons (RF %, new - baseline; negative = new is better). W/T/L = new wins/ties/losses, tie band |diff| <= 0.25 pp; two-sided Wilcoxon signed-rank
 
-| condition | new | baseline | n | mean diff (pp) | W/T/L | p |
-|---|---|---|---|---|---|---|
-| bd500 | dc:astral3:100:astral3 | astral3 | 5 | +2.07 | 0/0/5 | 0.062 |
-| bd500 | mrlft | astral3 | 5 | +1.13 | 3/0/2 | 0.81 |
-| bd500 | dc:scs:100:astral3 | scs | 5 | +3.74 | 0/0/5 | 0.062 |
-| bd500 | dc:scs:500:astral3 | scs | 5 | +3.88 | 0/0/5 | 0.062 |
-| bd500 | dc:scs:100:astral3 | astral3 | 5 | -0.14 | 2/1/2 | 1 |
-| bd500 | dc:scs:500:astral3 | astral3 | 5 | +0.00 | 0/5/0 | 1 |
-| bd500 | scs | astral3 | 5 | -3.88 | 5/0/0 | 0.062 |
-| bd500 | dc:astral3:100:astral3 | scs | 5 | +5.96 | 0/0/5 | 0.062 |
-| bd1000 | dc:astral3:100:astral3 | astral3 | 5 | +2.95 | 0/0/5 | 0.062 |
-| bd1000 | mrlft | astral3 | 5 | +0.22 | 2/1/2 | 1 |
-| bd1000 | dc:scs:100:astral3 | scs | 5 | +5.32 | 0/0/5 | 0.062 |
-| bd1000 | dc:scs:500:astral3 | scs | 5 | +5.26 | 0/0/5 | 0.062 |
-| bd1000 | dc:scs:100:astral3 | astral3 | 5 | +0.03 | 2/0/3 | 1 |
-| bd1000 | dc:scs:500:astral3 | astral3 | 5 | -0.03 | 3/1/1 | 0.62 |
-| bd1000 | scs | astral3 | 5 | -5.29 | 5/0/0 | 0.062 |
-| bd1000 | dc:astral3:100:astral3 | scs | 5 | +8.23 | 0/0/5 | 0.062 |
-| bd2000 | dc:astral3:100:astral3 | astral3 | 5 | +2.79 | 0/0/5 | 0.062 |
-| bd2000 | mrlft | astral3 | 5 | +0.08 | 2/0/3 | 0.81 |
-| bd2000 | dc:scs:100:astral3 | scs | 5 | +4.22 | 0/0/5 | 0.062 |
-| bd2000 | dc:scs:500:astral3 | scs | 5 | +4.81 | 0/0/5 | 0.062 |
-| bd2000 | dc:scs:100:astral3 | astral3 | 5 | +0.19 | 1/1/3 | 0.81 |
-| bd2000 | dc:scs:500:astral3 | astral3 | 5 | +0.78 | 0/3/2 | 0.12 |
-| bd2000 | scs | astral3 | 5 | -4.03 | 5/0/0 | 0.062 |
-| bd2000 | dc:astral3:100:astral3 | scs | 5 | +6.82 | 0/0/5 | 0.062 |
-| bd5000 | dc:scs:100:astral3 | scs | 5 | +4.47 | 0/0/5 | 0.062 |
-| bd5000 | dc:scs:500:astral3 | scs | 5 | +4.73 | 0/0/5 | 0.062 |
-| bd10000 | dc:scs:100:astral3 | scs | 3 | +4.31 | 0/0/3 | 0.25 |
-| bd10000 | dc:scs:500:astral3 | scs | 3 | +4.48 | 0/0/3 | 0.25 |
-| ALL | dc:astral3:100:astral3 | astral3 | 15 | +2.60 | 0/0/15 | 0.00065 |
-| ALL | mrlft | astral3 | 15 | +0.48 | 7/1/7 | 0.52 |
-| ALL | dc:scs:100:astral3 | scs | 23 | +4.42 | 0/0/23 | 2.4e-07 |
-| ALL | dc:scs:500:astral3 | scs | 23 | +4.65 | 0/0/23 | 2.4e-07 |
-| ALL | dc:scs:100:astral3 | astral3 | 15 | +0.02 | 5/2/8 | 0.85 |
-| ALL | dc:scs:500:astral3 | astral3 | 15 | +0.25 | 3/9/3 | 0.58 |
-| ALL | scs | astral3 | 15 | -4.40 | 15/0/0 | 6.1e-05 |
-| ALL | dc:astral3:100:astral3 | scs | 15 | +7.00 | 0/0/15 | 6.1e-05 |
+| condition | new | baseline | n | mean dRF (pp) | W/T/L (RF) | p (RF) | mean dFN (pp) | W/T/L (FN) | p (FN) |
+|---|---|---|---|---|---|---|---|---|---|
+| bd500 | dc:astral3:100:astral3 | astral3 | 5 | +2.07 | 0/0/5 | 0.062 | +2.13 | 0/0/5 | 0.062 |
+| bd500 | mrlft | astral3 | 5 | +1.13 | 3/0/2 | 0.81 | +1.13 | 3/0/2 | 0.81 |
+| bd500 | dc:scs:100:astral3 | scs | 5 | +3.74 | 0/0/5 | 0.062 | +3.78 | 0/0/5 | 0.062 |
+| bd500 | dc:scs:500:astral3 | scs | 5 | +3.88 | 0/0/5 | 0.062 | +3.86 | 0/0/5 | 0.062 |
+| bd500 | dc:scs:100:astral3 | astral3 | 5 | -0.14 | 2/1/2 | 1 | -0.08 | 2/1/2 | 1 |
+| bd500 | dc:scs:500:astral3 | astral3 | 5 | +0.00 | 0/5/0 | 1 | +0.00 | 0/5/0 | 1 |
+| bd500 | scs | astral3 | 5 | -3.88 | 5/0/0 | 0.062 | -3.86 | 5/0/0 | 0.062 |
+| bd500 | dc:astral3:100:astral3 | scs | 5 | +5.96 | 0/0/5 | 0.062 | +6.00 | 0/0/5 | 0.062 |
+| bd1000 | dc:astral3:100:astral3 | astral3 | 5 | +2.95 | 0/0/5 | 0.062 | +3.11 | 0/0/5 | 0.062 |
+| bd1000 | mrlft | astral3 | 5 | +0.22 | 2/1/2 | 1 | +0.22 | 2/1/2 | 1 |
+| bd1000 | dc:scs:100:astral3 | scs | 5 | +5.32 | 0/0/5 | 0.062 | +5.30 | 0/0/5 | 0.062 |
+| bd1000 | dc:scs:500:astral3 | scs | 5 | +5.26 | 0/0/5 | 0.062 | +5.18 | 0/0/5 | 0.062 |
+| bd1000 | dc:scs:100:astral3 | astral3 | 5 | +0.03 | 2/0/3 | 1 | +0.10 | 2/0/3 | 1 |
+| bd1000 | dc:scs:500:astral3 | astral3 | 5 | -0.03 | 3/1/1 | 0.62 | -0.02 | 3/1/1 | 0.62 |
+| bd1000 | scs | astral3 | 5 | -5.29 | 5/0/0 | 0.062 | -5.20 | 5/0/0 | 0.062 |
+| bd1000 | dc:astral3:100:astral3 | scs | 5 | +8.23 | 0/0/5 | 0.062 | +8.30 | 0/0/5 | 0.062 |
+| bd2000 | dc:astral3:100:astral3 | astral3 | 5 | +2.79 | 0/0/5 | 0.062 | +2.90 | 0/0/5 | 0.062 |
+| bd2000 | mrlft | astral3 | 5 | +0.08 | 2/0/3 | 0.81 | +0.08 | 2/0/3 | 0.81 |
+| bd2000 | dc:scs:100:astral3 | scs | 5 | +4.22 | 0/0/5 | 0.062 | +4.22 | 0/0/5 | 0.062 |
+| bd2000 | dc:scs:500:astral3 | scs | 5 | +4.81 | 0/0/5 | 0.062 | +4.73 | 0/0/5 | 0.062 |
+| bd2000 | dc:scs:100:astral3 | astral3 | 5 | +0.19 | 1/1/3 | 0.81 | +0.31 | 1/1/3 | 0.62 |
+| bd2000 | dc:scs:500:astral3 | astral3 | 5 | +0.78 | 0/3/2 | 0.12 | +0.82 | 0/2/3 | 0.12 |
+| bd2000 | scs | astral3 | 5 | -4.03 | 5/0/0 | 0.062 | -3.91 | 5/0/0 | 0.062 |
+| bd2000 | dc:astral3:100:astral3 | scs | 5 | +6.82 | 0/0/5 | 0.062 | +6.81 | 0/0/5 | 0.062 |
+| bd2000 | dc:true:100:astral3 | astral3 | 5 | -1.06 | 3/2/0 | 0.12 | -0.90 | 3/1/1 | 0.44 |
+| bd5000 | dc:scs:100:astral3 | scs | 5 | +4.47 | 0/0/5 | 0.062 | +4.28 | 0/0/5 | 0.062 |
+| bd5000 | dc:scs:500:astral3 | scs | 5 | +4.73 | 0/0/5 | 0.062 | +4.45 | 0/0/5 | 0.062 |
+| bd10000 | dc:scs:100:astral3 | scs | 3 | +4.31 | 0/0/3 | 0.25 | +4.06 | 0/0/3 | 0.25 |
+| bd10000 | dc:scs:500:astral3 | scs | 3 | +4.48 | 0/0/3 | 0.25 | +4.14 | 0/0/3 | 0.25 |
+| ALL | dc:astral3:100:astral3 | astral3 | 15 | +2.60 | 0/0/15 | 0.00065 | +2.72 | 0/0/15 | 6.1e-05 |
+| ALL | mrlft | astral3 | 15 | +0.48 | 7/1/7 | 0.52 | +0.48 | 7/1/7 | 0.52 |
+| ALL | dc:scs:100:astral3 | scs | 23 | +4.42 | 0/0/23 | 2.4e-07 | +4.35 | 0/0/23 | 2.4e-07 |
+| ALL | dc:scs:500:astral3 | scs | 23 | +4.65 | 0/0/23 | 2.4e-07 | +4.50 | 0/0/23 | 2.4e-07 |
+| ALL | dc:scs:100:astral3 | astral3 | 15 | +0.02 | 5/2/8 | 0.85 | +0.11 | 5/2/8 | 0.8 |
+| ALL | dc:scs:500:astral3 | astral3 | 15 | +0.25 | 3/9/3 | 0.58 | +0.27 | 3/8/4 | 0.58 |
+| ALL | scs | astral3 | 15 | -4.40 | 15/0/0 | 6.1e-05 | -4.32 | 15/0/0 | 6.1e-05 |
+| ALL | dc:astral3:100:astral3 | scs | 15 | +7.00 | 0/0/15 | 6.1e-05 | +7.04 | 0/0/15 | 6.1e-05 |
+| ALL | dc:true:100:astral3 | astral3 | 5 | -1.06 | 3/2/0 | 0.12 | -0.90 | 3/1/1 | 0.44 |
