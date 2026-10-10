@@ -12,10 +12,11 @@
 #   mc3di      M-Coffee (T-Coffee consistency library) combining linsi + linsi3di + fm
 #   fm_true, linsi3di_true   oracle controls: same pipelines with 3Di from the experimental PDB structure
 #              (true3di.py) instead of ProstT5
+#   mc2        M-Coffee combining linsi + linsi3di only
 #   mcaa       control: M-Coffee combining three AA-only alignments, linsi + clustalo + mafft
 set -u
 ID=$1; OUT=$2; shift 2
-METHODS=${@:-linsi clustalo mafft fm fm_aa linsi3di mc3di mcaa fm_true linsi3di_true}
+METHODS=${@:-linsi clustalo mafft fm fm_aa linsi3di mc3di mcaa fm_true linsi3di_true mc2}
 FS=/opt/mm/root/envs/fs/bin
 P=/opt/p3d/bb3
 CODE=$(cd "$(dirname "$0")" && pwd)
@@ -40,8 +41,8 @@ for m in $METHODS; do
       IN=$TDI; [ $m = linsi3di_true ] && IN=$TRUE
       T $m mafft --quiet --localpair --maxiterate 1000 --thread 1 --aamatrix /opt/p3d/mat/mat3di.mafft "$IN" > "$D/$m.3di.fa"
       python3 "$CODE/map3di.py" "$D/$m.3di.fa" "$AA" > "$D/$m.fa" ;;
-    mc3di|mcaa)
-      [ $m = mc3di ] && ins="linsi linsi3di fm" || ins="linsi clustalo mafft"
+    mc3di|mcaa|mc2)
+      case $m in mc3di) ins="linsi linsi3di fm";; mcaa) ins="linsi clustalo mafft";; mc2) ins="linsi linsi3di";; esac
       W=$(mktemp -d); args=""; for x in $ins; do args="$args A$D/$x.fa"; done
       (cd "$W" && T $m /opt/mm/root/envs/tc/bin/t_coffee -in $args -output fasta_aln -outfile "$W/out.fa" -n_core 1 -quiet > /dev/null 2>&1)
       [ -s "$W/out.fa" ] && cp "$W/out.fa" "$D/$m.fa"; rm -rf "$W" ;;

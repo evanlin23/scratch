@@ -12,7 +12,7 @@ base = sys.argv[3] if len(sys.argv) > 3 else "linsi"
 rows = []
 for d in sorted(glob.glob(os.path.join(root, "BB*"))):
     sid = os.path.basename(d)
-    grp = "RV" + sid[2:4] + ("S" if sid.startswith("BBS") else "")
+    grp = "RV" + sid[-5:-3] + ("-BBS" if sid.startswith("BBS") else "-BB")
     xml = f"/opt/bb3/bb3_release/RV{sid[-5:-3]}/{sid}.xml"
     for f in sorted(glob.glob(os.path.join(d, "*.fa"))):
         m = os.path.basename(f)[:-3]
@@ -33,9 +33,9 @@ tab = collections.defaultdict(dict)
 for r in rows:
     tab[(r["group"], r["set"])][r["method"]] = r
 methods = sorted({r["method"] for r in rows})
-groups = sorted({r["group"] for r in rows}) + ["ALL"]
+groups = sorted({r["group"] for r in rows}) + sorted({r["group"][:4] for r in rows}) + ["ALL"]
 for g in groups:
-    keys = [k for k in tab if g == "ALL" or k[0] == g]
+    keys = [k for k in tab if g == "ALL" or k[0] == g or k[0].startswith(g + "-")]
     print(f"\n== {g} ==")
     print(f"{'method':10s} {'n':>3s} {'SP':>6s} {'TC':>6s} | vs {base}: dSP  W/T/L  p(SP)   dTC  W/T/L  p(TC)")
     for m in methods:
