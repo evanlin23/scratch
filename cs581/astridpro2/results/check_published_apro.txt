@@ -1,3 +1,3 @@
-n=57  published ASTRAL-Pro v2: 0.0863  our ASTRAL-Pro3: 0.0855  our ASTRID-Pro: 0.0723
-ASTRID-Pro - published ASTRAL-Pro: mean -0.0139, W/T/L 43/0/14, p=1.9e-05
-our ASTRAL-Pro3 - published ASTRAL-Pro: mean -0.0007, p=0.86
+n=120  published ASTRAL-Pro v2: 0.0904  our ASTRAL-Pro3: 0.0890  our ASTRID-Pro: 0.0740
+ASTRID-Pro - published ASTRAL-Pro: mean -0.0164, W/T/L 79/0/41, p=5.5e-07
+our ASTRAL-Pro3 - published ASTRAL-Pro: mean -0.0014, p=0.5

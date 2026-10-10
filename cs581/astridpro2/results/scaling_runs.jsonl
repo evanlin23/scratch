@@ -81,3 +81,13 @@
 {"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "astral-pro3", "sec": 343.837, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
 {"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "fastmulrfs", "sec": 168.521, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
 {"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "astral-pro3", "sec": 1200.38, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "fastmulrfs", "sec": 1200.009, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "astral-pro3", "sec": 1201.682, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "fastmulrfs", "sec": 1200.003, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "astral-pro3", "sec": 11.018, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "fastmulrfs", "sec": 8.403, "FN": 16, "FP": 16, "nI": 98, "FNrate": 0.16327}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "astral-pro3", "sec": 48.876, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "fastmulrfs", "sec": 28.647, "FN": 8, "FP": 8, "nI": 98, "FNrate": 0.08163}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "astral-pro3", "sec": 337.049, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "fastmulrfs", "sec": 105.172, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 3000, "method": "astral-pro3", "sec": 904.492, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}

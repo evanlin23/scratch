@@ -23,3 +23,4 @@
 {"data": "empirical", "cond": "1kp_c12", "method": "astral-pro3", "sec": 3347.167, "FN": 5, "FP": 5, "nI": 69, "FNrate": 0.07246}
 {"data": "empirical", "cond": "1kp_c12", "method": "disco-astral", "sec": 2962.0, "FN": 5, "FP": 5, "nI": 69, "FNrate": 0.07246}
 {"data": "empirical", "cond": "1kp_c12", "method": "fastmulrfs", "sec": 1759.227, "error": "CalledProcessError"}
+{"data": "empirical", "cond": "1kp_c12", "method": "wqfm-gdl", "sec": 5400.52, "error": "TimeoutExpired"}
