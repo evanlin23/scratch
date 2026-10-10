@@ -170,7 +170,28 @@ FastTree FN change vs the unmasked MAGUS alignment (R0–R2; negative = better):
 
 ### 2.4 Pilot D: GTM divide-and-conquer (+ polish)
 
-DNC_RESULTS
+**Pipeline** (`code/dnc.py`):
+1. FastTree guide tree.
+2. Centroid-edge decomposition into disjoint subsets of ≤ 250 taxa (5–6 subsets of 126–241).
+3. RAxML-NG (1 parsimony start) on each subset.
+4. GTM merge (github.com/vlasmirnov/GTM, commit 18e3bc9).
+5. Optional polish: an unconstrained RAxML-NG search from the merged tree.
+
+**Data.** MAGUS alignment, R0 only (n=1 per condition).
+
+Wall times were measured with 3 pipelines sharing 4 cores, so they are upper bounds. CPU time was not recorded for this pilot.
+
+| condition (R0, MAGUS aln) | FastTree | RAxML-NG (pars) | RAxML-NG (FT start) | GTM pipeline | GTM + polish |
+|---|---|---|---|---|---|
+| 1000M2 | 10.7% | 9.9% | 9.5% | 10.9% (6.7 min wall) | – |
+| 1000M3 | 7.7% | 8.0% | 7.2% | 7.4% (4.8 min wall) | 7.5% (+23 min polish; lnL −766413.4 vs −766413.3 for RAxML-NG) |
+| 1000L1 | 11.7% | 12.2% | 11.3% | 12.6% (6.2 min wall) | – |
+
+**Verdict.**
+- At 1000 taxa the GTM pipeline is about as accurate as FastTree and does not beat full RAxML-NG.
+- Polishing reaches RAxML-NG's likelihood but costs about as much as RAxML-NG itself.
+- This is consistent with Park et al. 2021, who see GTM's advantage only at 10K–50K taxa (e.g. RNASim10K GTM 10.1% vs RAxML-NG 12.3% at its time cap).
+- A divide-and-conquer project therefore needs the 10K+ datasets and cluster time. That is why it is alternative 2 rather than the recommendation.
 
 ## 3. Recommendation
 
@@ -254,7 +275,7 @@ This is the instructor's divide-and-conquer open problem: "a better DTM that all
 
 Data: IDB-7008049 (RNASim 1K/10K/50K, Cox1-HET, 1000M1-HF, with published GTM and RAxML-NG trees). The published gaps are GTM 28.4% vs RAxML-NG 24.9% on 1000M1-HF, and 18.7% vs 18.2% on Cox1-HET.
 
-- The pipeline is implemented (`code/dnc.py`; GTM at github.com/vlasmirnov/GTM). Pilot D (§2.4) is a first data point.
+- The pipeline is implemented (`code/dnc.py`; GTM at github.com/vlasmirnov/GTM). Pilot D (§2.4): at 1000 taxa, GTM is about as accurate as FastTree, and polishing reaches the RAxML-NG level but at RAxML-NG cost.
 - **Risk:** medium. The interesting regime is 10K–50K taxa, where RAxML-NG takes many hours per run. A student would need the campus cluster.
 
 ### 3.4 Not recommended (from the pilots and the literature)
