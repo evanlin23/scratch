@@ -19,7 +19,7 @@ if len(r.children) == 2:
     r.remove_child(m)
     for c in list(m.children):
         m.remove_child(c); r.add_child(c)
-pt.root.edge_length = None
+pt.root.edge_length = None; pt.is_rooted = False
 pt.write_tree_newick(f'{o}/tree.nwk')
 s = read_fasta(f'{d}/backbone.fa')
 write_fasta(f'{o}/ref.fa', {n: s[n] for n in leaves})
