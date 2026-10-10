@@ -147,7 +147,8 @@ the same FastSP):** median difference +0.02 points for PASTA (n = 11; mean +0.61
 1000M2 +2.3), −0.02 for MAGUS (n = 12; mean +0.05, range −1.5 to +1.5) and +0.02 for MAGUS(Slow) (n = 12;
 mean +0.37). BAliBASE: PASTA +0.51 / +0.25, MAGUS −0.47 / +0.10 (BBA0101 / BBA0190). Single runs differ
 from the published ones by up to ±1.5 points because MAGUS and PASTA are unseeded; on average the harness
-reproduces the paper.
+reproduces the paper. PASTA reruns with the correct datatype: RNASim 10.10% vs published 10.08%; 16S.M 14.06%
+vs 12.99% (+1.07, single unseeded run).
 
 On 4 cores MAGUS is only ~12% faster than PASTA on 1000 sequences (the paper's 2.5× used 16-core nodes).
 Caveat found tonight: the MCL-threading patch used by the soft merges could silently fall back to one
