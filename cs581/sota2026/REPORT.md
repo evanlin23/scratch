@@ -111,7 +111,7 @@ alignment of the same replicate.
 | RNASim 1000 (1) | **9.6** | 10.1 | TWILIGHT, 3 iterations | 11.1 | 230 s vs 888 s |
 | 16S.T, 5,548 seqs (1) | **9.9** | 12.9 | TWILIGHT, 1 iteration | 12.7 | 78 s vs 2,918 s (paper's hardware) |
 | BAliBASE, 8 protein sets | **23.8** mean | 26.5 | MAFFT `--auto` | 29.6 mean | ~75× faster (mean 14 s vs 1,082 s) |
-| RNASim 10K (1) | 8.3 (published mean) | 10.7 | TWILIGHT | RNASIM10K_TW | RNASIM10K_TWT |
+| RNASim 10K | 8.3 (published mean) | 10.7 | – | not run (out of time) | – |
 
 **Paired against MAGUS, same replicate** (Δ = tool − MAGUS in points; W/T/L = tool better/tie/worse; Wilcoxon):
 
@@ -151,7 +151,9 @@ is both faster and as accurate.
 2. **Guide-tree diagnostic (true tree as guide tree).** Given the true tree, TWILIGHT reaches about 29% on 1000L1
    (vs 98% with its own PartTree start) and FAMSA about 16% (vs 33%); MAGUS has 8%. So the tree causes most of the
    collapse, but even a perfect tree leaves single-pass progressive alignment 2–4× worse than MAGUS on this data.
-   (`results/full_table.md`, diagnostic table; DIAG_SUMMARY)
+   - Over the 10 ROSE conditions: FAMSA 31.1% → 14.2% with the true tree, TWILIGHT about 87% → 23.1%; MAGUS 6.6%.
+   - On RNASim, TWILIGHT with the true tree reaches 10.1%, equal to PASTA and 0.5 points behind MAGUS.
+   - See the diagnostic table in `results/full_table.md`.
 3. **On RNASim and 16S, TWILIGHT is the only real competitor.**
    - It is 1.5–2.8 points worse than MAGUS but 4–37× faster. On 16S.T it roughly ties PASTA (12.7 vs 12.9).
    - On RNASim 1000, 3 iterations take 230 s for 11.1%, and 1 iteration takes 21 s for 14.4%.
@@ -159,13 +161,15 @@ is both faster and as accurate.
    - This matches the TWILIGHT paper: MAGUS stays a bit more accurate at ≤10k sequences; TWILIGHT wins on scale.
 4. **FAMSA 2.4.1 is unreliable on nucleotides.** It ran out of memory (>13.5 GB) on RNASim 1000, scored +31 points
    on RNASim subsets and is 25 points behind MAGUS on ROSE. Its paper is protein-only.
-5. **On BAliBASE, MAGUS beats every fast tool on all 8 sets**, by 3–21 points. BAliBASE L-INS-i / MUSCLE5 on the full
-   sets: BBA_FULL.
+5. **On BAliBASE, MAGUS beats every fast tool on all 8 sets**, by 3–21 points.
+   - MAFFT L-INS-i on the full set ties MAGUS on BBA0067 (26.1 vs 25.6) and is 10 points worse on BBA0081
+     (67.4 vs 57.0). It takes 6–10 min each.
+   - MUSCLE5 did not finish BBA0067 (274 sequences) in 15 min.
 6. **Not run, or not usable.**
-   - MUSCLE5 (`-align` and Super5) did not finish 100 nucleotide sequences of 1000L1-like data in 10 min / 4 min, so
-     it is impractical at 1000 sequences.
-   - Clustal Omega took more than 9 min on 1000L1 and was dropped from the full nucleotide runs; on BAliBASE:
-     CLUSTALO_BBA.
+   - MUSCLE5 `-align` did not finish 100 sequences sampled from 1000M2 within its 10-min cap, and Super5 was still
+     running when I stopped it at 4 min. Both are impractical at 1000 long nucleotide sequences on 4 cores.
+   - Clustal Omega took more than 9 min on 1000L1 and was dropped from the full-dataset runs. It is covered at the
+     subset level and in the merge pilot.
    - learnMSA2 is protein-only and too slow on CPU (by its own paper).
 
 ### 4.2 Subsets (Question 2): is anything more accurate than MAFFT L-INS-i?
@@ -213,11 +217,38 @@ Same decomposition and same backbones. Only the 25 subset alignments change.
 | BAliBASE | MUSCLE5 | 5 | **−0.48** | 4/0/1 |
 | BAliBASE | Clustal Omega | 5 | **−0.33** | 5/0/0 |
 | BAliBASE | G-INS-i | 5 | +0.03 | 1/2/2 |
-| nucleotide (RNASim, 16S.M, ROSE L3/M2/S1) | G-INS-i | NUC_N | NUC_D | NUC_WTL |
+| nucleotide (RNASim, 16S.M, ROSE L3/M2/S1) | G-INS-i | 5 | −0.06 | 2/2/1 |
+| **BAliBASE** | **Clustal Omega, subsets + backbones** | 5 | **−1.89** | **5/0/0** |
+| BAliBASE | Clustal Omega, backbones only (L-INS-i subsets) | 3 | −2.22 | 3/0/0 |
+| nucleotide (RNASim, 16S.M) | Clustal Omega, backbones only | NUCBB_N | NUCBB_D | NUCBB_WTL |
 
-The control reproduces MAGUS exactly. On BAliBASE, protein-aware subset aligners give MAGUS a small, consistent
-gain. The gain is about 0.3–0.5 points, against about 0.15 points of perturbation from an equally accurate swap
-(G-INS-i). It costs 1–2 min of extra subset alignment per dataset. With n = 5 this is a lead, not a result.
+Per replicate, MAGUS's error in % before → after Clustal Omega subsets and backbones:
+
+| set | before | after |
+|---|---|---|
+| BBA0039 | 4.69 | 4.24 |
+| BBA0067 | 26.28 | 24.86 |
+| BBA0101 | 29.19 | 26.39 |
+| BBA0154 | 21.66 | 18.70 |
+| BBA0190 | 23.40 | 21.59 |
+
+For reference, the published MAGUS/PASTA numbers are 4.5/4.3, 25.6/25.7, 28.5/29.2, 21.1/22.5 and 23.1/23.9.
+
+- **Subsets alone change little.**
+  - G-INS-i is noise: ±0.2 points on both protein and nucleotide data.
+  - MUSCLE5 and Clustal Omega subsets give a small gain on proteins (−0.3 to −0.5).
+- **The backbones are what matter on proteins.**
+  - Aligning MAGUS's 10 backbones with Clustal Omega instead of L-INS-i lowers final error by 1.4–3.0 points on 4 of
+    5 sets (0.45 on the easy BBA0039). It beats both MAGUS and PASTA as published on every set but BBA0039, where it
+    is 0.07 behind PASTA.
+  - The gain is almost all in SPFP, down 3–5 points with SPFN unchanged. Clustal's backbones give GCM fewer wrong
+    edges.
+  - This happens although the Clustal backbone alignment is *not* more accurate on its own: BBA0101 backbone,
+    31.4% vs 31.1% for L-INS-i.
+  - It is also faster: Clustal aligns a 200-sequence protein backbone in about 14 s vs about 190 s for L-INS-i on
+    1 core.
+- The control reproduces MAGUS exactly. These are single MAGUS runs per set (n = 5) on data where MAGUS's own
+  run-to-run noise is about 0.5 points, so the −1.9 mean (5/5) is a strong lead but not yet a result.
 
 ## 5. Verdict
 
@@ -232,25 +263,34 @@ gain. The gain is about 0.3–0.5 points, against about 0.15 points of perturbat
 - This agrees with the earlier literature verdict (`../literature/sota_review.md`) and adds the first independent
   ROSE and CRW numbers for TWILIGHT and FAMSA.
 
-**Is "MAGUS with a better base method" worth 4 weeks? As literally posed, no: weak for nucleotides, a modest lead
-for proteins.**
-- The instructor's first step was "find methods more accurate than MAGUS and MAFFT-L-INS-i". On the nucleotide data
-  it finds none among the newer methods.
-  - TWILIGHT, FAMSA and Clustal Omega are much worse at subset level.
-  - MUSCLE5 ties at about 12× the cost. G-INS-i ties and changes MAGUS by noise-level amounts.
-  - The one method published to beat L-INS-i on such data is BAli-Phy (Gupta et al. 2021). It costs hours to a day
-    per subset, and its PASTA analogue was published in 2016 (Nute & Warnow).
-  - A project would likely end in a negative result unless it pays BAli-Phy's cost.
-- **For proteins there is a real but small signal.** MUSCLE5 or Clustal Omega subsets improved MAGUS on 4–5 of 5
-  BAliBASE sets by 0.3–0.5 points. A project framed as **"MAGUS for proteins: protein-specific base methods
-  (MUSCLE5, Clustal Omega, learnMSA2 on GPU) for both subsets and backbones"** is feasible in 4 weeks.
-  - The harness exists (`code/merge_pilot.py`, about 1 min per replicate).
-  - It has a clear baseline and can be extended to HomFam, where MAGUS's protein claims were made.
-  - Expect gains of about 0.5 points unless the backbones also change. The backbone variant (`--backbones tool`) is
-    implemented but was not run in this pilot.
-- **Better 4-week alternatives found along the way:**
-  - (a) "Why do fast aligners collapse on high-rate simulated data, and how much does a good guide tree fix?" The
-    true-tree diagnostic suggests a TWILIGHT+good-tree or TWILIGHT-as-merger project.
+**Is "MAGUS with a better base method" worth 4 weeks? Yes, but reframed: for proteins, and about the backbones.
+For nucleotides, no.**
+- **Nucleotides: no.** The instructor's first step ("find methods more accurate than MAGUS and MAFFT-L-INS-i")
+  finds none among the newer methods.
+  - At subset level, TWILIGHT, FAMSA and Clustal Omega are much worse than L-INS-i; MUSCLE5 ties at about 12× the
+    cost; G-INS-i ties.
+  - Swapping G-INS-i into MAGUS moves it by noise (−0.06 points over 5 replicates).
+  - The only method published to beat L-INS-i at this size is BAli-Phy (Gupta et al. 2021), at hours per subset. Its
+    PASTA analogue was published in 2016.
+  - A nucleotide-only project would most likely report a negative result.
+- **Proteins: a strong, cheap lead.**
+  - On subsets, Clustal Omega and MUSCLE5 only tie L-INS-i.
+  - But using Clustal Omega for MAGUS's **backbones** cut MAGUS's error on BAliBASE by 1.9 points on average (5/5
+    sets, up to 3.0). This beats published MAGUS and PASTA on 4 of the 5 sets, and the backbones get cheaper.
+  - The gain is in precision (SPFP), not in a more accurate backbone. That points to an interesting mechanism: what
+    makes a good *evidence* alignment for GCM is not what makes a good final alignment.
+- **Suggested 4-week project:** "Base methods for MAGUS on proteins: which aligner should build the backbones and the
+  subsets?"
+  - Base aligners: Clustal Omega, MUSCLE5 (`-perturb` ensembles), FAMSA, MAFFT G-INS-i and FFT-NS-2; learnMSA2 if a
+    GPU is available.
+  - Data: all 8 BAliBASE sets × several MAGUS seeds, plus HomFam, where MAGUS's protein claims were made.
+  - Measure: SPFN, SPFP, the MWT-AM score and runtime, and test whether the effect holds at 1k–10k sequences.
+  - The harness exists: `code/merge_pilot.py` takes about 1 min per replicate with cached decompositions;
+    `--backbones tool` and `--subsets cached` isolate each component.
+  - Week 1 would confirm or kill the effect: more seeds, all BAliBASE sets, and nucleotide controls.
+- **Other ideas found along the way:**
+  - (a) "Why do fast aligners collapse on high-rate simulated DNA?" The true-tree diagnostic shows the guide tree
+    explains about half of FAMSA's gap and most of TWILIGHT's.
   - (b) The merge-step ideas in `../literature/sota_review.md`, unaffected by these findings.
 
 ## 6. Risks and caveats
@@ -274,6 +314,11 @@ for proteins.**
 - **MUSCLE5** was tested only at subset level and on small BAliBASE sets, because it is too slow on 1000 long
   nucleotide sequences on 4 cores.
 - **Subset choice.** magus40 subsets are only 2 of 25 per replicate. The merge pilot realigns all 25.
+- **The protein backbone result rests on 5 BAliBASE sets with one MAGUS decomposition and backbone draw each.**
+  - The other 3 sets have no cached MAGUS run.
+  - It could be BAliBASE-specific: the RV100 sets are small, 195–732 sequences, so 200-sequence backbones cover much
+    of the data.
+  - It was not tested with MUSCLE5 backbones, which were too slow here, or at HomFam scale.
 - **Merge-pilot bug, found and fixed.** MAFFT writes DNA in lower case and GCM matches letters case-sensitively. The
   first nucleotide merges (about 50% error) were discarded and rerun after upper-casing.
 - **learnMSA2, Super5 and regressive T-Coffee** were not evaluated.

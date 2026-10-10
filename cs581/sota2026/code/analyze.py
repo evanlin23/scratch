@@ -228,6 +228,8 @@ def merge_pilot():
     for r in rows:
         if r["backbones"] == "tool":
             r["tool"] += " (subsets+backbones)"
+        elif r["backbones"] == "tool-only":
+            r["tool"] += " (backbones only)"
     ctl = {r["rep"]: r for r in rows if r["tool"] == "cached-linsi"}
     out = ["## MAGUS with a different base method (merge pilot)\n",
            "Same MAGUS decomposition (25 subsets) and the same 10 MAFFT L-INS-i backbones as MAGUS's own run; "
