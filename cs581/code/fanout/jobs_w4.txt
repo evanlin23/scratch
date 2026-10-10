@@ -1,5 +1,5 @@
 1000M2_R0 /opt/data/Datasets/ROSE/1000M2/R0/rose.aln.true.fasta 25
 RNASim_R0 /opt/data/Datasets/RNASim/1000/R0/true_align.txt 25
-BBA0134_R0 cs581/data/balibase_clean/RV100_BBA0134.fasta 25
 1000L3_R1 /opt/data/Datasets/ROSE/1000L3/R1/rose.aln.true.fasta 25
 1000S3_R1 /opt/data/Datasets/ROSE/1000S3/R1/rose.aln.true.fasta 25
+BBA0134_R0 cs581/data/balibase_clean/RV100_BBA0134.fasta 25 default,slow,slow-soft-m3,self-soft-m3

@@ -24,7 +24,7 @@ OUT=$OUTDIR/$(basename "$BRANCH").jsonl
 WORK=/opt/runs/consensus
 mkdir -p "$OUTDIR" "$WORK"
 cd "$REPO/cs581/code"
-GIT() { git -C "$REPO" -c user.name="Claude" -c user.email="noreply@anthropic.com" "$@"; }
+GIT() { git -C "$REPO" -c user.name="Evan Lin" -c user.email="113861384+evanlin23@users.noreply.github.com" "$@"; }
 
 pkill -f "gcmx\.(consensus_eval|run_magus)" 2>/dev/null
 pkill -x mcl 2>/dev/null
