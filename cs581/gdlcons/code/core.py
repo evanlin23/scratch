@@ -72,6 +72,9 @@ def apply_error(model, par, rt, tags, sp_index, rng):
     flip      true root, every internal tag flipped independently w.p. q
     d2s       true root, every true D relabelled S w.p. q
     s2d       true root, every true S relabelled D w.p. q
+    d2sv      true root, every hidden paralog (true D, species-disjoint children) labelled S w.p. q
+    flipv     d2sv plus every true S relabelled D w.p. q (only tag patterns ASTRAL-Pro could produce)
+    rsp-X     w.p. p root on the leaf edge of a random copy of species X, then overlap tags
     """
     if model == "true":
         return rt, tags
@@ -92,6 +95,21 @@ def apply_error(model, par, rt, tags, sp_index, rng):
             nr = M._build_rooted(rt, nb, v, nb[v][0])
             return nr, overlap_tags(nr, sp_index)
         return rt, tags
+    if model in ("d2sv", "flipv"):
+        # 'valid' errors: a node may be labelled S only if its children's species sets are
+        # disjoint (ASTRAL-Pro Def. 1), so D->S errors hit only hidden paralogs
+        ov = overlap_tags(rt, sp_index)
+        nt = list(tags)
+        for v in range(len(nt)):
+            if not rt.children[v]:
+                continue
+            if nt[v] and not ov[v]:
+                if rng.random() < par:
+                    nt[v] = False
+            elif not nt[v] and model == "flipv":
+                if rng.random() < par:
+                    nt[v] = True
+        return rt, nt
     if model in ("flip", "d2s", "s2d"):
         nt = list(tags)
         for v in range(len(nt)):
