@@ -66,9 +66,8 @@ TOOLS = {
     "linsi-op2": ["MAFFT"] + LINSI + ["--op", "2.0"],
     "linsi-op3": ["MAFFT"] + LINSI + ["--op", "3.0"],
     "linsi-op4": ["MAFFT"] + LINSI + ["--op", "4.0"],
-    "linsi-ul4": ["MAFFT"] + LINSI + ["--unalignlevel", "0.4"],
-    "linsi-ul8": ["MAFFT"] + LINSI + ["--unalignlevel", "0.8"],
-    "linsi-ul4-lexp": ["MAFFT"] + LINSI + ["--unalignlevel", "0.4", "--leavegappyregion"],
+    "ginsi-ul4": ["MAFFT", "--globalpair", "--maxiterate", "1000", "--unalignlevel", "0.4", "--quiet", "--thread", str(THREADS), "--anysymbol"],
+    "ginsi-ul8": ["MAFFT", "--globalpair", "--maxiterate", "1000", "--unalignlevel", "0.8", "--quiet", "--thread", str(THREADS), "--anysymbol"],
     "fftns2-op3": ["MAFFT", "--retree", "2", "--maxiterate", "0", "--op", "3.0", "--quiet", "--thread", str(THREADS),
                    "--anysymbol"],
 }
