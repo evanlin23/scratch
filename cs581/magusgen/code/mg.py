@@ -117,7 +117,7 @@ def self_soft(rep, name):
     ev_wall = round(prep + sh([sys.executable, "-m", "gcmx.extend", bb, unaligned(rep), ev, "--jobs", T],
                               os.path.join(vd, "extend.log")), 1)
     if kind == "ssu":
-        files, _, _ = gg.files_of(rep, base)
+        files = gg.files_of(rep, base)[0]
         for lab, a in files:
             fasta.write(a, os.path.join(ev, "base_" + lab + ".txt"))
     out = os.path.join(vd, "out.fasta")
@@ -143,6 +143,12 @@ def drop(rep, name):
 
 
 def run(rep, names):
+    # one lane per replicate here: locks left by an interrupted run (gg.run) are stale
+    vdir = os.path.join(rep, "variants")
+    if os.path.isdir(vdir):
+        for f in os.listdir(vdir):
+            if f.endswith(".lock"):
+                os.remove(os.path.join(vdir, f))
     for name in names:
         if name in results(rep):
             continue

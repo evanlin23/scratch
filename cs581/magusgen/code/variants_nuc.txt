@@ -7,3 +7,5 @@ ss:linsi
 ss:soft0.5:linsi&fftns2-op3
 soft0.2:linsi&fftns2-op3
 ss:soft0.2:linsi&fftns2-op3
+wsoft0.03:linsi&fftns2
+ss:wsoft0.03:linsi&fftns2
