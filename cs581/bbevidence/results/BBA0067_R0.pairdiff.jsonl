@@ -1,0 +1,1 @@
+{"rep": "BBA0067_R0", "A": "linsi", "B": "clustalo", "agreement": 0.7072, "prec_shared": 0.9011, "prec_a_only": 0.2909, "prec_b_only": 0.1428, "frac_a_only": 0.2928, "frac_b_only": 0.2195, "a_only_fp_share_gappy": 0.5681, "b_only_fp_share_gappy": 0.4686, "a_only_share_gappy": 0.4223, "b_only_share_gappy": 0.4143, "n_a": 70602547, "n_b": 63972766}

@@ -9,10 +9,12 @@ REP_DIR holds inputs/subalignments (25 L-INS-i subset alignments) and inputs/bac
 
   linsi            control: MAGUS's own backbones (must reproduce MAGUS's cached result)
   T                10 backbones realigned by tool T on MAGUS's own sequence sets (T in TOOLS)
+  T@h              T on MAGUS's backbone sets 1-5 only (cheap screening; compare with linsi~5)
   T@sK             10 backbones by T on new random sequence sets (seed K, 8 per subset)
   T@nN             N backbones by T: MAGUS's 10 sets, then new sets (seeds 1, 2, ...)
   A+B              union of the evidence of variants A and B (e.g. linsi+clustalo)
-  A~5              first 5 backbones of A only
+  A&B              per backbone, only the residue pairs both A and B align (pair intersection)
+  A~5              first 5 backbones of A only (A^5: last 5)
   A|gapT           A with columns of gap fraction > T masked (made insertion columns)
   A|consT          A with columns whose pairs agree with < T of the other backbones masked
 Aligned backbones are cached per (tool, sequence set) in REP_DIR/aligned/<tool>/, with their time.
@@ -118,43 +120,53 @@ def new_sets(rep, seed, n=10, per_subset=8):
     return d
 
 
-def align_set(rep, tool, seed):
-    """Align the 10 sequence sets of seed with tool, 4 at a time (as MAGUS schedules its backbone
-    tasks); cached. Returns (dir, wall seconds, summed per-backbone seconds)."""
+def align_set(rep, tool, seed, only=None):
+    """Align the sequence sets of seed with tool, 4 at a time (as MAGUS schedules its backbone
+    tasks); cached per file. only = backbone numbers to align (default all 10). Returns (dir,
+    wall seconds of the batch that aligned them (None if cached piecemeal), summed per-file seconds)."""
     out = os.path.join(rep, "aligned", tool, "s{}".format(seed))
     meta = os.path.join(rep, "aligned", tool, "s{}.json".format(seed))
-    if os.path.exists(meta):
-        m = json.load(open(meta))
-        return out, m["wall"], m["sum"]
-    if tool == "linsi" and seed == 0:
-        return out, None, None
-    src = os.path.join(rep, "sets", "s{}".format(seed)) if seed else os.path.join(rep, "sets", "s0")
+    times_path = os.path.join(rep, "aligned", tool, "s{}.times.json".format(seed))
+    src = os.path.join(rep, "sets", "s{}".format(seed))
     if seed and not os.path.isdir(src):
         new_sets(rep, seed)
+    files = sorted((f for f in os.listdir(src) if f.endswith(".fa")), key=lambda f: int(f.split("_")[1][:-3]))
+    if only:
+        files = [f for f in files if int(f.split("_")[1][:-3]) in only]
+    if tool == "linsi" and seed == 0:
+        return out, None, None
+    if os.path.exists(meta) and not only:
+        m = json.load(open(meta))
+        return out, m["wall"], m["sum"]
+    times = json.load(open(times_path)) if os.path.exists(times_path) else {}
+    todo = [f for f in files if not os.path.exists(os.path.join(out, f))]
     os.makedirs(out, exist_ok=True)
-    files = sorted(f for f in os.listdir(src) if f.endswith(".fa"))
 
     def one(f):
         argv = [mafft_bin() if a == "MAFFT" else a for a in TOOLS[tool]]
         dst = os.path.join(out, f)
         start = time.time()
         if tool == "famsa":
-            subprocess.run(argv + [os.path.join(src, f), dst], check=True, capture_output=True)
+            subprocess.run(argv + [os.path.join(src, f), dst + ".tmp"], check=True, capture_output=True)
         elif tool.startswith("muscle"):
-            subprocess.run(argv + [os.path.join(src, f), "-output", dst], check=True, capture_output=True)
+            subprocess.run(argv + [os.path.join(src, f), "-output", dst + ".tmp"], check=True, capture_output=True)
         else:
             with open(dst + ".tmp", "w") as o:
                 subprocess.run(argv + [os.path.join(src, f)], stdout=o, stderr=subprocess.DEVNULL, check=True)
-            os.replace(dst + ".tmp", dst)
-        fasta.write(fasta.upper(fasta.read(dst)), dst)
-        return time.time() - start
+        fasta.write(fasta.upper(fasta.read(dst + ".tmp")), dst)
+        os.remove(dst + ".tmp")
+        return f, round(time.time() - start, 1)
 
     start = time.time()
     with concurrent.futures.ThreadPoolExecutor(max_workers=THREADS) as pool:
-        per = list(pool.map(one, files))
-    m = {"wall": round(time.time() - start, 1), "sum": round(sum(per), 1)}
-    json.dump(m, open(meta, "w"))
-    return out, m["wall"], m["sum"]
+        for f, s in pool.map(one, todo):
+            times[f] = s
+    wall = round(time.time() - start, 1) if len(todo) == len(files) else None
+    json.dump(times, open(times_path, "w"))
+    total = round(sum(times.get(f, 0) for f in files), 1)
+    if not only:
+        json.dump({"wall": wall, "sum": total}, open(meta, "w"))
+    return out, wall, total
 
 
 # ---------------------------------------------------------------- masking
@@ -193,9 +205,9 @@ def consistency_mask(alns, t):
         taxa = list(a)
         L = len(a[taxa[0]])
         col_res = [[] for _ in range(L)]
-        for t in taxa:
-            for k, c in enumerate(rcs[bi][t]):
-                col_res[c].append((t, k))
+        for x in taxa:
+            for k, c in enumerate(rcs[bi][x]):
+                col_res[c].append((x, k))
         bad = []
         for c in range(L):
             res = col_res[c]
@@ -215,6 +227,26 @@ def consistency_mask(alns, t):
                 bad.append(c)
         masks.append(bad)
     return masks
+
+
+def intersect(alns):
+    """Alignment whose aligned pairs are exactly the pairs every input alignment aligns (all on the
+    same sequences): each column of the first alignment split by the others' columns. Sub-columns
+    are ordered lexicographically by (col in aln 1, col in aln 2, ...), which every sequence respects."""
+    rcs = [residue_columns(a) for a in alns]
+    taxa = list(alns[0])
+    keys = {t: list(zip(*[rc[t] for rc in rcs])) for t in taxa}
+    allk = sorted(set(k for t in taxa for k in keys[t]))
+    idx = {k: i for i, k in enumerate(allk)}
+    L = len(allk)
+    unal = fasta.ungap(alns[0])
+    out = {}
+    for t in taxa:
+        row = ["-"] * L
+        for c, k in zip(unal[t], keys[t]):
+            row[idx[k]] = c
+        out[t] = "".join(row)
+    return out
 
 
 def agreement_mask(a, o, t):
@@ -258,6 +290,13 @@ def parse_variant(rep, name):
         else:
             raise SystemExit("unknown mask " + how)
         return [(lab, mask_columns(a, m)) for (lab, a), m in zip(files, masks)], wall, tot
+    if "&" in name:  # pair intersection of the same sequence sets aligned by several tools
+        parts = name.split("&")
+        got = [parse_variant(rep, p) for p in parts]
+        out = []
+        for i, (lab, a) in enumerate(got[0][0]):
+            out.append((lab, intersect([a] + [g[0][i][1] for g in got[1:]])))
+        return out, sum(g[1] or 0 for g in got), sum(g[2] or 0 for g in got)
     if "+" in name:
         out, wall, tot = [], 0, 0
         for part in name.split("+"):
@@ -275,8 +314,10 @@ def parse_variant(rep, name):
         f, w, s = parse_variant(rep, base)
         k = int(k)
         return f[:k], (w or 0) * k / len(f), (s or 0) * k / len(f)
-    tool, seeds = name, [0]
-    if "@s" in name:
+    tool, seeds, only = name, [0], None
+    if name.endswith("@h"):
+        tool, only = name[:-2], [1, 2, 3, 4, 5]
+    elif "@s" in name:
         tool, s = name.split("@s")
         seeds = [int(s)]
     elif "@n" in name:
@@ -284,16 +325,16 @@ def parse_variant(rep, name):
         seeds = list(range(int(n) // 10))
     out, wall, tot = [], 0, 0
     for seed in seeds:
-        d, w, s = align_set(rep, tool, seed)
+        d, w, s = align_set(rep, tool, seed, only)
         wall, tot = wall + (w or 0), tot + (s or 0)
         for f in sorted(os.listdir(d), key=lambda f: int(f.split("_")[1].split(".")[0])):
-            if f.endswith(".fa"):
+            if f.endswith(".fa") and (not only or int(f.split("_")[1][:-3]) in only):
                 out.append(("s{}_{}".format(seed, f[:-3]), fasta.read(os.path.join(d, f))))
     return out, wall, tot
 
 
 def safe(name):
-    return name.replace("|", "_m_").replace("+", "_p_").replace("~", "_k_").replace("^", "_l_")
+    return name.replace("&", "_i_").replace("|", "_m_").replace("+", "_p_").replace("~", "_k_").replace("^", "_l_")
 
 
 def merge(rep, name, files):
