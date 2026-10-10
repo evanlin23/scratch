@@ -20,15 +20,17 @@
 | bd2000 | dc:astral3:100:astral3 | 5 | 10.02 | 10.14 | 9.93 | 37.6 | 120 |
 | bd2000 | dc:scs:100:astral3 | 5 | 7.42 | 7.54 | 7.31 | 42.8 | 120 |
 | bd2000 | dc:scs:500:astral3 | 5 | 8.01 | 8.05 | 7.98 | 61.0 | 471 |
+| bd2000 | dc:true:100:astral3 | 5 | 6.17 | 6.33 | 6.04 | 16.3 | 121 |
 | bd5000 | scs | 5 | 3.39 | 3.68 | 3.11 | 29.2 | 728 |
 | bd5000 | dc:scs:100:astral3 | 5 | 7.85 | 7.96 | 7.76 | 58.2 | 121 |
 | bd5000 | dc:scs:500:astral3 | 5 | 8.12 | 8.14 | 8.11 | 69.3 | 476 |
+| bd10000 | astral4 | 1 | 29.19 | 29.19 | 29.19 | 1595.7 | 92 |
 | bd10000 | mrlft | 1 | 8.03 | 8.03 | 8.03 | 1033.1 | 1315 |
 | bd10000 | scs | 3 | 3.84 | 4.19 | 3.51 | 64.6 | 1256 |
 | bd10000 | dc:mrlft:100:astral3 | 1 | 11.06 | 11.10 | 11.03 | 122.8 | 122 |
 | bd10000 | dc:mrlft:500:astral3 | 1 | 9.52 | 9.53 | 9.51 | 155.2 | 517 |
 | bd10000 | dc:scs:100:astral3 | 3 | 8.15 | 8.25 | 8.07 | 112.0 | 122 |
-| bd10000 | dc:scs:500:astral3 | 2 | 8.47 | 8.48 | 8.46 | 158.1 | 521 |
+| bd10000 | dc:scs:500:astral3 | 3 | 8.32 | 8.33 | 8.31 | 133.5 | 502 |
 
 ### Paired comparisons (RF %, new - baseline; negative = new is better). W/T/L = new wins/ties/losses, tie band |diff| <= 0.25 pp; two-sided Wilcoxon signed-rank
 
@@ -61,10 +63,11 @@
 | bd5000 | dc:scs:100:astral3 | scs | 5 | +4.47 | 0/0/5 | 0.062 |
 | bd5000 | dc:scs:500:astral3 | scs | 5 | +4.73 | 0/0/5 | 0.062 |
 | bd10000 | dc:scs:100:astral3 | scs | 3 | +4.31 | 0/0/3 | 0.25 |
+| bd10000 | dc:scs:500:astral3 | scs | 3 | +4.48 | 0/0/3 | 0.25 |
 | ALL | dc:astral3:100:astral3 | astral3 | 15 | +2.60 | 0/0/15 | 0.00065 |
 | ALL | mrlft | astral3 | 15 | +0.48 | 7/1/7 | 0.52 |
 | ALL | dc:scs:100:astral3 | scs | 23 | +4.42 | 0/0/23 | 2.4e-07 |
-| ALL | dc:scs:500:astral3 | scs | 22 | +4.66 | 0/0/22 | 4.8e-07 |
+| ALL | dc:scs:500:astral3 | scs | 23 | +4.65 | 0/0/23 | 2.4e-07 |
 | ALL | dc:scs:100:astral3 | astral3 | 15 | +0.02 | 5/2/8 | 0.85 |
 | ALL | dc:scs:500:astral3 | astral3 | 15 | +0.25 | 3/9/3 | 0.58 |
 | ALL | scs | astral3 | 15 | -4.40 | 15/0/0 | 6.1e-05 |

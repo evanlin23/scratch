@@ -31,7 +31,7 @@ def method_fn(name, src, wd):
     elif name.startswith("dc"):
         # dc:<guide>:<maxsize>:<subset method>   guide is another method's output in wd
         _, guide, ms, sm = name.split(":")
-        gpath = os.path.join(wd, guide + ".tre")
+        gpath = os.path.join(wd, guide.replace("+", ":") + ".tre")  # '+' lets a dc output be a guide
         if not os.path.exists(gpath):
             raise RuntimeError("guide missing: " + gpath)
         info = M.dc_gtm(src, gpath, out, os.path.join(wd, name.replace(":", "_")), max_size=int(ms),
@@ -48,6 +48,10 @@ def do_case(args):
     wd = os.path.join(RUNS, tag, case)
     os.makedirs(wd, exist_ok=True)
     true = read_trees(true_path)[0]
+    tp = os.path.join(wd, "true.tre")  # oracle guide for dc:true:* diagnostics
+    if not os.path.exists(tp):
+        import shutil
+        shutil.copy(true_path, tp)
     rows = []
     for name in meths:
         try:
