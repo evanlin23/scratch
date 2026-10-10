@@ -63,10 +63,9 @@ def evaluate(ds, trees, sub='eval'):
     txt = open(f'{d}/ev.iqtree').read()
     sec = txt[txt.find('USER TREES'):]
     for l in sec.split('\n'):
-        m = re.match(r'\s*(\d+)\s+(-?[\d.]+)\s+([\d.]+)\s+(.*)', l)
-        if m:
-            toks = m.group(4).replace('+', ' ').replace('-', ' ').split()
-            au[int(m.group(1)) - 1] = float(toks[-1]) if toks else None
+        t = l.split()   # idx logL deltaL bp + pKH + pSH + cELW + pAU +
+        if len(t) == 13 and t[0].isdigit():
+            au[int(t[0]) - 1] = float(t[11])
     return L, au
 
 def kh_better(sl_new, sl_ref, alpha, eps=0.0):

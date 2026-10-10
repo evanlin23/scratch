@@ -21,14 +21,14 @@ for f in alns:
     M, _ = models(f)
     if b(f) in ('rg42163_n94', 'rg51878_n319', 'rg6754_n258', 'rg21213_n117', 'emp16S_16S3_1_n150', 'empAA_RV100_BBA0117_n200'):
         Q.append((b(f), 'iqnstop20', f'{IQ} -s {f} -m {M} -T 1 -seed 1 -nstop 20 -pre {W}/{b(f)}/iqnstop20 -redo --quiet'))
+for f in sorted(alns, key=lambda f: (not b(f).startswith('emp16S'), b(f))):
+    M, _ = models(f)
+    Q.append((b(f), 'iqdef2', f'{IQ} -s {f} -m {M} -T 1 -seed 2 -pre {W}/{b(f)}/iqdef2 -redo --quiet'))
+
 for f in alns:
     M, MR = models(f)
     if b(f).startswith('empAA'): continue
     Q.append((b(f), 'rxclassic1', f'{RX} --search --tree pars{{1}} --opt-topology classic --msa {f} --model {MR} --threads 1 --seed 1 --prefix {W}/{b(f)}/rxclassic1 --redo --log PROGRESS'))
-for f in alns:
-    M, _ = models(f)
-    Q.append((b(f), 'iqdef2', f'{IQ} -s {f} -m {M} -T 1 -seed 2 -pre {W}/{b(f)}/iqdef2 -redo --quiet'))
-
 def busy():
     out = subprocess.run(['pgrep', '-f', r'^(/opt/work/bin/iqtree3 -s|/opt/mm/root/envs/bio/bin/raxml-ng --)'], capture_output=True, text=True).stdout
     return len(out.split())
