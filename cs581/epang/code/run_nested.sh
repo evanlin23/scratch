@@ -9,7 +9,7 @@ EPA=${EPA_BIN:-$P/epa-ng}
 flags() {
   case $1 in
     auto) echo "";; rs_on) echo "--rate-scalers on";; rs_off) echo "--rate-scalers off";;
-    noheur) echo "--no-heur";; baseball) echo "--baseball-heur";;
+    noheur) echo "--no-heur";; baseball) echo "--baseball-heur";; nopremask) echo "--no-pre-mask";;
     noheur_rsoff) echo "--no-heur --rate-scalers off";; reest) echo "";;
     fix_rson) echo "--rate-scalers on";; fix*) echo "";;
   esac
