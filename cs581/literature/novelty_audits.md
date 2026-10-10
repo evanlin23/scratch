@@ -64,3 +64,35 @@ unqualified "6-14 points" (two of three conditions used exact subset trees).
 
 Search gaps: Google Scholar cited-by (used Semantic Scholar: 10 papers cite GTM, OpenAlex says 12); Park 2021
 and Smirnov 2021 thesis full texts (403); RECOMB-CG/WABI/ISMB 2025-26 not searched systematically.
+
+## Soft-constraint MAGUS (main track) - PARTIALLY KNOWN
+
+MAGUS's own code (magus-msa 0.2.0; commit 2021-01-08 "Added -c flag") has `-c false`: every sequence becomes
+its own group and the subset alignments are appended as backbones, i.e. our m = subset size. README: "drastically"
+slower, "strongly not recommended above 200 sequences". No paper evaluates it. `--graphbuildmethod initial` is a
+precedent for self-derived evidence (and has the skeleton bug we found).
+
+Closest prior work:
+- Smirnov & Warnow 2021, MAGUS, Bioinformatics 37:1666, doi:10.1093/bioinformatics/btaa992: subsets are absolute constraints.
+- Zaharias, Smirnov & Warnow 2022, MWT-AM, TCBB, doi:10.1109/TCBB.2022.3191848: GCM variants (FM, MWTgreedy/search,
+  optimizer), all with hard constraints (our fm+opt row).
+- Smirnov 2021, Recursive MAGUS, PLoS Comput Biol 17:e1008950, doi:10.1371/journal.pcbi.1008950: hard constraints.
+- Opal (Wheeler & Kececioglu 2007, doi:10.1093/bioinformatics/btm226) and MUSCLE (Edgar 2004, doi:10.1186/1471-2105-5-113):
+  split-and-realign refinement (conceptual precedent).
+- M-Coffee (Wallace et al. 2006, doi:10.1093/nar/gkl091): alignments as soft consistency evidence.
+- Ian Chen, CS581 Sp2025 "Exploring the Effect of Iteration on MAGUS" (tandy.cs.illinois.edu/ian-may6.pdf): PASTA-style
+  re-decomposition; no constraint relaxation, no self-evidence.
+- No overlap (fixed constraints/backbones): EMMA, WITCH, WITCH-NG, HMMerge, MAGUS+eHMMs, UPP2, TWILIGHT 2025, FAMSA2, MuSAlS.
+
+Still novel: partial relaxation via similarity groups (tractable, ~9% extra runtime); self-derived evidence (MAGUS
+output -> 8 seqs/subset -> HMM-extended -> soft re-merge); first controlled held-out evaluation of relaxing GCM
+constraints (random-split control and oracle decomposition support the mechanism).
+
+Safe phrasing: "MAGUS's software includes an unconstrained mode (-c false) described as impractical beyond ~200
+sequences; to our knowledge no published study evaluates it or any partial relaxation. We propose partial relaxation
+by splitting each subset alignment into similarity groups, combined with evidence derived from MAGUS's own output,
+connecting GCM to classical split-and-realign refinement (MUSCLE, Opal)." Avoid "first to relax GCM constraints".
+TODO if chosen: run `-c false` as a baseline on the 1000-sequence conditions.
+
+Search gaps: Google Scholar cited-by (Semantic Scholar: 75 cite MAGUS, 13 Recursive MAGUS, 4 MWT-AM); MAGUS_CP repo (503);
+WABI/RECOMB-CG 2026 abstracts; other universities' course projects.
