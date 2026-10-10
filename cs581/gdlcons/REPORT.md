@@ -17,9 +17,9 @@ In (c), the stock software puts the root inside the high-turnover C lineage in 4
 **Exact theory.** For (a) and for random hidden-paralog mislabelling `d2sv(q)` I derived the limiting ASTRAL-Pro scores in closed form, as an integral over duplication times with exact birth–death generating functions (`results/theory.md` Section 3).
 - Consistency holds iff O + H_AB > max(H_AC, H_BC), where O counts orthologous classes and the H terms count hidden-paralog classes.
 - Under random mislabelling there is a sharp threshold q* = O / (H_wrong − H_AB).
-- The formula matches ASTRAL-Pro3's own scores within 1 SE:
+- The formula matches ASTRAL-Pro3's own scores within about 1.5 SE:
   - correct − AC|BD = −0.060 ± 0.003 observed vs −0.0555 predicted (cand2, overlap tags);
-  - predicted q* = 0.079, observed sign change between 0.10 and 0.15, with five q values matching.
+  - predicted q* = 0.079, observed sign change between 0.10 and 0.15; the margins at all six q values tested lie within 1.5 SE of the prediction.
 
 **How common, and caveats.**
 - Under the formula, only **12 of 15,434** random rate configurations are inconsistent with correct-root overlap tags. All have very high duplication or turnover on one branch, and one of them is *critical* (λ = μ), so "no supercritical branch" is not sufficient.
@@ -191,6 +191,10 @@ Details: `results/theory.md` Section 4b.
 - Where ASTRAL-Pro3 roots 2,000 families: 868 inside C, 487 on the A or B lineage, and only 304 at the true root split (ABC | D).
 - So min-duplication rooting is pulled toward the high-turnover lineage.
 - In an 8-taxon embedding of cand4, stock ASTRAL-Pro3 is wrong in 4/4 datasets of 5,000 families; true tags and correct-root overlap tags are right in 4/4.
+- **How common?** `code/rootscan.py` drew 56 random rate configurations with feasible copy numbers, all with consistent correct-root overlap tags, at 3,000 families each.
+  - ASTRAL-Pro3's own rooting lowered the margin in 41/56 (median 0.97 vs 1.00) but never made it negative.
+  - The minimum was +0.003, again with a high-turnover C branch (λ = μ = 8).
+  - Side check: the formula's predicted overlap-tag margin matched simulation, with median |difference| < 0.001 and maximum 0.029.
 
 ### 4.3 Naive random flips (outside Def. 1)
 
@@ -271,11 +275,11 @@ All of these are checked numerically; none are written up as formal proofs yet.
 | 3 | **n-taxon and empirical side.** Show inconsistency for n > 4 (the 8-taxon embedding already works empirically). Rerun the atlas on the adversarial region, including estimated gene trees from sequences, to see whether the effect survives gene-tree error. Run under DLCOAL with SimPhy, where tag errors go both ways. |
 | 4 | Write-up. Optional: a "tag-robust" ASTRAL-Pro variant that downweights S-tagged nodes whose children have very unbalanced copy numbers, or uses closest-copy information as STAG does. Test whether it fixes cand2 without hurting generic accuracy. |
 
-**Deliverables either way:** an exact formula, an explicit counterexample in shipped software, a threshold law, and an atlas.
+**Deliverables either way:** an exact formula, explicit counterexamples in shipped software (tagging and rooting), a threshold law, and an atlas.
 
 ## 8. Risks
 
-- **Pathological regime.** The counterexample needs λ ≈ 8 on one branch and heavy loss (0.08% of random configurations). The honest framing: correct tagging is *necessary* for the theorem, and overlap tagging is safe in all but extreme supercritical regimes. Proving the "safe" part is the harder half.
+- **Pathological regime.** The tagging counterexample (cand2) needs λ ≈ 8 on one branch and heavy loss; only 0.08% of random configurations fail with correct-root overlap tags. The rooting counterexample (cand4) uses moderate growth but a high-turnover tip branch (λ = μ = 8 over 0.2). The honest framing: correct rooting and tagging are *necessary* for the theorem, and overlap tagging is safe in all but extreme regimes. Proving the "safe" part is the harder half. In a random scan, min-duplication rooting never flipped a margin (0/56); the failure needs a high-turnover lineage.
 - **Overlap with Parsons et al. 2026.** That preprint studies tagging correctness and ASTRAL-Pro consistency under DLCOAL. If it already contains a hidden-paralogy counterexample under GDL, the novelty shrinks to the exact formula and threshold law. Check first.
 - **ASTRAL-multi near-ties.** On both pools ASTRAL-multi's limiting margin is within ±0.003 of zero (not significant). A reviewer may ask whether Legried et al.'s theorem covers branch-specific rates [M: I believe their model uses uniform rates]. That needs checking, since a failure there would be a separate, larger claim.
 - **Approximations.** The formula covers duplications on one branch only. The general case needs nested patterns (root branch, duplications on several internal branches).
