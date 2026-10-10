@@ -45,9 +45,9 @@ consistent gain:
 **When does it help vs hurt?** The paired effect tracks how much worse Clustal's backbones are than
 L-INS-i's: Spearman rho = 0.79 (p = 1e-5, n = 22) between the backbone error gap (Clustal minus L-INS-i
 backbone (SPFN+SPFP)/2, on the reference sequences the backbones contain) and the final paired difference.
-When Clustal's backbones are about as accurate as L-INS-i's (BAliBASE, 10AA, most HomFam families: gap within
-+-6 points), the swap is roughly neutral and can help a little through SPFP, which is the pilot's mechanism
-(fewer aligned pairs, fewer wrong ones: Clustal backbones give GCM 2-20% fewer residue pairs). When Clustal's
+When Clustal's backbones are about as accurate as L-INS-i's (10AA, RV100, most HomFam families: gap within
+about +-7 points; zf-CCHH, +12.7, is the exception at +0.86 paired), the swap is roughly neutral and can help a little through SPFP, which is the pilot's mechanism
+(fewer aligned pairs, fewer wrong ones: Clustal backbones give GCM 0-22% fewer residue pairs). When Clustal's
 backbones are much worse (simulated indel-rich data: gap +21 to +29 points; PDZ: +7.7), MAGUS gets clearly
 worse. GCM does not "filter" bad evidence: it follows the backbones.
 
@@ -97,7 +97,7 @@ Full tables (including TC, wall-clock and backbone SPFP): `results/tables.md`; r
 | 10AAfull_BBA0067 | 410 | 410 | 25.68 | 25.17 | -0.52 | -0.83 | 1320 | 435 | 28.7 / 28.0 |
 
 `merge-mafft` (the control: GCM merge on MAGUS's own subsets and backbones) reproduced MAGUS's score on all 22
-datasets (identical SPFN/SPFP; BBA0067 differs in the 4th decimal), so the paired difference isolates the
+datasets to within 0.01 error points (identical on 16; largest difference BBA0067, 25.68 vs 25.69), so the paired difference isolates the
 backbone aligner.
 
 ### What was not done
