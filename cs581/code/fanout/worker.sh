@@ -81,8 +81,7 @@ open(sys.argv[3], 'w').writelines(rows)" "$RUNS/pilot/results.jsonl" "$name" "$O
   # cached inputs, so later merge experiments need not rerun MAFFT
   tar -C "$RUNS/$name" -cJf "$OUT/$name/inputs.tar.xz" inputs
   GIT add "cs581/experiments/runs/$name"
-  GIT commit -q -m "fanout: MAGUS (paper settings) + merge variants on $name" \
-    -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+  GIT commit -q -m "fanout: MAGUS (paper settings) + merge variants on $name"
   push
   echo "$(date +%T) done $name"
 done
@@ -101,7 +100,7 @@ rows = [l for l in open(sys.argv[1]) if json.loads(l)['dataset'] == sys.argv[2]]
 open(sys.argv[3], 'w').writelines(rows)" "$RUNS/pilot/results.jsonl" "$name" "$OUT/$name/pilot.jsonl"
   if ! git -C "$REPO" diff --quiet -- "cs581/experiments/runs/$name"; then
     GIT add "cs581/experiments/runs/$name"
-    GIT commit -q -m "fanout: backfill merge variants on $name" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+    GIT commit -q -m "fanout: backfill merge variants on $name"
     push
     echo "$(date +%T) backfilled $name"
   fi

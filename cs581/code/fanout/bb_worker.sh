@@ -42,8 +42,7 @@ for phase in 1 2; do
       python3 -m gcmx.bbtool_bench /tmp/bb_job.txt "$OUT" /opt/runs/bbtool --draws "$draw" --tools "$TOOLS" \
         --e2e clustalo --threads 4 < /dev/null || echo "$(date +%T) FAILED $name draw $draw"
       cp "/opt/runs/bbtool/${name}_d$draw/state.json" "$OUTDIR/${B}_state/${name}_d$draw.json" 2>/dev/null
-      GIT add "$OUTDIR" && GIT commit -q -m "bbtool benchmark: $name draw $draw (phase $phase)" \
-        -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+      GIT add "$OUTDIR" && GIT commit -q -m "bbtool benchmark: $name draw $draw (phase $phase)"
       for i in 1 2 3 4 5; do GIT push -q -u origin "HEAD:$BRANCH" && break; sleep $((2 ** i)); done
     done < "$JOBS"
   done

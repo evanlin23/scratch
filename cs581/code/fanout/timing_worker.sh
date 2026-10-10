@@ -20,7 +20,7 @@ while read -r name rest; do
   grep "^$name " "$JOBS" > /tmp/timing_job.txt
   python3 -m gcmx.timing_bench /tmp/timing_job.txt "$OUT" /opt/runs/timing --threads 4 < /dev/null \
     || echo "$(date +%T) FAILED $name"
-  GIT add "$OUT" && GIT commit -q -m "timing benchmark: $name" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+  GIT add "$OUT" && GIT commit -q -m "timing benchmark: $name"
   for i in 1 2 3 4 5; do GIT push -q -u origin "HEAD:$BRANCH" && break; sleep $((2 ** i)); done
 done < "$JOBS"
 echo "ALL JOBS DONE"

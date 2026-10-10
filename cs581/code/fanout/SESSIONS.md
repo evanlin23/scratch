@@ -101,3 +101,15 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | BBA0154_R0, BBA0190_R0 | claude/cs581-bbtool-4 | session_011WVrS4EKz2bB1BACnFCsv9 |
 | RNASim_R0, 1000M2_R0 (nucleotide control) | claude/cs581-bbtool-5 | session_01TuxaQAE6YiMYWb4HzCi3t7 |
 | 16S.M_R0, 1000L1_R0 (nucleotide control) | claude/cs581-bbtool-6 | session_01UZfnXAvSJ4zJVxqVt8DHJU |
+
+## Overnight exploration (launched 2026-10-10 06:16 UTC onward)
+
+| idea | dir / branch | session |
+|---|---|---|
+| What makes good GCM evidence: mechanism of the Clustal-backbone effect, mixed/more/cheaper backbones, MAFFT-only recipes | cs581/bbevidence, claude/cs581-bbevidence | session_0153wqpgcxzhkqFkK245ZgRF |
+| Does the Clustal-backbone gain generalize: 10AA, HomFam, simulated proteins with tree accuracy | cs581/protbench, claude/cs581-protbench | session_01Bq4K1Uniua56tnkwkaNipt |
+| EPA-ng accuracy drop on > 2,000-leaf placement subtrees (BSCAMPP open problem) | cs581/epang, claude/cs581-epang | session_01M5JKGxByGqhBP4rkmE4AMV |
+| WITCH-lite: faster query alignment for TIPP3 profiling | cs581/witchlite, claude/cs581-witchlite | session_019bGdVUa8cxTYZFxv5vLeYW |
+| Predicted-3Di (ProstT5) protein MSA, and as MAGUS evidence | cs581/prost3di, claude/cs581-prost3di | session_014DeZx1BZSUWuGQZsibVsdX |
+| KH-test early stopping for IQ-TREE 3 | cs581/iqstop, claude/cs581-iqstop | session_018wqFifessu4UYH14WK1CxP |
+| Identifiability and choosing k in phylogenetic distance deconvolution (theory) | cs581/decodiphy, claude/cs581-decodiphy | session_01D8vRCMw44Lw5ADdqt4qm6W |

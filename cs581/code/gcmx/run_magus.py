@@ -21,7 +21,9 @@ from . import fastgraph, progressive, weighting
 # mafft --localpair --maxiterate 1000 --ep 0.123 --quiet --thread N --anysymbol
 BACKBONE_TOOLS = {
     "mafft": None,
-    "clustalo": lambda t: ["clustalo", "--threads", str(t), "--force", "--outfmt", "fa", "-i"],
+    # one thread: MAGUS already runs one backbone task per core, and Clustal Omega's OpenMP threads
+    # make it slower when several run at once (120 x 380 aa backbone: 13.9 s with --threads 4 vs 1.95 s)
+    "clustalo": lambda t: ["clustalo", "--threads", "1", "--force", "--outfmt", "fa", "-i"],
     "mafft-auto": lambda t: ["mafft", "--auto", "--quiet", "--thread", str(t), "--anysymbol"],
     "linsi-noep": lambda t: ["mafft", "--localpair", "--maxiterate", "1000", "--quiet", "--thread", str(t), "--anysymbol"],
     "ginsi": lambda t: ["mafft", "--globalpair", "--maxiterate", "1000", "--quiet", "--thread", str(t), "--anysymbol"],

@@ -48,7 +48,7 @@ for ((i = 0; i < ${#reps[@]}; i += 6)); do
   rm -rf "${WORK:?}"/*
   if [ -f "$OUT" ]; then
     GIT add "$OUT"
-    GIT commit -q -m "consensus test: ${chunk[*]}" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" && push
+    GIT commit -q -m "consensus test: ${chunk[*]}" && push
   fi
 done
 push
