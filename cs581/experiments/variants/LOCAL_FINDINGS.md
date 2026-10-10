@@ -29,4 +29,22 @@ merge spends most of its time in MCL (210 of 292 s single-threaded).
 | ... rounds 2, 3, 4 | 7.39, 7.38, 7.40 (no further gain) |
 | adaptive splitting (tiers / tiers-hard / proportional) with PP-weighted Slow evidence | 7.74-7.99 vs 7.79 uniform m3: no gain |
 | 24 PP-weighted extended backbones + soft m3 / m4 | 7.19 / 7.12 (more backbones = more runtime) |
-| learned edge weights, trained and tested on this replicate (in-sample, optimistic) | 7.79 (same merge time); held-out test across 37 replicates running |
+| learned edge weights, trained and tested on this replicate (in-sample, optimistic) | 7.79 (same merge time) |
+
+## Learned edge weights, held-out test (`gcmx.lw_pilot`, 37 fan-out replicates)
+
+Gradient-boosted regression of the fraction of truly homologous residue pairs per
+alignment-graph edge (13 cheap features of MAGUS's ordinary evidence), trained on
+the ten `*_R0` replicates of the ROSE and RNASim conditions, tested on every other
+finished replicate. Same subsets, backbones, MCL and trace as MAGUS; merge time
+unchanged (~25-55 s).
+
+| held-out set | n | learned - MAGUS (pts) | W/T/L (tie 0.05) | Wilcoxon p |
+|---|---|---|---|---|
+| ROSE + RNASim (same simulators as training) | 22 | -0.08 | 12/8/2 | 0.007 |
+| BAliBASE (proteins, never trained on) | 5 | +0.17 | 1/1/3 | - |
+| all | 28 | -0.03 | 13/10/5 | 0.13 |
+
+In-sample the model cut error by 0.44 points; held out, the gain shrinks to
+0.08 on in-distribution data and turns negative under domain shift. Small,
+consistent, free, but an order of magnitude below soft constraints (-0.7).
