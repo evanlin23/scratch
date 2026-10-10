@@ -38,6 +38,7 @@ Our runs: current MAGUS (commit 39041fc) with the paper's MAGUS(Fast) flags (`--
 | 1000L1_R0 | 8.1 | 7.5 | -0.64 | 8.3 | 31 | 12 |
 | 1000L1_R1 | 5.4 | 5.0 | -0.40 | 9.5 | 29 | 12 |
 | 1000L1_R2 | 4.9 | 5.6 | +0.68 | 6.3 | 24 | 11 |
+| 1000L1_R3 | 9.3 | 9.1 | -0.19 | 9.5 | 34 | 14 |
 | 1000L1_R4 | 5.0 | 5.2 | +0.19 | 6.2 | 28 | 11 |
 | 1000L2_R0 | 3.8 | 4.5 | +0.72 | 6.3 | 25 | 11 |
 | 1000L2_R1 | 1.6 | 1.1 | -0.50 | 1.8 | 22 | 9 |
@@ -45,6 +46,7 @@ Our runs: current MAGUS (commit 39041fc) with the paper's MAGUS(Fast) flags (`--
 | 1000L3_R0 | 12.7 | 11.3 | -1.38 | 15.8 | 29 | 15 |
 | 1000L3_R2 | 8.7 | 9.3 | +0.59 | 14.0 | 5 | 14 |
 | 1000L3_R3 | 8.0 | 7.6 | -0.36 | 12.2 | 29 | 12 |
+| 1000L3_R4 | 15.1 | 14.1 | -0.97 | 26.2 | 35 | 14 |
 | 1000M2_R0 | 8.3 | 8.2 | -0.03 | 13.7 | 25 | 16 |
 | 1000M2_R2 | 9.3 | 10.1 | +0.86 | 12.4 | 22 | 15 |
 | 1000M2_R3 | 8.5 | 7.4 | -1.05 | 13.7 | 25 | 10 |
@@ -65,8 +67,11 @@ Our runs: current MAGUS (commit 39041fc) with the paper's MAGUS(Fast) flags (`--
 | 1000S1_R4 | 8.8 | 8.3 | -0.48 | 18.9 | 22 | 10 |
 | 1000S2_R0 | 3.5 | 4.7 | +1.26 | 5.7 | 17 | 8 |
 | 1000S2_R1 | 4.8 | 6.5 | +1.72 | 12.1 | 21 | 9 |
+| 1000S2_R2 | 6.1 | 6.3 | +0.17 | 11.1 | 30 | 10 |
+| 1000S2_R3 | 4.6 | 3.6 | -0.95 | 10.6 | 21 | 9 |
 | 1000S2_R4 | 4.0 | 4.1 | +0.13 | 5.5 | 22 | 9 |
 | 1000S3_R0 | 4.5 | 4.5 | -0.01 | 4.9 | 22 | 9 |
+| 1000S3_R2 | 4.5 | 4.6 | +0.02 | 5.2 | 22 | 9 |
 | 1000S3_R3 | 4.9 | 3.6 | -1.35 | 5.0 | 21 | 9 |
 | 16S.M_R0 | 13.1 | 12.9 | -0.19 | 13.0 | 29 | 10 |
 | BBA0039_R0 | 4.5 | 4.7 | +0.15 | 4.3 | 4 | 3 |
@@ -77,7 +82,7 @@ Our runs: current MAGUS (commit 39041fc) with the paper's MAGUS(Fast) flags (`--
 | RNASim_R0 | 9.6 | 9.9 | +0.32 | 10.1 | 15 | 37 |
 | RNASim_R3 | 9.9 | 10.0 | +0.10 | 10.0 | 73 | 43 |
 
-Mean difference ours − published: +0.05 points over 41 replicates (mean |diff| 0.53).
+Mean difference ours − published: +0.00 points over 46 replicates (mean |diff| 0.52).
 
 ## 3. Harness check: merge-only rerun on cached inputs reproduces the full pipeline
 
@@ -86,6 +91,7 @@ Mean difference ours − published: +0.05 points over 41 replicates (mean |diff|
 | 1000L1_R0 | 7.5 | 7.5 | yes |
 | 1000L1_R1 | 5.0 | 5.0 | yes |
 | 1000L1_R2 | 5.6 | 5.6 | yes |
+| 1000L1_R3 | 9.1 | 9.1 | yes |
 | 1000L1_R4 | 5.2 | 5.2 | yes |
 | 1000L2_R0 | 4.5 | 4.5 | yes |
 | 1000L2_R1 | 1.1 | 1.1 | yes |
@@ -93,6 +99,7 @@ Mean difference ours − published: +0.05 points over 41 replicates (mean |diff|
 | 1000L3_R0 | 11.3 | 11.3 | NO |
 | 1000L3_R2 | 9.3 | 9.3 | yes |
 | 1000L3_R3 | 7.6 | 7.6 | yes |
+| 1000L3_R4 | 14.1 | 14.1 | yes |
 | 1000M2_R0 | 8.2 | 8.2 | yes |
 | 1000M2_R2 | 10.1 | 10.1 | yes |
 | 1000M2_R3 | 7.4 | 7.4 | yes |
@@ -113,8 +120,11 @@ Mean difference ours − published: +0.05 points over 41 replicates (mean |diff|
 | 1000S1_R4 | 8.3 | 8.3 | yes |
 | 1000S2_R0 | 4.7 | 4.7 | yes |
 | 1000S2_R1 | 6.5 | 6.5 | yes |
+| 1000S2_R2 | 6.3 | 6.3 | yes |
+| 1000S2_R3 | 3.6 | 3.6 | yes |
 | 1000S2_R4 | 4.1 | 4.1 | yes |
 | 1000S3_R0 | 4.5 | 4.5 | yes |
+| 1000S3_R2 | 4.6 | 4.6 | yes |
 | 1000S3_R3 | 3.6 | 3.6 | yes |
 | 16S.M_R0 | 12.9 | 12.9 | yes |
 | BBA0039_R0 | 4.7 | 4.7 | yes |
