@@ -66,7 +66,7 @@ def summarize(sub, tie=0.5):
         except Exception: p = float('nan')
         o = dict(method=m, n=len(g), gmean_speedup=float(np.exp(np.log(g['speedup']).mean())),
                  median_speedup=g['speedup'].median(), mean_dlnl=d.mean(), min_dlnl=d.min(),
-                 WTL=f'{w}/{t}/{l}', wilcoxon_p=p, au_plausible=(g['au'] > 0.05).mean(),
+                 WTL=f'{w}/{t}/{l}', wilcoxon_p=p, au_plausible=(g['au'].dropna() > 0.05).mean() if g['au'].notna().any() else float('nan'),
                  mean_nrf_default=g['nrf_default'].mean())
         if 'dfn_true' in g and g['dfn_true'].notna().any():
             dd = g['dfn_true'].values

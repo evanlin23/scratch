@@ -4,6 +4,9 @@ Gains are re-evaluated lnL differences (common model fit, branch lengths re-opti
 
 | group   | phase      |   n |   frac_KH_sig |   median_gain |   mean_gain |
 |:--------|:-----------|----:|--------------:|--------------:|------------:|
+| emp-AA  | 21-100     |  48 |        0      |       1       |       2.87  |
+| emp-AA  | >100       |  30 |        0      |       0.59    |       1.1   |
+| emp-AA  | init(<=20) |  14 |        0      |       8.89    |       9.74  |
 | emp-DNA | 21-100     |  70 |        0      |       2.02    |       4.34  |
 | emp-DNA | >100       |  24 |        0      |       0.864   |       1.39  |
 | emp-DNA | init(<=20) |  34 |        0.0882 |      17.5     |      25.6   |
