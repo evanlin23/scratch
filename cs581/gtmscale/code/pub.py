@@ -15,6 +15,8 @@ from blend import resolve  # noqa: E402
 from pipe import constraint_aln, timed, FT, FTOPT  # noqa: E402
 
 out, cond, rep, guide = sys.argv[1:5]
+if os.path.exists(f"{out}/skip_{cond}"):  # budget: drop a condition without restarting the queue
+    sys.exit(0)
 w = f"{out}/{cond}/{guide}/{rep}"
 os.makedirs(w, exist_ok=True)
 x = inputs(cond, rep, guide)

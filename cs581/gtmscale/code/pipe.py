@@ -189,6 +189,14 @@ def main():
             st.save()
     elif guide == "ftfast":
         run(gk, [FT, "-nt", "-fastest", "-noml", "-quiet", "-nopr", aln], g, stdout_to_out=True)
+    elif guide.endswith("+it"):
+        # iteration: the previous round's Blend-FT tree is the new guide (cost = previous round's total)
+        base = guide[:-3]
+        prev = f"{d}/{base}_m{maxsub}/blendft.tre"
+        if not os.path.exists(g):
+            os.symlink(os.path.relpath(prev, d), g)
+            S[gk] = dict(wall=0.0, mem=float("nan"), rc=0)
+            st.save()
     elif guide == "kmer":
         if gk not in S or not os.path.exists(g):
             t0 = time.time()
