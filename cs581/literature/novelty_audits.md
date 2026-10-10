@@ -232,3 +232,32 @@ Parsons v2 full text; STAG full text; whether Asteroid's theorem covers GDL-indu
 | Soft-constraint MAGUS | PARTIALLY KNOWN | partial relaxation + self-derived evidence; first held-out test | must run MAGUS `-c false` baseline; not "first to relax constraints" |
 | ASTRID/NJst sample complexity | theory OPEN; empirical PARTIALLY KNOWN | k95 vs n, caterpillar vs balanced, Roch's construction | not "Roch's conjecture"; use Roch's worst-case tree |
 | Fragment-aware ML | PARTIALLY KNOWN (method is known practice) | a benchmark only | used true alignment, n = 5; do not call the method new |
+
+## Consistency-filtered GCM evidence (branches claude/cs581-bbevidence, claude/cs581-protcons) - PARTIALLY KNOWN (novel application)
+
+Audit 2026-10-10 (literature only).
+- **(a) Self-consistency mask on MAGUS's backbones:** the score is old (GUIDANCE residue-pair score,
+  doi:10.1093/molbev/msq066; trimAl consistency, doi:10.1093/bioinformatics/btp348; TCS,
+  doi:10.1093/molbev/msu117, which keeps residues scoring > 0.6 for 80.4% specificity / 73.9% sensitivity on
+  BAliBASE/PREFAB). Applying it to prune GCM's alignment-graph evidence: not found.
+- **(b) Two-aligner intersection as GCM evidence:** the multi-aligner idea is M-Coffee's (doi:10.1093/nar/gkl091;
+  also Heads-or-Tails, MergeAlign doi:10.1186/1471-2105-13-117, MSARC doi:10.1186/1748-7188-9-12). Inside GCM:
+  not found. Zaharias, Smirnov & Warnow (TCBB 2022, doi:10.1109/TCBB.2022.3191848) list as future work "explore
+  modifying how GCM defines the weights on the pairs of columns" and other backbone aligners (PROMALS, ProbCons).
+  MAGUS issue #34 (Apr 2025, C. Shen, "we would like to extend MAGUS") may indicate concurrent lab work.
+- **(c) "GCM is precision-limited on proteins":** not stated anywhere and contradicted as a data-type rule (MAGUS on
+  HomFam SPFN 0.222 vs SPFP 0.088, Recursive MAGUS supplement; 16S.3 SP 92.1 vs Modeler 86.5, TCBB Table 3). Only
+  safe as "on BAliBASE RV100, GCM's errors were dominated by SPFP".
+- **MAGUS itself:** edge weight = number of supporting residue pairs; backbones "not constrained to be consistent
+  ... with each other"; MCL is described as extending "the consistency principle ... to longer paths", so a
+  reviewer will ask why an explicit filter is not redundant with MCL. `-b` already accepts external backbones.
+- **Safe:** "To our knowledge, agreement-based filtering has not been applied to GCM's alignment-graph evidence";
+  "we bring GUIDANCE/TCS-style residue-pair reliability into MAGUS's graph-building step".
+- **Avoid:** "first consistency-based ...", "new consistency score", a general protein-vs-nucleotide mechanism,
+  implying filtering helps trees (Tan et al. 2015, doi:10.1093/sysbio/syv033).
+- **Baselines a reviewer will demand:** tuned MAGUS (more/larger backbones, MCL inflation, fm+opt trace); a
+  global edge-support threshold (>= k of 10 backbones); TCS-filtered/weighted backbones; GUIDANCE2-style perturbed
+  backbones; mixed-aligner union (M-Coffee style); M-Coffee/T-Coffee/MergeAlign/MAFFT L-INS-i on the full data
+  (feasible at BAliBASE sizes); SPFN and SPFP separately, with HomFam and CRW; the gate vs MUMSA overlap score,
+  Muscle5 confidence and TCS as reference-free difficulty predictors.
+- **Not accessed:** MAGUS supplement, Smirnov thesis, Illinois Data Bank pages (403), full texts of UPP2/EMMA/WITCH-NG.
