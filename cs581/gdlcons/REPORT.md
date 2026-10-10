@@ -230,7 +230,27 @@ Source: `results/tagging_accuracy.jsonl`, 1,000 families per setting.
 
 Tables: `results/curves_summary.md`. Figure: `results/atlas_curves.png`.
 
-__ATLAS__
+Each cell below is the mean FN rate over 3 replicate species trees. Selected columns; everything is in `results/curves_summary.md`.
+
+| setting | families | ASTRAL-Pro3 | ASTRID-multi | ASTRID-DISCO | ASTRAL-DISCO | FastMulRFS | STAG |
+|---|---|---|---|---|---|---|---|
+| gdl-crit / -high / -adv / -root (16 taxa) | 50 | 0 | 0 | 0 | 0 | 0 | 0 |
+| gdl50-lossy (50 taxa) | 1,000 | 0 | 0.021 | 0 | 0 | 0 | (fails: no family has all species) |
+| dlc-mod | 20,000 | 0 | 0 | 0 | 0 | 0 | 0 |
+| dlc-ils (Ne = 10⁶) | 5,000 / 20,000 | 0.026 / 0.026 | 0.026 / 0 | 0 / 0 | 0.026 / 0.026 | 0.026 / 0 | 0.077 / 0 |
+| dlc-high (dup = loss = 1.5·10⁻⁶) | 5,000 / 20,000* | 0 / 0 | 0.051 / 0.077 | 0.026 / 0 | 0 / 0 | 0 / 0 | 0.128 / 0.077 |
+| dlc-asym (dup 1.5·10⁻⁶ > loss 3·10⁻⁷) | 20,000 | 0 | 0 | 0 | 0 | 0 | 0 |
+| dlc50-ils (50 taxa, 1 rep) | 5,000 | 0 | 0 | 0 | 0 | — | — |
+
+\*Only one replicate at 20,000: SimPhy produced fewer than 20,000 families with ≥ 4 species in replicates 0 and 2 (18,909 and 16,785).
+
+- **Pure GDL with true gene trees is easy for every method.** All 16-taxon settings reach FN = 0 at 50 families, including the sibling's adversarial rates, so there is no plateau.
+- **DLCOAL.** Every remaining error at 20,000 families is a single bipartition on one 3,407-generation internal branch of the replicate-1 species tree (about 0.002 coalescent units in dlc-ils). That is not evidence of inconsistency:
+  - methods take turns failing it (ASTRAL-type in dlc-ils, ASTRID-multi and STAG in dlc-high);
+  - ASTRAL-Pro's quartet margin there at 20,000 families is −1.4%, about the size of the sampling noise.
+- **STAG** is the slowest. It cannot run at all when no family contains every species, which happened in the 50-taxon and high-duplication settings.
+- **Bottom line for question 2 on generic data:** no method shows a plateau. The adversarial pools (5.2) are where they differ.
+
 
 ### 5.2 Adversarial 4-taxon pools
 
@@ -252,7 +272,7 @@ Full tables: `results/counterexample_summary.md`. Figure: `results/counterexampl
 - The DISCO pipelines inherit ASTRAL-Pro's rooting and tagging, so they fail exactly when ASTRAL-Pro does.
 - STAG survives hidden paralogs (closest-copy distances) but fails when a high-turnover lineage dominates (cand4).
 - FastMulRFS fails on cand1. That is consistent with its theorem: duplications above the ABC clade followed by loss create "adversarial" bipartitions there.
-- ASTRID-multi is wrong in 4/4 datasets of 10,000 families on cand1. That is a candidate for the sibling session's open question (is ASTRID-multi consistent under GDL?), but 4 datasets are not a proof; it needs the exact-expectation treatment.
+- ASTRID-multi is wrong in 4/4 datasets of 10,000 families on cand1. But its limiting four-point sums are a near tie: AC|BD is shorter than AB|CD by 0.024 ± 0.016, out of sums of about 19.7, which is 1.5 SE (`code/astrid4.py`, `results/astrid4.log`). So it is a *candidate* for the sibling session's open question (is ASTRID-multi consistent under GDL?), not a demonstration.
 - ASTRAL-multi sits at near ties on cand1 and cand2, so I make no claim either way.
 - All of these use 4-taxon trees with extreme branch-specific rates. They show *how* each method can fail, not that the failures are typical.
 
