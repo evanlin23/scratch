@@ -4,33 +4,32 @@
 
 ## 0. Verdict
 
-**Unclear. The theory is promising; a new accuracy method is not.** The headline numbers:
+**Promising, as a theory-led project. Not promising as a new method that beats ASTRAL-Pro or DISCO.**
 
-1. **Theory (new, small, clean).**
-   - Under pure GDL, with ideal rooting and tagging, the expected *speciation-only ortholog* internode distance is **always a tree metric**.
-   - It has the species-tree topology **if no branch is supercritical** (duplication rate λ_e ≤ loss rate μ_e on every branch). This includes the usual λ = μ simulations.
-   - A 4-taxon example with one supercritical internal branch makes it converge to the **wrong** tree.
-   - The predicted quartet sums match simulation to 3 decimals: AC|BD = AD|BC = 1.149 predicted vs 1.1515 / 1.1508 observed, with 20,000 families. ASTRAL-Pro, ASTRID-multi and ASTRID-DISCO are correct on the same data.
-   - So the obvious "distance correction for GDL" is consistent only under a rate restriction. That is a reportable partial answer to the slide question.
-2. **ASTRID-multi.**
-   - I found **no robust inconsistency**. A random search over 98 rate configurations (4–5 taxa) flagged 8 ASTRID-multi failures at 2,000 families.
-   - The strongest candidate was wrong in 4 of 4 independent 20,000-family samples. With 80,000 families it was correct in 2 of 3 samples, and the wrong quartets changed from sample to sample.
-   - This looks like slow convergence under heavy-tailed copy numbers, not a plateau.
-   - On 30-taxon trees with true gene trees, ASTRID-multi converges **slowest** of all methods. Even so, it reaches zero error by 500 families in every setting, including an adversarial one.
-3. **Empirical accuracy on estimated gene trees.**
-   - *FastMulRFS data* (Molloy & Warnow 2020; 252 held-out runs, ≤ 500 genes):
-     - ASTRID-Pro **ties** ASTRID-multi: mean FN 0.0937 vs 0.0920, W/T/L 90/72/90, p = 0.90.
-     - It is slightly worse than ASTRID-DISCO: +0.0021, p = 0.015.
-     - All ASTRID-type distance methods beat ASTRAL-Pro (0.106, p = 4e-7), FastMulRFS (0.126) and the published ASTRAL-multi (0.163).
-   - *DISCO data* (Willson et al. 2022; higher GDL, 1000 genes): ASTRID-Pro (mean variant) is better than ASTRID-multi and ASTRAL-Pro in the higher-duplication conditions. Section 6.4 has the numbers. This was not pre-registered: the variant chosen on the FastMulRFS dev split was the closest-copy variant, which is not significantly better there.
+1. **Theory (new, clean, verified numerically).**
+   - Under pure GDL, with ideal rooting and tagging and the root counted, the expected *speciation-only ortholog* internode distance is always a tree metric.
+   - It has the species-tree topology **when no branch is supercritical** (λ_e ≤ μ_e on every branch).
+   - With one supercritical internal branch it converges to the **wrong** tree. Predicted vs observed quartet sums: 1.149 vs 1.1515 / 1.1508 (20,000 families).
+   - A **survival-reweighted correction** (ASTRID-Pro-S) removes the bias. Survival probabilities estimated by reconciliation match theory (ŝ = 0.049 vs e⁻³ = 0.0498; 0.695 vs s_yx). The correction recovers the true tree in both failing configurations, given a correct first-pass species tree.
+   - Iterating from its own wrong tree does not escape: the wrong tree is a fixed point.
+2. **ASTRID-multi: no inconsistency found; the evidence leans consistent.**
+   - The best candidate from the 4–5-taxon search was wrong at 20,000 families in 4 of 4 samples.
+   - With **2 million** families (jackknife SE), all five quartet margins are positive: three clearly (z = 5–30) and two weakly (z ≈ 1.1).
+   - On DISCO true gene trees (GDL + ILS), ASTRID-multi converges more slowly than the others: about 1 wrong branch at 1,000 genes. By 10,000 genes, 4 of 5 replicates are error-free.
+   - So ASTRID-multi looks consistent but sample-inefficient under GDL. That is not a proof, and heavy-tailed copy numbers make Monte Carlo a poor tool for settling it.
+3. **Accuracy on estimated gene trees.**
+   - *FastMulRFS data* (252 held-out runs): ASTRID-Pro **ties** ASTRID-multi (p = 0.90) and is slightly behind ASTRID-DISCO. All ASTRID variants beat ASTRAL-Pro (p = 4e-7) and FastMulRFS.
+   - *DISCO data, pre-registered held-out test* (33 runs, `results/PREREG_disco_heldout.md`): ASTRID-Pro **beats ASTRID-multi**, −0.0096 FN rate, 16/12/5, Holm-adjusted p = 0.021. The pre-registered criterion is met.
+     - The gain comes from the high-duplication conditions. In gdl_1e-9_05 the FN rate drops from 0.094 to 0.051.
+     - ASTRID-Pro **ties** ASTRID-DISCO (p = 0.18) and ASTRAL-Pro (p = 0.30).
 
-**What a 4-week project should be.** A theory-plus-simulation study, not a "new method wins" paper:
-- prove the additivity theorem properly;
-- characterise the supercritical counterexample and derive a correction;
-- settle ASTRID-multi with exact expected-distance computation instead of sampling;
-- report the DISCO-data accuracy gains as a secondary result.
+**What a 4-week project should be.** "Distance-based species-tree estimation under GDL: when is it consistent?" Contents:
+- the additivity theorem and the supercritical counterexample;
+- the survival-reweighted correction;
+- ASTRID-multi analysed with exact expectations;
+- empirical confirmation that the orthology-restricted distance fixes ASTRID-multi's high-GDL degradation.
 
-Section 9 has the plan and risks.
+The method is a *better ASTRID-multi*, not a better ASTRAL-Pro. Section 9 has the plan.
 
 ## 1. Question
 
@@ -161,7 +160,17 @@ The published ASTRID(-multi) trees are flagged as buggy in the README and were n
 
   - ASTRAL-Pro and true-tag ASTRID-Pro are correct (`results/margin_candidate1*.jsonl`).
   - Copy numbers in D are geometric with mean about 55, so the per-gene averages are heavy-tailed and the matrix converges very slowly.
-  - **Conclusion: inconclusive.** I could not demonstrate a plateau, and sampling is the wrong tool to decide this. Exact expected distances, via generating functions of the birth–death process, would settle it.
+  - **High-precision follow-up** (`code/hiprec.py`, `results/hiprec_candidate1.md`): 2,000,000 families in 400 batches (2 seeds), limiting matrix with delete-one-batch jackknife SEs. No family exceeded the copy cap, so the model is not truncated.
+
+    | quartet | margin (wrong − true split) | SE | z |
+    |---|---|---|---|
+    | ABCD | +0.355 | 0.012 | +30.5 |
+    | ABCE | +0.498 | 0.093 | +5.4 |
+    | ABDE | +0.616 | 0.050 | +12.3 |
+    | ACDE | +0.119 | 0.100 | +1.2 |
+    | BCDE | +0.106 | 0.098 | +1.1 |
+
+  - **Conclusion.** The 20,000-family "failures" were sampling noise. All limiting margins are positive, so this configuration leans *consistent*, but two quartets are only at about 1 SE. Settling it, and ASTRID-multi in general, needs exact expectations (generating functions of the birth–death process), not sampling.
 
 ### 6.2 Error vs number of families on 30-taxon trees (true gene trees, pure GDL; `results/curve30.md`)
 
@@ -221,11 +230,72 @@ A plausible reading: orthology restriction throws away pairs, which hurts when g
 
 ### 6.4 DISCO data, estimated gene trees from 100 bp (`results/disco_comparison.md`)
 
-__DISCO__
+Ten replicates per condition (`results/disco_comparison.md`, `results/disco_runs.jsonl`). Mean FN rate:
+
+| condition | genes | ASTRID-multi | ASTRID-multi-w | ASTRID-Pro | ASTRID-Pro-min | ASTRID-Pro-w | ASTRID-DISCO | ASTRAL-Pro |
+|---|---|---|---|---|---|---|---|---|
+| default (dup 5e-10, loss/dup 1) | 1000 | 0.054 | 0.050 | 0.051 | 0.050 | 0.051 | **0.047** | 0.051 |
+| gdl_1e-9_1 (dup 1e-9, loss/dup 1) | 1000 | 0.037 | 0.038 | 0.027 | **0.023** | 0.026 | 0.029 | 0.029 |
+| gdl_1e-9_05 (dup 1e-9, loss/dup 0.5) | 100* | 0.089 | 0.086 | 0.046 | 0.063 | 0.044 | **0.042** | 0.051 |
+
+\*Only the first 100 genes, because families average about 1000 leaves and the Python distance code is O(n²) per gene. gdl_1e-9_0 (about 3700 leaves per family) was skipped.
+
+**Pre-registered held-out test** (`results/PREREG_disco_heldout.md`, `results/prereg_heldout.md`). The plan was written after seeing replicates 01–04 only:
+- Set A: replicates 05–10 of the three conditions above.
+- Set B: three conditions never run before (gdl_5e-10_05, ils_1e4, ils_2e8), replicates 01–05, 1000 genes.
+- Primary method: ASTRID-Pro (mean). Holm correction over 3 comparisons.
+
+| set | comparison | mean diff | W/T/L | p | Holm p |
+|---|---|---|---|---|---|
+| A ∪ B (n = 33) | ASTRID-Pro vs ASTRID-multi | −0.0096 | 16/12/5 | 0.007 | **0.021** |
+| | vs ASTRID-DISCO | +0.0040 | 5/13/15 | 0.090 | 0.18 |
+| | vs ASTRAL-Pro | +0.0028 | 8/11/14 | 0.30 | 0.30 |
+| A only (n = 18) | vs ASTRID-multi | −0.0176 | 12/5/1 | 0.007 | 0.020 |
+| B only (n = 15) | vs ASTRID-multi | 0.0000 | 4/7/4 | 0.57 | 0.66 |
+| secondary, A ∪ B | ASTRID-Pro-w vs ASTRID-multi | −0.0118 | 16/15/2 | 0.0015 | – |
+
+**Set B per-condition FN** (ASTRID-multi / ASTRID-Pro / ASTRID-DISCO / ASTRAL-Pro):
+
+| condition | ASTRID-multi | ASTRID-Pro | ASTRID-DISCO | ASTRAL-Pro |
+|---|---|---|---|---|
+| gdl_5e-10_05 | 0.076 | 0.071 | 0.073 | 0.073 |
+| ils_1e4 | 0.027 | 0.031 | 0.027 | 0.022 |
+| ils_2e8 | 0.053 | 0.053 | 0.045 | 0.047 |
+
+**Reading.** The orthology restriction helps where duplication is frequent and gene trees are accurate enough to tag. It does nothing at moderate GDL. ASTRID-DISCO, a different way to use orthology, is at least as good.
 
 ### 6.5 True gene trees with GDL + ILS, DISCO `gtrees_10000_l1` (up to 10,000 genes)
 
-__CURVE__
+DISCO `gtrees_10000_l1`: 100 species, GDL + ILS, true gene trees, 5 replicates. Data: `results/disco_truetree_curve.jsonl` (full runs with ASTRAL-Pro) and `results/disco_truetree_stream.jsonl` (streaming runs, ASTRID methods only, for 10,000 genes).
+
+Number of species-tree errors (FN out of 97) per replicate:
+
+| genes | ASTRID-multi | ASTRID-Pro | ASTRID-DISCO | ASTRAL-Pro |
+|---|---|---|---|---|
+| 100 | 3, 2, 3, 6, 4 | 2, 0, 1, 4, 3 | 1, 1, 2, 3, 1 | 1, 0, 2, 5, 2 |
+| 1000 | 0, 1, 0, 3, 1 | 0, 0, 0, 0, 0 | 0, 0, 0, 0, 0 | 0, 0, 0, 1, 0 |
+| 3000 (streaming; reps 01, 03, 04, 05) | 0, 0, 2, 0 | 0, 0, 1, 0 | – | – |
+| 10000 | 0, 1, 0, 0, 0 | 0, 0, 0, 0, 0 | 0 (rep 02 only) | 0 (rep 02 only) |
+
+ASTRID-multi converges more slowly than the orthology-aware methods. At 10,000 genes it still has one error in replicate 02, but no plateau is evident across replicates.
+
+### 6.6 Survival-reweighted correction (ASTRID-Pro-S; `code/correction.py`, `results/correction_small.jsonl`)
+
+**How it works.**
+- Map gene trees onto a rooted first-pass species tree.
+- For each maximal gene subtree inside clade w, record whether its parent is a speciation node at parent(w). The fraction of "yes" estimates s(sibling of w), the survival probability of the other daughter.
+- Count each visible speciation node on an orthologous path with weight 1/ŝ(off-path clade). The expected distance then becomes the species-tree node count, which is additive.
+
+**Results on true gene trees, 20,000 families, true tags** (FN = species-tree errors):
+
+| configuration | ASTRID-Pro (root counted) | ASTRID-multi | Pro-S, oracle first pass | Pro-S, first pass = ASTRID-multi | Pro-S iterated from its own tree |
+|---|---|---|---|---|---|
+| 4-taxon counterexample (two seeds) | 1, 1 | 0, 0 | **0, 0** | **0, 0** | 1 (stuck) |
+| 5-taxon, supercritical x = (2, 0) | 1 | 0 | **0** | **0** | 1 (stuck) |
+
+The estimated survival probabilities match theory: ŝ(C) = 0.049 vs 0.0498, and ŝ(x) = 0.68–0.70 vs the simulated s_yx = 0.695. Small upward bias for the cherry leaves (0.063 vs 0.050) comes from conditioning families on at least 2 species.
+
+**Honest limit.** The correction needs a first pass that is right where the bias bites. Here ASTRID-multi was already right, so the correction has not yet been shown to add accuracy over its first pass. It was not tried on estimated gene trees.
 
 ## 7. Runtime
 
@@ -246,21 +316,26 @@ The distance step is O(Σ n_g²) in pure Python/numpy. It became the bottleneck 
 - My ASTRID-multi is a re-implementation. The official ASTRID-2 binary would need a bazel/JNI build, which I did not do, and the published FastMulRFS-data ASTRID trees are flagged buggy. So the ASTRID-multi numbers are not validated against the original program.
 - DISCO is re-implemented (repository unreachable). The original decomposition rule may differ in tie handling.
 - I ran ASTRAL-Pro3 (ASTER v1.25), not the 2022 ASTRAL-Pro 2 build. It is the same algorithm family and probably at least as accurate.
-- On the DISCO data, the comparison of the mean variant was not pre-registered (Section 6.4).
+- On the DISCO data, the variant was chosen after seeing replicates 01–04. The held-out test (replicates 05–10 plus three new conditions) was pre-registered, but its runs for set A had already been computed (not inspected) when the plan was written. The ASTRID-Pro variant that wins differs between datasets: closest-copy was picked on the FastMulRFS dev split, the mean variant on DISCO data.
 - The data are SimPhy conditions with modest GDL. On the FastMulRFS data, ASTRAL-type methods are not at their best with only 25–500 short-sequence genes.
 
 ## 9. A 4-week project, and risks
 
 **Plan.**
-- **Week 1.** Write the additivity theorem and proof properly: conditioning, root counting, NJ/FastME consistency. Make the supercritical counterexample analytic, with exact s(·) for birth–death processes.
-- **Week 2.** Exact expected ASTRID-multi distances on 4–5 taxa via generating functions, or very large simulation in C++. Then decide: inconsistent (give a counterexample) or consistent. Also derive and test an s-reweighted correction for supercritical rates.
-- **Week 3.** Port the distance computation to C++ (or patch ASTRID). Rerun the FastMulRFS and DISCO data, including the high-duplication conditions skipped here, and the GDL-comparison data. Add the real ASTRID-multi binary.
+- **Week 1: theory.**
+  - Write the additivity theorem with full proof: root counting, NJ/FastME consistency, and the effect of conditioning on at least k species.
+  - Make the supercritical counterexample analytic with closed-form birth–death survival.
+  - State and prove the corrected distance, with consistency given a correct first pass. Possibly also a two-stage version whose first pass is any consistent method.
+- **Week 2: ASTRID-multi.**
+  - Exact expected per-gene-averaged distances on 4–5 taxa via generating functions, or 10⁸-family C++ Monte Carlo as a fallback.
+  - Either a counterexample (answers the slide question negatively) or a conjecture with strong numerical support.
+- **Week 3: implementation and benchmarks.**
+  - Port the orthology-restricted distance into ASTRID's C++, an ortholog mask plus speciation counts, so the 1000- and 3700-leaf families become feasible.
+  - Rerun the DISCO high-GDL conditions, including gdl_1e-9_0, and the GDL-comparison data. Validate against the real ASTRID-multi binary.
 - **Week 4.** Write-up.
 
-**Deliverables either way.** A theorem (consistency of the ideal ortholog distance when no branch is supercritical), a counterexample (supercritical), and an empirical study.
-
 **Risks.**
-- **Accuracy gains are small or absent** on standard benchmarks. ASTRID-Pro ties ASTRID-multi on the FastMulRFS data, and the DISCO-data gain is post hoc.
-- **ASTRID-multi.** The question may stay open: the sampling approach failed to settle the one candidate found.
-- **The theorem may be "folklore-easy"** for the instructor. Mitigation: the counterexample and the root-counting subtlety are concrete, non-obvious content.
-- **Estimated tagging** (hidden paralogy) breaks the ideal-tag analysis. The prior-art table shows that ASTRAL-Pro also lacks a proof here, so this is shared ground, not a unique weakness.
+- **Accuracy.** The gain over ASTRID-multi is confirmed only in high-GDL conditions, and ASTRID-Pro does not beat ASTRID-DISCO or ASTRAL-Pro. Frame it as "repairs ASTRID-multi", not "new best method".
+- **ASTRID-multi may stay open.** Exact expectations of per-gene *averages* are ratio expectations, which may be hard. Fallback: analyse the pooled-pairs variant, which is linear, and report per-gene averaging as open.
+- **"Too easy".** The instructor may find the theorem folklore-easy. Mitigation: the root-counting subtlety, the supercritical counterexample and the reconciliation-based correction are concrete, non-obvious results.
+- **Estimated tags.** Tagging error and hidden paralogy are not covered by the theory. A sibling pilot (`claude/cs581-gdlcons`) studies ASTRAL-Pro under random rooting and tagging error and could share that model.
