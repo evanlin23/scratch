@@ -27,8 +27,8 @@
 | IQ-TREE 3 --fast | 5 | 33.9% | +6.2 (0/0/5) | 0.06 | 5 | – |
 | RAxML-NG --fast | 5 | 27.0% | -0.7 (3/1/1) | 0.62 | 8 | -45.5 |
 | RAxML-NG (1 start) | 5 | 27.6% | – | - | 30 | +0.0 |
-| **ours-fast** (constrained) | 1 | 28.3% | +0.0 (0/1/0) | - | 8 | -398.5 |
-| **ours-accurate** (+ fast polish) | 1 | 26.8% | -1.4 (1/0/0) | - | 15 | -19.3 |
+| **ours-fast** (constrained) | 5 | 29.2% | +1.5 (0/2/3) | 0.25 | 8 | -456.1 |
+| **ours-accurate** (+ fast polish) | 5 | 26.7% | -1.0 (4/0/1) | 0.44 | 16 | -22.7 |
 
 ### 1000M1-HF, Park et al. 2021 published inputs (simulated) — true alignment
 
@@ -48,10 +48,13 @@
 
 | method | n | mean FN | Δ FN vs RAxML-NG (W/T/L) | Wilcoxon p | mean CPU min | mean ΔlnL vs RAxML-NG |
 |---|---|---|---|---|---|---|
-| FastTree 2 | 1 | 91.6% | – | - | 2 | – |
-| RAxML-NG --fast | 1 | 91.8% | – | - | 19 | – |
-| **ours-fast** (constrained) | 1 | 90.8% | – | - | 16 | – |
-| **ours-accurate** (+ fast polish) | 1 | 91.1% | – | - | 29 | – |
+| FastTree 2 | 1 | 91.6% | -0.8 (1/0/0) | - | 2 | – |
+| RAxML-NG --fast | 1 | 91.8% | -0.6 (1/0/0) | - | 19 | -1166.5 |
+| RAxML-NG (1 start) | 1 | 92.4% | – | - | 43 | +0.0 |
+| **ours-fast** (constrained) | 1 | 90.8% | -1.6 (1/0/0) | - | 16 | -767.0 |
+| **ours-accurate** (+ fast polish) | 1 | 91.1% | -1.3 (1/0/0) | - | 29 | -62.2 |
+
+UPP alignment cost (not included above): 103 CPU min per replicate.
 
 ### RNASim1K-HF (simulated, our fragmentation) — true alignment
 
@@ -66,8 +69,8 @@
 
 | method | n pairs | mean Δ FN | W/T/L | Wilcoxon p | mean CPU ratio vs RAxML-NG |
 |---|---|---|---|---|---|
-| FastTree 2 | 21 | +19.18 | 0/0/21 | 9.54e-07 | 0.07 |
+| FastTree 2 | 22 | +18.27 | 1/0/21 | 9.54e-07 | 0.07 |
 | IQ-TREE 3 --fast | 21 | +9.15 | 0/0/21 | 5.94e-05 | 0.18 |
-| RAxML-NG --fast | 21 | +1.81 | 6/2/13 | 0.0089 | 0.37 |
-| **ours-fast** (constrained) | 11 | +3.40 | 0/1/10 | 0.00195 | 0.34 |
-| **ours-accurate** (+ fast polish) | 11 | +0.62 | 3/1/7 | 0.232 | 0.62 |
+| RAxML-NG --fast | 22 | +1.70 | 7/2/13 | 0.0111 | 0.37 |
+| **ours-fast** (constrained) | 16 | +2.71 | 1/2/13 | 0.00428 | 0.33 |
+| **ours-accurate** (+ fast polish) | 16 | +0.13 | 7/1/8 | 0.733 | 0.60 |
