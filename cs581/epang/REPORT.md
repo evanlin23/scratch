@@ -123,7 +123,90 @@ machine (`--threads 4`, `--cpus-per-job 2`; b ≥ 5000 uses `--cpus-per-job 4`, 
 
 ## 5. Results
 
-RESULTS_PLACEHOLDER
+![nested](results/R0_nested.png)
+
+*Figure: the same 303 queries placed into nested subtrees around 17 centres (R0). Full-tree (9k)
+points are direct EPA-ng runs on the whole backbone.*
+
+### 5.1 Nested subtrees (Exp. A, R0, 303 queries, every cell paired)
+
+Mean delta error (edges), fragmentary queries (~154 nt):
+
+| method | 500 | 1k | 2k | 3k | 5k | 9k (full tree) |
+|---|---|---|---|---|---|---|
+| EPA-ng 0.3.8 stock (default) | 1.086 | 0.974 | 0.822 | **1.743** | **1.653** | **1.710** |
+| EPA-ng patched (both hunks) | 1.086 | 0.974 | 0.822 | 0.779 | 0.785 | 0.729 |
+| stock `--no-pre-mask` (workaround) | 1.079 | 1.033 | 0.861 | 0.785 | 0.756 | - |
+| stock `--no-heur` | 1.086 | 0.974 | 0.822 | **15.00** | **16.99** | - |
+| stock `--rate-scalers on` | 2.02 | 1.93 | 1.80 | 1.74 | 1.63 | - |
+| pplacer (FastTree params) | 1.033 | 0.954 | 0.799 | 0.693 | 0.696 | - |
+
+CONTROLS_PLACEHOLDER
+
+Paired tests vs stock at the same size (fragments, n=303): patched at 3k: −0.964, W/T/L 142/133/28,
+p=4e−17. Patched at 5k: −0.868, 138/142/23, p=1e−16. At ≤2k, stock and patched are identical
+(303/303 ties), as are stock and the non-SIMD build. Patched minus stock at 3k/5k/9k equals the
+size of the jump. **With the fix, error keeps falling as the tree grows** (0.82 at 2k → 0.78 at
+3k → 0.73 at 9k), the trend pplacer shows (0.80 → 0.69).
+
+Full-length queries: stock = patched at every size (303/303 ties; 0.42 / 0.39 / 0.24 / 0.20 / 0.21 /
+0.19), so there is no jump. pplacer is more accurate than EPA-ng on full-length queries in this setting
+(0.15 vs 0.24 at 2k). APPLES-2 on the full backbone: 7.33 (fragments) and 2.16 (full length), far
+worse, consistent with the BSCAMPP paper.
+
+**`--no-heur` does not remove the jump; it makes it catastrophic** (15–17 edges at 3k/5k). Without
+preplacement, every edge goes through the focused thorough phase with misaligned scalers, so a
+wrongly inflated likelihood on a distant edge can win. The default dynamic heuristic shortlists
+candidates with the *correct* (unfocused) lookup likelihoods, which limits the damage to about 1
+edge. NOHEUR_FIX_PLACEHOLDER
+
+**Overconfidence.** Share of fragments whose best placement has LWR ≥ 0.9999: 0.18 at every size
+for patched EPA-ng, but 0.62 / 0.59 / 0.58 for stock at 3k / 5k / 9k (0.91–0.94 with `--no-heur`).
+The bug makes EPA-ng confidently wrong, so downstream users would not see the error as uncertainty.
+
+**Which queries are hurt.** Harm (stock − patched delta at 5k) is positive across all fragment start
+positions: 0.49 for starts in the first 200 columns, 0.77–1.26 elsewhere (Spearman ρ = 0.14 with
+start column, p = 0.01).
+
+### 5.2 End-to-end BSCAMPP(e) (Exp. B, 1,000 queries per replicate, 4 replicates)
+
+Fragments; mean delta; baseline = stock BSCAMPP, b = 2000 (the published default):
+
+| replicate | stock b2000 (baseline) | stock b5000 | patched b5000 | patched b9000 |
+|---|---|---|---|---|
+| R0 | 0.798 | 1.607 | 0.715 | 0.661 |
+| R1 | 0.846 | 1.682 | 0.721 | (out of memory) |
+| R2 | 0.854 | 1.651 | 0.764 | 0.737 |
+| R3 | 0.941 | 1.626 | 0.829 | 0.765 |
+| **pooled** | **0.860** | **1.641** (W/T/L vs base 379/1839/1782, p≈1e−171) | **0.757** (−0.102; 134/3750/116; p=0.03) | **0.721** vs 0.864 (−0.143; 125/2769/106; p=0.03) |
+
+Stock b=9000 (R0): 1.539. Stock b=1000 (R0): 0.916.
+**The published anomaly reproduces end-to-end on every replicate** (b=5000 roughly doubles the error).
+**The patch removes it**: patched b≤2000 is identical to stock (4000/4000 ties). Patched b=5000/9000
+is 12–17% more accurate than the published default. The gain is concentrated in a minority of
+queries: ~94% tie, and per replicate only R1 is individually significant. Treat it as a real but
+modest improvement.
+
+Full-length queries (pooled, n=4000): baseline 0.215, patched b5000 0.203 (−0.013; 55/3909/36; p=0.02).
+Stock b5000 0.205 (p=0.1); the bug barely touches full-length queries.
+
+Runtime and memory (wall clock, idle 4-core machine; fragments; typical over replicates):
+
+| config | wall (s) | peak RSS (GB) |
+|---|---|---|
+| stock b1000 | 32 | 1.3 |
+| stock b2000 (baseline) | 35 | 2.7 |
+| stock b5000 (cpus-per-job 4) | 73–87 | 7.5 |
+| patched b5000 (cpus-per-job 4) | 59–71 | 7.5 |
+| patched b9000 (one subtree) | 51–60 | 12.9–13.8 |
+
+Patched b=5000 costs ~2× the baseline's time for the accuracy gain. Part of that is the forced
+`--cpus-per-job 4` (one job at a time, for memory). b=9000 is near this machine's 15 GB limit (one
+of four runs was killed). Bigger b means fewer but larger EPA-ng jobs: EPA-ng's memory grows with
+the tree, and BSCAMPP's speed comes from many small jobs.
+
+TIMING_PLACEHOLDER
+
 
 ## Verdict and 4-week plan
 
