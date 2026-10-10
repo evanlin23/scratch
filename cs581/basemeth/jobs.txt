@@ -13,7 +13,3 @@ SIMMOD_R1 /opt/data/sim/SIMMOD/R1/sim.fa 25
 SIMHIGH_R1 /opt/data/sim/SIMHIGH/R1/sim.fa 25
 SIMMOD_R2 /opt/data/sim/SIMMOD/R2/sim.fa 25
 SIMHIGH_R2 /opt/data/sim/SIMHIGH/R2/sim.fa 25
-SIMMOD_R3 /opt/data/sim/SIMMOD/R3/sim.fa 25
-SIMHIGH_R3 /opt/data/sim/SIMHIGH/R3/sim.fa 25
-SIMMOD_R4 /opt/data/sim/SIMMOD/R4/sim.fa 25
-SIMHIGH_R4 /opt/data/sim/SIMHIGH/R4/sim.fa 25

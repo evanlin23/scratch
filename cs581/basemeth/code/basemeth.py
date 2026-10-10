@@ -233,6 +233,8 @@ def merge(args):
             if (j["name"], m) in done:
                 continue
             sub = [r for (mm, _), r in rows.items() if mm == m]
+            if m == "orig":  # control: MAGUS's own subset alignments, unchanged
+                sub = [{"wall": 0, "cpu": 0}] * nsub
             if len(sub) < nsub or any("error" in r for r in sub):
                 continue
             d = os.path.join(w, "merge_" + m)
@@ -241,7 +243,7 @@ def merge(args):
             if os.path.exists(out):
                 os.remove(out)
             wall, cpu = timed([sys.executable, "-m", "gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", "4",
-                               "-d", d, "-s", os.path.join(w, "sub_" + m), "-b", os.path.join(w, "inputs", "backbones"),
+                               "-d", d, "-s", os.path.join(w, "inputs", "subalignments") if m == "orig" else os.path.join(w, "sub_" + m), "-b", os.path.join(w, "inputs", "backbones"),
                                "-o", out] + MERGE_FLAGS, os.path.join(w, "merge_" + m + ".log"))
             shutil.rmtree(d, ignore_errors=True)
             row = {"dataset": j["name"], "method": m, "merge_wall": wall, "merge_cpu": cpu,
