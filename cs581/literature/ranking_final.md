@@ -1,8 +1,8 @@
-# Ranked comparison of explored project ideas (final, 2026-10-10 06:40 UTC)
+# Ranked comparison of explored project ideas (final, 2026-10-10 06:50 UTC)
 
 Supersedes `ranking_v1.md`. Sources: every exploration session's `cs581/<dir>/REPORT.md` (branch
 `claude/cs581-<dir>`), the novelty audits (`novelty_audits.md`), the MAGUS-variant fan-out (54 replicates,
-`../experiments/variants/SUMMARY.md`) and the measured end-to-end benchmark (13 of 14 datasets,
+`../experiments/variants/SUMMARY.md`) and the measured end-to-end benchmark (all 14 datasets; PASTA failed on RNASim,
 `claude/cs581-e2e-*`). **Nothing is chosen here**; the overnight runs (bottom) may move rows 3 and 4.
 
 "Course" = how easily the choice is justified from CS581 material: **high** = an open question printed
@@ -13,7 +13,7 @@ methods taught, question ours; **low** = needs material not covered.
 |---|---|---|---|---|---|---|---|
 | 1 | **ASTRAL-Pro is inconsistent under GDL because of its own rooting/tagging** (gdlcons) | Exact 4-taxon formula; with true gene trees stock ASTRAL-Pro3 returns the wrong species tree in 40/40, 20/20, 4/4 datasets (500 / 2k / 10k families); correct with true tags. Holds **even with constant rates** (λ = μ on every branch), but only at extreme turnover (λ = μ = 8: wrong 20/20 and 4/4; never at λ ≤ 4). Tag-error threshold q* = 0.080 ± 0.005 observed vs 0.079 predicted | n/a (theory + simulation) | cheap (simulation) | core result novel: counterexamples to Zhang et al.'s consistency conjecture; partly known context | **high**: slide 35 asks verbatim "Is ASTRAL-Pro consistent for GDL under ... error for rooting and tagging?"; GDL lecture "Phylogenomics, part 2" | promising (theory-led). Caveats: numerical, not proofs; constant-rate failures need extreme rates; wQFM-GDL probably inherits the issue (unverified) |
 | 2 | **ASTRID-Pro: a GDL-corrected internode distance** (gdl) | Theorem: ortholog-only internode distance is a tree metric with the species-tree topology iff no supercritical branch; counterexample matches to 3 decimals; held-out DISCO test on high-GDL data vs ASTRID-multi −0.0096 FN (16/12/5, Holm p = 0.021); ties ASTRID-DISCO / ASTRAL-Pro | only on high-GDL data; ties elsewhere | cheap | NOVEL (narrowly); do not claim ASTRID-multi is answered | **high**: slide 35 verbatim ("distance correction for GDL so ASTRID/NJst are consistent?"); ASTRID taught in ILS lectures | promising (theory-led) |
-| 3 | **MAGUS with Clustal Omega backbones (proteins)** (sota2026 → bbtool-1..6, bbevidence, protbench) | Pilot: aligning only GCM's 10 backbones with Clustal Omega instead of MAFFT L-INS-i: −1.6 to −1.9 pts on BAliBASE (5/5 sets, up to −3.0), via SPFP; backbones much cheaper. **First confirmation run went the other way** (BBA0117 draw 0: +1.3 paired, +0.3 end to end). No effect on RNASim | open (confirmation running: 8 sets × 3 draws) | expected faster on proteins (MAGUS is slow there: BBA0190 41.6 min vs PASTA 12.6); measured end-to-end timings pending | NOVEL (no published non-MAFFT GCM backbones); mechanism claim partly known (M-Coffee: consensus needs decorrelated errors) | **high**: instructor's project list says verbatim "study MAGUS with different base methods" | lead, unconfirmed. Conflicts with "keep MAFFT a black box" unless a MAFFT-only recipe matches it (being tested) |
+| 3 | **MAGUS with Clustal Omega backbones (proteins)** (sota2026 → bbtool-1..6, bbevidence, protbench) | Pilot: aligning only GCM's 10 backbones with Clustal Omega instead of MAFFT L-INS-i: −1.6 to −1.9 pts on BAliBASE (5/5 sets, up to −3.0), via SPFP; backbones much cheaper. **First confirmation runs are mixed**: BBA0117 draw 0 +1.32 paired / +0.29 end to end (worse), BBA0039 draw 0 −0.13 paired / −0.14 end to end (pilot on that set: −0.45). No effect on RNASim | open (confirmation running: 8 sets × 3 draws) | expected faster on proteins (MAGUS is slow there: BBA0190 41.6 min vs PASTA 12.6); measured end-to-end timings pending | NOVEL (no published non-MAFFT GCM backbones); mechanism claim partly known (M-Coffee: consensus needs decorrelated errors) | **high**: instructor's project list says verbatim "study MAGUS with different base methods" | lead, unconfirmed. Conflicts with "keep MAFFT a black box" unless a MAFFT-only recipe matches it (being tested) |
 | 4 | **Soft-constraint MAGUS** (main track) | Measured end to end on 10 ROSE datasets: self-soft −0.77 pts vs MAGUS (9/1/0, p = 0.004) at +9% wall-clock; fan-out (54 reps): self-soft −0.55 (47/4/2, p = 7e-9), slow-soft-m3 −0.67 (47/1/5); **worse on BAliBASE** (self-soft 22.1 vs 20.6); no gain in ML trees (p = 0.90) | yes on DNA (≈ 29% of MAGUS's own gain over PASTA, −2.67); no on proteins | +9% vs MAGUS | partly known; must add MAGUS `-c false` baseline; not "first to relax constraints" | **medium-high**: MAGUS taught; "improve MAGUS / merging" on project list | modest |
 | 5 | **GTM blending** (gtm) | GTM-Blend-ML vs GTM −14.3 / −6.1 / −10.1 FN pts (20/0/0, p = 9e-5) in simulation | in simulation only; loses to full IQ-TREE (+11); n.s. on published data | moderate | partly known; core (likelihood-decided blending) novel; open problem still listed in 2025 | **high**: D&C deck verbatim "develop a better DTM that allows blending" | promising if framed "blending fixes GTM when the guide tree is poor" |
 | 6 | **Sample complexity of ASTRID/NJst vs ASTRAL** (samplecx) | caterpillar n = 64, f = 0.1: ASTRID needs 1189 genes vs ASTRAL 492; constant grows 4.9→15.3 vs 4.0→7.6 (n = 8→64); CIs overlap | n/a | cheap | theory open; empirical partly known; not "Roch's conjecture" | **high**: slide 35 verbatim | promising as evaluation, suggestive only |
@@ -51,7 +51,15 @@ Other datasets: RNASim 1000 R0: MAGUS 9.80%, Slow 9.05%, self-soft 9.42%, slow-s
 wall-clock 87–92 min on that machine, about 6× our other RNASim timings, so treat it as unreliable).
 BAliBASE BBA0101 / BBA0190: PASTA 5.9 / 12.6 min at 29.68 / 24.16%; MAGUS 14.9 / 41.6 min at 27.98 / 23.22%;
 self-soft 21.0 / 44.0 min at 27.13 / 23.27%. On proteins MAGUS is 2.5–3.3× slower than PASTA, which is
-where cheaper backbones (row 3) would matter. 16S.M pending.
+where cheaper backbones (row 3) would matter. 16S.M R0: PASTA 21.5 min / 13.05%, MAGUS 24.5 / 13.01%,
+Slow 23.3 / 13.19%, self-soft 26.5 / 12.98%, slow-soft 27.2 / 13.12% (all within 0.2 points).
+
+**Reproduction check (our runs vs the paper's published alignments of the same replicate, rescored with
+the same FastSP):** median difference +0.02 points for PASTA (n = 11; mean +0.61, driven by 1000L1 +3.8 and
+1000M2 +2.3), −0.02 for MAGUS (n = 12; mean +0.05, range −1.5 to +1.5) and +0.02 for MAGUS(Slow) (n = 12;
+mean +0.37). BAliBASE: PASTA +0.51 / +0.25, MAGUS −0.47 / +0.10 (BBA0101 / BBA0190). Single runs differ
+from the published ones by up to ±1.5 points because MAGUS and PASTA are unseeded; on average the harness
+reproduces the paper.
 
 On 4 cores MAGUS is only ~12% faster than PASTA on 1000 sequences (the paper's 2.5× used 16-core nodes).
 Caveat found tonight: the MCL-threading patch used by the soft merges could silently fall back to one
