@@ -147,7 +147,10 @@ def run_replicate(results, dataset, rep_dir, conditions, merger_names, done):
         true_path = os.path.join(work, "true200.fasta" if cond.endswith("200") else "true.fasta")
         true = fasta.read(true_path) if cond.endswith("200") else full_true
         bb = full_bb
-        if cond.endswith("200") and glob.glob(os.path.join(full_bb, "*")):
+        if cond.endswith("200"):
+            if not glob.glob(os.path.join(full_bb, "*")):
+                print("skip {} {}: full-replicate backbones not built yet".format(dataset, cond), flush=True)
+                continue
             bb = restricted_backbones(full_bb, set(true), os.path.join(work, "backbones200"))
         for m in merger_names:
             if (dataset, cond, m) in done:

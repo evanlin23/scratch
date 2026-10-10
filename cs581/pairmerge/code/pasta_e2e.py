@@ -48,6 +48,10 @@ def main():
             work = os.path.join(RUNS, dataset, arm)
             os.makedirs(work, exist_ok=True)
             true = fasta.upper(fasta.read(aln))
+            sub = int(os.environ.get("PASTA_SUBSAMPLE", "0"))  # budget: random n-taxon subsample (same for both arms)
+            if sub:
+                import random
+                true = fasta.restrict(true, sorted(random.Random(dataset).sample(sorted(true), sub)))
             fasta.write(true, os.path.join(work, "true.fa"))
             fasta.write(fasta.ungap(true), os.path.join(work, "in.fa"))
             cfg = os.path.join(work, "cfg.txt")
@@ -61,7 +65,7 @@ def main():
             start = time.time()
             with open(os.path.join(work, "pasta.log"), "w") as log:
                 proc = subprocess.run(cmd, stdout=log, stderr=subprocess.STDOUT, env=env, cwd=work)
-            rec = {"dataset": dataset, "arm": arm, "iters": int(iters), "seconds": round(time.time() - start, 1),
+            rec = {"dataset": dataset, "arm": arm, "iters": int(iters), "ntaxa": len(true), "seconds": round(time.time() - start, 1),
                    "returncode": proc.returncode}
             final = os.path.join(out, "p.marker001.in.fa.aln")
             if os.path.exists(final):
