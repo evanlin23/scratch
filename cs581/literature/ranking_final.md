@@ -28,6 +28,14 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 5 (13:50 UTC).** Held-out simulated proteins complete (`claude/cs581-protcons`, 8 AliSim replicates,
+pre-registered): MAFFT-only `L-INS-i ∩ FFT-NS-2 --op 3` −0.89 / −4.17 / −3.25 / −1.60 (SIMHIGH R1-R4) and
+−0.97 / −3.79 / −2.51 / −1.01 (SIMMOD R1-R4): 8/8 better, mean −2.27, p = 0.008; primary `linsi|cons0.7` mean −0.84
+(5/8); `(L + Clustal)|cons0.7` worse (+0.3 to +12.1 on 6/8). With the in-sample BAliBASE pilot (−1.83, 7/1/0) this
+makes "consensus evidence for GCM" (MAFFT only) the strongest MAGUS-line candidate; ~2 points is comparable to
+MAGUS's own gain over PASTA (2.67). Pending: HomFam, fresh BAliBASE draws, tree accuracy, nucleotide controls
+(filtering is expected to hurt there). Draft: `cs581/proposal/proposal_gcmcons.md`.
+
 **Check-in 4 (12:20 UTC).**
 
 *Clustal-backbone confirmation, BAliBASE final (`claude/cs581-bbtool-1..4`, 8 RV100 sets × 3 fresh MAGUS draws = 24 paired
