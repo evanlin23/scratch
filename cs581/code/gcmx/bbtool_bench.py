@@ -3,7 +3,10 @@
     python -m gcmx.bbtool_bench JOBFILE OUT.jsonl WORKDIR [--draws 0,1,2] [--tools clustalo,mafft-auto]
                                 [--e2e clustalo] [--threads 4]
 
-JOBFILE lines: NAME TRUE_ALIGNMENT NUM_SUBSETS (as in fanout/jobs_*.txt). MAGUS is unseeded, so
+JOBFILE lines: NAME TRUE_ALIGNMENT NUM_SUBSETS [UNALIGNED] (as in fanout/jobs_*.txt). With the optional
+UNALIGNED file (e.g. HomFam: the whole family, while the reference covers only the Homstrad seeds), MAGUS
+aligns UNALIGNED and every score is computed on the estimated alignment restricted to the reference's
+sequences (all-gap columns removed); backbone stats use only the reference sequences each backbone holds. MAGUS is unseeded, so
 every draw is a fresh MAGUS run (new decomposition and new backbone sequence sets). For every
 draw, then every job, sequentially, all with the same thread count:
 
@@ -33,7 +36,7 @@ import sys
 import time
 
 from . import fasta, score
-from .e2e_bench import CODE, REPO, acc, is_protein, magus_flags, timed
+from .e2e_bench import CODE, REPO, is_protein, magus_flags, timed
 from .run_magus import BACKBONE_TOOLS
 
 # Bumped when timings of e2e-/merge- rows change meaning; older rows are redone on the next run
@@ -69,6 +72,19 @@ def align_backbones(tool, src_dir, dst_dir, threads, log_dir):
     return round(time.time() - start, 1)
 
 
+def acc_ref(true, path):
+    """SPFN/SPFP/TC of `path` against `true`, on the estimate restricted to the reference's sequences
+    (a no-op when both hold the same sequences)."""
+    ref = fasta.read(true)
+    est = fasta.read(path)
+    if set(est) != set(ref):
+        tmp = path + ".refonly.fasta"
+        fasta.write(fasta.restrict(est, list(ref)), tmp)
+        path = tmp
+    s = score.fastsp(true, path)
+    return {k: s[k] for k in ("SPFN", "SPFP", "avgErr", "TC", "LenEst", "LenRef") if k in s}
+
+
 def backbone_stats(ref, bb_dir):
     """Mean SPFN/SPFP of the backbone alignments against the reference restricted to their
     sequences, and the mean number of aligned residue pairs (= evidence pairs GCM receives)."""
@@ -77,14 +93,22 @@ def backbone_stats(ref, bb_dir):
         if not f.endswith("_mafft.txt"):
             continue
         est = fasta.upper(fasta.read(os.path.join(bb_dir, f)))
-        tr = os.path.join(bb_dir, "true_" + f)
-        fasta.write(fasta.restrict(ref, list(est)), tr)
-        s = score.fastsp(tr, os.path.join(bb_dir, f))
-        os.remove(tr)
-        fn, fp, n = fn + s["SPFN"], fp + s["SPFP"], n + 1
         cols = zip(*est.values())
         pairs += sum(k * (k - 1) // 2 for k in (sum(c != "-" for c in col) for col in cols))
-    return {"bb_SPFN": round(fn / n, 4), "bb_SPFP": round(fp / n, 4), "bb_pairs": pairs // n}
+        shared = [t for t in est if t in ref]
+        if len(shared) < 2:
+            continue
+        tr, es = os.path.join(bb_dir, "true_" + f), os.path.join(bb_dir, "est_" + f)
+        fasta.write(fasta.restrict(ref, shared), tr)
+        fasta.write(fasta.restrict(est, shared), es)
+        s = score.fastsp(tr, es)
+        os.remove(tr)
+        os.remove(es)
+        fn, fp, n = fn + s["SPFN"], fp + s["SPFP"], n + 1
+    nb = len([f for f in os.listdir(bb_dir) if f.endswith("_mafft.txt")])
+    if n == 0:
+        return {"bb_SPFN": None, "bb_SPFP": None, "bb_pairs": pairs // max(nb, 1), "bb_scored": 0}
+    return {"bb_SPFN": round(fn / n, 4), "bb_SPFP": round(fp / n, 4), "bb_pairs": pairs // nb, "bb_scored": n}
 
 
 def main():
@@ -109,10 +133,10 @@ def main():
         done = {(r["dataset"], r["draw"]) for r in map(json.loads, open(args.out))}
     T = str(args.threads)
     py = [sys.executable, "-m"]
-    jobs = [l.split()[:3] for l in open(args.jobs) if l.strip()]
+    jobs = [(l.split() + [None])[:4] for l in open(args.jobs) if l.strip()]
 
     for draw in map(int, args.draws.split(",")):
-        for name, src, k in jobs:
+        for name, src, k, unaln_src in jobs:
             if (name, draw) in done:
                 continue
             src = src if os.path.isabs(src) else os.path.join(REPO, src)
@@ -122,10 +146,20 @@ def main():
             row = json.load(open(state_path)) if os.path.exists(state_path) else {}
             ref = fasta.upper(fasta.read(src))
             true, unaligned = os.path.join(w, "true.fasta"), os.path.join(w, "unaligned.fasta")
-            fasta.write(ref, true)
-            fasta.write(fasta.ungap(ref), unaligned)
+            if unaln_src:
+                unaln_src = unaln_src if os.path.isabs(unaln_src) else os.path.join(REPO, unaln_src)
+                seqs = fasta.upper(fasta.ungap(fasta.read(unaln_src)))
+                missing = [t for t in ref if t not in seqs]
+                if missing:
+                    raise SystemExit("{}: {} reference sequences not in {}".format(name, len(missing), unaln_src))
+                fasta.write(ref, true)
+                fasta.write(seqs, unaligned)
+            else:
+                seqs = fasta.ungap(ref)
+                fasta.write(ref, true)
+                fasta.write(seqs, unaligned)
             row.update({"dataset": name, "draw": draw, "threads": args.threads, "nproc": os.cpu_count(),
-                        "nseq": len(ref), "protein": is_protein(ref)})
+                        "nseq": len(seqs), "nref": len(ref), "protein": is_protein(ref)})
 
             def log_row(method, data):
                 row[method] = data
@@ -151,7 +185,7 @@ def main():
                     if f.startswith("backbone_") and f.endswith(("_unalign.txt", "_mafft.txt")):
                         shutil.copy(os.path.join(w, "magus", "graph", f), os.path.join(inputs, "backbones"))
                 shutil.rmtree(os.path.join(w, "magus"), ignore_errors=True)
-                log_row("magus", {"wall": wall, "cpu": cpu, **acc(true, out),
+                log_row("magus", {"wall": wall, "cpu": cpu, **acc_ref(true, out),
                                   **backbone_stats(ref, os.path.join(inputs, "backbones"))})
 
             for tool in e2e:
@@ -168,7 +202,7 @@ def main():
                                   os.path.join(w, key + ".log"))
                 stats = backbone_stats(ref, os.path.join(d, "graph"))
                 shutil.rmtree(d, ignore_errors=True)
-                log_row(key, {"wall": wall, "cpu": cpu, **acc(true, out), **stats, "v": VERSION})
+                log_row(key, {"wall": wall, "cpu": cpu, **acc_ref(true, out), **stats, "v": VERSION})
 
             def realigned(tool, d):
                 """X-realigned backbones, kept in inputs/bb_X (small) for merge-union-X; returns (dir, wall)."""
@@ -207,7 +241,7 @@ def main():
                 m_wall, m_cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d",
                                             os.path.join(d, "magus"), "-s", os.path.join(inputs, "subalignments"),
                                             "-b", bb_only, "-o", out] + MERGE_FLAGS, os.path.join(w, key + ".log"))
-                data = {"merge_wall": m_wall, "merge_cpu": m_cpu, **acc(true, out), **backbone_stats(ref, bb_only),
+                data = {"merge_wall": m_wall, "merge_cpu": m_cpu, **acc_ref(true, out), **backbone_stats(ref, bb_only),
                         "v": VERSION}
                 if bb_wall is not None:
                     data["backbone_wall"] = bb_wall

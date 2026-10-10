@@ -1,0 +1,28 @@
+10AA_1GADBL /opt/data/emma/salma_paper_datasets/10aa/1GADBL_100/R0/all.aln.fasta 25
+SIMMOD_R1 /opt/data/sim/SIMMOD/R1/sim.fa 25
+HF_aat /opt/data/homfam2k/aat/ref.fasta 25 /opt/data/homfam2k/aat/unaln.fasta
+SIMHIGH_R1 /opt/data/sim/SIMHIGH/R1/sim.fa 25
+10AA_coliepi /opt/data/emma/salma_paper_datasets/10aa/coli_epi_100/R0/all.aln.fasta 25
+HF_p450 /opt/data/homfam2k/p450/ref.fasta 25 /opt/data/homfam2k/p450/unaln.fasta
+SIMMOD_R2 /opt/data/sim/SIMMOD/R2/sim.fa 25
+HF_sdr /opt/data/homfam2k/sdr/ref.fasta 25 /opt/data/homfam2k/sdr/unaln.fasta
+SIMHIGH_R2 /opt/data/sim/SIMHIGH/R2/sim.fa 25
+HF_adh /opt/data/homfam2k/adh/ref.fasta 25 /opt/data/homfam2k/adh/unaln.fasta
+SIMMOD_R3 /opt/data/sim/SIMMOD/R3/sim.fa 25
+HF_blmb /opt/data/homfam2k/blmb/ref.fasta 25 /opt/data/homfam2k/blmb/unaln.fasta
+SIMHIGH_R3 /opt/data/sim/SIMHIGH/R3/sim.fa 25
+HF_rrm /opt/data/homfam2k/rrm/ref.fasta 25 /opt/data/homfam2k/rrm/unaln.fasta
+HF_PDZ /opt/data/homfam2k/PDZ/ref.fasta 25 /opt/data/homfam2k/PDZ/unaln.fasta
+SIMMOD_R4 /opt/data/sim/SIMMOD/R4/sim.fa 25
+HF_Acetyltransf /opt/data/homfam2k/Acetyltransf/ref.fasta 25 /opt/data/homfam2k/Acetyltransf/unaln.fasta
+SIMHIGH_R4 /opt/data/sim/SIMHIGH/R4/sim.fa 25
+HF_rvp /opt/data/homfam2k/rvp/ref.fasta 25 /opt/data/homfam2k/rvp/unaln.fasta
+HF_zf-CCHH /opt/data/homfam2k/zf-CCHH/ref.fasta 25 /opt/data/homfam2k/zf-CCHH/unaln.fasta
+10AAfull_BBA0039 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0039/R0/all.aln.fasta 25
+10AAfull_BBA0067 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0067/R0/all.aln.fasta 25
+10AAfull_BBA0081 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0081/R0/all.aln.fasta 25
+10AAfull_BBA0101 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0101/R0/all.aln.fasta 25
+10AAfull_BBA0117 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0117/R0/all.aln.fasta 25
+10AAfull_BBA0134 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0134/R0/all.aln.fasta 25
+10AAfull_BBA0154 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0154/R0/all.aln.fasta 25
+10AAfull_BBA0190 /opt/data/emma/salma_paper_datasets/10aa/RV100_BBA0190/R0/all.aln.fasta 25
