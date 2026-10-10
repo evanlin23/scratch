@@ -96,3 +96,54 @@ TODO if chosen: run `-c false` as a baseline on the 1000-sequence conditions.
 
 Search gaps: Google Scholar cited-by (Semantic Scholar: 75 cite MAGUS, 13 Recursive MAGUS, 4 MWT-AM); MAGUS_CP repo (503);
 WABI/RECOMB-CG 2026 abstracts; other universities' course projects.
+
+## ASTRAL-Pro inconsistency under GDL via its own rooting/tagging (branch claude/cs581-gdlcons) - PARTIALLY KNOWN (core negative result novel)
+
+Known: ASTRAL-Pro is consistent under GDL given true roots and tags; its tagger can mislabel under adversarial
+duplication-then-loss; consistency with imperfect rooting/tagging is an open conjecture that the authors expect to hold.
+Not found anywhere: an inconsistency result caused by its own rooting/tagging, an exact limiting-score formula, or a
+random-tag-error threshold.
+
+Closest prior work:
+- Zhang, Scornavacca, Molloy & Mirarab 2020, ASTRAL-Pro, MBE 37:3292, doi:10.1093/molbev/msaa139: Theorem 2 (consistent
+  for correctly rooted/tagged trees); tagger "not guaranteed to find the correct tags or the root"; authors "suspect"
+  consistency holds with imperfect rooting/tagging.
+- Parsons, Liu, Dua, Markin & Molloy 2026, bioRxiv doi:10.64898/2026.01.20.700722: v1 Theorem 1 (exclusion-only objective
+  consistent under DLCoal given correct tags) withdrawn in v2 (Apr 2026) as Conjecture 1, "an open question"; mention that
+  adversarial GDL misleads A-pro's tagging; no inconsistency result.
+- Willson et al. 2022, DISCO, Syst Biol 71:610, doi:10.1093/sysbio/syab070: consistency "provided that ASTRAL-Pro correctly
+  roots and tags", "not likely to hold on many conditions"; speculate random low-probability tag error may still allow a
+  proof (= the slide question, left open).
+- Molloy & Warnow 2020, FastMulRFS, Bioinformatics 36:i57, doi:10.1093/bioinformatics/btaa444: adversarial GDL; GDL models
+  with fixed (constant) rates across edges.
+- Morel et al. 2022, SpeciesRax, MBE, doi:10.1093/molbev/msab365: ASTRAL-Pro "may mislabel paralogs as orthologs under
+  high loss rates" (simulation).
+- Background: Smith & Hahn 2022 (doi:10.1093/sysbio/syab097); Xiong et al. 2022 (doi:10.1093/sysbio/syac040); Legried et al.
+  2021 (doi:10.1089/cmb.2020.0424); Markin & Eulenstein 2021 (doi:10.1093/bioinformatics/btab414); Hill, Legried & Roch 2022
+  (doi:10.1214/22-aap1799).
+
+Novel: explicit counterexamples (stock ASTRAL-Pro inconsistent on true gene trees via its own species-overlap tagging or
+min-duplication rooting); exact 4-taxon condition O + H_AB > max(H_AC, H_BC); threshold q* for random hidden-paralog
+mislabelling.
+Caveats: all counterexamples use branch-specific, extreme rates (standard GDL models use constant rates) -> MUST check
+homogeneous rates; predicted q* = 0.079 outside observed bracket 0.10-0.15 (approximate); numerical, not proofs.
+
+Safe phrasing: "Zhang et al. (2020) proved ASTRAL-Pro consistent under GDL given correctly rooted and tagged gene trees and
+conjectured this extends to imperfect rooting and tagging. We give evidence that, in general, it does not: under a GDL model
+with branch-specific rates we derive exact limiting 4-taxon ASTRAL-Pro scores and exhibit configurations where its own
+tagging or min-duplication rooting makes it converge to a wrong species tree from true gene-family trees. For random
+hidden-paralog tag errors we characterize a threshold below which consistency is retained. Whether inconsistency occurs under
+the constant-rate model remains open."
+
+### Is ASTRAL-Pro state of the art? Default tool and standard baseline, not uniformly best.
+- DISCO 2022: ASTRAL-Pro, ASTRID-DISCO, SpeciesRax top group; ASTRID-DISCO/CA-DISCO best with few genes/short seqs/missing data.
+- SpeciesRax 2022: best in own simulations; no method dominates empirically.
+- wQFM-DISCO 2024 (Bioinf Adv, doi:10.1093/bioadv/vbae189): matches or beats ASTRAL-Pro.
+- AleRax 2024 (Bioinformatics, doi:10.1093/bioinformatics/btae162): more robust than SpeciesRax / ASTRAL-Pro 2; slower.
+- Weiner et al. 2025 (Peer Community Journal, doi:10.24072/pcjournal.579): microbial + HGT: AleRax best, ASTRAL-Pro 2 worst.
+- DupLoss-2 (Syst Biol 2025/26, doi:10.1093/sysbio/syaf073): ~10% less error than best existing method on most benchmarks.
+- wQFM-GDL (RECOMB-CG 2026, doi:10.1007/978-3-032-26891-4_8): beats ASTRAL-Pro3, SpeciesRax, FastMulRFS, DupLoss-2 in 134/156
+  conditions; ~25% less error than ASTRAL-Pro3 at 200-500 taxa.
+- STAG absent from 2022-2026 benchmarks; FastMulRFS consistently outperformed. (Most benchmarks are by the methods' own authors.)
+
+Search gaps: Legried 2021 / Hill 2022 theorem texts; RECOMB-CG 2026 TOC (dblp blocked); WABI/ISMB 2026; theses.
