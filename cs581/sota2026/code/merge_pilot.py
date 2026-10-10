@@ -58,6 +58,8 @@ def main():
     p.add_argument("reps")
     p.add_argument("tools")
     p.add_argument("--backbones", default="cached", choices=("cached", "tool"))
+    p.add_argument("--subsets", default="tool", choices=("tool", "cached"),
+                   help="cached = keep MAGUS's own L-INS-i subset alignments (isolates the backbone effect)")
     p.add_argument("--threads", type=int, default=4)
     a = p.parse_args()
     done = set()
@@ -68,6 +70,8 @@ def main():
         ref = fasta.upper(fasta.read(S.reference(rep)))
         for tool in a.tools.split(","):
             bbmode = "cached" if tool == "cached-linsi" else a.backbones
+            if a.subsets == "cached" and tool != "cached-linsi":
+                bbmode += "-only"  # row label: only the backbones were realigned with TOOL
             if (rep, tool, bbmode) in done:
                 continue
             w = os.path.join(S.WORK, "merge", rep, tool + "_" + bbmode)
@@ -75,9 +79,10 @@ def main():
             os.makedirs(w)
             row = {"rep": rep, "tool": tool, "backbones": bbmode}
             try:
-                row["subset_wall"] = round(realign(tool, os.path.join(inp, "subalignments"), os.path.join(w, "subs"),
+                row["subset_wall"] = round(realign("cached-linsi" if a.subsets == "cached" else tool,
+                                                   os.path.join(inp, "subalignments"), os.path.join(w, "subs"),
                                                    a.threads, w), 1)
-                if bbmode == "tool":
+                if bbmode.startswith("tool"):
                     row["backbone_wall"] = round(realign(tool, os.path.join(inp, "backbones"), os.path.join(w, "bbs"),
                                                          a.threads, w), 1)
                     bb = os.path.join(w, "bbs")
