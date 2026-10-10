@@ -11,10 +11,14 @@ import numpy as np
 from scipy.stats import wilcoxon
 
 out = sys.argv[1]
-rows = []
+rows, seen = [], set()
 for fn in sys.argv[2:]:
     for l in open(fn):
-        rows.append(json.loads(l))
+        r = json.loads(l)
+        k = (r["cond"], r["rep"], r["sqln"], r["ngen"])
+        if k not in seen:  # drop duplicates from overlapping workers (identical inputs)
+            seen.add(k)
+            rows.append(r)
 DEV = {"01", "02", "03"}
 
 
