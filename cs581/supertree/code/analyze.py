@@ -14,6 +14,7 @@ PAIRS = [  # (new, baseline)
     ("dc:mrlft:200:astral3", "mrlft"),
     ("mrlft", "astral3"),
     ("astral4", "astral3"),
+    ("tqmc", "astral3"),
     ("dc:scs:100:astral3", "scs"),
     ("dc:scs:500:astral3", "scs"),
     ("dc:scs:100:astral3", "astral3"),

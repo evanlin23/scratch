@@ -28,7 +28,7 @@ The pipeline:
 | Exact-RFS-2 / GreedyRFS (*AMB* 2021) | exact RFS of 2 trees, O(n²\|X\|); greedy pairwise | 500 taxa, 9 replicates (criterion scores only) | not reported | not run |
 | ASTRAL-II/III | max quartet support | 1,000 (FastRFS paper) | **ASTRAL-III here: 21 s and 1.5 GB at 1k, 185 s and 3.7 GB at 2k; **out of memory at 10k** (13 GB heap, running alone, killed after 33 min); 3.9k and 5k: see §6** | **main baseline** |
 | ASTER astral4 | quartet placement + subsampling | — | 45 s at 1k | **32.1% RF vs ASTRAL-III 17.2% on SMIDGen-1000 d20** (bad on scaffold supertree input; `-R`: 28.9%) |
-| TREE-QMC (2023) | weighted quartet Max-Cut | "promising as supertree" | 340 s at 1k (O(n³k)) | 22.0% RF on one SMIDGen-1000 d20 replicate (ASTRAL-III 17.4%) |
+| TREE-QMC (2023) | weighted quartet Max-Cut | "promising as supertree" | 340 s at 1k (O(n³k)) | SMIDGen-1000: 21.3% RF at d20 (ASTRAL-III 17.2%), 11.6% at d100 (tie); 200–370 s |
 | wQFM-TREE (2025), Asteroid (2023) | quartet FM / balanced minimum evolution with missing data | species-tree data | — | not run |
 | Spectral Cluster Supertree (2024) | spectral clustering of rooted trees | 10k | 20 s (paper); **65 s at 10k here** | **run: the best method on the rooted DCM data** |
 | SDSR (arXiv 2026) | spectral D&C for species trees | — | up to 10× faster than ASTRAL (abstract) | not run |
@@ -85,6 +85,7 @@ Metric: RF error % against the true tree. FN and FP are in `results/*_summary.md
 | ASTRAL-III | **17.19** | 15.76 | 13.85 | 11.62 | 21–24 |
 | MRL-FT | 19.64 | 20.88 | 17.42 | 11.93 | 17–27 |
 | ASTER astral4 (8 reps) | 32.07 | – | – | – | 45 |
+| TREE-QMC 3.0.4 | 21.26 | – | – | 11.60 | 201–371 |
 | DC-GTM, ASTRAL-III guide, m = 100 | 17.71 | **15.55** | **13.74** | **11.35** | ~34 (= 22 + 12) |
 | DC-GTM, MRL-FT guide, m = 100 | 20.10 | 19.92 | 16.76 | 11.69 | ~33 |
 | DC-GTM, MRL-FT guide, m = 200 | 19.65 | 19.27 | 16.52 | 11.67 | ~34 |
@@ -100,6 +101,8 @@ Paired, all 40 replicates:
 | DC-GTM(MRL-FT guide, m = 200) vs MRL-FT | −0.69 | 24/7/9 | 0.0016 |
 | MRL-FT vs ASTRAL-III | +2.86 | 4/1/35 | 2.8e-7 |
 | astral4 vs ASTRAL-III (d20, n = 8) | +13.99 | 0/0/8 | 0.0078 |
+| TREE-QMC vs ASTRAL-III (d20, n = 10) | +4.07 | 1/0/9 | 0.0098 |
+| TREE-QMC vs ASTRAL-III (d100, n = 10) | −0.02 | 5/1/4 | 0.79 |
 
 ### 5.2 Birth-death DCM-IQ, 500–10,000 taxa (rooted source trees with little overlap)
 
