@@ -134,3 +134,6 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | aproroom: headroom for GDL species-tree methods (true vs estimated trees/tags, 1000 species, fair speed, hybrid) | claude/cs581-aproroom | session_01S5dW3pZ3M1RoZppz3YMxpv |
 | gcmclust: different clustering method inside GCM (MCL inflation, Leiden/Louvain, CC, agglomerative), with/without support filter | claude/cs581-gcmclust | session_01NkgLadfKkHYrR3iaEo1CYT |
 | basemeth: MAGUS/PASTA with MUSCLE5/FAMSA2/ProbCons/Prank/Clustal subset aligners + Regressive comparison | claude/cs581-basemeth | session_01UZ9gUSWa5AGU8MVZgk2wfJ |
+| gcmtrees-h1 helper: SIMHIGH_R6-R8 | claude/cs581-gcmtrees-h1 | session_01CVUHoeHrzN39vhfp85zAWp |
+| gcmtrees-h2 helper: SIMMOD_R1-R4 | claude/cs581-gcmtrees-h2 | session_01LrNTfKjroQAetYhP1jYT7T |
+| gcmtrees-h3 helper: SIMMOD_R5-R8 | claude/cs581-gcmtrees-h3 | session_01RvNzN9F7tm6AN2BRzhv4AT |
