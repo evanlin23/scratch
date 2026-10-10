@@ -74,10 +74,13 @@ def base_out(rep, base):
     return os.path.join(rep, "variants", bbe.safe(base.replace(":", "_c_")), "out.fasta")
 
 
-def sh(cmd, log):
+SS_CAP = int(os.environ.get("MG_SS_CAP", "900"))  # seconds; a self-soft merge over this counts as failed
+
+
+def sh(cmd, log, timeout=None):
     start = time.time()
     with open(log, "w") as f:
-        subprocess.run(cmd, cwd=CODE, stdout=f, stderr=subprocess.STDOUT, check=True)
+        subprocess.run(cmd, cwd=CODE, stdout=f, stderr=subprocess.STDOUT, check=True, timeout=timeout)
     return round(time.time() - start, 1)
 
 
@@ -121,11 +124,15 @@ def self_soft(rep, name):
         for lab, a in files:
             fasta.write(a, os.path.join(ev, "base_" + lab + ".txt"))
     out = os.path.join(vd, "out.fasta")
-    m_wall = sh([sys.executable, "-m", "gcmx.run_magus", "-np", T, "--gcmx-mclthreads", T, "-d",
-                 os.path.join(vd, "work"), "-s", split, "-b", ev, "-o", out], os.path.join(vd, "magus.log"))
+    try:
+        m_wall = sh([sys.executable, "-m", "gcmx.run_magus", "-np", T, "--gcmx-mclthreads", T, "-d",
+                     os.path.join(vd, "work"), "-s", split, "-b", ev, "-o", out], os.path.join(vd, "magus.log"),
+                    timeout=SS_CAP)
+        s = acc_ref(os.path.join(rep, "true.fasta"), out)
+    except subprocess.TimeoutExpired:  # the minclusters trace can search for hours on 75 groups
+        m_wall, s = SS_CAP, {"timeout": True}
     shutil.rmtree(os.path.join(vd, "work"), ignore_errors=True)
     shutil.rmtree(ev, ignore_errors=True)
-    s = acc_ref(os.path.join(rep, "true.fasta"), out)
     b = results(rep)[base]
     row = {"rep": os.path.basename(rep.rstrip("/")), "variant": name, "base_merge_wall": b.get("merge_wall"),
            "base_prep_wall": b.get("prep_wall"), "base_bb_wall": b.get("bb_wall"), "base_bb_sum": b.get("bb_sum"),

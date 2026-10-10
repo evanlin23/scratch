@@ -39,22 +39,25 @@ def overhead(rows, v):
     r = rows[v]
     if v.startswith(("ss:", "ssu:")):
         base = v.split(":", 1)[1]
-        return overhead(rows, base) + r["ev_wall"] + r["split_wall"] + r["merge_wall"]
+        return overhead(rows, base) + r.get("ev_wall", 0) + r.get("split_wall", 0) + r["merge_wall"]
     if v == CTRL:
         return 0.0
     return (r.get("bb_wall") or 0) + (r.get("prep_wall") or 0) + r["merge_wall"] - rows[CTRL]["merge_wall"]
 
 
 def stats(ds, key="avgErr"):
-    d = np.array([100 * (x[1][key] - x[0][key]) for x in ds])
+    """Mean over scored pairs; a timed-out run (no score) counts as a loss in W/T/L and is left out of
+    the mean and the Wilcoxon test."""
+    fails = sum(1 for x in ds if key not in x[1])
+    d = np.array([100 * (x[1][key] - x[0][key]) for x in ds if key in x[1]])
     if len(d) == 0:
         return None
-    w = int((d < -TIE).sum()); l = int((d > TIE).sum()); t = len(d) - w - l
+    w = int((d < -TIE).sum()); l = int((d > TIE).sum()) + fails; t = len(d) + fails - w - l
     try:
         p = wilcoxon(d).pvalue if np.any(d != 0) and len(d) > 1 else 1.0
     except ValueError:
         p = 1.0
-    return d.mean(), w, t, l, p, len(d)
+    return d.mean(), w, t, l, p, len(d) + fails
 
 
 def main():
@@ -69,7 +72,8 @@ def main():
     print("|---|---|---|" + "---|" * len(variants))
     for n, rows in data.items():
         c = rows[CTRL]["avgErr"]
-        cells = ["{:+.2f}".format(100 * (rows[v]["avgErr"] - c)) if v in rows else "" for v in variants]
+        cells = [("timeout" if "avgErr" not in rows[v] else "{:+.2f}".format(100 * (rows[v]["avgErr"] - c)))
+                 if v in rows else "" for v in variants]
         print("| {} | {} | {:.2f} | {} |".format(n, dtype(n), 100 * c, " | ".join(cells)))
     print("\n## Summary per variant (Δ = variant − MAGUS, points; W/T/L with |Δ| < {} a tie; two-sided Wilcoxon)\n".format(TIE))
     print("| variant | group | n | Δ error | W/T/L | p | Δ SPFN | Δ SPFP | extra wall s over MAGUS (median) |")
