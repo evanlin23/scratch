@@ -105,4 +105,33 @@ Cells: mean SPFN / SPFP over replicates (UPP/WITCH-based: insertion letters mask
 
 | condition | rep | method | long SPFN / SPFP | all SPFN / SPFP | time (s) |
 |---|---|---|---|---|---|
+| small_dom_m0 | R0 | emma | 0.383 / 0.008 | 0.007 / 0.000 | 10 |
+| small_dom_m0 | R0 | mafft-add | 0.033 / 0.025 | 0.001 / 0.001 | 1 |
+| small_dom_m0 | R0 | mafft | 0.021 / 0.020 | 0.014 / 0.014 | 49 |
+| small_dom_m0 | R0 | upp-tfa | 0.021 / 0.015 | 0.001 / 0.001 | 9 |
+| small_dom_m0 | R0 | upp | 0.503 / 0.003 | 0.010 / 0.000 | 6 |
+| small_dom_m0 | R1 | emma | 0.416 / 0.007 | 0.008 / 0.000 | 9 |
+| small_dom_m0 | R1 | mafft-add | 0.047 / 0.038 | 0.001 / 0.001 | 1 |
+| small_dom_m0 | R1 | mafft | 0.019 / 0.019 | 0.010 / 0.011 | 45 |
+| small_dom_m0 | R1 | upp-tfa | 0.018 / 0.011 | 0.001 / 0.000 | 8 |
+| small_dom_m0 | R1 | upp | 0.503 / 0.003 | 0.010 / 0.000 | 5 |
+| small_rand_m0 | R0 | emma | 0.003 / 0.003 | 0.000 / 0.000 | 7 |
+| small_rand_m0 | R0 | mafft-add | 0.005 / 0.004 | 0.000 / 0.000 | 0 |
+| small_rand_m0 | R0 | mafft | 0.010 / 0.010 | 0.014 / 0.014 | 35 |
+| small_rand_m0 | R0 | upp-tfa | 0.006 / 0.003 | 0.001 / 0.000 | 6 |
 | small_rand_m0 | R0 | upp | 0.006 / 0.003 | 0.001 / 0.000 | 5 |
+| small_rand_m0 | R1 | emma | 0.002 / 0.002 | 0.000 / 0.000 | 7 |
+| small_rand_m0 | R1 | mafft-add | 0.006 / 0.005 | 0.001 / 0.000 | 0 |
+| small_rand_m0 | R1 | mafft | 0.008 / 0.009 | 0.010 / 0.010 | 30 |
+| small_rand_m0 | R1 | upp-tfa | 0.007 / 0.003 | 0.001 / 0.000 | 4 |
+| small_rand_m0 | R1 | upp | 0.007 / 0.003 | 0.001 / 0.000 | 4 |
+| small_rand_m1 | R0 | emma | 0.003 / 0.118 | 0.000 / 0.001 | 10 |
+| small_rand_m1 | R0 | mafft-add | 0.005 / 0.331 | 0.000 / 0.005 | 1 |
+| small_rand_m1 | R0 | mafft | 0.009 / 0.334 | 0.014 / 0.018 | 71 |
+| small_rand_m1 | R0 | upp-tfa | 0.006 / 0.003 | 0.001 / 0.000 | 6 |
+| small_rand_m1 | R0 | upp | 0.006 / 0.003 | 0.001 / 0.000 | 6 |
+| small_rand_m1 | R1 | emma | 0.002 / 0.108 | 0.000 / 0.001 | 9 |
+| small_rand_m1 | R1 | mafft-add | 0.005 / 0.316 | 0.001 / 0.004 | 1 |
+| small_rand_m1 | R1 | mafft | 0.008 / 0.349 | 0.011 / 0.015 | 80 |
+| small_rand_m1 | R1 | upp-tfa | 0.007 / 0.003 | 0.001 / 0.000 | 5 |
+| small_rand_m1 | R1 | upp | 0.007 / 0.003 | 0.001 / 0.000 | 5 |

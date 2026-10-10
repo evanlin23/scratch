@@ -77,8 +77,9 @@ FastTree tree. The add-methods therefore differ only in how they add queries. Th
 queries are always queries, so every condition is paired with the control: same
 replicate, same query set, same backbone.
 
-Each condition has 3 replicates (R0–R2). De novo MAGUS and MAFFT L-INS-i were run on R0
-only, for time.
+Each condition has 3 replicates (R0–R2), and the second domain has 3 more (R3–R5). De novo
+methods were run only on smaller 100-sequence versions (§5.2), because they did not
+finish at 500 sequences in the time budget.
 
 ### Scoring
 - FastSP SPFN/SPFP is computed on all sequences and on the long queries only (the
@@ -102,8 +103,8 @@ We reran this with a MAGUS backbone on the 500 full-length sequences
 | emma | EMMA (GitHub c5shen/EMMA @68be952), `-b -e -q`, defaults |
 | mafft-add | `mafft --add queries backbone` (MAFFT 7.505) |
 | mafft-addlong | `mafft --addlong` (R0 only) |
-| mafft | MAFFT L-INS-i de novo on all 500 sequences (R0 only); `--auto` picks FFT-NS-2, which fails on ROSE (§5.4) |
-| magus | MAGUS de novo, defaults (R0 only) |
+| mafft | MAFFT L-INS-i de novo on all sequences (100-sequence check only); `--auto` picks FFT-NS-2, which fails on ROSE (§5.4) |
+| magus | MAGUS de novo, defaults: started on R0 but not finished within budget, so no result |
 | **upp-tfa / emma-tfa** | **pilot fix** (`code/trim.py`), described below |
 
 UPP2 and HMMerge were not run. UPP2 is not in the bioconda SEPP package, and the HMMerge
@@ -150,7 +151,32 @@ methods holds.
 | mafft --addlong (R0) | 0.002 / 0.002 | 0.002 / 0.172 | 0.002 / 0.302 | 0.002 / 0.550 | 0.033 / 0.028 |
 | **upp-tfa** | 0.003 / 0.001 | 0.003 / 0.001 | 0.003 / 0.001 | 0.003 / 0.001 | **0.030 / 0.008** |
 | **emma-tfa** | 0.001 / 0.001 | 0.001 / 0.002 | 0.001 / 0.001 | 0.001 / 0.001 | **0.029 / 0.008** |
-DENOVO_ROWS
+
+**De novo comparison** (`code/small_denovo.sh`).
+- **Why a smaller set:** MAGUS and MAFFT L-INS-i on the 500-sequence datasets did not
+  finish within the time budget. After about 60 min on 1 core, MAGUS was halfway through
+  its backbones, so we stopped both.
+- **What we ran instead:** 100-sequence datasets (10 long queries, true backbone for the
+  add-methods), replicates R0–R1, 2 threads. Cells are the mean of the two replicates on
+  the long queries:
+
+| method | control | random +1× | second domain | time (s) |
+|---|---|---|---|---|
+| MAFFT L-INS-i, de novo | 0.009 / 0.010 | 0.009 / **0.342** | **0.020 / 0.020** | 33–76 |
+| mafft --add | 0.006 / 0.005 | 0.005 / 0.324 | 0.040 / 0.032 | ≈1 |
+| emma | 0.003 / 0.003 | 0.003 / 0.113 | 0.400 / 0.008 | 7–10 |
+| upp | 0.007 / 0.003 | 0.007 / 0.003 | 0.503 / 0.003 | 5–6 |
+| **upp-tfa** | 0.007 / 0.003 | 0.007 / 0.003 | **0.020 / 0.013** | 5–9 |
+
+- **De novo alignment recovers the second domain** (SPFN 0.02) but aligns random flanks
+  to each other (SPFP 0.34).
+- **UPP has the opposite profile.** It is clean on random flanks and loses the second
+  domain.
+- **upp-tfa is the only method that is right in both conditions**, in 1/5–1/14 of MAFFT's
+  runtime.
+- **Caveat:** these are 2 replicates of a tiny dataset, so treat them as indicative.
+- **MAGUS:** not tested. On 100 sequences MAGUS would essentially be MAFFT L-INS-i on one
+  subset.
 
 **UPP and WITCH output used as-is.** If the output is upper-cased, insertion letters count
 as aligned. Long-query SPFP then becomes:
@@ -211,8 +237,8 @@ Flank detection worked in both directions:
 ## 6. Runtime
 
 Mean seconds for the add step (backbone given). Replicates R1–R2 ran 4 single-thread jobs
-at once on 4 cores. `mafft --addlong` and the de novo methods are R0 only, and their R0
-jobs ran in parallel with others.
+at once on 4 cores. `mafft --addlong` is R0 only, and its R0 jobs ran in parallel with others. De novo
+runtimes are in §5.2.
 
 | method | control | random +0.5× | random +1× | random +3× | second domain |
 |---|---|---|---|---|---|
@@ -223,7 +249,6 @@ jobs ran in parallel with others.
 | mafft --addlong | 215 | 288 | 653 | 807 | 434 |
 | upp-tfa | 119 | 124 | 150 | 170 | 192 |
 | emma-tfa | 81 | 85 | 105 | 129 | 158 |
-DENOVO_TIME
 
 - **Long flanks cost the HMM methods time.** UPP takes 2.1× and WITCH 2.9× longer at
   +3× than in the control.
@@ -255,7 +280,9 @@ DENOVO_TIME
    - The pilot fix (trim → add → detect homologous flanks with nhmmer → align them with
      MAFFT) brings UPP and EMMA down to SPFN 0.03 / SPFP 0.008. That is 6/6 wins over its
      base method (p = 0.031, the minimum for n = 6) and 6/6 wins over `mafft --add`.
-DENOVO_VERDICT
+   - De novo MAFFT L-INS-i also recovers the second domain (SPFN 0.02, small datasets).
+     But it pays for that on random flanks, where its long-query SPFP is 0.34. In this
+     pilot, tfa is the only method that handles both conditions.
 3. **Literature gap.** No UPP-family paper benchmarks queries longer than the family.
    Every "length heterogeneity" dataset we found consists of fragments.
 
