@@ -1,0 +1,3 @@
+{"setting": "S25", "rep": 0, "mode": "true", "nq": 30, "min": 1.0, "median": 1.0, "nneg": 0}
+{"setting": "S25", "rep": 0, "mode": "ovl", "nq": 30, "min": 0.9681818181818181, "median": 1.0, "nneg": 0}
+{"setting": "S25", "rep": 0, "mode": "own", "nq": 30, "min": 0.8737236110379383, "median": 0.9899210488332438, "nneg": 0}
