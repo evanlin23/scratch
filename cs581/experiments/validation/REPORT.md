@@ -43,6 +43,7 @@ Our runs: current MAGUS (commit 39041fc) with the paper's MAGUS(Fast) flags (`--
 | 1000L2_R0 | 3.8 | 4.5 | +0.72 | 6.3 | 25 | 11 |
 | 1000L2_R1 | 1.6 | 1.1 | -0.50 | 1.8 | 22 | 9 |
 | 1000L2_R2 | 5.6 | 6.5 | +0.85 | 5.9 | 34 | 14 |
+| 1000L2_R3 | 3.5 | 3.0 | -0.50 | 3.0 | 19 | 9 |
 | 1000L3_R0 | 12.7 | 11.3 | -1.38 | 15.8 | 29 | 15 |
 | 1000L3_R2 | 8.7 | 9.3 | +0.59 | 14.0 | 5 | 14 |
 | 1000L3_R3 | 8.0 | 7.6 | -0.36 | 12.2 | 29 | 12 |
@@ -50,6 +51,7 @@ Our runs: current MAGUS (commit 39041fc) with the paper's MAGUS(Fast) flags (`--
 | 1000M2_R0 | 8.3 | 8.2 | -0.03 | 13.7 | 25 | 16 |
 | 1000M2_R2 | 9.3 | 10.1 | +0.86 | 12.4 | 22 | 15 |
 | 1000M2_R3 | 8.5 | 7.4 | -1.05 | 13.7 | 25 | 10 |
+| 1000M2_R4 | 6.5 | 5.7 | -0.77 | 8.3 | 24 | 12 |
 | 1000M3_R0 | 4.1 | 4.5 | +0.43 | 5.6 | 19 | 10 |
 | 1000M3_R1 | 5.0 | 4.3 | -0.79 | 9.4 | 20 | 12 |
 | 1000M3_R2 | 5.0 | 4.4 | -0.51 | 7.6 | 26 | 14 |
@@ -80,9 +82,11 @@ Our runs: current MAGUS (commit 39041fc) with the paper's MAGUS(Fast) flags (`--
 | BBA0154_R0 | 21.1 | 21.7 | +0.53 | 22.5 | 18 | 9 |
 | BBA0190_R0 | 23.1 | 23.4 | +0.29 | 23.9 | 36 | 19 |
 | RNASim_R0 | 9.6 | 9.9 | +0.32 | 10.1 | 15 | 37 |
+| RNASim_R1 | 9.3 | 8.9 | -0.42 | 8.8 | 38 | 38 |
+| RNASim_R2 | 9.7 | 9.7 | -0.01 | 10.0 | 76 | 37 |
 | RNASim_R3 | 9.9 | 10.0 | +0.10 | 10.0 | 73 | 43 |
 
-Mean difference ours − published: +0.00 points over 46 replicates (mean |diff| 0.52).
+Mean difference ours − published: -0.03 points over 50 replicates (mean |diff| 0.52).
 
 ## 3. Harness check: merge-only rerun on cached inputs reproduces the full pipeline
 
@@ -96,6 +100,7 @@ Mean difference ours − published: +0.00 points over 46 replicates (mean |diff|
 | 1000L2_R0 | 4.5 | 4.5 | yes |
 | 1000L2_R1 | 1.1 | 1.1 | yes |
 | 1000L2_R2 | 6.5 | 6.5 | yes |
+| 1000L2_R3 | 3.0 | 3.0 | yes |
 | 1000L3_R0 | 11.3 | 11.3 | NO |
 | 1000L3_R2 | 9.3 | 9.3 | yes |
 | 1000L3_R3 | 7.6 | 7.6 | yes |
@@ -103,6 +108,7 @@ Mean difference ours − published: +0.00 points over 46 replicates (mean |diff|
 | 1000M2_R0 | 8.2 | 8.2 | yes |
 | 1000M2_R2 | 10.1 | 10.1 | yes |
 | 1000M2_R3 | 7.4 | 7.4 | yes |
+| 1000M2_R4 | 5.7 | 5.7 | yes |
 | 1000M3_R0 | 4.5 | 4.5 | yes |
 | 1000M3_R1 | 4.3 | 4.3 | yes |
 | 1000M3_R2 | 4.4 | 4.4 | yes |
@@ -133,4 +139,6 @@ Mean difference ours − published: +0.00 points over 46 replicates (mean |diff|
 | BBA0154_R0 | 21.7 | 21.7 | NO |
 | BBA0190_R0 | 23.4 | 23.4 | yes |
 | RNASim_R0 | 9.9 | 9.9 | yes |
+| RNASim_R1 | 8.9 | 8.9 | yes |
+| RNASim_R2 | 9.7 | 9.7 | yes |
 | RNASim_R3 | 10.0 | 10.0 | yes |

@@ -1,0 +1,2 @@
+RNASim_R0 /opt/data/Datasets/RNASim/1000/R0/true_align.txt 25
+16S.M_R0 /opt/data/Datasets/Gutell/16S.M/R0/true_align_clean.txt 25
