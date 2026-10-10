@@ -8,10 +8,24 @@ T = sys.argv[3] if len(sys.argv) > 3 else '1'
 P = '/opt/mm/root/envs/place/bin'
 t = treeswift.read_tree_newick(f'{d}/fasttree.tre')
 t.root.edge_length = None
+for v in t.traverse_internal():
+    v.label = None  # drop FastTree support values
+t.is_rooted = False
 t.write_tree_newick(f'{d}/rx.raxml.bestTree')
 names = [v.label for v in t.traverse_leaves()]
 sub = set(random.Random(3).sample(names, k))
 st = t.extract_tree_with(sub, suppress_unifurcations=True)
+r = st.root
+if len(r.children) == 2:  # unroot
+    a, b = r.children
+    m = a if not a.is_leaf() else b
+    o = b if m is a else a
+    o.edge_length = (o.edge_length or 0) + (m.edge_length or 0)
+    r.remove_child(m)
+    for c in list(m.children):
+        m.remove_child(c); r.add_child(c)
+st.root.edge_length = None
+st.is_rooted = False; t.is_rooted = False
 st.write_tree_newick(f'{d}/msub.tre')
 L = 0
 with open(f'{d}/backbone.fa') as f, open(f'{d}/msub.fa', 'w') as o:
