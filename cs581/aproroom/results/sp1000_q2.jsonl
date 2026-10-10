@@ -1,0 +1,2 @@
+{"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "est100", "method": "astrid-pro", "threads": 1, "rssMB": 113.1, "sec": 17.589, "FN": 70, "FP": 70, "nI": 998, "FNrate": 0.07014}
+{"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "est100", "method": "astrid-multi", "threads": 1, "rssMB": 113.0, "sec": 34.137, "FN": 81, "FP": 81, "nI": 998, "FNrate": 0.08116}
