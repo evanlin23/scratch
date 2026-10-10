@@ -121,7 +121,7 @@ Per-copy survival is 3.8% in A, 0.9% in B and 7.3% in C.
 | 0.25 | **−0.0099 ± 0.0018** | −0.0103 |
 | 0.5 | **−0.0244 ± 0.0024** | −0.0254 |
 
-- The observed sign change lies between 0.10 and 0.15. That is within one standard error of the prediction at q = 0.1.
+- A weighted line through all seven points (adding q = 0: +0.0049 ± 0.0003) gives **q* = 0.080 ± 0.005**, and the prediction has χ² = 3.8 on 7 df. Reading only single points, the first negative one is at 0.15, but the q = 0.10 point (+0.0002 vs −0.0013 predicted) is a 1.4 SE fluctuation; all q values reuse one pool.
 - The other wrong topology (AD|BC) stays below the correct one at every q ≤ 0.25, as predicted.
 
 **Species-tree level** (`curve4.py`; fraction of disjoint replicate datasets on which ASTRAL-Pro3 returns a wrong 4-taxon tree):
@@ -227,3 +227,16 @@ The cause: an S label on a node whose children share species makes ASTRAL-Pro co
 2. **Rooting error.** `rovl(p)` and `rsp-X` stay consistent on the generic grids. But they fail on near-boundary configurations (cand3, Section 4b), and ASTRAL-Pro's own min-duplication rooting fails on cand4. A formula like the one above for "random root + overlap tags" is the obvious next step. On a wrong root, true speciations can be tagged D, which only removes correct mass, and new hidden-paralog-like S nodes appear, which is where the bias enters.
 3. **Sufficient conditions.** Find conditions under which O + H_AB > max H_wrong: for example λ_e ≤ μ_e on the branch above every three-taxon clade, or an upper bound on λ_y·T. The prevalence scan rules out the simple conjecture "no supercritical branch": a critical branch with large λT also fails. The conjecture has to bound turnover, for example λ_y T small or λ < μ strictly. The sibling session's ortholog-distance condition was λ_e ≤ μ_e, so the two problems differ here.
 4. **ASTRAL-multi.** Check whether Legried et al.'s theorem assumes uniform rates [M], since cand2 sits on a near-tie for ASTRAL-multi.
+
+## 7. Constant rates (follow-up)
+
+With one (λ, μ) on every branch the formula is unchanged and exact: tip and x duplications enter through the generating functions, and D's copies only scale every class count by P(D present). Simulation over 53 configurations confirms it: median |predicted − observed| = 0.0009.
+
+- **Exact scan** (`code/constscan.py`): 7 of 237,088 caterpillars are inconsistent with correct-root overlap tags.
+  - All 7 have λ = μ = 8, long cherry branches (2–4), x = 0.01 and y = 1–2.
+  - No configuration with λ ≤ 4 fails, and none with λ ≠ μ.
+- **Simulation check: cand5** = (((A:4,B:4)x:0.01,C:0.5)y:2,D:0.05) with λ = μ = 8 everywhere.
+  - Overlap tags and stock ASTRAL-Pro3 are wrong in 4/4 datasets of 10,000 families; true tags 0/4.
+  - Block margin −3.7 ± 0.6% of support, against −3.3% predicted.
+  - The uncapped re-run gives −2.4 ± 1%.
+- **Interpretation.** Under the standard constant-rate GDL model, consistency of ASTRAL-Pro with its own tagging fails only at extreme critical turnover (λt ≥ 16 per branch), and needs a near-zero internal branch.
