@@ -9,6 +9,58 @@ Supersedes `ranking_v1.md`. Sources: every exploration session's `cs581/<dir>/RE
 verbatim in the slides or on the instructor's project list, about methods taught in lecture; **medium** =
 methods taught, question ours; **low** = needs material not covered.
 
+## Overnight update (2026-10-10 08:05 UTC): two new leads, one weakened
+
+**New top candidate: EPA-ng large-tree bug** (`claude/cs581-epang`, audit `epang_upstream_audit.md`).
+Answers the open problem in Wedell, Shen & Warnow (BSCAMPP, TCBB 2025): why EPA-ng's placement error more
+than doubles above 2,000 leaves. Root cause: with more than 2,000 tips EPA-ng switches on per-rate scalers,
+and its premasking code (`shift_partition_focus`) shifts the scaler buffers by `offset` instead of
+`offset × rate_cats`, so fragments (queries not starting at column 0) get wrong likelihoods and falsely
+confident placements. Unreported since v0.3.3 (2018); present in bioconda 0.3.8 (bundled by BSCAMPP),
+reaches TIPP3-fast and PICRUSt2 (~26.9K-tip default tree). Evidence (RNASim 10K, 303 paired fragment
+queries, true query alignment): stock mean delta error 1.09/0.97/0.82 at 500/1k/2k leaves, then
+1.74/1.65/1.71 at 3k/5k/9k; forcing scalers on at 500-2k reproduces the jump; `--no-pre-mask` removes it;
+the 5-line patch gives 0.78/0.79/0.73 at 3k/5k/9k (keeps improving); full-length queries unaffected (as
+predicted). End to end: BSCAMPP with the patched EPA-ng at subtree size 9,000: mean delta 0.661 vs 0.798
+for stock BSCAMPP at its default 2,000 (−17%, 1,000 fragment queries), at 1.7× wall-clock and 12.9 vs
+2.7 GB. The second hunk (`|=`) only restores SIMD kernels (speed). Downstream (BSCAMPP at more sizes,
+TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic placement
+(pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
+so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
+
+**EPA-ng follow-up (09:15 UTC, `claude/cs581-epang`, `claude/cs581-epangdown`).** Replicated on RNASim R1:
+stock BSCAMPP 0.846 at 2,000 vs 1.682 at 5,000 (the paper's 2× jump), fixed 0.721 at 5,000 (p = 0.005).
+On two more datasets (1,000 fragment queries each, BSCAMPP subtree sizes 2k/5k/10k): nt78, stock 1.72 /
+4.77 / 5.09 vs fixed 1.72 / 1.70 / 1.69 (fix vs stock at 5k: p = 1e-80); 16S, stock 25.3 / 28.0 vs fixed
+25.4 / 26.9 (5k: p = 0.009). Bug 2 alone carries the whole accuracy effect; bug 1 alone is speed only
+(fixed EPA-ng 18-22% faster on 5k-10k subtrees). So the robust results are: the anomaly is explained, the
+fixed placer is flat in subtree size, and it is faster; "larger subtrees are more accurate" holds on
+RNASim 10K (−15 to −17%) but not on nt78 or 16S (≈ 0). The fix matters most where EPA-ng runs on whole
+large trees with fragmentary queries (PICRUSt2's amplicons on a ~26.9K-tip tree; BSCAMPP paper Exp. 5).
+
+**Distance-mixture deconvolution theory (`claude/cs581-decodiphy`, final).** Exhaustive LP checks (all
+tree shapes to n = 12 for k ≤ 2, n = 9 for k = 3) plus ~54k random instances, zero exceptions: k = 1 and
+non-adjacent k = 2 identifiable; adjacent k = 2 always a continuum; k = 3 non-identifiable exactly when a
+"closed claw" exists. Refutes the paper's "needs extreme symmetry" conjecture (28% of generic k = 3 claw
+cases; explicit n = 5 counterexample). Theorem: d determines the node measure modulo weighted-Laplacian
+moves. k-selection: learned rule 0.43 vs 0.33 exact-k (p = 5e-18) but placement barely changes. Verdict:
+promising as a theory project; source is a Mirarab-lab RECOMB 2026 paper; course link via tree metrics.
+
+**Clustal Omega backbones: real on BAliBASE, not general.** Measured end to end with the threading fix,
+MAGUS with Clustal backbones is 3-4× faster on BAliBASE (e.g. BBA0067 254 s vs 985 s; BBA0154 268 vs 940 s)
+and more accurate on BBA0039 (−0.14 to −0.36, 3 draws), BBA0067 (−0.8 to −1.2), BBA0154 (−1.9); cached
+inputs also BBA0101 (−2.8), BBA0190 (−1.2); worse on BBA0117 (+1.3) and BBA0134 (+1.5). But it does not
+generalize: simulated proteins (AliSim LG+G4 with indels) +4.3 to +5.1 points worse, 10AA 1GADBL ≈ 0,
+HomFam aat ≈ 0 paired / +0.8 end to end, and 16S.M (DNA) +7.0. `mafft --auto` backbones are mixed
+(−1.5 on BBA0067, +0.1 to +0.25 elsewhere, −0.4 on 16S.M). Row 3 below is downgraded to "dataset-dependent".
+
+**WITCH-lite** (`claude/cs581-witchlite`): BLAST-guided HMM selection matches WITCH on 16S (+0.01-0.02 SPFN
+at 22-26% of the time) but fails on divergent ROSE (+10 SPFN); best divergent-data variant (beam-2
+descent) +1.1 SPFN at 46% of the time. Leaning not promising.
+
+Still running: prost3di, iqstop, decodiphy (theory: explicit k = 3 non-identifiable instance found),
+bbevidence (mechanism), the bbtool confirmation draws, PASTA reruns on RNASim/16S.M.
+
 | rank | idea (branch) | strongest result | beats strongest baseline? | runtime | novelty (audit) | course | verdict |
 |---|---|---|---|---|---|---|---|
 | 1 | **ASTRAL-Pro is inconsistent under GDL because of its own rooting/tagging** (gdlcons) | Exact 4-taxon formula; with true gene trees stock ASTRAL-Pro3 returns the wrong species tree in 40/40, 20/20, 4/4 datasets (500 / 2k / 10k families); correct with true tags. Holds **even with constant rates** (λ = μ on every branch), but only at extreme turnover (λ = μ = 8: wrong 20/20 and 4/4; never at λ ≤ 4). Tag-error threshold q* = 0.080 ± 0.005 observed vs 0.079 predicted | n/a (theory + simulation) | cheap (simulation) | core result novel: counterexamples to Zhang et al.'s consistency conjecture; partly known context | **high**: slide 35 asks verbatim "Is ASTRAL-Pro consistent for GDL under ... error for rooting and tagging?"; GDL lecture "Phylogenomics, part 2" | promising (theory-led). Caveats: numerical, not proofs; constant-rate failures need extreme rates; wQFM-GDL probably inherits the issue (unverified) |
