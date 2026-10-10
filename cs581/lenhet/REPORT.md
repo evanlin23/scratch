@@ -273,7 +273,7 @@ DENOVO_VERDICT
 - **Diluted overall.** Over all sequences the effects are ≤ 0.01, because only 10% of
   sequences are long. A paper would need to argue that per-query accuracy is what
   matters, for example for placement or for downstream trees on those taxa.
-- **Thin algorithmic novelty.** The fix is about 150 lines of glue around
+- **Thin algorithmic novelty.** The fix is about 120 lines of glue around
   hmmsearch, nhmmer and MAFFT. The contribution would be mainly the benchmark and the
   characterisation.
 
