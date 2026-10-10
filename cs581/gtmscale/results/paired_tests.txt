@@ -34,15 +34,19 @@ Differences in FN points (B - A); negative = B more accurate. Two-sided Wilcoxon
    full_ft -> blendft                                      n= 4 mean  -2.58 (95% CI -2.93, -2.20)  better/worse/tie 4/0/0  Wilcoxon p=0.125
    full_iq -> blendft                                      n= 4 mean  +0.61 (95% CI +0.25, +0.98)  better/worse/tie 0/4/0  Wilcoxon p=0.125
    full_ft -> gtm                                          n= 4 mean  -1.80 (95% CI -2.43, -1.18)  better/worse/tie 4/0/0  Wilcoxon p=0.125
-== n5000_i0.01, guide ftfast (1 reps)
-   mean FN%: guide 57.31 subsets 24.40 fullFT 36.10 fullIQ 26.34 GTM 32.02 BlendFT 31.42 polishFT 33.06 cFT nan TreeMerge nan
-   mean wall s: e2e GTM 139, e2e BlendFT 327, full FT 244, full IQ(-fast) 365
+== n5000_i0.01, guide ftfast (2 reps)
+   mean FN%: guide 57.73 subsets 24.04 fullFT 35.23 fullIQ 25.76 GTM 30.13 BlendFT 31.42 polishFT 33.06 cFT 60.08 TreeMerge nan
+   mean wall s: e2e GTM 142, e2e BlendFT 327, full FT 246, full IQ(-fast) 394
    gtm -> blendft                                          n= 1 mean  -0.60 (95% CI -0.60, -0.60)  better/worse/tie 1/0/0  Wilcoxon p=1
    gtm -> polishft                                         n= 1 mean  +1.04 (95% CI +1.04, +1.04)  better/worse/tie 0/1/0  Wilcoxon p=1
    polishft -> blendft                                     n= 1 mean  -1.64 (95% CI -1.64, -1.64)  better/worse/tie 1/0/0  Wilcoxon p=1
    full_ft -> blendft                                      n= 1 mean  -4.68 (95% CI -4.68, -4.68)  better/worse/tie 1/0/0  Wilcoxon p=1
    full_iq -> blendft                                      n= 1 mean  +5.08 (95% CI +5.08, +5.08)  better/worse/tie 0/1/0  Wilcoxon p=1
-   full_ft -> gtm                                          n= 1 mean  -4.08 (95% CI -4.08, -4.08)  better/worse/tie 1/0/0  Wilcoxon p=1
+   full_ft -> gtm                                          n= 2 mean  -5.10 (95% CI -6.12, -4.08)  better/worse/tie 2/0/0  Wilcoxon p=0.5
+== rnasim10k, guide ftfast (1 reps)
+   mean FN%: guide 13.49 subsets 10.25 fullFT 10.42 fullIQ nan GTM 10.49 BlendFT nan polishFT nan cFT nan TreeMerge nan
+   mean wall s: e2e GTM 1685, e2e BlendFT nan, full FT 2779, full IQ(-fast) nan
+   full_ft -> gtm                                          n= 1 mean  +0.07 (95% CI +0.07, +0.07)  better/worse/tie 0/1/0  Wilcoxon p=1
 
 == published conditions (published guide + IQ-TREE subset trees + published GTM tree)
 == 1000M1-HF, guide FT (5 reps): GTM 42.45 BlendFT 41.82 polishFT 37.31
