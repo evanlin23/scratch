@@ -101,8 +101,8 @@ def quartet_scores(sp, par, ch, order, dup, species=("A", "B", "C", "D")):
         else:
             wk, wm = lca(l[(i, j)], q[k]), lca(l[(i, j)], q[m])
             anc = wk if depth[wk] > depth[wm] else wm  # caterpillar: anchor LCA = 2nd internal node
-        top = frozenset([species[i], species[j]])
-        key = "".join(sorted(top)) + "|" + "".join(sorted(set(species) - top))
+        top = frozenset(["ABCD"[i], "ABCD"[j]])   # positional names: (A,B,C,D) = species order
+        key = "".join(sorted(top)) + "|" + "".join(sorted(set("ABCD") - top))
         if "A" not in key.split("|")[0]:
             key = key.split("|")[1] + "|" + key.split("|")[0]
         anchors[key].add(anc)
