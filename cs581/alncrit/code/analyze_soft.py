@@ -43,7 +43,7 @@ def main():
         for x, y in (("slow-soft-m3", "default"), ("slow-soft-m3", "slow"), ("slow", "default"),
                      ("default", "true"), ("slow-soft-m3", "true")):
             if x in piv and y in piv:
-                d = piv[x] - piv[y]
+                d = (piv[x] - piv[y]).dropna()
                 pv = stats.wilcoxon(d).pvalue if (d != 0).any() else 1.0
                 P("| %s − %s | %d | %+.2f | %s | %.3g |" % (VAR[x], VAR[y], len(d), d.mean(), wtl(d, a.tie), pv))
         P("")
@@ -63,6 +63,35 @@ def main():
     d = 100 * (sp["avgErr"]["slow-soft-m3"] - sp["avgErr"]["default"]).dropna()
     P("\nslow-soft-m3 − MAGUS alignment error: %+.2f pts, W/T/L %s (tie 0.05), Wilcoxon p = %.3g\n"
       % (d.mean(), wtl(d, 0.05), stats.wilcoxon(d).pvalue))
+    # criteria vs tree FN within replicate on this set (TRUE has SPFN = SPFP = 0, compression 1)
+    import numpy as np
+    import statsmodels.formula.api as smf
+    sc = s.copy()
+    sc["SPFN"] *= 100
+    sc["SPFP"] *= 100
+    sc["TC_err"] = 100 * (1 - sc.TC)
+    sc["log_comp"] = np.log(sc.Compression)
+    for method, g in t.groupby("method"):
+        m = g.merge(sc, on=["dataset", "variant"], how="left")
+        tr = m.variant == "true"
+        m.loc[tr, ["SPFN", "SPFP", "TC_err", "log_comp"]] = [0.0, 0.0, 0.0, 0.0]
+        m = m.dropna(subset=["SPFN", "fn"])
+        k = m.groupby("dataset").variant.transform("count")
+        m = m[k == k.max()]
+        for label, d0 in (("incl. TRUE", m), ("estimated only", m[m.variant != "true"])):
+            d = d0.copy()
+            for c in ("fn", "SPFN", "SPFP", "TC_err", "log_comp"):
+                d[c] = d0[c] - d0.groupby("dataset")[c].transform("mean")
+            grp = pd.factorize(d.dataset)[0]
+            P("#### %s: within-replicate regressions of tree FN (%s, %d replicates, n=%d)\n" % (method, label, d.dataset.nunique(), len(d)))
+            P("| model | coefs | cluster-robust p | within R² |")
+            P("|---|---|---|---|")
+            for f in ("SPFN", "SPFP", "log_comp", "TC_err", "SPFN + SPFP", "SPFN + SPFP + log_comp"):
+                fit = smf.ols("fn ~ " + f, data=d).fit(cov_type="cluster", cov_kwds={"groups": grp})
+                ts = f.split(" + ")
+                P("| %s | %s | %s | %.3f |" % (f, ", ".join("%.3f" % fit.params[x] for x in ts),
+                                            ", ".join("%.2g" % fit.pvalues[x] for x in ts), fit.rsquared))
+            P("")
     open(a.out, "w").write("\n".join(L) + "\n")
     print("\n".join(L))
 
