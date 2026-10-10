@@ -101,3 +101,10 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | BBA0154_R0, BBA0190_R0 | claude/cs581-bbtool-4 | session_011WVrS4EKz2bB1BACnFCsv9 |
 | RNASim_R0, 1000M2_R0 (nucleotide control) | claude/cs581-bbtool-5 | session_01TuxaQAE6YiMYWb4HzCi3t7 |
 | 16S.M_R0, 1000L1_R0 (nucleotide control) | claude/cs581-bbtool-6 | session_01UZfnXAvSJ4zJVxqVt8DHJU |
+
+## Overnight exploration (launched 2026-10-10 06:16 UTC onward)
+
+| idea | dir / branch | session |
+|---|---|---|
+| What makes good GCM evidence: mechanism of the Clustal-backbone effect, mixed/more/cheaper backbones, MAFFT-only recipes | cs581/bbevidence, claude/cs581-bbevidence | session_0153wqpgcxzhkqFkK245ZgRF |
+| Does the Clustal-backbone gain generalize: 10AA, HomFam, simulated proteins with tree accuracy | cs581/protbench, claude/cs581-protbench | session_01Bq4K1Uniua56tnkwkaNipt |
