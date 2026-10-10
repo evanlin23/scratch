@@ -1,5 +1,13 @@
 # Pilot: structure-aware protein MSA from sequence alone (ProstT5-predicted 3Di)
 
+**TL;DR.** On BAliBASE RV11 (<20% identity, 76 sets), MAFFT L-INS-i run on ProstT5-predicted 3Di strings beats L-INS-i on
+amino acids by +0.048 SP (0.727 vs 0.678, 48/3/25, p = 0.002); predicted 3Di is as good as experimental-structure 3Di.
+At 20-40% identity (RV12, 88 sets) it loses −0.027 (p = 4e-8); an M-Coffee consensus of the AA and 3Di alignments is neutral
+there and +0.030 on RV11 (62/9/5). FoldMason on predicted 3Di is weaker than L-INS-i on 3Di everywhere. Inside MAGUS on four
+RV100 sets, 3Di evidence helps only when *added* to the AA backbones (mean −0.83 error points, confounded by backbone count).
+ProstT5 on CPU costs ~65 CPU-ms/residue. **Verdict: promising** (narrowly) as a small/low-identity aligner project;
+**not promising** as a MAGUS-evidence project.
+
 Overnight pilot, 2026-10-10, 4-core CPU machine, no GPU. Code in `code/`, tables in `results/`.
 Everything here is reproducible with `code/predict3di.sh`, `code/run_methods.sh`, `code/summarize.py`, `code/rv100.py`.
 
@@ -9,8 +17,8 @@ Everything here is reproducible with `code/predict3di.sh`, `code/run_methods.sh`
 > twilight zone, but with real structures; Unicore (2025, PMC12203212) runs ProstT5 -> FoldMason without structures but
 > reports no MSA-accuracy benchmark ("database creation is Unicore's biggest bottleneck, which requires 3Di conversion by ProstT5").
 
-The FoldMason preprint itself names the follow-up: "we intend to use ProstT5 to predict 3Di directly from amino acid
-sequences ... eliminating the need for pre-computed structures".
+The FoldMason preprint itself names the follow-up as future work: using ProstT5 to predict 3Di directly from amino-acid
+sequences so that no structures are needed (paraphrased from a search summary; I could not open the full text).
 
 **Pilot question.** Does aligning ProstT5-predicted 3Di strings (with FoldMason, or with MAFFT L-INS-i using Foldseek's 3Di
 substitution matrix) beat MAFFT L-INS-i on low-identity BAliBASE sets, and does predicted-3Di evidence help MAGUS?
@@ -25,7 +33,7 @@ Searches (web, bioRxiv/PMC/GitHub): "ProstT5 predicted 3Di multiple sequence ali
 | work | what it does with predicted 3Di | MSA accuracy vs a reference? |
 |---|---|---|
 | ProstT5 (Heinzinger et al., NAR Genom Bioinf 2024, lqae150) | predicts 3Di from sequence; benchmarked for remote-homology search (SCOPe40) | no MSA benchmark |
-| FoldMason (Gilchrist, Mirdita, Steinegger, Science 391:485, 2026; bioRxiv 10.1101/2024.08.01.606130) | preprint: "we intend to use ProstT5 to predict 3Di directly from amino acid sequences"; current release (4.dd3c235) exposes `--prostt5-model` in `easy-msa`/`createdb` | benchmarks (HOMSTRAD, BAliBASE-type references, lDDT) use real/AlphaFold structures; I found no ProstT5-input benchmark. Could not read the final Science text (paywall / bioRxiv 429): **student should check its supplement before the proposal.** |
+| FoldMason (Gilchrist, Mirdita, Steinegger, Science 391:485, 2026; bioRxiv 10.1101/2024.08.01.606130) | preprint lists ProstT5-predicted 3Di input as planned work; current release (4.dd3c235) exposes `--prostt5-model` in `easy-msa`/`createdb` | benchmarks (HOMSTRAD references, lDDT) use real/predicted 3D structures; I found no ProstT5-input benchmark. Could not read the final Science text (paywall / bioRxiv 429): **student should check its supplement before the proposal.** |
 | Unicore (Kim, Park, Steinegger, GBE 2025, evaf109; PMC12203212) | ProstT5 -> Foldseek clustering -> FoldMason per core gene -> AA alignment -> IQ-TREE | tree congruence only, no MSA accuracy |
 | Garg & Hochberg, "A general substitution matrix for structural phylogenetics" (MBE 2025, msaf124; PMC12198762) | ProstT5 3Di aligned with MAFFT G-INS-i `--aamatrix` (Foldseek 3Di matrix), for 3Di substitution models | no SP/TC against references; AA and 3Di aligned separately |
 | Puente-Lelievre et al. 2024 (cited by Garg & Hochberg for partitioned AA+3Di models; not read) | 3Di for tree inference | not checked |
@@ -42,8 +50,8 @@ the FoldMason Science supplement or a 2026 preprint I could not see contains suc
 ## Methods
 
 **Data.** BAliBASE 3.0 (downloaded from lbgi.fr): RV11 (<20% identity; 38 full-length "BB" + 38 truncated "BBS" sets) and
-RV12 (20-40%; 44 BB + 44 BBS). 164 sets, 4-30 sequences each.
-Large sets: RV100 BBA0067, BBA0101, BBA0117, BBA0081 from `cs581/data/balibase_clean` (the MAGUS-paper references).
+RV12 (20-40%; 44 BB + 44 BBS). 164 sets, 4-34 sequences each.
+Large sets: RV100 BBA0117, BBA0067, BBA0101, BBA0081 (0067/0101: cached MAGUS inputs exist; 0117: cheapest; 0081: lowest identity, 14%) from `cs581/data/balibase_clean` (the MAGUS-paper references).
 
 **3Di prediction.** `foldseek createdb in.fa db --prostt5-model weights --threads 4` (Foldseek 10.941cd33, ProstT5 f16 gguf,
 CPU). The database (AA + 3Di, no coordinates) is kept and reused by every 3Di method so all methods see identical 3Di.
@@ -124,16 +132,82 @@ Other observations:
   M-Coffee with one 3Di alignment is better on 62 of 76 RV11 sets and loses on only 5.
 - 3Di gap-open sensitivity (`results/gap_sensitivity.txt`): `--op` 1.0 / 1.53 (default) / 2.5 changes RV11-BB SP by ≤ 0.003.
 - Failure cases exist: on 3 RV11 sets (BB11006, BB11017, BB11035, both versions) `linsi3di` loses 0.12-0.74 SP; `mc2` stays
-  within 0.04 of L-INS-i on all six (better on two), which is why the consensus is the safer default.
+  within 0.04 of L-INS-i on all six (better on three), which is why the consensus is the safer default.
 
 ## Results: large RV100 sets and MAGUS evidence
 
-RV100_TABLE
+Average FastSP error (SPFN+SPFP)/2 in %, lower is better. Merge-only MAGUS runs on fixed MAGUS subsets and backbone sequence
+sets (BBA0067/BBA0101: the cached inputs from `cs581-worker-1`; BBA0117/BBA0081: inputs from one fresh MAGUS run with the
+paper's flags, `code/magus_inputs.sh`). merge-A reproduces the cached BBA0067/BBA0101 MAGUS runs exactly (26.28 / 29.19).
+A: AA subsets + 10 AA L-INS-i backbones (= MAGUS); B: AA subsets + the same 10 backbone sequence sets aligned on 3Di;
+C: AA subsets + both (20 backbones); D: 3Di subsets + 3Di backbones; E: 3Di subsets + both. `full-*`: one alignment of the
+whole set. Identity = mean pairwise identity of the reference. Our full-set L-INS-i on BBA0081 (67.88) matches the repo's earlier L-INS-i number (67.4). Raw: `results/rv100_*.json`.
+
+| set (identity) | full-linsi | full-linsi3di | full-fm | merge-A | merge-B | merge-C | merge-D | merge-E | MAGUS published |
+|---|---|---|---|---|---|---|---|---|---|
+| BBA0117 (0.25) | 14.78 | 11.88 | 21.90 | 13.00 | 12.51 | 12.44 | 13.40 | 13.45 | 12.1 |
+| BBA0067 (0.22) | 26.03 | 26.27 | 33.49 | 26.28 | 26.60 | 26.08 | 26.01 | 25.79 | 25.6 |
+| BBA0101 (0.22) | 29.38 | 29.82 | 36.53 | 29.19 | 29.63 | 28.82 | 29.02 | 28.93 | 28.5 |
+| BBA0081 (0.14) | 67.88 | 71.80 | 73.46 | 58.75 | 63.63 | 56.55 | 67.74 | 63.75 | 57.0 |
+
+- 3Di alone does **not** transfer to the large RV100 sets except BBA0117 (short sequences, 25% identity), where L-INS-i on 3Di
+  (11.9) beats L-INS-i (14.8), our MAGUS (13.0) and published MAGUS (12.1). On BBA0081 (14% identity, MAGUS ~57% error)
+  3Di-only alignment is much worse (full 71.8, 3Di subsets 67.7). RV100 sets contain many sequences with long unaligned
+  extensions; ProstT5 3Di of those regions plus a 3Di-only score seems to create confident false homologies.
+- Adding 3Di-aligned backbones *to* the AA backbones (merge-C) is the only variant that never hurt: −0.56, −0.20, −0.37,
+  −2.20 points vs merge-A (4/4 sets, mean −0.83). **Confound:** merge-C has 20 backbones vs 10; more (or more diverse)
+  backbones alone may explain it — the Clustal-Omega-backbone lead being confirmed elsewhere is the same kind of union.
+  The control (10 AA backbones + 10 extra AA backbones on the same sequence sets with another aligner) was not run here.
+- Replacing AA backbones by 3Di backbones (merge-B) is worse on 3/4 sets; 3Di subsets (D, E) are mixed and catastrophic on
+  BBA0081.
 
 ## Runtime
 
-RUNTIME
+CPU seconds (user+sys from `/usr/bin/time`). Aligners ran single-threaded; ProstT5 ran with 4 threads. Most runs shared the
+machine with the ProstT5 job, so wall times are inflated; CPU times are the comparable number. ProstT5's rate was re-measured
+on the otherwise idle machine (BBA0081, 112,724 residues: 1,877 s wall, 7,377 CPU-s) and matches the loaded runs.
+
+| | residues | ProstT5 (3Di prediction) | L-INS-i (AA) | L-INS-i (3Di) | FoldMason | M-Coffee step |
+|---|---|---|---|---|---|---|
+| RV11, 76 sets | 143,654 | 8,629 CPU-s (2,260 s wall) | 27.6 | 17.7 | 5.7 | 4.6 (mc2) |
+| RV12, 88 sets | 273,544 | 18,529 CPU-s (5,567 s wall) | 40.6 | 27.5 | 11.2 | 7.0 (mc2) |
+| BBA0067, 274 seqs | 122,840 | 7,459 CPU-s (1,913 s wall) | 639 (4 threads, 326 s wall) | 416 (215 s wall) | 5.7 | — |
+| BBA0101, 322 seqs | 149,625 | 10,004 CPU-s (3,131 s wall) | 856 (440 s wall) | 375 (195 s wall) | 6.6 | — |
+
+- 3Di prediction costs ~60-68 CPU-ms per residue on this CPU (≈ 16 ms/residue wall on 4 cores). That is ~300x the CPU of
+  L-INS-i itself on the small BAliBASE sets and ~12x L-INS-i on the RV100 sets; MAGUS on BBA0067 took 1,051 s wall in the repo's
+  4-core rerun, ProstT5 alone took 1,913 s. The FoldMason/Foldseek papers quote ProstT5 as fast on a GPU; on the
+  course's CPU-only machines it is the bottleneck, as Unicore's authors say.
+- After prediction, aligning 3Di strings is *cheaper* than aligning amino acids (L-INS-i on 3Di uses 0.45-0.7x the CPU of L-INS-i on AA),
+  and the M-Coffee step is negligible. Realigning MAGUS's ten 200-sequence backbones on 3Di cost 935 CPU-s (BBA0067).
 
 ## Verdict
 
-VERDICT
+**Verdict: promising** for a 4-week CS581 project if it is framed as "predicted-3Di evidence for *small, low-identity*
+protein MSA, with a reference-free gate", and **not promising** as "3Di backbones/evidence inside MAGUS".
+
+Why promising: on BAliBASE RV11 (<20% identity) a trivially simple pipeline — ProstT5 3Di, then MAFFT L-INS-i on the 3Di
+string — beats L-INS-i by +0.048 SP / +0.041 TC (76 sets, p = 0.002); a consensus with the AA alignment wins on 62/76 sets
+and loses on 5; the predicted 3Di is as good as experimental 3Di (oracle +0.012, n.s.). Nothing in the literature I could
+find measures this. Why narrow: at 20-40% identity (RV12) 3Di alone hurts (−0.027, p = 4e-8) and the consensus is neutral;
+on four large RV100 sets 3Di-only alignment loses except on BBA0117, and the only MAGUS variant that never hurts (adding
+3Di backbones to the AA backbones, −0.2 to −2.2 points) is confounded with simply having twice as many backbones; and ProstT5 on
+CPU costs ~65 CPU-ms per residue, two to three orders of magnitude more than L-INS-i itself on small sets.
+
+**Weeks 1-4.**
+1. Week 1: lock the method — gate (identity of the L-INS-i alignment) + combination (M-Coffee of AA and 3Di L-INS-i, or
+   a two-track score inside one aligner); pre-register the threshold on BAliBASE; get the FoldMason Science supplement and
+   check it has no ProstT5 table.
+2. Week 2: held-out evaluation where the gate was not tuned: HOMSTRAD (structure references), BAliFam/QuanTest-style sets,
+   and BAliBASE RV20-RV50; add stronger baselines that the RV11 literature uses (PROMALS-style homolog profiles, MAFFT
+   `--dash`/`mafft-homologs`, T-Coffee PSI/Expresso if feasible) because they are the real competition on twilight-zone sets.
+3. Week 3: scale question, kept small — the only large-set signal is 3Di backbones *added* to AA backbones in MAGUS
+   (merge-C); run it against the backbone-count control (20 AA backbones) on all 8 RV100 sets, and gate 3Di by identity
+   there too. Runtime with GPU ProstT5 if a course GPU is available, else report the CPU cost honestly.
+4. Week 4: write-up; ablations (3Di only, AA only, consensus, gate), failure analysis of the sets where 3Di collapses.
+
+**Main risks.** (1) Novelty: the FoldMason Science paper or a 2026 preprint may already contain a ProstT5-input benchmark;
+I could not read the Science supplement. (2) The headline gain is on BAliBASE RV11, whose references are themselves built
+from structure superposition, so a structure-derived alphabet is favoured; HOMSTRAD shares the bias. (3) The gate threshold
+was chosen on the test data. (4) Database-assisted aligners (PROMALS, PSI-Coffee) are known to do better than L-INS-i on
+RV11 and may erase the margin. (5) CPU cost of ProstT5 on the course machines.
