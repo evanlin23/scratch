@@ -45,6 +45,18 @@ def overhead(rows, v):
     return (r.get("bb_wall") or 0) + (r.get("prep_wall") or 0) + r["merge_wall"] - rows[CTRL]["merge_wall"]
 
 
+def magus_wall(n):
+    """MAGUS wall seconds: measured on this machine (4 threads) for fresh draws, else the cached run's
+    `seconds` (other machines; only indicative)."""
+    p = os.path.join(R, n + ".magus.json")
+    if not os.path.exists(p):
+        return None, False
+    j = json.load(open(p))
+    if "magus" in j:
+        return j["magus"]["wall"], True
+    return j.get("seconds"), False
+
+
 def stats(ds, key="avgErr"):
     """Mean over scored pairs; a timed-out run (no score) counts as a loss in W/T/L and is left out of
     the mean and the Wilcoxon test."""
@@ -76,8 +88,8 @@ def main():
                  if v in rows else "" for v in variants]
         print("| {} | {} | {:.2f} | {} |".format(n, dtype(n), 100 * c, " | ".join(cells)))
     print("\n## Summary per variant (Δ = variant − MAGUS, points; W/T/L with |Δ| < {} a tie; two-sided Wilcoxon)\n".format(TIE))
-    print("| variant | group | n | Δ error | W/T/L | p | Δ SPFN | Δ SPFP | extra wall s over MAGUS (median) |")
-    print("|---|---|---|---|---|---|---|---|---|")
+    print("| variant | group | n | Δ error | W/T/L | p | Δ SPFN | Δ SPFP | extra wall s over MAGUS (median) | extra % of MAGUS wall (median) |")
+    print("|---|---|---|---|---|---|---|---|---|---|")
     for v in variants:
         for g in ("DNA/RNA", "protein", "pooled"):
             ds = [(rows[CTRL], rows[v]) for n, rows in data.items() if v in rows and (g == "pooled" or dtype(n) == g)]
@@ -87,8 +99,20 @@ def main():
             sn, sp = stats(ds, "SPFN"), stats(ds, "SPFP")
             ns = [n for n, rows in data.items() if v in rows and (g == "pooled" or dtype(n) == g)]
             oh = [overhead(data[n], v) for n in ns]
-            print("| `{}` | {} | {} | {:+.2f} | {}/{}/{} | {:.3g} | {:+.2f} | {:+.2f} | {:.0f} |".format(
-                v.replace("|", "\\|"), g, s[5], s[0], s[1], s[2], s[3], s[4], sn[0], sp[0], np.median(oh)))
+            pct = [100 * o / magus_wall(n)[0] for n, o in zip(ns, oh) if magus_wall(n)[0]]
+            print("| `{}` | {} | {} | {:+.2f} | {}/{}/{} | {:.3g} | {:+.2f} | {:+.2f} | {:.0f} | {:.0f}% |".format(
+                v.replace("|", "\\|"), g, s[5], s[0], s[1], s[2], s[3], s[4], sn[0], sp[0], np.median(oh),
+                np.median(pct) if pct else float("nan")))
+    print("\n## Runtime on fresh draws (MAGUS measured on this machine, 4 threads; extra = measured wall of the added steps)\n")
+    print("| dataset | MAGUS wall s | " + " | ".join("`{}` extra s (%)".format(v.replace("|", "\\|")) for v in variants) + " |")
+    print("|---|---|" + "---|" * len(variants))
+    for n, rows in data.items():
+        mw, here = magus_wall(n)
+        if not here:
+            continue
+        cells = ["{:.0f} ({:+.0f}%)".format(overhead(rows, v), 100 * overhead(rows, v) / mw) if v in rows else ""
+                 for v in variants]
+        print("| {} | {:.0f} | {} |".format(n, mw, " | ".join(cells)))
 
 
 if __name__ == "__main__":
