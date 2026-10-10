@@ -28,6 +28,29 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 6 (15:30 UTC): DecoDiPhy identifiability, round 2 final (`claude/cs581-decodiphy2`, proofs in
+`cs581/decodiphy2/theory.md`).** Source: Arasti, Şapcı, Rachtman, El-Kebir & Mirarab, RECOMB 2026, which states
+"we suspect (with no proof) that conditions that break identifiability require extreme cases of symmetry … We
+leave a full characterization of identifiability to future work."
+- *Proved:* k = 1; k = 2 (non-adjacent: identifiable against every alternative with k' ≤ 2; adjacent: the edges,
+  node measure and ȳ are identifiable, but (p, x) form a 1-dimensional continuum for every parameter value);
+  k = 3 non-adjacent: non-identifiable ⇔ continuum ⇔ "closed claw"; more than n/2 non-adjacent placements are
+  never identifiable.
+- *General k:* a Hall-type criterion (some set U of internal nodes with |N[U] ∖ V(S)| < |U|). The direction
+  "Hall deficiency ⇒ continuum" is proved; the converse held in 145,543 checks. The full equivalence is a
+  conjecture with 0 counterexamples among ~140k MILP-certified cases (n ≤ 12, k = 4–5).
+- *Novelty:* the supplement (SB.3) proves only the adjacency continuum, the x ∈ {0, 1} ambiguity, and k = 2 edge
+  identifiability for p = (½, ½). Our k = 2 generalization, the k = 3 theorem, the Hall criterion and the refutation
+  of the symmetry conjecture are not in it.
+- *Practical consequence, on the authors' stored runs (4,171 runs, 12 trees):* 11.4% of noise-free fits (24.8% at
+  k = 10) have a non-trivial equivalence class. On fits with exactly the true edges, abundance L1 error is 0.0003
+  when the class is trivial vs 0.119 when it is not. Flagged fits carry 97% of all noise-free abundance error
+  (30–38% with noise). Reporting the class as intervals covers the truth in 82–90% of flagged runs (0% for the point
+  estimate); a central point estimate is no better (p ≥ 0.2). Post-processing cost is negligible.
+- *Verdict:* "promising" as theory plus uncertainty-aware output, not a point-accuracy win. Course: medium
+  (tree metrics and distance methods are taught; mixture deconvolution is not). Risks: the general-k proof may not
+  close in 4 weeks (fallback: k ≤ 3 theorem plus conjecture); the strongest numbers are noise-free.
+
 **Check-in 5 (13:50 UTC).** Held-out simulated proteins complete (`claude/cs581-protcons`, 8 AliSim replicates,
 pre-registered): MAFFT-only `L-INS-i ∩ FFT-NS-2 --op 3` −0.89 / −4.17 / −3.25 / −1.60 (SIMHIGH R1-R4) and
 −0.97 / −3.79 / −2.51 / −1.01 (SIMMOD R1-R4): 8/8 better, mean −2.27, p = 0.008; primary `linsi|cons0.7` mean −0.84
