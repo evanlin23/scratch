@@ -13,6 +13,8 @@ cs581/protcons/code/pc.py (edge-support merge). New here:
   softW:A&B   soft intersection: pairs confirmed by B keep weight 1, unconfirmed pairs get weight W.
               MAGUS's edge weight is a residue-pair count summed over backbones, so this is A once plus
               (1/W - 1) copies of A&B; all weights are scaled by 1/W, which MCL ignores (checked with dupK).
+  wsoftW:A&B  the same through per-file integer weights (run_wmerge.py): A at weight 1 plus A&B at weight
+              1/W - 1; also wsoftW:A|cons0.7 (masked pairs of A down-weighted instead of deleted)
   dupK:A      K copies of A (scale control for soft weighting)
   A#esK       GCM graph keeps only cross-subset edges supported by >= K backbones (pc.merge_edgesup)
 """
@@ -125,11 +127,41 @@ def files_of(rep, name):
         for j in range(m):
             out += [("c{}_{}".format(j, lab), x) for lab, x in I]
         return out, wi, si
+    if name.startswith("wsoft"):  # same as softW, via integer per-file weights (run_wmerge.py)
+        w, expr = name[5:].split(":", 1)
+        m = round(1 / float(w)) - 1
+        A, wa, sa = bbe.parse_variant(rep, expr.replace("|", "&").split("&", 1)[0])
+        I, wi, si = bbe.parse_variant(rep, expr)
+        return [("u_" + lab, x) for lab, x in A] + [("c_" + lab, x) for lab, x in I], wi, si, \
+            {"c_" + lab + ".txt": m for lab, _ in I}
     if name.startswith("dup"):
         k, expr = name[3:].split(":", 1)
         A, wa, sa = bbe.parse_variant(rep, expr)
         return [("d{}_{}".format(j, lab), x) for j in range(int(k)) for lab, x in A], wa, sa
     return bbe.parse_variant(rep, name)
+
+
+def merge_weighted(rep, name, files, weights, k=1):
+    """bbe.merge through run_wmerge.py (per-file integer weights)."""
+    import shutil
+    vd = os.path.join(rep, "variants", bbe.safe(name).replace(":", "_c_").replace("#", "_es_"))
+    shutil.rmtree(vd, ignore_errors=True)
+    bb = os.path.join(vd, "bb")
+    os.makedirs(bb)
+    for lab, a in files:
+        fasta.write(a, os.path.join(bb, lab + ".txt"))
+    json.dump(weights, open(os.path.join(vd, "weights.json"), "w"))
+    out = os.path.join(vd, "out.fasta")
+    start = time.time()
+    with open(os.path.join(vd, "magus.log"), "w") as log:
+        subprocess.run([sys.executable, os.path.join(HERE, "run_wmerge.py"), "--gcmx-fastgraph", "false",
+                        "-np", str(bbe.THREADS), "-d", os.path.join(vd, "work"),
+                        "-s", os.path.join(rep, "inputs", "subalignments"), "-b", bb, "-o", out] + bbe.MERGE_FLAGS,
+                       cwd=bbe.CODE, stdout=log, stderr=subprocess.STDOUT, check=True,
+                       env=dict(os.environ, GG_WEIGHTS=os.path.join(vd, "weights.json"), GG_ESK=str(k)))
+    wall = round(time.time() - start, 1)
+    shutil.rmtree(os.path.join(vd, "work"), ignore_errors=True)
+    return out, wall
 
 
 def run(rep, names):
@@ -140,11 +172,20 @@ def run(rep, names):
     for name in names:
         if name in done:
             continue
+        os.makedirs(os.path.join(rep, "variants"), exist_ok=True)
+        lock = os.path.join(rep, "variants", bbe.safe(name).replace(":", "_c_").replace("#", "_es_") + ".lock")
+        try:  # lanes may share a replicate: never run the same variant twice at once
+            os.close(os.open(lock, os.O_CREAT | os.O_EXCL))
+        except FileExistsError:
+            continue
         start = time.time()
         base, k = (name.split("#es") + [None])[:2]
-        files, bb_wall, bb_sum = files_of(rep, base)
+        got = files_of(rep, base)
+        files, bb_wall, bb_sum = got[:3]
         prep_wall = round(time.time() - start, 1)
-        if k:
+        if len(got) == 4:
+            out, m_wall = merge_weighted(rep, name, files, got[3], int(k or 1))
+        elif k:
             out, m_wall = pc.merge_edgesup(rep, name, files, int(k))
         else:
             out, m_wall = bbe.merge(rep, name.replace(":", "_c_"), files)
