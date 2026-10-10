@@ -1,0 +1,4 @@
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-multi", "threads": 1, "rssMB": 13.8, "sec": 1.064, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-pro", "threads": 1, "rssMB": 13.8, "sec": 0.867, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-disco", "threads": 1, "rssMB": 53.4, "sec": 9.922, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "asteroid", "threads": 1, "rssMB": 1389.2, "sec": 8.856, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}

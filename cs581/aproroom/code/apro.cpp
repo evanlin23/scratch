@@ -14,6 +14,7 @@
 //              multi, which never counts the degree-2 root).
 //   -T       : keep the given root and read tags from internal labels 'D' (simulator output).
 //   -s FILE  : rooted first-pass species tree for pros.
+//   -t N     : N threads over genes (OpenMP build; pro and multi only)
 // Gene trees are rooted by minimising the number of duplications (ties: fewest losses, at most
 // 40 candidates), and a node is a duplication iff its children's species sets overlap.
 // Pairs never observed are filled with the largest observed value; the count is reported on stderr.
@@ -31,7 +32,11 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 using namespace std;
+static int THREADS = 1;
 
 struct Tree {
   vector<int> par;
@@ -372,6 +377,7 @@ int main(int argc, char** argv) {
     else if (a == "-R") countroot = atoi(argv[++i]);
     else if (a == "-T") keep = true;
     else if (a == "-s") first = argv[++i];
+    else if (a == "-t") THREADS = atoi(argv[++i]);
   }
   auto t0 = chrono::steady_clock::now();
   // pass 0: species and gene count (gene trees are streamed; memory does not grow with #genes)
@@ -447,12 +453,15 @@ int main(int argc, char** argv) {
     for (int v = 0; v < ns; v++) if (st.ch[v].empty()) cerr << "shat " << st.lab[v] << " " << shat[v] << " n=" << tot[v] << "\n";
   }
   auto t1 = chrono::steady_clock::now(), t2 = t1;
-  vector<double> SUM((size_t)k * k, 0), NG((size_t)k * k, 0), tot((size_t)k * k, 0), cnt((size_t)k * k, 0);
-  vector<int> touched;
-  vector<vector<Ent>> E;
-  vector<double> cum, wt;
-  vector<int> Mg;
-  stream([&](size_t, RTree& r) {
+  struct Acc {
+    vector<double> SUM, NG, tot, cnt, cum, wt;
+    vector<int> touched, Mg;
+    vector<vector<Ent>> E;
+    vector<uint64_t> S;
+  };
+  auto process = [&](RTree& r, Acc& A) {
+    auto& SUM = A.SUM; auto& NG = A.NG; auto& tot = A.tot; auto& cnt = A.cnt; auto& cum = A.cum; auto& wt = A.wt;
+    auto& touched = A.touched; auto& Mg = A.Mg; auto& E = A.E;
     int n = (int)r.par.size();
     if (mode == "pros") reconcile(r, Mg);
     // counted weight of entering node u from child c: stored on c as wt[c]
@@ -515,7 +524,39 @@ int main(int argc, char** argv) {
     }
     for (int id : touched) { SUM[id] += tot[id] / cnt[id]; NG[id] += 1; tot[id] = 0; cnt[id] = 0; }
     touched.clear();
-  });
+  };
+  auto mkacc = [&](Acc& A) { A.SUM.assign((size_t)k * k, 0); A.NG.assign((size_t)k * k, 0); A.tot.assign((size_t)k * k, 0); A.cnt.assign((size_t)k * k, 0); };
+  Acc A0; mkacc(A0);
+  int nth = 1;
+#ifdef _OPENMP
+  nth = THREADS;
+#endif
+  if (nth <= 1 || mode == "pros") {
+    stream([&](size_t, RTree& r) { process(r, A0); });
+  } else {
+#ifdef _OPENMP
+    // parallel over genes: read a batch of lines, parse/root/tag/accumulate per thread, merge at the end
+    vector<Acc> acc(nth);
+    for (int q = 1; q < nth; q++) mkacc(acc[q]);
+    ifstream f(in); string l;
+    vector<string> batch;
+    bool more = true;
+    while (more) {
+      batch.clear();
+      while (batch.size() < (size_t)(64 * nth) && (more = (bool)getline(f, l))) if (l.find(';') != string::npos) batch.push_back(l);
+#pragma omp parallel for schedule(dynamic, 1) num_threads(nth)
+      for (size_t j = 0; j < batch.size(); j++) {
+        int q = omp_get_thread_num();
+        Acc& A = q == 0 ? A0 : acc[q];
+        Tree t = parse(batch[j]);
+        RTree r = root_and_tag(t, A.S, keep);
+        process(r, A);
+      }
+    }
+    for (int q = 1; q < nth; q++) for (size_t id = 0; id < (size_t)k * k; id++) { A0.SUM[id] += acc[q].SUM[id]; A0.NG[id] += acc[q].NG[id]; }
+#endif
+  }
+  auto& SUM = A0.SUM; auto& NG = A0.NG;
   auto t3 = chrono::steady_clock::now();
   double mx = 0;
   int miss = 0;
