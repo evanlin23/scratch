@@ -8,10 +8,12 @@ Large data and intermediate trees were kept outside the repository (`/opt/gtmdat
 | Question | Answer |
 |---|---|
 | Can we reproduce the published GTM-pipeline numbers? | **Yes.** Rescoring the published trees reproduces 29/30 table entries to ≤0.05 points (FN %); the 30th is a FastTree run (51.4 vs 50.9). Rerunning GTM ourselves on the published guide and subset trees gives the published GTM tree exactly (RF = 0) in 39/40 replicate×guide cases. |
-| Is there room for a better DTM on the published conditions? | **Very little.** On RNASim1000 and Cox1-HET, GTM is within 0.1–0.5 points of the lower bound for *any* merger of those subset trees, blended or not. On 1000M1-HF, even an oracle that knows the true tree improves GTM by only 1.4 points (FastTree guide) / 0.6 points (IQ-TREE guide). |
-| Does blending help at all? | **Yes, when the decomposition subsets are not clades of the true tree.** This happens when the guide tree is poor. In simulation (200 taxa, Yule, short internal branches, exact subset trees), the best *unblended* merge has 24.8% error while an oracle blended merge has 0%. |
-| Does our blending merger (GTM-Blend-ML) beat GTM? | **In simulation, yes, and strongly.** Exact subset trees: 28.0% → 13.7% FN, 20/20 replicates better, Wilcoxon p = 8.8e-5. Estimated subset trees and caterpillar trees: see §3.4. **On the published 1000M1-HF data:** see §3.5 (small, consistent with the oracle bound). |
-| Does parsimony work as the score? | **No.** Constrained parsimony search lowers the parsimony score but makes the tree significantly *worse* than GTM (pooled +0.27 points FN, p = 7e-6). Maximum likelihood is required. |
+| Is there room for a better DTM on the published conditions? | **Very little.** On RNASim1000 and Cox1-HET, GTM is within 0.1–0.5 points of the (optimistic) lower bound for *any* merger of those subset trees, blended or not. On 1000M1-HF, oracle-guided blending heuristics that know the true tree improve GTM by only 1.4 points (FastTree guide) / 0.6 points (IQ-TREE guide). |
+| Does blending help at all? | **Yes, when the decomposition subsets are not clades of the true tree.** This happens when the guide tree is poor. In simulation (200 taxa, short internal branches, exact subset trees), the best *unblended* merge has 21–25% error, while blended merges with 0% error exist. |
+| Does our blending merger (GTM-Blend-ML) beat GTM? | **In simulation, yes, in all 3 conditions, 60/60 replicates, every p < 1e-4.** Yule with exact subset trees: 28.0% → 13.7% FN. Caterpillar with exact subset trees: 26.6% → 16.5%. Yule with IQ-TREE subset trees: 50.2% → 44.1%. **On published 1000M1-HF:** FastTree guide 42.45% → 41.42% (4 better / 0 worse / 1 tied), IQ-TREE guide unchanged; pooled 5/0/5, p = 0.0625 (the minimum attainable p with 5 non-zero pairs). It never made a tree worse. |
+| GTM vs TreeMerge (instructor's question)? | Published data: GTM is never worse. Simulation: on **caterpillar** trees TreeMerge trends better than GTM (−1.6 points, 11/5/4, p = 0.083, *not significant*); on Yule trees they tie. GTM-Blend-ML beats TreeMerge 20/20 in every simulated condition. |
+| Does parsimony work as the score? | **No.** Pooled over the 40 published cases, constrained parsimony search lowers the parsimony score but makes the tree significantly *worse* than GTM: +0.21 points FN (31 of 40 worse), p = 2e-4. Parsimony insertion is worse still: +0.54 points, p = 1e-5. Maximum likelihood is required. |
+| Caveat | At 200 taxa with 50-taxon subsets, full-data IQ-TREE (33.1%) beats every DTM pipeline that uses *estimated* subset trees (GTM 50.2%, GTM-Blend-ML 44.1%). The simulations isolate *merger* error; they are not a case for DTMs at this scale. |
 | Viable 4-week project? | **Yes, if it is framed as "blending fixes GTM when the guide or decomposition is poor"**, with simulations as the main evidence and the published data as a "does no harm / bounded headroom" check. It is *not* viable as "beat GTM on the published RNASim1000/Cox1-HET conditions": the ceiling analysis shows that cannot happen. See §5. |
 
 ## 1. Which paper and data
@@ -110,9 +112,9 @@ Source: `results/published_paired.txt`. Wilcoxon signed-rank, two-sided.
 
 **Best unblended merge.** `code/oracle_gtm.py` runs GTM with the *true* tree as the guide. GTM returns the unblended merger closest to its guide, so this is the best unblended merge.
 
-**Achievable blended merge.** `code/oracle_pub.py` runs two oracle-scored constrained searches: constrained insertion and constrained SPR, both scored by RF distance to the true tree.
+**Achievable blended merge.** `code/oracle_pub.py` runs two oracle-scored constrained searches: constrained insertion and constrained SPR, both scored by RF distance to the true tree. These are *heuristics* given the true tree, **not upper bounds**: GTM-Blend-ML with the ML score did better than them on one replicate (1000M1-HF R2, FastTree guide: 40.6% vs 41.2%).
 
-| Condition / guide | GTM | best unblended | oracle blended (achieved) | floor (any DTM, optimistic) | recoverable missing branches per rep |
+| Condition / guide | GTM | best unblended | oracle-guided blended heuristic | floor (any DTM, optimistic) | recoverable missing branches per rep |
 |---|---|---|---|---|---|
 | RNASim1000 / FT | 14.70 | 14.56 | – | 14.50 | 2.0 |
 | RNASim1000 / IQ | 14.36 | 14.28 | – | 14.28 | 0.8 |
@@ -123,7 +125,7 @@ Source: `results/published_paired.txt`. Wilcoxon signed-rank, two-sided.
 
 Interpretation:
 - **On RNASim1000 and Cox1-HET, the subset trees determine the error.** No merger can improve on GTM by more than 0.1–0.5 points.
-- On 1000M1-HF with the FastTree guide, the per-branch floor (30.3%) looks like 12 points of headroom. But even oracle-guided blended searches reach only 41.1% (−1.4 points), so most of that floor is not jointly realizable with these subset trees.
+- On 1000M1-HF with the FastTree guide, the per-branch floor (30.3%) looks like 12 points of headroom. But oracle-guided blended searches reach only 41.1% (−1.4 points). Most of that floor is probably not jointly realizable with these subset trees; we have no exact optimum, since the blended problem is NP-hard.
 - **A better DTM, blended or not, cannot show a meaningful accuracy gain on the published small conditions.** That is a strong negative result in itself, and it is exactly the kind of finding the course values.
 
 ### 3.2 The method: GTM-Blend-ML (constrained SPR from GTM, ML-scored)
@@ -151,10 +153,20 @@ Code: `code/blend.py` (search and feasibility), `code/mlspr.py` (likelihood).
 
 1. **Parsimony is the wrong criterion.** Constrained parsimony SPR from GTM (`run_blend.py`) and parsimony constrained insertion + SPR (`run_insert.py`) lower the parsimony score in every case, but they *increase* FN. Source: `results/pilot_published.tsv`.
 
-   | Method | n (pairs) | GTM FN | method FN | diff | better/worse/tie | Wilcoxon p |
-   |---|---|---|---|---|---|---|
-   | Parsimony constrained SPR | PARS_SPR_N | | | PARS_SPR_DIFF | | PARS_SPR_P |
-   | Parsimony insertion + SPR | PARS_INS_N | | | PARS_INS_DIFF | | PARS_INS_P |
+   | Method | Condition | n | GTM FN % | method FN % | mean diff (95% CI) | better/worse/tie | Wilcoxon p |
+   |---|---|---|---|---|---|---|---|
+   | Parsimony constrained SPR (r = 6) | Cox1-HET (FT + IQ) | 20 | 18.78 | 19.06 | +0.29 | 1/18/1 | <0.004 each guide |
+   | | RNASim1000 (FT + IQ) | 10 | 14.53 | 14.94 | +0.40 | 0/10/0 | 0.0625 each guide (n = 5 floor) |
+   | | 1000M1-HF FT | 5 | 42.45 | 42.14 | −0.30 (−0.75, +0.16) | 3/1/1 | 0.375 |
+   | | 1000M1-HF IQ | 5 | 28.37 | 28.41 | +0.04 | 1/2/2 | 0.5 |
+   | | **pooled** | 40 | 21.88 | 22.08 | **+0.21 (+0.10, +0.30)** | 5/31/4 | **1.7e-4** |
+   | Parsimony insertion + SPR | Cox1-HET | 20 | 18.78 | 19.61 | +0.83 | 0/20/0 | 0.002 each guide |
+   | | RNASim1000 | 10 | 14.53 | 15.06 | +0.52 | 0/10/0 | 0.0625 each guide |
+   | | 1000M1-HF FT | 5 | 42.45 | 42.00 | −0.44 (−0.72, −0.18) | 4/0/1 | 0.125 |
+   | | 1000M1-HF IQ | 5 | 28.37 | 28.77 | +0.40 | 1/4/0 | 0.125 |
+   | | **pooled** | 40 | 21.88 | 22.41 | **+0.54 (+0.37, +0.70)** | 5/34/1 | **1.0e-5** |
+
+   The one exception is 1000M1-HF with the poor FastTree guide, where parsimony gives a small, non-significant gain; that is the only published condition where the merge, rather than the subset trees, limits accuracy (§3.1).
 
    In simulation the true tree had a *worse* parsimony score than GTM's tree (17,170 vs 17,167 on a 200-taxon caterpillar), and a parsimony move increased FN from 1.5% to 5.1%.
 
@@ -176,13 +188,66 @@ Code: `code/blend.py` (search and feasibility), `code/mlspr.py` (likelihood).
 - Subset trees are either *exact* (true tree restricted, which isolates merger error) or estimated by IQ-TREE 2 on each subset (realistic).
 - Mergers compared: GTM (guide = FastTree tree), GTM with the true tree as guide (best unblended), oracle insertion (shows that blended trees with 0% merger error exist), and GTM-Blend-ML.
 
-All paired across the same replicates; results in `results/sim_results.tsv`.
+All paired across the same replicates; results in `results/sim_results.tsv` and `results/sim_summary.txt`.
 
-SIM_TABLE
+Extra arms:
+- **TreeMerge**: the original github.com/ekmolloy/treemerge with PAUP* 4a169 for pairwise branch lengths. Distances are topological (edge-count) distances on the FastTree guide, as in Park et al. Runner: `code/sim_treemerge.py`; our only change to TreeMerge is `list(graph.neighbors(...))` for networkx ≥ 2.
+- **IQ-TREE 3 on the full alignment** (GTR+G, Yule replicates only, for lack of time on the caterpillar ones).
+
+Mean FN % over 20 replicates (each condition: 200 taxa, 1000 sites, max subset 50, k = 4–7 subsets):
+
+| Condition | guide (FastTree) | subset trees | GTM | best unblended (GTM, true guide) | TreeMerge | **GTM-Blend-ML** | IQ-TREE full data |
+|---|---|---|---|---|---|---|---|
+| A. Yule, internal mean 0.005, exact subset trees | 57.6 | 0.0 | 28.02 | 24.8 | 28.05 | **13.68** | 33.05 |
+| B. Yule, internal mean 0.005, IQ-TREE subset trees | 57.6 | 32.7 | 50.20 | 48.5 | 50.58 | **44.11** | 33.05 |
+| C. Caterpillar, internal mean 0.002, exact subset trees | 76.3 | 0.0 | 26.57 | 21.1 | 24.95 | **16.52** | (1 rep only) |
+
+Paired tests (two-sided Wilcoxon signed-rank; difference = B − A, in FN points):
+
+| Condition | Comparison | mean diff (95% bootstrap CI) | better/worse/tie | Wilcoxon p | sign-test p |
+|---|---|---|---|---|---|
+| A | GTM-Blend-ML vs GTM | **−14.34 (−17.41, −11.57)** | 20/0/0 | **8.8e-5** | 1.9e-6 |
+| A | TreeMerge vs GTM | +0.03 (−0.61, +0.74) | 7/6/7 | 0.92 | 1 |
+| A | GTM-Blend-ML vs TreeMerge | −14.37 | 20/0/0 | 8.7e-5 | 1.9e-6 |
+| B | GTM-Blend-ML vs GTM | **−6.09 (−7.64, −4.72)** | 20/0/0 | **8.8e-5** | 1.9e-6 |
+| B | TreeMerge vs GTM | +0.38 (−0.20, +1.07) | 8/7/5 | 0.41 | 1 |
+| B | GTM-Blend-ML vs TreeMerge | −6.47 | 20/0/0 | 8.7e-5 | 1.9e-6 |
+| B | GTM-Blend-ML vs IQ-TREE (full data) | **+11.07 (+9.09, +13.05)** (worse) | 0/20/0 | 8.8e-5 | 1.9e-6 |
+| C | GTM-Blend-ML vs GTM | **−10.05 (−15.10, −5.89)** | 20/0/0 | **8.8e-5** | 1.9e-6 |
+| C | **TreeMerge vs GTM** | **−1.62 (−3.71, +0.33)** | 11/5/4 | **0.083** | 0.21 |
+| C | GTM-Blend-ML vs TreeMerge | −8.43 | 20/0/0 | 8.8e-5 | 1.9e-6 |
+
+What this shows:
+- **When the subsets are not clades of the true tree, unblended merging is the bottleneck,** even with perfect subset trees: GTM 27–28% error, best unblended 21–25%, best blended 0%.
+- GTM-Blend-ML removes half or more of that merger error in every replicate.
+- In all 60 replicates every subset tree is still exactly induced, and logL rises (mean +150 to +280 units).
+- The ML search does not reach the true tree. The true tree's logL is still 47–507 units higher, so a larger radius or better moves could improve further.
+- **Caterpillar trees are where TreeMerge comes closest to beating GTM** (p = 0.083 with 20 replicates). This is the instructor's suggested condition. A 4-week project should run more replicates and caterpillar variants there.
+- **Honest limitation:** at this scale, full-data ML (IQ-TREE, 33.1%) is much more accurate than any DTM pipeline with *estimated* 50-taxon subset trees (GTM 50.2%, GTM-Blend-ML 44.1%). Small subsets on a hard, short-branch tree give bad subset trees. The simulations demonstrate the merger effect, not a practical pipeline win. A project should test larger n and larger subsets, where full ML becomes expensive and the DTM regime is realistic.
+- Condition A's IQ-TREE comparison (13.7% vs 33.1%) is not a fair comparison, because GTM-Blend-ML received exact subset trees there.
 
 ### 3.5 GTM-Blend-ML on the published 1000M1-HF data
 
-PUB_TABLE
+This uses the published guide trees, IQ-TREE subset trees and alignments. The search starts from the published GTM tree (radius 4, top-8 RAxML-NG confirmation, at most 30 rounds). R2 with the FastTree guide was started before the cap was added and was stopped at round 65. Single thread. Source: `results/pilot_published.tsv`.
+
+| Guide | Replicate | GTM FN % | GTM-Blend-ML FN % | moves | ΔlogL | minutes |
+|---|---|---|---|---|---|---|
+| FastTree | R0 | 42.47 | **40.86** | 26 | +686 | 87 |
+| | R1 | 38.55 | 38.55 | 12 | +406 | 27 |
+| | R2 | 43.00 | **40.58** | 63 | +1306 | ~250 (stopped) |
+| | R3 | 38.97 | 38.87 | 17 | +459 | 55 |
+| | R4 | 49.24 | **48.23** | 30 (cap) | +725 | 119 |
+| | **mean** | **42.45** | **41.42** | | | |
+| IQ-TREE | R0 | 26.20 | 26.10 | 1 | +115 | 9 |
+| | R1–R4 | 28.91 (mean of 25.33, 28.30, 28.20, 33.80) | 28.91 (unchanged) | 0–4 | +0–51 | 3–13 |
+| | **mean** | **28.37** | **28.35** | | | |
+
+Paired:
+- FastTree guide: −1.03 points (95% CI −1.81, −0.26), 4/0/1, Wilcoxon p = 0.125.
+- IQ-TREE guide: −0.02, 1/0/4, p = 1.
+- Pooled 10: −0.52 (−1.08, −0.05), 5/0/5, p = 0.0625. That is the smallest p attainable with 5 non-zero pairs, so this is **not significant at α = 0.05 by construction**; more replicates are required.
+
+The gain matches the bounded headroom of §3.1: about 1 point where the guide is poor, nothing where it is good. Every output keeps all subset trees induced and has higher likelihood than GTM's tree. We did not run Cox1-HET or RNASim1000: §3.1 shows ≤0.5 points of headroom there, and RNASim1000's 21,946-site alignment makes each RAxML-NG evaluation slow.
 
 ## 4. Answers to the instructor's prompts
 
@@ -190,10 +255,17 @@ PUB_TABLE
   - GTM-Blend-ML is a blending DTM: it outputs a tree that induces every subset tree exactly, with subsets interleaved where the data support it.
   - Its search space is provably the full set of constraint-preserving SPR neighbours.
   - It is a post-processor on top of GTM, so it never needs a worse starting point than GTM.
-- *"Find a condition where GTM is less accurate than TreeMerge."*
-  - The published data contain none (§2.3).
-  - The mechanism that would produce one is now explicit: decomposition subsets that are not clades of the true tree. That happens when the guide tree has high error (§3.4), e.g. short internal branches, fragmentary data, or heterotachy.
-  - A natural project experiment: run TreeMerge and Constrained-INC (both blending) in the simulated conditions of §3.4, next to GTM and GTM-Blend-ML.
+- *"Find a condition where GTM is less accurate than TreeMerge."* and *"Test GTM and TreeMerge under balanced vs. caterpillar model trees."*
+  - **Published data:** none. GTM is never worse than TreeMerge; pooled, TreeMerge is +0.04 points worse (p = 0.046) (§2.3).
+  - **Simulation (§3.4):**
+    - On Yule (balanced-ish) trees GTM and TreeMerge tie (p = 0.92 and 0.41).
+    - On **caterpillar** trees with a poor guide (FastTree 76% error), TreeMerge is better than GTM by 1.6 points on average (11 better / 5 worse / 4 tied, Wilcoxon p = 0.083, n = 20).
+    - That is a trend in the predicted direction, not yet a significant finding. A project should replicate it with more replicates and caterpillar variants.
+  - The mechanism is explicit: decomposition subsets that are not clades of the true tree force any unblended merger to err. TreeMerge can blend, but its blending is driven by guide-tree distances, so it recovers little. An ML-scored blending search recovers much more (GTM-Blend-ML beats TreeMerge 20/20 in every condition).
+- *"Test GTM in a pipeline with methods other than maximum likelihood (e.g., NJ or FastME)."*
+  - Covered by the sibling pilot on branch `claude/cs581-forest` (`cs581/forest/REPORT.md`). We did not redo it.
+  - That pilot ran GTM with NJ/FastME guide and subset trees (centroid decomposition, and Forest components). It found that centroid decomposition + GTM(NJ) beats NJ by 8–12 FN points on deep trees, and that GTM(FastME) ties FastME.
+  - Our parsimony results (§3.3) add a related point. A non-ML criterion used *inside the merger* (to decide blending) is harmful here: parsimony picks trees with lower parsimony but higher error.
 
 ## 5. Is this a viable 4-week project?
 
@@ -203,7 +275,7 @@ PUB_TABLE
 
 | Week | Work | Deliverable |
 |---|---|---|
-| 1 | Reproduce (done here: validation table, GTM rerun). Install TreeMerge (NJMerge + RAxML-NG branch lengths) and Constrained-INC so they can be run on *new* inputs. | Table 2.1, plus TreeMerge/CINC runnable |
+| 1 | Reproduce (done here: validation table, GTM rerun; TreeMerge+PAUP* already runs on new inputs). Install Constrained-INC (github.com/steven-le-thien/INC). Speed up GTM-Blend-ML (accept several non-overlapping improving moves per round). | Table 2.1, all baselines runnable |
 | 2 | Simulation grid: guide-tree quality (internal branch mean 0.002/0.005/0.01), tree shape (Yule/caterpillar), subset trees exact vs IQ-TREE, n = 200 and 1000, max subset 50/100/500. 20 replicates each. GTM vs TreeMerge vs CINC vs GTM-Blend-ML. | Main figure with Wilcoxon tests |
 | 3 | Published data: GTM-Blend-ML on 1000M1-HF (10 cases), Cox1-HET (20 cases), RNASim1000 (10 cases), reporting no-harm and bounded-headroom results against the ceiling analysis. Optionally RNASim10k (10 reps) with the FastTree guide, where GTM's own paper used it at scale. | Table vs published numbers |
 | 4 | Runtime engineering (accept several non-overlapping moves per round; cap rounds), ablations (radius, top-K, parsimony vs ML), write-up. | Report |
@@ -223,17 +295,18 @@ PUB_TABLE
 GTM (convex mode), best unblended merge (GTM with the true guide; oracle), TreeMerge, Constrained-INC, and the full-data ML methods (IQ-TREE 2/3, RAxML-NG, FastTree).
 
 ### Risks
-1. **Headroom on published data is tiny (proven here).** Mitigation: make simulation the primary evidence and use published data for "does no harm".
-2. **Runtime.** About 4–10 min per 200-taxon replicate; 27–90 min per 1000-taxon replicate (single thread). Mitigation: batch non-conflicting moves, smaller radius, multi-threaded RAxML-NG.
+1. **Headroom on published data is tiny (shown in §3.1).** Mitigation: make simulation the primary evidence and use published data for "does no harm".
+2. **Runtime.** About 4–10 min per 200-taxon replicate; 3–120 min per 1000-taxon case (single thread, 30-round cap; one uncapped case ran about 4 h). Mitigation: batch non-conflicting moves, smaller radius, multi-threaded RAxML-NG.
 3. **Estimated subset trees with high error limit gains,** because the constraints themselves are wrong. This is real and should be reported, not hidden.
-4. **Comparing with TreeMerge on new inputs needs TreeMerge installed.** It needs PAUP* or the RAxML-NG variant from Park et al. (github.com/minhyukpark/TreeMerge / the paper's Appendix C).
+4. **TreeMerge setup.** It runs here (Python 2.7 env + dendropy 4.3 + networkx, PAUP* 4a169 test build with libgfortran 4, one networkx-2 patch); see `code/sim_treemerge.py`. The PAUP* test build expires, so pin a copy.
 5. **Novelty check before writing.**
    - Blending DTMs exist: NJMerge, TreeMerge and Constrained-INC all blend.
    - ML local search under *multiple partial* constraint trees is, as far as we found, not in RAxML-NG or IQ-TREE, which each take a single constraint tree.
    - Re-check the 2025–2026 literature (e.g. "constrained SPR" with "multiple constraint trees").
+6. **Full-data ML wins at small n (§3.4).** Any project claim must be about the DTM regime (n ≥ 1000, where full ML is slow or fails), or explicitly about merger error.
 
 ### Recommendation
-Do it, framed as above. It is low-risk because the hard parts already work:
+Do it, framed as above, and lead with the simulations. It is low-risk because the hard parts already work:
 - validation, a feasibility test with proof sketch, a working ML search, and a simulation pipeline;
 - a strongly significant effect in the condition where theory says GTM must fail.
 
@@ -254,6 +327,14 @@ python3 published_paired.py ../results/rescore_published.tsv
 ./pilot_all.sh /opt/gtmdata/pilot                         # parsimony pilot (negative)
 python3 run_mlspr_pub.py 1000M1-HF R0 FT /opt/gtmdata/mlpub 4   # GTM-Blend-ML on published data
 ./sim_batch.sh yule 0.005 exact 1 20 3                    # simulation (also: yule 0.005 iqtree, cat 0.002 exact)
+# TreeMerge arm: Python 2.7 env + PAUP* (test build) + original TreeMerge (one networkx-2 patch, see §3.4)
+MAMBA_ROOT_PREFIX=/opt/mm/root /opt/mm/micromamba create -y -n tm27 -c conda-forge python=2.7 numpy networkx "libgfortran-ng=7"
+/opt/mm/root/envs/tm27/bin/pip install dendropy==4.3.0
+#   PAUP*: https://phylosolutions.com/paup-test/paup4a169_ubuntu64.gz -> /opt/tools/paup/paup
+#   TreeMerge: git clone https://github.com/ekmolloy/treemerge; copy python/ to /opt/tools/treemerge/python;
+#   sed -i -E 's/([A-Za-z_]+)\.neighbors\(([^)]*)\)/list(\1.neighbors(\2))/g' treemerge.py njmerge2.py
+./tm_batch.sh
+for r in $(seq 1 20); do python3 sim_fullml.py /opt/gtmdata/simq/yule_n200_m50_i0.005/$r; done   # full-data IQ-TREE baseline
 python3 sim_summary.py /opt/gtmdata/simq ../results/sim_results.tsv
 python3 pilot_summary.py /opt/gtmdata/pilot /opt/gtmdata/mlpub ../results/pilot_published.tsv
 ```

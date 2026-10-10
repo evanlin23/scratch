@@ -1,0 +1,18 @@
+== cat_n200_m50_i0.002/exact  (n=20, all constraints ok: True, mean guide FN 76.3%, subset FN 0.0%, best-unblended 21.1%, oracle-blend 0.0%, mean sec 128)
+  FN   A=GTM B=GTM-Blend-ML  n=20  A 26.57%  B 16.52%  diff(B-A) mean -10.05 median -6.09 [95% CI -15.10, -5.89]  B better/worse/tie 20/0/0  Wilcoxon p=8.84e-05  sign p=1.91e-06
+  FN   A=GTM B=TreeMerge     n=20  A 26.57%  B 24.95%  diff(B-A) mean -1.62 median -1.02 [95% CI -3.71, +0.33]  B better/worse/tie 11/5/4  Wilcoxon p=0.0829  sign p=0.21
+  FN   A=TreeMerge B=GTM-Blend-ML n=20  A 24.95%  B 16.52%  diff(B-A) mean -8.43 median -5.33 [95% CI -13.17, -4.67]  B better/worse/tie 20/0/0  Wilcoxon p=8.83e-05  sign p=1.91e-06
+  FN   A=IQ-TREE(full data) B=GTM-Blend-ML n=1  A 47.72%  B 5.08%  diff(B-A) mean -42.64 median -42.64 [95% CI -42.64, -42.64]  B better/worse/tie 1/0/0  Wilcoxon p=1  sign p=1
+  logL improvement mean 152.4; logL(true) - logL(Blend-ML) mean 46.7
+== yule_n200_m50_i0.005/exact  (n=20, all constraints ok: True, mean guide FN 57.6%, subset FN 0.0%, best-unblended 24.8%, oracle-blend 0.0%, mean sec 606)
+  FN   A=GTM B=GTM-Blend-ML  n=20  A 28.02%  B 13.68%  diff(B-A) mean -14.34 median -13.45 [95% CI -17.41, -11.57]  B better/worse/tie 20/0/0  Wilcoxon p=8.81e-05  sign p=1.91e-06
+  FN   A=GTM B=TreeMerge     n=20  A 28.02%  B 28.05%  diff(B-A) mean +0.03 median +0.00 [95% CI -0.61, +0.74]  B better/worse/tie 7/6/7  Wilcoxon p=0.916  sign p=1
+  FN   A=TreeMerge B=GTM-Blend-ML n=20  A 28.05%  B 13.68%  diff(B-A) mean -14.37 median -13.45 [95% CI -17.49, -11.55]  B better/worse/tie 20/0/0  Wilcoxon p=8.73e-05  sign p=1.91e-06
+  FN   A=IQ-TREE(full data) B=GTM-Blend-ML n=20  A 33.05%  B 13.68%  diff(B-A) mean -19.37 median -20.81 [95% CI -23.20, -15.10]  B better/worse/tie 19/1/0  Wilcoxon p=5.72e-06  sign p=4.01e-05
+  logL improvement mean 278.6; logL(true) - logL(Blend-ML) mean 482.6
+== yule_n200_m50_i0.005/iqtree  (n=20, all constraints ok: True, mean guide FN 57.6%, subset FN 32.7%, best-unblended 48.5%, oracle-blend 43.5%, mean sec 366)
+  FN   A=GTM B=GTM-Blend-ML  n=20  A 50.20%  B 44.11%  diff(B-A) mean -6.09 median -5.84 [95% CI -7.64, -4.72]  B better/worse/tie 20/0/0  Wilcoxon p=8.81e-05  sign p=1.91e-06
+  FN   A=GTM B=TreeMerge     n=20  A 50.20%  B 50.58%  diff(B-A) mean +0.38 median +0.00 [95% CI -0.20, +1.07]  B better/worse/tie 8/7/5  Wilcoxon p=0.409  sign p=1
+  FN   A=TreeMerge B=GTM-Blend-ML n=20  A 50.58%  B 44.11%  diff(B-A) mean -6.47 median -6.09 [95% CI -8.05, -5.13]  B better/worse/tie 20/0/0  Wilcoxon p=8.71e-05  sign p=1.91e-06
+  FN   A=IQ-TREE(full data) B=GTM-Blend-ML n=20  A 33.05%  B 44.11%  diff(B-A) mean +11.07 median +10.41 [95% CI +9.09, +13.05]  B better/worse/tie 0/20/0  Wilcoxon p=8.83e-05  sign p=1.91e-06
+  logL improvement mean 254.3; logL(true) - logL(Blend-ML) mean 506.5
