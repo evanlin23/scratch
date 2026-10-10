@@ -225,6 +225,9 @@ def merge_pilot():
     if not os.path.exists(path):
         return
     rows = [r for r in map(json.loads, open(path)) if r["status"] == "ok"]
+    for r in rows:
+        if r["backbones"] == "tool":
+            r["tool"] += " (subsets+backbones)"
     ctl = {r["rep"]: r for r in rows if r["tool"] == "cached-linsi"}
     out = ["## MAGUS with a different base method (merge pilot)\n",
            "Same MAGUS decomposition (25 subsets) and the same 10 MAFFT L-INS-i backbones as MAGUS's own run; "
