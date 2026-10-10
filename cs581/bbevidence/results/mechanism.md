@@ -1,15 +1,16 @@
-rows: 193 (variant x replicate pairs, unmasked variants)
+rows: 194 (variant x replicate pairs, unmasked variants)
 
 | predictor (variant - control) | Spearman with ΔSPFP | with ΔSPFN | with Δerror |
 |---|---|---|---|
-| dPrec | -0.66 (p=1e-25) | +0.21 (p=0.004) | -0.54 (p=5e-16) |
-| dFalseW | +0.51 (p=5e-14) | -0.42 (p=2e-09) | +0.30 (p=2e-05) |
-| dTrueW | +0.14 (p=0.05) | -0.47 (p=3e-12) | -0.05 (p=0.5) |
+| dPrec | -0.66 (p=7e-26) | +0.21 (p=0.003) | -0.54 (p=3e-16) |
+| dFalseW | +0.51 (p=3e-14) | -0.42 (p=1e-09) | +0.30 (p=2e-05) |
+| dTrueW | +0.15 (p=0.04) | -0.47 (p=3e-12) | -0.04 (p=0.5) |
 | dKeepFalse | +0.27 (p=0.0002) | -0.50 (p=1e-13) | +0.01 (p=0.8) |
-| dFalseSurv | -0.38 (p=5e-08) | +0.20 (p=0.004) | -0.34 (p=1e-06) |
+| dFalseSurv | -0.38 (p=4e-08) | +0.21 (p=0.004) | -0.34 (p=1e-06) |
 
 | rep | variant | Δprec (pts) | Δfalse weight % | Δtrue weight % | ΔSPFP | ΔSPFN | Δerr |
 |---|---|---|---|---|---|---|---|
+| 1000L1 | linsi+clustalo | -28.81 | +311.8 | +14.3 | -0.13 | +0.07 | -0.03 |
 | 1000M2 | linsi+clustalo | -27.14 | +292.6 | +18.6 | -0.09 | +0.51 | +0.21 |
 | 1000M2 | linsi&clustalo | +17.18 | -96.3 | -83.5 | -0.57 | +24.84 | +12.13 |
 | 1000M2 | clustalo | -59.62 | +192.6 | -81.4 | +7.65 | +31.89 | +19.77 |
