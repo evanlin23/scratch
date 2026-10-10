@@ -1,0 +1,35 @@
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 5 --alns true_align --methods fasttree iqtree_fast --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 6 --alns true_align --methods fasttree iqtree_fast --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 7 --alns true_align --methods fasttree iqtree_fast --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 8 --alns true_align --methods fasttree iqtree_fast --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 9 --alns true_align --methods fasttree iqtree_fast --workers 1
+python3 code/frag.py 1000M1HF 5 --backbone true --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 6 --backbone true --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 7 --backbone true --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 8 --backbone true --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 9 --backbone true --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 5 --backbone fasttree --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 6 --backbone fasttree --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 7 --backbone fasttree --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 8 --backbone fasttree --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 9 --backbone fasttree --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 5 --backbone raxmlng_ft --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 6 --backbone raxmlng_ft --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 7 --backbone raxmlng_ft --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 8 --backbone raxmlng_ft --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 9 --backbone raxmlng_ft --out results/dev.jsonl
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 5 --alns true_align --methods raxmlng --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 6 --alns true_align --methods raxmlng --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 7 --alns true_align --methods raxmlng --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 8 --alns true_align --methods raxmlng --workers 1
+python3 code/runtrees.py results/dev.jsonl --datasets 1000M1HF --reps 9 --alns true_align --methods raxmlng --workers 1
+python3 code/frag.py 1000M1HF 5 --backbone raxmlng --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 6 --backbone raxmlng --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 7 --backbone raxmlng --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 8 --backbone raxmlng --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 9 --backbone raxmlng --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 5 --backbone iqtree_fast --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 6 --backbone iqtree_fast --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 7 --backbone iqtree_fast --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 8 --backbone iqtree_fast --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 9 --backbone iqtree_fast --out results/dev.jsonl
