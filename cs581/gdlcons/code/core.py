@@ -82,6 +82,16 @@ def apply_error(model, par, rt, tags, sp_index, rng):
             nr = reroot_random(rt, rng)
             return nr, overlap_tags(nr, sp_index)
         return (rt, overlap_tags(rt, sp_index)) if model == "rovl" else (rt, tags)
+    if model.startswith("rsp-"):
+        # systematic misrooting: w.p. p root on the leaf edge of a random copy of one species
+        sp = model[4:]
+        cands = [v for v in rt.leaves() if sp_of(rt.label[v]) == sp]
+        if cands and rng.random() < par:
+            nb = M._unrooted_adj(rt)
+            v = rng.choice(cands)
+            nr = M._build_rooted(rt, nb, v, nb[v][0])
+            return nr, overlap_tags(nr, sp_index)
+        return rt, tags
     if model in ("flip", "d2s", "s2d"):
         nt = list(tags)
         for v in range(len(nt)):

@@ -32,6 +32,8 @@ TIMEOUT = int(os.environ.get("METHOD_TIMEOUT", "2400"))
 ERROR_MODELS = [("true", 0), ("ovl", 0), ("rovl", 0.1), ("rovl", 0.3), ("rovl", 1.0),
                 ("flip", 0.05), ("flip", 0.15), ("flip", 0.3), ("d2s", 0.5), ("d2s", 1.0),
                 ("s2d", 0.5)]
+if os.environ.get("ERROR_MODELS"):  # e.g. "d2s:0.7,d2s:0.9"
+    ERROR_MODELS = [(x.split(":")[0], float(x.split(":")[1])) for x in os.environ["ERROR_MODELS"].split(",")]
 ATLAS = ["astral-pro", "astrid-multi", "astrid-disco", "astral-disco", "fastmulrfs", "stag"]
 
 

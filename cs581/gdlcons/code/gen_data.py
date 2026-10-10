@@ -31,6 +31,8 @@ GDL = {
     "gdl-high": ((3.0, 3.0), (3.0, 3.0), (0.0, 0, 0)),
     "gdl-adv": ((3.0, 0.5), (0.0, 3.0), (0.0, 0, 0)),       # supercritical internal, lossy tips
     "gdl-root": ((0.0, 1.0), (0.0, 2.0), (0.3, 6.0, 0.0)),  # burst of copies above the root, then loss
+    "gdl50-lossy": ((1.0, 1.5), (0.0, 4.0), (0.0, 0, 0)),   # 50 taxa: families cover few species
+    "gdl50-adv": ((2.0, 0.5), (0.0, 3.0), (0.0, 0, 0)),
 }
 # DLCOAL (SimPhy): species tree height (generations), Ne, dup rate, loss rate (per generation)
 DLCOAL = {
@@ -38,12 +40,14 @@ DLCOAL = {
     "dlc-ils": (2e6, 1e6, 5e-7, 5e-7),
     "dlc-high": (2e6, 2e5, 1.5e-6, 1.5e-6),
     "dlc-asym": (2e6, 2e5, 1.5e-6, 3e-7),
+    "dlc50-ils": (2e6, 1e6, 1e-6, 1e-6),
 }
+NTAXA = {"gdl50-lossy": 50, "gdl50-adv": 50, "dlc50-ils": 50}
 
 
 def gen_gdl(setting, rep, nfam, out):
     inner, term, (rlen, rl, rm) = GDL[setting]
-    sp = yule_tree(NTAX, seed=7000 + rep, height=1.0)
+    sp = yule_tree(NTAXA.get(setting, NTAX), seed=7000 + rep, height=1.0)
     st = parse_newick(sp)
     lam, mu = [0.0] * len(st.parent), [0.0] * len(st.parent)
     for v in range(len(st.parent)):
@@ -71,7 +75,7 @@ def gen_dlcoal(setting, rep, nfam, out):
     tmp = os.path.join(out, "simphy")
     nsim = int(nfam * 1.6)  # SimPhy does not filter on #species; oversample
     if not os.path.exists(os.path.join(tmp, "1", "s_tree.trees")):
-        subprocess.run([SIMPHY, "-sl", "f:%d" % NTAX, "-sb", "f:0.000001", "-st", "f:%g" % height,
+        subprocess.run([SIMPHY, "-sl", "f:%d" % NTAXA.get(setting, NTAX), "-sb", "f:0.000001", "-st", "f:%g" % height,
                         "-sp", "f:%g" % ne, "-su", "f:0.00000001", "-lb", "f:%g" % lb, "-ld", "f:%g" % ld,
                         "-rs", "1", "-rl", "f:%d" % nsim, "-rg", "1", "-o", tmp, "-cs", str(9000 + rep),
                         "-v", "0", "-oc", "1", "-om", "0", "-od", "0"],
