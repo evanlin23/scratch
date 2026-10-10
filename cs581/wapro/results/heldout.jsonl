@@ -93,3 +93,4 @@
 {"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "04", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 18, "FP": 18, "nI": 97, "FNrate": 0.18556701030927836, "wall": 1.169, "cpu": 0.745}
 {"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "04", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 17, "FP": 17, "nI": 97, "FNrate": 0.17525773195876287, "wall": 1.151, "cpu": 0.819}
 {"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "04", "sqln": 25, "method": "astral-pro3", "threads": 1, "FN": 16, "FP": 16, "nI": 97, "FNrate": 0.16494845360824742, "wall": 8.23, "cpu": 6.292}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "04", "sqln": 25, "method": "disco-wastral", "threads": 1, "FN": 19, "FP": 19, "nI": 97, "FNrate": 0.1958762886597938, "wall": 8.564, "cpu": 6.439}
