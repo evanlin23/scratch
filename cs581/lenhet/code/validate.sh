@@ -3,7 +3,7 @@
 # on all sequences, backbone = the 500 full-length sequences, queries = fragments.
 # Two backbones: MAGUS-estimated (paper default) and true.
 HERE="$(cd "$(dirname "$0")" && pwd)"
-for r in ${REPS:-0 1 2}; do
+for r in ${REPS:-0 1}; do
   src=/opt/data/rosehf/high_frag/1000M3/R$r
   for bb in magus true; do
     ds=/opt/runs/lenhet/valid_1000M3HF_$bb/R$r
@@ -15,7 +15,7 @@ for r in ${REPS:-0 1 2}; do
       grep ">" $src/unaligned_frag.txt | sed 's/>//' > $ds/long.txt   # "long" = the fragments here
     fi
     for m in upp witch; do
-      BACKBONE=$bb THREADS=${T:-4} python3 $HERE/run.py $ds $m --threads ${T:-4} > /dev/null 2>> /opt/runs/lenhet/valid_errors.log
+      nice -n 10 env BACKBONE=$bb THREADS=${T:-4} python3 $HERE/run.py $ds $m --threads ${T:-4} > /dev/null 2>> /opt/runs/lenhet/valid_errors.log
     done
   done
 done
