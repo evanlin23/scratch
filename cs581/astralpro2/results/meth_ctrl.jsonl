@@ -123,3 +123,4 @@
 {"pool": "ctrl.nwk", "method": "own", "K": 5000, "block": 0, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 5349.166666666667, "AD|BC": 117.43333333333334, "AC|BD": 114.39999999999998}}
 {"pool": "ctrl.nwk", "method": "recon_true", "K": 5000, "block": 0, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 5332.0}}
 {"pool": "ctrl.nwk", "method": "recon_first", "K": 5000, "block": 0, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 5332.0}}
+{"pool": "ctrl.nwk", "method": "gtp_dup", "K": 5000, "block": 0, "topo": "AB|CD", "wrong": false, "scores": {}}
