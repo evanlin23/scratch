@@ -1,6 +1,6 @@
 # Pilot: is ASTRAL-Pro consistent under rooting/tagging error? Which methods are consistent under GDL / DLCOAL?
 
-*CS581 project pilot, 2026-10-10, about 2.5 h wall-clock on 4 cores. Branch `claude/cs581-gdlcons`. Code is in `code/` (see `code/README.md`); results are in `results/`. The theory note is `results/theory.md`; the prior-art table with DOIs is `results/prior_art.md`.*
+*CS581 project pilot, 2026-10-10, about 2.75 h wall-clock on 4 cores. Branch `claude/cs581-gdlcons`. Code is in `code/` (see `code/README.md`); results are in `results/`. The theory note is `results/theory.md`; the prior-art table with DOIs is `results/prior_art.md`.*
 
 ## 0. Verdict: **promising** (for question 1); unclear for question 2
 
@@ -23,7 +23,7 @@ In (c), the stock software puts the root inside the high-turnover C lineage in 4
 
 **How common, and caveats.**
 - Under the formula, only **12 of 15,434** random rate configurations are inconsistent with correct-root overlap tags. All have very high duplication or turnover on one branch, and one of them is *critical* (λ = μ), so "no supercritical branch" is not sufficient.
-- On all standard-looking settings (16- and 50-taxon Yule trees, λ = μ, the sibling's adversarial rates), every error model converged to zero error by 50–200 families. On generic small-tree grids, their margins stayed ≥ 0.51.
+- On all standard-looking settings (16- and 50-taxon Yule trees, λ = μ, the sibling's adversarial rates), every error model converged to zero error by 1,000 families (most by 200); errors cost samples, not the limit. On generic small-tree grids, their margins stayed ≥ 0.51.
 - So consistency fails in **corners** of parameter space, not in typical simulations.
 - "Naive" tag flips that put S on nodes whose children share species break ASTRAL-Pro at q ≈ 0.035 even where overlap tags are fine (cand1). ASTRAL-Pro's tagger can never output such labels, so the slide question needs an error model that respects its tagging rule (Def. 1).
 
@@ -119,9 +119,10 @@ Caveat: I could not read Parsons et al.'s theorems (bioRxiv rate-limited); their
 ### 4.1 Generic settings: no plateau for any error model
 
 **Curves** (`results/curves_summary.md`, `results/apro_error_curves.png`).
-- On 16-taxon settings (critical λ = μ = 1, high 3/3, the sibling's adversarial (3, 0.5)/(0, 3), and a root duplication burst) and 50-taxon settings, every ASTRAL-Pro error model reaches FN = 0 by 50–200 families.
-- Models covered: true, ovl, rovl 0.1/0.3/1, flip 0.05/0.15/0.3, d2s 0.5, s2d 0.5.
-- The only non-zero entry is naive all-S tagging (d2s q = 1) on gdl-adv, at 50–200 families. It fixes itself by 1,000.
+- **Settings.** 16 taxa: critical λ = μ = 1; high 3/3; the sibling's adversarial (3, 0.5)/(0, 3); and a root duplication burst. 50 taxa: lossy, and adversarial.
+- **Error models.** true, ovl, rovl 0.1/0.3/1, flip 0.05/0.15/0.3, d2s 0.5/1, s2d 0.5.
+- **Result.** Every model reaches FN = 0 by 1,000 families, most by 200. Naive all-S tagging (d2s q = 1) is slowest: it needs 1,000 families on gdl-adv and 5,000 on gdl50-lossy.
+- **Errors cost samples, not consistency, in these settings.** On gdl50-lossy at 50 families (2 replicates), the FN rate is 0.032 with true tags, 0.043 with ovl, 0.074 with rovl(0.3), 0.149 with d2s(0.5) and 0.160 with flip(0.3).
 
 **Pure GDL with true gene trees has no gene-tree noise.** So the informative quantity is the limiting quartet *margin*, (correct − best wrong) / total ASTRAL-Pro support.
 
@@ -234,7 +235,7 @@ Each cell below is the mean FN rate over 3 replicate species trees. Selected col
 
 | setting | families | ASTRAL-Pro3 | ASTRID-multi | ASTRID-DISCO | ASTRAL-DISCO | FastMulRFS | STAG |
 |---|---|---|---|---|---|---|---|
-| gdl-crit / -high / -adv / -root (16 taxa) | 50 | 0 | 0 | 0 | 0 | 0 | 0 |
+| gdl-crit / -high / -adv / -root (16 taxa) | 200 | 0 | 0 | 0 | 0 | 0 | 0 |
 | gdl50-lossy (50 taxa) | 1,000 | 0 | 0.021 | 0 | 0 | 0 | (fails: no family has all species) |
 | dlc-mod | 20,000 | 0 | 0 | 0 | 0 | 0 | 0 |
 | dlc-ils (Ne = 10⁶) | 5,000 / 20,000 | 0.026 / 0.026 | 0.026 / 0 | 0 / 0 | 0.026 / 0.026 | 0.026 / 0 | 0.077 / 0 |
@@ -244,7 +245,7 @@ Each cell below is the mean FN rate over 3 replicate species trees. Selected col
 
 \*Only one replicate at 20,000: SimPhy produced fewer than 20,000 families with ≥ 4 species in replicates 0 and 2 (18,909 and 16,785).
 
-- **Pure GDL with true gene trees is easy for every method.** All 16-taxon settings reach FN = 0 at 50 families, including the sibling's adversarial rates, so there is no plateau.
+- **Pure GDL with true gene trees is easy for every method.** All 16-taxon settings reach FN = 0 by 200 families, including the sibling's adversarial rates, so there is no plateau. At 50 families the only errors are FastMulRFS on gdl-high (0.31).
 - **DLCOAL.** Every remaining error at 20,000 families is a single bipartition on one 3,407-generation internal branch of the replicate-1 species tree (about 0.002 coalescent units in dlc-ils). That is not evidence of inconsistency:
   - methods take turns failing it (ASTRAL-type in dlc-ils, ASTRID-multi and STAG in dlc-high);
   - ASTRAL-Pro's quartet margin there at 20,000 families is −1.4%, about the size of the sampling noise.
