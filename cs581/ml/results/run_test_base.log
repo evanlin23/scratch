@@ -88,3 +88,4 @@
 /opt/data/mlcache/Park1000M1HF/R1 {"seconds": 4979.8, "cpu_seconds": 4908.3}
 /opt/data/mlcache/16SMHF/R1 {"seconds": 3606.2, "cpu_seconds": 3561.6}
 /opt/data/mlcache/16SMHF/R2 {"seconds": 3505.6, "cpu_seconds": 3466.6}
+/opt/data/mlcache/Park1000M1HF/R2 {"seconds": 6267.9, "cpu_seconds": 6194.1}
