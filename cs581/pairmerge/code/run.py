@@ -19,6 +19,7 @@ import argparse
 import glob
 import json
 import os
+import random
 import shutil
 import subprocess
 import sys
@@ -91,7 +92,46 @@ def prepare(dataset, rep_dir, conditions):
             fasta.write(fasta.upper(fasta.read(out + ".tmp")), out)
             os.remove(out + ".tmp")
             info["fftnsi_seconds_" + name] = round(time.time() - start, 1)
+    if any(c.endswith("200") for c in conditions):
+        prepare200(work, true, A, B, dataset, conditions, info)
     return work, true, set(A), info
+
+
+def prepare200(work, true, A, B, dataset, conditions, info):
+    """PASTA-scale merge: 200 random taxa from each half (PASTA's max subproblem size).
+
+    oracle200 = true alignment restricted to each 200-taxon half; linsi200 = MAFFT L-INS-i on it.
+    """
+    rng = random.Random(dataset)
+    A2, B2 = sorted(rng.sample(A, min(200, len(A)))), sorted(rng.sample(B, min(200, len(B))))
+    fasta.write(fasta.restrict(true, A2 + B2), os.path.join(work, "true200.fasta"))
+    for name, half in (("A", A2), ("B", B2)):
+        fasta.write(fasta.restrict(true, half), os.path.join(work, "oracle200_{}.fa".format(name)))
+        unal = os.path.join(work, "unaligned200_{}.fa".format(name))
+        fasta.write(fasta.ungap({t: true[t] for t in half}), unal)
+        out = os.path.join(work, "linsi200_{}.fa".format(name))
+        if "linsi200" in conditions and not os.path.exists(out):
+            start = time.time()
+            with open(out + ".tmp", "w") as o:
+                subprocess.run(["mafft", "--localpair", "--maxiterate", "1000", "--thread", "1", "--quiet", unal],
+                               stdout=o, check=True)
+            fasta.write(fasta.upper(fasta.read(out + ".tmp")), out)
+            os.remove(out + ".tmp")
+            info["linsi200_seconds_" + name] = round(time.time() - start, 1)
+
+
+def restricted_backbones(bb, taxa, outdir):
+    """The replicate's backbones restricted to `taxa` (all-gap columns dropped)."""
+    if os.path.isdir(outdir) and os.listdir(outdir):
+        return outdir
+    os.makedirs(outdir + ".tmp", exist_ok=True)
+    for path in glob.glob(os.path.join(bb, "*")):
+        aln = fasta.read(path)
+        keep = [t for t in aln if t in taxa]
+        if len(keep) >= 2:
+            fasta.write(fasta.restrict(aln, keep), os.path.join(outdir + ".tmp", os.path.basename(path)))
+    os.replace(outdir + ".tmp", outdir)
+    return outdir
 
 
 def run_replicate(results, dataset, rep_dir, conditions, merger_names, done):
@@ -100,9 +140,15 @@ def run_replicate(results, dataset, rep_dir, conditions, merger_names, done):
     # MAGUS backbones depend only on the unaligned sequences: build them once (first gcm run)
     # and reuse them for every condition, so gcm and progdp always see identical evidence.
     bb = os.path.join(work, "backbones")
+    full_true, full_bb = true, bb
     for cond in conditions:
         a = os.path.join(work, "{}_A.fa".format(cond))
         b = os.path.join(work, "{}_B.fa".format(cond))
+        true_path = os.path.join(work, "true200.fasta" if cond.endswith("200") else "true.fasta")
+        true = fasta.read(true_path) if cond.endswith("200") else full_true
+        bb = full_bb
+        if cond.endswith("200") and glob.glob(os.path.join(full_bb, "*")):
+            bb = restricted_backbones(full_bb, set(true), os.path.join(work, "backbones200"))
         for m in merger_names:
             if (dataset, cond, m) in done:
                 continue
@@ -135,7 +181,7 @@ def run_replicate(results, dataset, rep_dir, conditions, merger_names, done):
                 rec["seconds"] = round(time.time() - start, 1)
                 rec["constraintsKept"] = mergers.check_constraints(a, b, out)
                 est = fasta.upper(fasta.read(out))
-                rec.update(score.fastsp(os.path.join(work, "true.fasta"), out))
+                rec.update(score.fastsp(true_path, out))
                 rec.update(cross_scores(true, est, A))
             except Exception as exc:  # record and continue with the other mergers
                 rec["error"] = repr(exc)[:300]
