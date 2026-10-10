@@ -147,3 +147,41 @@ the constant-rate model remains open."
 - STAG absent from 2022-2026 benchmarks; FastMulRFS consistently outperformed. (Most benchmarks are by the methods' own authors.)
 
 Search gaps: Legried 2021 / Hill 2022 theorem texts; RECOMB-CG 2026 TOC (dblp blocked); WABI/ISMB 2026; theses.
+
+## ASTRID/NJst sample complexity vs ASTRAL (branch claude/cs581-samplecx) - theory OPEN; empirical PARTIALLY KNOWN
+
+No 2019-2026 paper proves an upper or lower sample-complexity bound in n for ASTRID/NJst. The qualitative n-effect was
+reported in 2015; a controlled k95-vs-n measurement (caterpillar vs balanced) appears unpublished.
+
+Corrections to our claim:
+- Not a formal conjecture: Roch (arXiv:1812.08357, sec. 3) says his bound "does not in fact lead to a bound on the sample
+  complexity" and that correlations "could drastically lower" it; he only says m must be >= linear in n "to make all variances
+  negligible". Do not call it "Roch's conjecture".
+- The pilot's trees are not Roch's worst case (caterpillar with short f branches alternating with long 4 log n branches).
+- n = 8 -> 64 cannot yet separate log n (x2) from n (x8): ASTRAL's constant grew ~1.9x, ASTRID's ~3.1x.
+- "Nobody measured beyond n = 8" is too strong (Mirarab & Warnow 2015).
+
+Closest prior work:
+- Roch 2018, RECOMB-CG, LNCS 11183:196, doi:10.1007/978-3-030-00834-5_11: Var >= C d/m, max Var >= C n/m (caterpillar
+  construction); suggests NJ on all distances needs m >= linear in n vs log n for ASTRAL; no simulations.
+- Shekhar, Roch & Mirarab 2018, TCBB 15:1738, doi:10.1109/TCBB.2017.2757930: Theta(f^-2 log n) for ASTRAL*; simulations at
+  n = 8 only; NJst also ~f^-2; never varies n.
+- Mirarab & Warnow 2015, ASTRAL-II, Bioinformatics 31:i44, doi:10.1093/bioinformatics/btv234: NJst vs ASTRAL-II for n = 10-1000
+  at 50/200/1000 genes; gap depends on n (P = 0.0004), not on genes.
+- Vachaspati & Warnow 2015, ASTRID, doi:10.1186/1471-2164-16-S10-S3; Liu & Warnow 2023, wASTRID, doi:10.1186/s13015-023-00230-6:
+  "dataset dependent", no n sweep.
+- Allman, Degnan & Rhodes 2018, TCBB 15:337, doi:10.1109/TCBB.2016.2604812: consistency only.
+- Background: Lacey & Chang 2006 (doi:10.1016/j.mbs.2005.11.003), NJ needs sequence length growing with tree diameter;
+  Dasarathy et al. 2022 (doi:10.1007/s00285-022-01731-5, 3 taxa); Hill & Roch 2025 (doi:10.1007/s11538-025-01533-y).
+
+Novel: k95(n, f) for ASTRID/NJst vs ASTRAL under controlled MSC, caterpillar vs balanced, to n = 128; testing Roch's own
+construction; log vs polylog vs linear growth.
+Safe phrasing: "Roch (2018) proved a variance lower bound suggesting internode-distance methods may need a number of genes
+growing at least linearly with n, versus logarithmically for ASTRAL, and left the sample complexity open. Shekhar et al. (2018)
+measured genes needed only at n = 8, and Mirarab & Warnow (2015) observed an NJst-ASTRAL gap growing with n at fixed gene
+counts. To our knowledge the growth of the genes-needed threshold with n has not been measured; we measure it on caterpillar,
+balanced and Roch's worst-case trees."
+Add: Roch's alternating short/long caterpillar; a fast-converging (local-distance) ASTRID variant, as Roch proposes.
+
+Search gaps: Google Scholar cited-by (Semantic Scholar/OpenCitations list one citer of Roch 2018); NJMerge, TREE-QMC and FASTRAL
+experiments not read in full; theses by title only.
