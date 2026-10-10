@@ -5,7 +5,7 @@ import random
 from phylo import parse_newick
 
 
-def sim_family(st, lam, mu, rng, cap=3000):
+def sim_family(st, lam, mu, rng, cap=3000, tags=False):
     cnt, box = {}, [cap]
 
     def along(v, rem, acc):
@@ -22,17 +22,17 @@ def sim_family(st, lam, mu, rng, cap=3000):
                 if box[0] < 0:
                     raise OverflowError
                 a, b = along(v, rem, 0.0), along(v, rem, 0.0)
-                return join(a, b, acc)
+                return join(a, b, acc, "D")
             return None
 
-    def join(a, b, acc):
+    def join(a, b, acc, kind="S"):
         if a is None and b is None:
             return None
         if a is None:
             return (b[0], b[1] + acc)
         if b is None:
             return (a[0], a[1] + acc)
-        return ("(%s:%.6f,%s:%.6f)" % (a[0], a[1], b[0], b[1]), acc)
+        return ("(%s:%.6f,%s:%.6f)%s" % (a[0], a[1], b[0], b[1], kind if tags else ""), acc)
 
     def at_node(v, acc):
         ch = st.children[v]
