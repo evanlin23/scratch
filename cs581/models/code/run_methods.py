@@ -62,7 +62,9 @@ def align(method, d, unaligned, out, T, k, bb=200):
         r = timed(["mafft", "--localpair", "--maxiterate", "1000", "--thread", T, unaligned], log, stdout_file=out)
     elif method == "famsa":
         r = timed([BIO + "/famsa", "-t", T, unaligned, out], log)
-    elif method == "magus":
+    elif method in ("magus", "magus-k25"):
+        if method == "magus-k25":  # the paper's literal flags (K=25, 200-seq backbones), unscaled
+            k, bb = 25, 200
         r = timed([sys.executable, "-m", "gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d", w,
                    "-i", unaligned, "-o", out, "--graphbuildhmmextend", "false"] + flags_m(k, bb), log, cwd=CODE)
     elif method == "pasta":
