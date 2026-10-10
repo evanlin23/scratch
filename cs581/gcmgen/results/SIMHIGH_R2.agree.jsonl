@@ -1,0 +1,1 @@
+{"rep": "SIMHIGH_R2", "tool": "fftns2", "overlap": 0.7202, "overlap_min": 0.6956, "overlap_pooled": 0.7202, "support_unconf": 0.5895, "support_conf": 0.9189, "prec_linsi": 0.7957, "prec_conf": 0.9075, "prec_unconf": 0.5081, "prec_tool": 0.7533, "pairs_tool_over_linsi": 0.9161, "bb_wall": 5.6, "bb_sum": 19.7, "bb_mean_s": 2.0}
