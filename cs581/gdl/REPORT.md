@@ -1,6 +1,6 @@
 # Pilot: Is ASTRID-multi consistent under GDL? Does an "ASTRID-Pro" distance fix it?
 
-*CS581 project pilot, 2026-10-09/10. Wall-clock about 4 h on 4 cores. Branch `claude/cs581-gdl`. Code is in `code/`, result files in `results/`.*
+*CS581 project pilot, 2026-10-09/10. Wall-clock about 4.5 h on 4 cores. Branch `claude/cs581-gdl`. Code is in `code/`, result files in `results/`.*
 
 ## 0. Verdict
 
