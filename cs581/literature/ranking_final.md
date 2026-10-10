@@ -48,7 +48,7 @@ Updates row 1: the "numerical, not proofs" caveat is now largely removed.
 - *Practical reach is low:* no failures at published rates (S25, λH ≈ 0.93). Failures need λH ≥ 4 with ~3×
   per-branch rate heterogeneity, and then affect 0.2–0.4% of quartets.
 - *Verdict:* "promising (theory project)". It gives a negative answer to slide 35's "Is ASTRAL-Pro consistent for GDL
-  …?" Course: high. Risk: low practical relevance; Parsons et al. 2026 still to be read for overlap.
+  …?" Course: high. Risk: low practical relevance. Overlap check (16:25 UTC, Parsons, Liu, Dua, Markin & Molloy, bioRxiv 10.64898/2026.01.20.700722, v2 of Apr 12 2026, full text read): they work under DLCoal with *correct* tagging (their new definition), conjecture consistency (Conjecture 1, "an open question"), describe an adversarial scenario that breaks the exchangeability argument, and leave specific rates λ, μ to future work. No inconsistency result, nothing with ASTRAL-Pro's own tagging. So our result does not overlap; it complements theirs (with ASTRAL-Pro's own tags the answer is negative, even without ILS). Prop 5 (reconciliation against T returns T) is probably folklore; cite it as an observation.
 
 **Interim, 15:40 UTC (round-2 sessions still running).**
 - *Consensus GCM evidence on HomFam (`claude/cs581-protcons`):* held-out, so it counts against the proposal.
