@@ -94,10 +94,11 @@ Paired comparisons against OPAL:
 
 progdp vs GCM on the same graph: −0.13 points, W/T/L 4/4/0, p = 0.11.
 
-At the PASTA scale (`oracle200`, 200 + 200 true sub-alignments, n = 9):
-- OPAL 0.40, progdp 0.64, GCM 0.79, MAFFT `--merge` 5.49 and MUSCLE 8.51.
-- progdp vs OPAL: +0.24 points, W/T/L 2/2/5, p = 0.20.
-- GCM vs OPAL: +0.39 points, p = 0.027.
+At the PASTA scale (`oracle200`, 200 + 200 true sub-alignments, n = 10):
+- OPAL 0.44, progdp 0.77, GCM 0.92, MAFFT `--merge` 5.87 and MUSCLE 10.40.
+- progdp vs OPAL: +0.33 points, W/T/L 2/2/6, p = 0.11.
+- GCM vs OPAL: +0.48 points, W/T/L 1/2/7, p = 0.014.
+- progdp vs GCM: −0.15 points, W/T/L 7/2/1, p = 0.037.
 
 The ranking is the same as for the 1000-taxon halves.
 
@@ -105,26 +106,26 @@ The ranking is the same as for the 1000-taxon halves.
 
 ### 5b. PASTA-scale merges with estimated inputs (`linsi200`, 200 + 200 taxa, L-INS-i halves)
 
-Results with 9 of 10 replicates; RNASim1000_R1 was still running at writing time. The final numbers are in `results/merge_summary.md`.
+n = 10 replicates (2 per model condition).
 
 | merger | 1000L2 | 1000M2 | 1000M4 | 1000S2 | RNASim | all |
 |---|---|---|---|---|---|---|
-| opal | 8.31 | 24.05 | 1.18 | 10.50 | 10.46 | 10.95 |
-| progdp | 8.07 | 20.89 | 1.20 | 10.44 | 10.21 | **10.16** |
-| gcm | 8.07 | 20.92 | 1.25 | 10.45 | 10.27 | 10.18 |
-| mafft-merge | 10.43 | 26.75 | 2.21 | 13.97 | 13.79 | 13.39 |
-| muscle3 | 9.50 | 30.35 | 1.61 | 13.23 | 30.00 | 15.49 |
+| opal | 8.31 | 24.05 | 1.18 | 10.50 | 10.21 | 10.85 |
+| progdp | 8.07 | 20.89 | 1.20 | 10.44 | 9.88 | **10.10** |
+| gcm | 8.07 | 20.92 | 1.25 | 10.45 | 9.92 | 10.12 |
+| mafft-merge | 10.43 | 26.75 | 2.21 | 13.97 | 13.99 | 13.47 |
+| muscle3 | 9.50 | 30.35 | 1.61 | 13.23 | 29.51 | 16.84 |
 
 Paired comparisons against OPAL:
 
 | merger | mean diff (points) | W/T/L | p |
 |---|---|---|---|
-| progdp | −0.79 | 5/4/0 | 0.074 |
-| gcm | −0.77 | 3/6/0 | 0.30 |
-| MAFFT `--merge` | +2.4 | 0/0/9 | 0.004 |
-| MUSCLE | +4.5 | 0/0/9 | 0.004 |
+| progdp | −0.75 | 6/4/0 | 0.037 |
+| gcm | −0.73 | 4/6/0 | 0.16 |
+| MAFFT `--merge` | +2.6 | 0/0/10 | 0.002 |
+| MUSCLE | +6.0 | 0/0/10 | 0.002 |
 
-**Reading.** With realistic, erroneous inputs, the evidence-based mergers are never worse than OPAL and sometimes better. Almost all of the gain comes from 1000M2, about −3 points on both replicates. On M4, L2, S2 and RNASim the difference is under 0.3 points. The gain is not significant at n = 9.
+**Reading.** With realistic, erroneous inputs, the evidence-based mergers are never worse than OPAL and sometimes better. Almost all of the gain comes from 1000M2, about −3 points on both replicates. On RNASim the gain is −0.3 points, and on M4, L2 and S2 the difference is under 0.25 points. The gain is significant at n = 10, but only just (p = 0.037).
 
 The likely mechanism is that the backbones add information the inputs lack: 10 independent L-INS-i alignments that also cover the merged taxa. Where the input sub-alignments are wrong, the backbone votes can still pair the right columns, whereas OPAL can only score the columns it is given. That information is not free (§6). In the oracle condition there is nothing to correct, and OPAL wins.
 
@@ -164,11 +165,11 @@ The evidence-based mergers cost roughly 1000× more than OPAL per merge, because
 **Verdict: not promising** as a "better merger" project.
 
 - With correct inputs, OPAL, PASTA's default for DNA, is already essentially optimal (0.42% error, under 1% cross-pair error). There is no merger error left to remove.
-- With realistic estimated inputs, exact MWT with backbone evidence is at best 0.8 points better (p = 0.07, n = 9), driven by one model condition. It costs about 1000× OPAL's compute per merge.
+- With realistic estimated inputs, exact MWT with backbone evidence is 0.75 points better on average (W/T/L 6/4/0, p = 0.037, n = 10). Nearly all of that comes from one model condition (1000M2, about −3 points). It costs about 1000× OPAL's compute per merge.
 - The end-to-end PASTA check showed a tie (n = 1).
 - The algorithm is the B = 2 case of a published theorem (Zaharias et al. 2023) and an obvious extension of WITCH-NG.
 
-The genuine finding is about which tools PASTA should use. MUSCLE 3 and MAFFT `--merge` are much worse than OPAL as mergers (7–13 points with oracle inputs, 2.4–4.5 points with L-INS-i inputs, p ≈ 0.002–0.004). PASTA uses MUSCLE for protein data.
+The genuine finding is about which tools PASTA should use. MUSCLE 3 and MAFFT `--merge` are much worse than OPAL as mergers (5–13 points with oracle inputs, 2.6–6.0 points with L-INS-i inputs, p = 0.002). PASTA uses MUSCLE for protein data.
 
 **If someone still wants a 4-week project here**, the version with a chance is an evaluation study, not a new merger:
 1. Week 1: evaluate OPAL vs MUSCLE vs MAFFT `--merge` vs GCM/progdp as PASTA mergers on **protein** data (BAliBASE / HomFam). PASTA defaults to MUSCLE there, and our DNA results suggest MUSCLE loses 5–13 points of merge accuracy. Test whether OPAL with a protein scoring matrix closes that gap.
