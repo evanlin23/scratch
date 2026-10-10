@@ -1,0 +1,22 @@
+{"data": "disco", "cond": "default", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-multi", "sec": 1.3, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "disco", "cond": "default", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro", "sec": 0.834, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "default", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-r0", "sec": 0.835, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "default", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-s", "sec": 2.007, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "default", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-disco", "sec": 8.387, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "disco", "cond": "default", "rep": "01", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 0.124, "error": "CalledProcessError"}
+{"data": "disco", "cond": "gdl_1e-10_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-multi", "sec": 0.838, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro", "sec": 0.637, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-r0", "sec": 0.635, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-s", "sec": 1.575, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-disco", "sec": 5.047, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 0.063, "error": "CalledProcessError"}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-multi", "sec": 0.996, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro", "sec": 0.64, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-r0", "sec": 0.744, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-s", "sec": 1.728, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-disco", "sec": 5.764, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 0.134, "error": "CalledProcessError"}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-multi", "sec": 1.19, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro", "sec": 0.808, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-r0", "sec": 0.855, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astrid-pro-s", "sec": 1.835, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}

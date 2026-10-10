@@ -100,11 +100,32 @@ def betas(st, s):
     return out
 
 
-def empirical(fams, names):
+FASTME = "/opt/mm/root/envs/gdl/bin/fastme"
+
+
+def fn_of(D, names, st):
+    """FastME (BalME + NNI + SPR) on matrix D; FN against the species tree st."""
+    from phylo import rf_error
+    with tempfile.TemporaryDirectory() as td:
+        i, o = os.path.join(td, "d.phy"), os.path.join(td, "t.nwk")
+        with open(i, "w") as f:
+            f.write("%d\n" % len(names))
+            for a, nm in enumerate(names):
+                f.write(nm + " " + " ".join("%.6f" % x for x in D[a]) + "\n")
+        subprocess.run([FASTME, "-i", i, "-o", o, "-m", "B", "-n", "B", "-s", "-T", "1"], check=True,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return rf_error(parse_newick(open(o).read()), st)[0]
+
+
+def empirical(fams, names, args=("-M", "pro", "-T", "-R", "1"), first=None):
     with tempfile.TemporaryDirectory() as td:
         g, o = os.path.join(td, "g.nwk"), os.path.join(td, "o.phy")
         open(g, "w").write("\n".join(fams) + "\n")
-        subprocess.run([APRO, "-i", g, "-o", o, "-M", "pro", "-u", "-T", "-R", "1"], check=True,
+        extra = []
+        if first:
+            open(os.path.join(td, "s.nwk"), "w").write(first + "\n")
+            extra = ["-s", os.path.join(td, "s.nwk")]
+        subprocess.run([APRO, "-i", g, "-o", o, "-u"] + list(args) + extra, check=True,
                        stderr=subprocess.DEVNULL)
         L = [l.split() for l in open(o).read().split("\n")[1:] if l.strip()]
     idx = {r[0]: i for i, r in enumerate(L)}
@@ -131,12 +152,19 @@ def run(cfg, nfam, seed, out):
     iu = np.triu_indices(len(names), 1)
     err = np.nanmax(np.abs(E[iu] - P[iu]))
     b = betas(st, s)
+    fns = {"pred": fn_of(P, names, st), "pro_truetags": fn_of(E, names, st)}
+    for nm, args in (("pro_inferred", ("-M", "pro")), ("multi", ("-M", "multi"))):
+        fns[nm] = fn_of(empirical(fams, names, args), names, st)
+    # Pro-S with true tags; first pass = the true (rooted) species tree, and = the unrooted multi tree
+    strip = lambda t: t  # noqa: E731
+    fns["proS_truetags_oracle"] = fn_of(empirical(fams, names, ("-M", "pros", "-T"), first=cfg["tree"]), names, st)
+    fns["proS_inferred_oracle"] = fn_of(empirical(fams, names, ("-M", "pros"), first=cfg["tree"]), names, st)
     rec = {"name": cfg["name"], "nfam": nfam, "seed": seed, "max_abs_err": round(float(err), 4),
-           "min_beta": round(min(b.values()), 4), "betas": {str(k): round(v, 4) for k, v in b.items()},
+           "min_beta": round(min(b.values()), 4), "FN": fns, "betas": {str(k): round(v, 4) for k, v in b.items()},
            "s": [round(x, 4) for x in s], "overflow": over,
            "pred": {f"{names[i]}-{names[j]}": round(float(P[i, j]), 4) for i, j in zip(*iu)},
            "emp": {f"{names[i]}-{names[j]}": round(float(E[i, j]), 4) for i, j in zip(*iu)}}
-    print(json.dumps({k: rec[k] for k in ("name", "nfam", "seed", "max_abs_err", "min_beta")}), flush=True)
+    print(json.dumps({k: rec[k] for k in ("name", "nfam", "seed", "max_abs_err", "min_beta", "FN")}), flush=True)
     with open(out, "a") as f:
         f.write(json.dumps(rec) + "\n")
 

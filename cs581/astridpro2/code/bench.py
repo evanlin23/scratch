@@ -30,7 +30,7 @@ DISCO = "/opt/src/DISCO/disco.py"
 FMRFS = "/opt/src/run_fastmulrfs.sh"
 WQFM = "/opt/src/run_wqfm_gdl.sh"
 DUPLOSS = "/opt/src/DupLoss-2/Executables/DupLoss-2.linux"
-ALL = ["astrid-multi", "astrid-pro", "astrid-pro-s", "astrid-disco", "disco-astral", "astral-pro3",
+ALL = ["astrid-multi", "astrid-pro", "astrid-pro-r0", "astrid-pro-s", "astrid-disco", "disco-astral", "astral-pro3",
        "asteroid", "fastmulrfs", "wqfm-gdl", "duploss2"]
 TIMEOUT = int(os.environ.get("BENCH_TIMEOUT", "3600"))
 
@@ -92,6 +92,10 @@ def run_method(m, genes, td, mode):
     if m in ("astrid-multi", "astrid-pro"):
         phy = os.path.join(td, m + ".phy")
         sh([APRO, "-i", genes, "-o", phy, "-M", m.split("-")[1]] + u)
+        fastme(phy, out)
+    elif m == "astrid-pro-r0":  # ablation: gene-tree root not counted
+        phy = os.path.join(td, m + ".phy")
+        sh([APRO, "-i", genes, "-o", phy, "-M", "pro", "-R", "0"] + u)
         fastme(phy, out)
     elif m == "astrid-pro-s":
         phy1, t1, phy = (os.path.join(td, x) for x in ("s1.phy", "s1.tre", "s.phy"))
