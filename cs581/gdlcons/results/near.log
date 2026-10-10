@@ -1,0 +1,24 @@
+== A=0.5,4,1;B=8,8,4;C=0,8,0.2;x=2,0.5,0.05;y=8,0,0.2;D=0,0,1
+true:0     correct        400.0  wrong          0.0          0.0  margin +1.0000
+ovl:0      correct       2440.0  wrong       2251.0       2246.0  margin +0.0272
+rovl:0.3   correct       2488.0  wrong       2128.0       2513.0  margin -0.0035
+rovl:1     correct       2646.0  wrong       1811.0       3199.0  margin -0.0722
+rsp-A:1    correct       2706.0  wrong       3727.0       1657.0  margin -0.1262
+rsp-C:1    correct       2708.0  wrong       2448.0       2445.0  margin +0.0342
+own:0      correct       3177.0  wrong       3089.0       2991.0  margin +0.0095
+== A=0,2,1;B=0.5,2,2;C=8,8,4;x=2,0.5,0.05;y=8,1,0.5;D=0,0,1
+true:0     correct        175.0  wrong          0.0          0.0  margin +1.0000
+ovl:0      correct       2656.0  wrong       1864.0       2436.0  margin +0.0316
+rovl:0.3   correct       2606.0  wrong       1668.0       2019.0  margin +0.0933
+rovl:1     correct       2454.0  wrong       1128.0       1134.0  margin +0.2799
+rsp-A:1    correct       1726.0  wrong       1278.0       1539.0  margin +0.0412
+rsp-C:1    correct       3046.0  wrong       1122.0       1006.0  margin +0.3719
+own:0      correct       3606.0  wrong       2365.0       3165.0  margin +0.0483
+== A=0,8,0.5;B=0,8,0.5;C=8,8,0.2;x=1,0.5,0.5;y=4,1,1;D=0,0,1
+true:0     correct        435.0  wrong          0.0          0.0  margin +1.0000
+ovl:0      correct       1320.0  wrong        975.0        980.0  margin +0.1038
+rovl:0.3   correct       1128.0  wrong        886.0        889.0  margin +0.0823
+rovl:1     correct        675.0  wrong        671.0        630.0  margin +0.0020
+rsp-A:1    correct        831.0  wrong       2623.0        309.0  margin -0.4762
+rsp-C:1    correct        714.0  wrong        689.0        688.0  margin +0.0120
+own:0      correct       1615.0  wrong       2390.0       2381.0  margin -0.1214
