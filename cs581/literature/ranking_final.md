@@ -28,6 +28,23 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**19:05 UTC: a general recipe for GCM evidence (`claude/cs581-gcmgen`, report draft; train/held-out split fixed
+in `SPLIT.md` before any results; no data-type switch).**
+- *Mechanism, on every data type:* cross-subset GCM edges supported by fewer than 4 of the 10 backbones are almost
+  all wrong. On BAliBASE, the precision of their evidence is 0.02–0.04 at support 1 and 0.05–0.10 at support 2–3, vs
+  0.76–0.88 at support ≥ 4.
+- *Recipe selected on 10 training sets:* `wsoft0.03:linsi&fftns2#es4`. L-INS-i pairs that FFT-NS-2 does not confirm get
+  weight 0.03, then edges with support < 4 are deleted.
+  - Train: −1.14 (7/2/1, p = 0.014); proteins −1.82; DNA/RNA −0.11; worst +0.41.
+  - Held-out so far (n = 5): −1.60 (4/0/1). Proteins: BBA0154 −1.22, BBA0190 −1.98, SIMMOD_R2 −5.11. DNA/RNA:
+    RNASim +0.34, 1000M4 −0.05.
+- *The edge-support threshold alone (`linsi#es3`, no second aligner, MAGUS's own evidence only):*
+  - held-out −0.87 (4/2/0, p = 0.031); no held-out set got worse (worst −0.03);
+  - train proteins −1.27 with `#es3`, −1.56 with `#es4`.
+- *This corrects check-in 7's "edge support ≈ 0":* thresholds 2–3 are ≈ 0 on DNA, but thresholds 3–5 help proteins.
+- Still running: more held-out DNA/RNA replicates (1000S3, 1000M2_R1, 1000L1_R1, RNASim_R1) and SIMHIGH_R2. If it
+  holds, this is the first MAGUS-line change that is better on proteins and neutral on DNA/RNA with one setting.
+
 **Check-in 7 (17:30 UTC).** Δ = error points vs MAGUS's own merge on the same subsets and backbones (negative is better).
 - *Consensus GCM evidence, held-out so far (`claude/cs581-protcons`):* MAFFT-only `L-INS-i ∩ FFT-NS-2 --op 3`:
   - simulated proteins: −2.27, 8/0/0, p = 0.008;
