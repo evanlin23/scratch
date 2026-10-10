@@ -66,6 +66,18 @@ def table(rows, part):
     return "\n".join(lines)
 
 
+def rawtable(rows):
+    conds = [c for c in COND_ORDER if any(r["cond"] == c for r in rows)]
+    lines = ["| method | " + " | ".join(COND_LABEL[c] for c in conds) + " |", "|---|" + "---|" * len(conds)]
+    for m in ("upp", "witch", "upp-tfa"):
+        cells = []
+        for c in conds:
+            v = [r["long_rawSPFP"] for r in rows if r["cond"] == c and r["method"] == m]
+            cells.append("%.3f" % statistics.mean(v) if v else "–")
+        lines.append("| %s | %s |" % (m, " | ".join(cells)))
+    return "\n".join(lines)
+
+
 def runtime(rows):
     conds = [c for c in COND_ORDER if any(r["cond"] == c for r in rows)]
     meths = [m for m in METH_ORDER if any(r["method"] == m for r in rows)]
@@ -74,6 +86,8 @@ def runtime(rows):
         cells = []
         for c in conds:
             v = [r["time"] for r in rows if r["cond"] == c and r["method"] == m]
+            v1 = [r["time"] for r in rows if r["cond"] == c and r["method"] == m and r["rep"] != "R0"]
+            v = v1 or v  # R1/R2 ran 4 single-thread jobs at once; part of R0 ran 2x2 threads
             cells.append("%.0f" % statistics.mean(v) if v else "–")
         lines.append("| %s | %s |" % (m, " | ".join(cells)))
     return "\n".join(lines)
@@ -108,7 +122,11 @@ def main():
           "Cells: mean SPFN / SPFP over replicates (UPP/WITCH-based: insertion letters masked).", "",
           "## Long (lengthened) sequences only", "", table(rows, "long"), "",
           "## All sequences", "", table(rows, "all"), "",
-          "## Runtime (s, add step only; 2 threads, 2 jobs in parallel on 4 cores)", "", runtime(rows), "",
+          "## Long sequences, SPFP without masking lower-case insertion letters", "",
+          "(what a user gets if the UPP/WITCH output is used as-is, e.g. upper-cased for tree estimation)", "",
+          rawtable(rows), "",
+          "## Runtime (s, mean; add step only, backbone given; R1-R2: 1 thread, 4 jobs on 4 cores. "
+          "mafft-addlong / mafft / magus: R0 only)", "", runtime(rows), "",
           "## Paired comparisons (error = (SPFN+SPFP)/2; W = new better)", "",
           "| new vs base | scored | conditions | n | mean diff | W/T/L | Wilcoxon p |", "|---|---|---|---|---|---|---|"]
     stats = []

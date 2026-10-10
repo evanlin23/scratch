@@ -7,8 +7,9 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 P=${1:-2}; T=${2:-2}
 ROOT=/opt/runs/lenhet
 SRC=/opt/data/Datasets/ROSE/1000M4   # 1000M2 is near saturation (median p-distance 0.69)
-REPS="${REPS:-0 1 2 3}"
-METHODS="${METHODS:-upp witch emma mafft-add mafft-addlong upp-tfa emma-tfa}"
+REPS="${REPS:-0 1 2}"
+METHODS="${METHODS:-upp witch emma mafft-add upp-tfa emma-tfa}"
+SLOW="${SLOW:-mafft-addlong}"   # replicate 0 only
 mkdir -p $ROOT
 jobs=$ROOT/jobs.txt; : > $jobs
 for r in $REPS; do
@@ -22,10 +23,11 @@ for r in $REPS; do
         --dom-src $other --seed $((r + 1))
     fi
     for m in $METHODS; do echo "$ds $m" >> $jobs; done
+    [ $r = 0 ] && for m in $SLOW; do echo "$ds $m" >> $jobs; done
   done
 done
 # de novo methods on the main conditions only (MAGUS is the slow one)
-for r in ${DREPS:-0 1 2}; do for c in rand_f0.1_m0 rand_f0.1_m1 dom_f0.1_m0; do
+for r in ${DREPS:-0}; do for c in rand_f0.1_m0 rand_f0.1_m1 dom_f0.1_m0; do
   for m in ${DENOVO:-mafft magus}; do echo "$ROOT/$c/R$r $m" >> $jobs; done; done; done
 cat $jobs | xargs -P $P -L 1 bash -c 'python3 '"$HERE"'/run.py $0 $1 --threads '"$T"' > /dev/null 2>> '"$ROOT"'/errors.log || echo "FAIL $0 $1" >> '"$ROOT"'/errors.log; echo "done $0 $1" >> '"$ROOT"'/progress.log'
 echo GRID-DONE >> $ROOT/progress.log
