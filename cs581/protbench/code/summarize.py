@@ -80,14 +80,15 @@ if trees:
     td = defaultdict(dict)
     for t in trees:
         td[t["dataset"]][t["method"]] = t
-    ms = ["true", "magus", "e2e-clustalo", "merge-mafft", "merge-clustalo"]
+    ms = ["true", "magus", "e2e-clustalo", "merge-clustalo"]
     print("| dataset | " + " | ".join(ms) + " | d RF e2e | d RF merge |")
     print("|---|" + "---|" * (len(ms) + 2))
     de, dm = defaultdict(list), defaultdict(list)
     for n, t in sorted(td.items()):
         g = lambda m: "{:.2f}".format(pt(t[m]["RF"])) if m in t else "-"
         x = pt(t["e2e-clustalo"]["RF"] - t["magus"]["RF"]) if "e2e-clustalo" in t and "magus" in t else None
-        y = pt(t["merge-clustalo"]["RF"] - t["merge-mafft"]["RF"]) if "merge-clustalo" in t and "merge-mafft" in t else None
+        # merge-mafft has exactly magus's SP scores and length (columns only reordered), so magus's tree stands in
+        y = pt(t["merge-clustalo"]["RF"] - t["magus"]["RF"]) if "merge-clustalo" in t and "magus" in t else None
         if x is not None: de[cat(n)].append(x)
         if y is not None: dm[cat(n)].append(y)
         print("| {} | {} | {} | {} |".format(n, " | ".join(g(m) for m in ms), "{:+.2f}".format(x) if x is not None else "-", "{:+.2f}".format(y) if y is not None else "-"))
