@@ -60,7 +60,7 @@ I piloted three ideas:
 |---|---|---|---|
 | n15 IQ-TREE | 20/20 | 0.159 / 0.112 | 0.159 / 0.112 |
 | n25 FastTree | 20/20 | 0.110 / 0.082 | 0.110 / 0.082 |
-| n50 FastTree | NN50/NN50 | P50 | O50 |
+| n50 FastTree | 20/20 | 0.109 / 0.081 | 0.109 / 0.081 |
 | n25 IQ-TREE | 10/20 | 0.131 / 0.116 | 0.137 / 0.110 |
 
 - The n25 IQ-TREE mismatch is in the input, not CAMUS. The published `camus_f05_astral_iqtree` runs used as T the ASTRAL tree built from the **FastTree** gene trees (2/2 replicates checked), not the shipped `astral-iqtree.nwk`. I kept the consistent pipeline (ASTRAL on the same gene trees). CAMUS releases v1.0.0–v1.0.2 give identical results.
@@ -87,20 +87,110 @@ Paired by replicate. diff = variant − default (negative = better). W/T/L uses 
 
 ### 5.1 Base tree (idea a)
 
-RESULTS_A
+Error of the 1-reticulation network (mean over replicates):
+
+| variant | n15 IQ (20) | n25 FT, train (20) | n25 IQ (20) | n50 FT (20) | held-out pooled diff (60) | W/T/L | p |
+|---|---|---|---|---|---|---|---|
+| default (ASTRAL) | 0.135 | 0.096 | 0.124 | 0.095 | — | — | — |
+| tqmc (TREE-QMC) | 0.133 | 0.095 | 0.111 | 0.094 | −0.0056 | 16/33/11 | 0.27 |
+| wastral | 0.189 | 0.110 | 0.154 | 0.105 | **+0.0314** | 15/18/27 | 0.004 |
+| swap | 0.143 | 0.098 | 0.119 | 0.090 | −0.0008 | 14/35/11 | 0.36 |
+| **true_major (oracle)** | **0.035** | **0.055** | **0.054** | **0.052** | **−0.0710** | **49/6/5** | **1e-9** |
+
+Score-based selection among {default, tqmc, wastral, swap}, using no truth:
+
+| condition | default | selected | diff | W/T/L | p | best of the 4 (oracle) |
+|---|---|---|---|---|---|---|
+| n15 IQ | 0.135 | 0.134 | −0.0010 | 4/13/3 | 0.94 | 0.112 |
+| n25 FT (train) | 0.096 | 0.098 | +0.0013 | 5/11/4 | 0.82 | 0.079 |
+| n25 IQ | 0.124 | 0.115 | −0.0090 | 5/13/2 | 0.22 | 0.098 |
+| n50 FT | 0.095 | 0.085 | −0.0105 | 11/4/5 | 0.036 | 0.072 |
+
+Findings:
+- **Headroom is large.** With the true major tree as T, error falls by about 60% (0.118 → 0.047 pooled), in every condition.
+- **The ASTRAL tree is almost never a displayed tree of the true network.** That holds in 2/20 (n15: 4/20), 1/20, 2/20 and 0/20 replicates. The mean distance to the nearest displayed tree is 1.5–2.3 bipartitions. Even with 1000 **true** gene trees it holds in only 2/20. Because CAMUS can only add edges to T, every wrong bipartition of T is permanent.
+- **Off-the-shelf estimators don't close the gap.** TREE-QMC is a wash (−0.006, p = 0.27) and wASTRAL is significantly worse. Swapping to the other displayed tree does nothing.
+- **The CAMUS objective is not aligned with accuracy.** On n25 FastTree, the default network scores *higher* than the true network on the objective in 12/20 replicates, and in 12/20 even with true gene trees (`results/objective_*.tsv`).
+  - So a search over T that maximizes the CAMUS score has no reason to find the true tree.
+  - Selection among 4 candidates helps a little at n50 (−0.0105, p = 0.036) but not elsewhere, and recovers only a small part of the oracle-best-of-4 gap.
 
 ### 5.2 Adaptive filter (idea b)
 
-RESULTS_B
+| variant | n15 IQ | n25 FT (train) | n25 IQ | n50 FT | held-out pooled diff (n=60) | W/T/L | p |
+|---|---|---|---|---|---|---|---|
+| default t=0.5 | 0.135 | 0.096 | 0.124 | 0.095 | — | — | — |
+| **z3only** (pre-registered primary) | 0.130 | 0.087 | 0.097 | 0.091 | −0.0119 | 26/21/13 | 0.10 |
+| **z5only** (pre-registered secondary) | 0.125 | 0.088 | 0.095 | 0.093 | **−0.0136** | 21/33/6 | **0.013** |
+| z3and (test AND t=0.5) | | | | | −0.0090 (n=52) | 6/46/0 | 0.031 |
+| best fixed t (sweep 0–0.8) | 0.5 | 0.2/0.5 | 0.3 | 0.2–0.5 | t=0.3: −0.0009 | | |
+| per-replicate oracle t | 0.112 | 0.081 | 0.094 | 0.089 | (upper bound of choosing t per replicate) | | |
+
+The z-test variants are on all held-out replicates; the t sweep and `z3and` are on n15, n25 IQ and n50 reps 00–11 only.
+
+Findings:
+- **The adaptive filter gives a small, fairly consistent gain.** It is about 1.2–1.4 points of cluster error (≈10% relative) and mostly comes from n25 IQ-TREE (z5only −0.028, p = 0.007). At n50 the effect is ≈0 (−0.002, p = 0.44).
+- **With the true number of reticulations** instead of k = 1, z5only gives −0.0163 (p = 0.003) and z3only −0.0149 (p = 0.025).
+- **The z3 vs z5 ordering flipped** between training and held-out, so "pick z by cross-validation" is not yet shown to beat a fixed z.
+- **Per-replicate t gains are small.** No fixed t beats 0.5 in pooled held-out data. Choosing t per replicate by oracle gains only 0.01–0.03, roughly what the z-test already captures.
+- **With true gene trees** (control), z3only gives −0.020 (p = 0.014) and z5only −0.016 (p = 0.016). The gain is not an artefact of gene-tree error.
 
 ### 5.3 True gene trees (control, n25, reps 20–39)
 
-RESULTS_C
+| variant | error (k=1) | diff vs default | W/T/L | p |
+|---|---|---|---|---|
+| default | 0.103 | — | — | — |
+| z3only | 0.083 | −0.020 | 9/10/1 | 0.014 |
+| z5only | 0.087 | −0.016 | 7/13/0 | 0.016 |
+| tqmc | 0.105 | +0.002 | 4/12/4 | 0.84 |
+| true_major (oracle) | 0.056 | −0.047 | 15/3/2 | 0.0004 |
+
+Default CAMUS is **no more accurate with true gene trees** (0.103) than with FastTree gene trees (0.096) on the same replicates. Gene-tree estimation error is not the bottleneck; the fixed base tree and the filter are.
 
 ### 5.4 Runtime and memory (idea c)
 
-RESULTS_D
+- **n15–n50 timing.** Single-threaded, one CAMUS run takes 1.2 s at n15, 7.8 s at n25 and **188 s at n50**. At n50, **184 of 185 s is quartet extraction** from the 1000 gene trees: CAMUS enumerates every quartet of every gene tree into hash maps. The DP takes less than 0.1 s, because only a few hundred non-tree quartets survive the t = 0.5 filter.
+- **n100 profile** (1 thread, replicate 00, first k gene trees, from `getrusage` and CAMUS log timestamps):
+
+| gene trees | quartet extraction | DP etc. | total | peak RSS | non-tree quartets kept |
+|---|---|---|---|---|---|
+| 100 | 608 s | 480 s | 1088 s | 0.98 GB | 492,221 |
+| 200 | 1225 s | 262 s | 1487 s | 1.22 GB | 281,442 |
+
+- **Extrapolation.** Extraction is linear in gene trees, about 6 s per tree at n101, which gives roughly 100 min of single-thread extraction for 1000 trees. That fits the paper's ~20 min on 32 cores. With few genes, many second topologies pass the filter, so the DP grows (8 min at 100 genes); the paper's 156 GB at n201 must come from the O(n⁴) quartet maps.
+- **Dense counting is cheaper.** My numpy dense counting (`code/quartets.py`, one 4-set per row, four-point condition) takes 0.034 s per tree at n51 (≈5× faster than CAMUS) and 0.78 s per tree at n101 (≈8× faster), single-threaded and under load.
+  - A dense uint16 [C(n,4) × 3] table needs 25 MB at n101, 0.4 GB at n201 and 6 GB at n401.
+  - So a dense or streamed quartet counter (or counting only the 4-sets that can pass the filter) would very likely let CAMUS run past 200 taxa on a laptop.
+  - That is engineering rather than new science, and NetCS already does 200 taxa in minutes.
+- I did not run CAMUS at 150 or 200 taxa: at 1000 genes the expected time is several hours per run on 4 cores, and the paper reports 156 GB.
 
 ## 6. Verdict
 
-VERDICT
+**Overall: unclear, leaning promising for a narrower project. Not promising for the original "use a different tree estimator" idea.**
+
+Evidence summary:
+- Baseline reproduction is exact: 70/80 published networks are identical, and the 10 mismatches trace to a different input tree in the published runs. The metric equals PhyloNet's.
+- **(a) Base tree.**
+  - The oracle shows the base tree is *the* dominant error source: −0.071 pooled, 49/6/5, p = 1e-9, and ASTRAL's T is a displayed tree in under 10% of replicates.
+  - Every practical fix I tried fails or is negligible: TREE-QMC, wASTRAL, swap, and selection by CAMUS score.
+  - The CAMUS objective prefers the CAMUS network over the true network in about 60% of replicates, so score-driven tree search, the paper's own future-work idea, is unlikely to work as is.
+  - This is an informative negative result rather than a method.
+- **(b) Adaptive filter.** A one-line, sample-size-aware sign test gives a real but small gain: −0.014 pooled held-out, p = 0.013, W/T/L 21/33/6, about 10% relative, holding with true gene trees. It is cheap, novel for CAMUS, and anticipated by NANUQ/TINNiK.
+- **(c) Scalability.** The bottleneck is quartet extraction, not the DP. A dense counter is a clear 5–8× speed and >100× memory win, but it is engineering, and NetCS competes there.
+
+**A 4-week project that would be worth doing** (my recommendation):
+1. **Week 1.** Make the filter a proper test: sign test, multiple-testing control (Bonferroni or BH over 4-sets), and z chosen by leave-one-condition-out validation. Run all six conditions. Also add the n100 condition using our fast counter.
+2. **Week 2.** "Network-aware base tree." Diagnose *why* ASTRAL's T is not a displayed tree: which bipartitions are wrong, and whether they sit next to the reticulation. Then test a cheap repair: contract T's low-support or near-reticulation edges and let CAMUS (or a small enumeration) resolve them using a criterion that is aligned with accuracy, e.g. a likelihood under the NMSC or a held-out quartet score rather than the raw CAMUS count. The oracle shows ~0.07 of headroom.
+3. **Week 3.** Dense quartet counter in Go (a patch to CAMUS) and profiling at n100–n200. Compare with NetCS (code in TREE-QMC) on the same data.
+4. **Week 4.** Write-up.
+
+**Risks:**
+- The (b) effect is small and condition-dependent (≈0 at n50), and the z3/z5 ranking flipped between training and held-out.
+- (a) may not yield a practical method: the objective misalignment is a structural obstacle, and the authors' group is already working on tree search.
+- NetCS is a fast, accurate competitor that may make CAMUS-specific improvements less interesting.
+- Only 20 replicates per condition, and an ILS/reticulation mix of a single simulation design.
+
+**Limitations of this pilot:**
+- n50 reps 12–19 ran only the pre-registered variants (CPU budget).
+- ASTRID was not tested.
+- 3–7 n15 replicates had been aggregated before the pre-registration was written.
+- n100+ accuracy was not tested.
