@@ -119,51 +119,17 @@ All numbers below come from the scripts named in each section, so each can be re
 **Setup.**
 - **Trees:** caterpillar and balanced, n = 8, 16, 32, 64; f = 0.05, 0.1, 0.2, 0.5 CU.
 - **Genes:** true gene trees, nested k grid 10 … 5000.
-- **Replicates:** 20–22 per cell.
+- **Replicates:** __SCREPS__ per cell.
 - **k₉₅:** the smallest k at which P(species tree exactly correct) ≥ 0.95, log-interpolated on the grid.
 - **ASTRAL cap:** k ≤ 2000 at n = 32 and k ≤ 1000 at n = 64. A ">" entry means the target was not reached within the run grid.
 
 **k₉₅ (whole tree) — caterpillar:**
 
-| n | f | astral | astrid | njst |
-|---|---|---|---|---|
-| 8 | 0.05 | 1972 | 1966 | 1966 |
-| 8 | 0.1 | 357 | 409 | 409 |
-| 8 | 0.2 | 99 | 99 | 99 |
-| 8 | 0.5 | 17 | 20 | 20 |
-| 16 | 0.05 | 1551 | 1366 | 994 |
-| 16 | 0.1 | 423 | 452 | 441 |
-| 16 | 0.2 | 176 | 182 | 172 |
-| 16 | 0.5 | 36 | 41 | 41 |
-| 32 | 0.05 | 995 | 3021 | 1761 |
-| 32 | 0.1 | 452 | 977 | 683 |
-| 32 | 0.2 | 198 | 199 | 188 |
-| 32 | 0.5 | 45 | 47 | 47 |
-| 64 | 0.05 | >1000 | >2000 | >2000 |
-| 64 | 0.1 | 499 | 1390 | 996 |
-| 64 | 0.2 | 189 | 426 | 393 |
-| 64 | 0.5 | 48 | 78 | 69 |
+__SCTABLE_CAT__
 
 **k₉₅ (whole tree) — balanced:**
 
-| n | f | astral | astrid | njst |
-|---|---|---|---|---|
-| 8 | 0.05 | 695 | 498 | 499 |
-| 8 | 0.1 | 199 | 199 | 199 |
-| 8 | 0.2 | 99 | 99 | 99 |
-| 8 | 0.5 | 20 | 31 | 31 |
-| 16 | 0.05 | 901 | 901 | 913 |
-| 16 | 0.1 | 363 | 393 | 393 |
-| 16 | 0.2 | 139 | 139 | 100 |
-| 16 | 0.5 | 31 | 44 | 43 |
-| 32 | 0.05 | 995 | 996 | 1390 |
-| 32 | 0.1 | 443 | 458 | 461 |
-| 32 | 0.2 | 157 | 183 | 184 |
-| 32 | 0.5 | 44 | 46 | 47 |
-| 64 | 0.05 | >1000 | 1587 | 1782 |
-| 64 | 0.1 | 470 | 707 | 841 |
-| 64 | 0.2 | 199 | 190 | 190 |
-| 64 | 0.5 | 50 | 69 | 50 |
+__SCTABLE_BAL__
 
 **Findings.**
 - **Dependence on f.** Within each (shape, n), k₉₅ scales as about f^−1.4 to f^−2.2 (`results/sc_sim_slopes.csv`; vs 1−e^{−f}: −1.5 to −2.25). This is consistent with the f⁻² theory for ASTRAL, with a coarse grid. **There is no evidence that ASTRID's f-exponent differs from ASTRAL's.**
@@ -171,10 +137,10 @@ All numbers below come from the scripts named in each section, so each can be re
 
 | | n = 8 | 16 | 32 | 64 |
 |---|---|---|---|---|
-| caterpillar, ASTRAL | 4.2 (4 f) | 5.7 (4 f) | 5.6 (4 f) | 7.7 (3 f) |
-| caterpillar, ASTRID | 4.4 (4 f) | 5.8 (4 f) | 9.1 (4 f) | 16.7 (3 f) |
-| balanced, ASTRAL | 2.9 (4 f) | 4.3 (4 f) | 5.3 (4 f) | 7.8 (3 f) |
-| balanced, ASTRID | 3.0 (4 f) | 4.8 (4 f) | 5.6 (4 f) | 7.8 (4 f) |
+| caterpillar, ASTRAL | __C_cat_astral__ |
+| caterpillar, ASTRID | __C_cat_astrid__ |
+| balanced, ASTRAL | __C_bal_astral__ |
+| balanced, ASTRID | __C_bal_astrid__ |
 
 - On caterpillars, ASTRID's constant grows clearly faster than ASTRAL's. Caterpillars have the longest leaf-to-leaf paths, so internode distances have the largest variance; Roch 2018's lower bound is driven by exactly this.
 
@@ -182,24 +148,13 @@ All numbers below come from the scripts named in each section, so each can be re
 
 **Script:** `code/nscale.py` and `code/analyze_nscale.py`.
 **Plot:** `results/nscale.png`.
-**Setup:** fine k grid; 10–11 replicates; 90% bootstrap CIs over replicates in `results/nscale_k95.csv`.
+**Setup:** fine k grid; __NSREPS__ replicates; 90% bootstrap CIs over replicates in `results/nscale_k95.csv`.
 
-| shape | n | astral | astrid | njst |
-|---|---|---|---|---|
-| bal | 8 | 85 [60–95] | 120 [41–139] | 120 [41–139] |
-| bal | 16 | 67 [48–72] | 120 [67–139] | 120 [67–139] |
-| bal | 32 | 142 [134–145] | 171 [134–190] | 171 [139–190] |
-| bal | 64 | 185 [98–192] | 190 [171–194] | 192 [184–195] |
-| bal | 128 | 144 [140–146] | 346 [245–381] | 346 [245–381] |
-| cat | 8 | 67 [48–71] | 67 [48–71] | 60 [47–70] |
-| cat | 16 | 120 [92–139] | 134 [95–142] | 96 [85–98] |
-| cat | 32 | 97 [92–98] | 341 [171–379] | 240 [145–279] |
-| cat | 64 | 268 [146–284] | 341 [146–370] | 185 [146–192] |
-| cat | 128 | 285 [271–291] | 490 [245–561] | 490 [194–561] |
+__NSTABLE__
 
 **Interpretation.**
 - **ASTRAL vs ASTRID in n.** ASTRAL's k₉₅ grows slowly in n, consistent with log n. ASTRID's grows faster.
-- **Conjectured scaling not yet tested.** Over n = 8–128 the fitted exponents in n are bal astral n^0.3; bal astrid n^0.37; bal njst n^0.37; cat astral n^0.53; cat astrid n^0.71; cat njst n^0.7. Neither method looks linear in n at f = 0.2. With 8–20 replicates per cell, k₉₅ near 0.95 is noisy: the bootstrap CIs overlap at several n.
+- **Conjectured scaling not yet tested.** Over n = 8–128 the fitted exponents in n are __NSEXP__. Neither method looks linear in n at f = 0.2. With 8–20 replicates per cell, k₉₅ near 0.95 is noisy: the bootstrap CIs overlap at several n.
 - **What a project needs.** 100+ replicates per cell, n up to 256–512, and smaller f. Those runs are cheap for ASTRID (seconds). ASTRAL is the bottleneck.
 
 ## 5. New method: missing-data-corrected ASTRID
