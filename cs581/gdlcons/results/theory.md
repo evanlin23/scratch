@@ -148,6 +148,55 @@ So the unmodified ASTRAL-Pro3 software, given **true** gene trees under pure GDL
 
 So this is a corner of parameter space: very high duplication on one short branch above a three-taxon clade, followed by heavy loss. It is not the regime of standard simulations (the DISCO and FastMulRFS data use λ = μ and modest rates).
 
+## 4b. Rooting error: random re-rooting and ASTRAL-Pro's own rooting
+
+The formula in Section 3 assumes the correct root. Two further 4-taxon configurations show that **rooting error alone** can cause inconsistency, even when overlap tags on the true root are consistent. Both were found by taking near-boundary configurations from the prevalence scan (`code/near` runs, `results/near.log`).
+
+**cand3: random re-rooting.**
+- Rates: y (8, 0, 0.2); x (2, 0.5, 0.05); A (0.5, 4, 1); B (8, 8, 4); C (0, 8, 0.2).
+- Block estimates per accepted family, 40,000 families:
+
+| model | correct − AC\|BD | correct − AD\|BC |
+|---|---|---|
+| `ovl` | +0.010 ± 0.003 | — |
+| own | +0.016 ± 0.004 | — |
+| `rovl(0.3)` | **−0.008 ± 0.003** | — |
+| `rovl(1)` | **−0.055 ± 0.004** | — |
+| `rsp-A` | — | **−0.086 ± 0.004** |
+
+- Species-tree error (`results/curve4_cand3.jsonl`):
+
+| model | 2,000 families | 10,000 families |
+|---|---|---|
+| true | 0/20 | 0/4 |
+| ovl | 6/20 | 0/4 |
+| own | 6/20 | 0/4 |
+| **rovl(0.3)** | 13/20 | **4/4** |
+| rovl(1) | 20/20 | 4/4 |
+| rsp-A | 20/20 | 4/4 |
+
+So ASTRAL-Pro is **inconsistent under a random rooting-error model** (re-root at a uniformly random edge with probability 0.3, then overlap tags). Here the correct root, and ASTRAL-Pro's own rooting, are consistent.
+
+**cand4: ASTRAL-Pro's own min-duplication rooting.**
+- Rates: y (4, 1, 1), about 20 copies; x (1, 0.5, 0.5); A (0, 8, 0.5); B (0, 8, 0.5); C (8, 8, 0.2), critical with high turnover.
+- Species-tree error (`results/curve4_cand4.jsonl`):
+
+| model | 1,000 families | 5,000 families |
+|---|---|---|
+| true | 0/20 | 0/4 |
+| ovl (true root) | 3/20 | 0/4 |
+| rovl(0.3) | 5/20 | 0/4 |
+| **own (stock ASTRAL-Pro3)** | **20/20** | **4/4** |
+| rsp-A | 20/20 | 4/4 |
+
+- Single-sample margins at 10,000 families (`near.log`): ovl +0.10, own −0.12.
+- Where ASTRAL-Pro3 puts the root, in 2,000 families:
+  - 868 inside the C clade (root split ABCD | C);
+  - 487 on the A or B lineage;
+  - 289 at ABCD | AC or ABCD | BC;
+  - only 304 at the true position (ABC | D).
+- **Minimum-duplication rooting is attracted to lineages with many duplications** (here the high-turnover C branch). This is a *systematic* rooting error, and it makes the stock software inconsistent with moderate rates. Two caveats: C has λ = μ = 8, so its turnover is high; and A and B lose copies fast.
+
 ## 5. Naive random flips (outside Def. 1)
 
 **Configuration cand1.**
