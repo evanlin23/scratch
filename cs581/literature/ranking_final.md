@@ -47,11 +47,11 @@ Ten ROSE 1000-sequence datasets (R0 of every condition):
 | self-soft MAGUS | 23.8 min | 5.87% | −0.77 (9/1/0, p = 0.004), 1.09× |
 | slow-soft MAGUS | 24.8 min | 5.92% | −0.72 (8/1/1, p = 0.014), 1.13× |
 
-Other datasets: RNASim 1000 R0: MAGUS 9.80%, Slow 9.05%, self-soft 9.42%, slow-soft 9.13% (PASTA failed;
-wall-clock 87–92 min on that machine, about 6× our other RNASim timings, so treat it as unreliable).
+Other datasets: RNASim 1000 R0: MAGUS 9.80%, Slow 9.05%, self-soft 9.42%, slow-soft 9.13% (PASTA failed because it was run with `-d dna` on RNA data;
+wall-clock 87–92 min; a second machine measured 71 min for the same MAGUS run, so this is real: the end-to-end benchmark runs MAGUS's original pure-Python graph builder (`--gcmx-fastgraph false`), which is slow on RNASim's long alignments; the ~15 min seen elsewhere used our vectorized builder, which builds the identical graph).
 BAliBASE BBA0101 / BBA0190: PASTA 5.9 / 12.6 min at 29.68 / 24.16%; MAGUS 14.9 / 41.6 min at 27.98 / 23.22%;
 self-soft 21.0 / 44.0 min at 27.13 / 23.27%. On proteins MAGUS is 2.5–3.3× slower than PASTA, which is
-where cheaper backbones (row 3) would matter. 16S.M R0: PASTA 21.5 min / 13.05%, MAGUS 24.5 / 13.01%,
+where cheaper backbones (row 3) would matter. 16S.M R0: PASTA 21.5 min / 13.05% (invalid: our type check called 16S.M protein because of IUPAC codes, so PASTA ran with `-d protein`; rerun with `-d dna` queued, as is PASTA on RNASim with `-d rna`), MAGUS 24.5 / 13.01%,
 Slow 23.3 / 13.19%, self-soft 26.5 / 12.98%, slow-soft 27.2 / 13.12% (all within 0.2 points).
 
 **Reproduction check (our runs vs the paper's published alignments of the same replicate, rescored with
