@@ -1,2 +1,17 @@
 {"dl": "0.0000000001", "ps": "10000000", "rep": "01", "sqln": "25", "ngen": 25, "pro": 15, "pro-countroot": 15}
 {"dl": "0.0000000001", "ps": "10000000", "rep": "01", "sqln": "25", "ngen": 100, "pro": 8, "pro-countroot": 8}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "01", "sqln": "25", "ngen": 500, "pro": 2, "pro-countroot": 2}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "01", "sqln": "100", "ngen": 25, "pro": 5, "pro-countroot": 5}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "01", "sqln": "100", "ngen": 100, "pro": 2, "pro-countroot": 2}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "01", "sqln": "100", "ngen": 500, "pro": 1, "pro-countroot": 1}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "02", "sqln": "25", "ngen": 25, "pro": 18, "pro-countroot": 18}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "02", "sqln": "25", "ngen": 100, "pro": 6, "pro-countroot": 6}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "02", "sqln": "25", "ngen": 500, "pro": 4, "pro-countroot": 4}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "02", "sqln": "100", "ngen": 25, "pro": 6, "pro-countroot": 6}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "02", "sqln": "100", "ngen": 100, "pro": 3, "pro-countroot": 3}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "02", "sqln": "100", "ngen": 500, "pro": 1, "pro-countroot": 1}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "03", "sqln": "25", "ngen": 25, "pro": 18, "pro-countroot": 19}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "03", "sqln": "25", "ngen": 100, "pro": 5, "pro-countroot": 5}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "03", "sqln": "25", "ngen": 500, "pro": 2, "pro-countroot": 2}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "03", "sqln": "100", "ngen": 25, "pro": 5, "pro-countroot": 5}
+{"dl": "0.0000000001", "ps": "10000000", "rep": "03", "sqln": "100", "ngen": 100, "pro": 3, "pro-countroot": 3}
