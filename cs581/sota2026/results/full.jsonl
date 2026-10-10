@@ -117,3 +117,4 @@
 {"dataset": "RNASim_R0", "tool": "famsa-truetree", "nseq": 1000, "threads": 4, "status": "fail rc=-9", "wall": 618.2, "cpu": 705.2, "maxrss_mb": 13068}
 {"dataset": "BBA0081_R0", "tool": "muscle5", "nseq": 195, "threads": 4, "status": "timeout", "wall": 900.14, "cpu": 1226.3, "maxrss_mb": 1080}
 {"dataset": "BBA0101_R0", "tool": "mafft-linsi", "nseq": 322, "threads": 4, "status": "ok", "wall": 603.97, "cpu": 849.8, "maxrss_mb": 356, "SPFN": 0.30069135942666914, "SPFP": 0.28449193673662954, "avgErr": 0.29259164808164934, "TC": 0.0782122905027933, "LenEst": 1600, "LenRef": 4214}
+{"dataset": "RNASim10K_R0", "tool": "twilight-1", "nseq": 10000, "threads": 4, "status": "ok", "wall": 284.57, "cpu": 548.5, "maxrss_mb": 611, "SPFN": 0.12021683391593896, "SPFP": 0.11057202318426751, "avgErr": 0.11539442855010323, "TC": 0.0008967269466447467, "LenEst": 15078, "LenRef": 8700}
