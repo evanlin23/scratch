@@ -38,6 +38,8 @@ BASES = {
     "r4": ("fasttree", 300, 4, True),
     "r8": ("fasttree", 300, 8, True),
     "sk100-r4": ("fasttree", 100, 4, True),
+    "sk100-r2": ("fasttree", 100, 2, True),
+    "sk150-r4": ("fasttree", 150, 4, True),
     "pt-r4": ("parttree", 300, 4, True),
     "pt-r8": ("parttree", 300, 8, True),
     "pt-r10": ("parttree", 300, 10, True),
