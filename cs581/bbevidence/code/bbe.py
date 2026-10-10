@@ -182,6 +182,11 @@ def mask_columns(aln, cols):
     return out
 
 
+def evidence_mask(seq):
+    """Per residue: True if MAGUS uses it as evidence (upper case; masked residues are lower case)."""
+    return np.array([c.isupper() for c in seq if c not in "-."], dtype=bool)
+
+
 def gap_mask(aln, t):
     rows = list(aln.values())
     n, L = len(rows), len(rows[0])
@@ -418,8 +423,10 @@ def aln_pairs(R, aln, cross_only=True):
     ref_groups = collections.defaultdict(list)
     for t in taxa:
         sub = R.subset_of[t]
-        for ec, tc in zip(rc[t], R.refcol[t]):
+        m = evidence_mask(aln[t])
+        for ec, tc in zip(rc[t][m], R.refcol[t][m]):
             est_groups[ec].append((sub, tc))
+        for tc in R.refcol[t]:
             ref_groups[tc].append(sub)
 
     def cross(lst):
@@ -458,8 +465,9 @@ def graph_edges(R, files, per_file=False):
         rc = residue_columns(a)
         cols, nodes, refs, subs = [], [], [], []
         for t in a:
-            cols.append(rc[t]); nodes.append(R.subcol[t]); refs.append(R.refcol[t])
-            subs.append(np.full(len(rc[t]), R.subset_of[t], dtype=np.int32))
+            m = evidence_mask(a[t])
+            cols.append(rc[t][m]); nodes.append(R.subcol[t][m]); refs.append(R.refcol[t][m])
+            subs.append(np.full(int(m.sum()), R.subset_of[t], dtype=np.int32))
         cols, nodes, refs, subs = map(np.concatenate, (cols, nodes, refs, subs))
         order = np.argsort(cols, kind="stable")
         cols, nodes, refs, subs = cols[order], nodes[order], refs[order], subs[order]
@@ -551,7 +559,8 @@ def diag(rep, names):
             rc = residue_columns(a)
             cols = collections.defaultdict(list)
             for t in a:
-                for c, tc in zip(rc[t], R.refcol[t]):
+                m = evidence_mask(a[t])
+                for c, tc in zip(rc[t][m], R.refcol[t][m]):
                     cols[c].append((R.subset_of[t], tc))
             for c, g in cols.items():
                 by = collections.Counter(g)
