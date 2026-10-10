@@ -12,3 +12,12 @@ Rule: filter (use the chosen filtered/soft variant) iff overlap ≥ θ, where ov
 backbones of the fraction of L-INS-i cross-subset residue pairs that the second aligner also aligns;
 otherwise keep MAGUS's evidence. θ = the value maximising the mean Δ over the training sets (ties broken
 by the midpoint between the adjacent training overlaps).
+
+## Recipe selection (added 17:30, after the training results for the first variants came in)
+
+The final "general recipe" is also selected on the training sets only: the grid
+w ∈ {0.01, 0.03, 0.1} × k ∈ {1, 2, 3, 4, 5} (soft weight of unconfirmed FFT-NS-2 pairs × minimum
+number of L-INS-i backbones supporting an edge) is run on the 10 training replicates; the held-out
+replicates are scored only with the selected recipe and the named comparison variants. Some held-out
+replicates were already run with a few grid points before this rule was written (they are reported,
+but not used to choose).
