@@ -58,6 +58,10 @@ reproduction, paired pilot with runtime, and `cs581/<dir>/REPORT.md` with a verd
 | Learned evidence weights for GCM (deep learning x merging) | cs581/code/gcmx (local, this session) | orchestrating session |
 | Faster MAGUS at equal accuracy (cheaper guide tree / fewer backbones + self-soft) | cs581/fastmagus, claude/cs581-fastmagus | session_016eRY2Kh3vGd3hmAfDk9d2R |
 | Is MAGUS still SOTA in 2026? (TWILIGHT, FAMSA2, MUSCLE5, ...) | cs581/sota2026, claude/cs581-sota2026 | session_012Rgpxy2uEEPz2XSy4Tz17n |
+| GDL consistency atlas (ASTRAL-Pro under rooting/tagging error; other methods under GDL/DLCOAL) | cs581/gdlcons, claude/cs581-gdlcons | session_017ko431PE4LESFrE9aX84WU |
+| Deep-learning subset trees merged by GTM (DL for large-scale trees) | cs581/dldtm, claude/cs581-dldtm | session_01NgfgtKvrYSpihCVPR83VUo |
+| Methods under new models (clock violation, realistic indels, tree shape) | cs581/models, claude/cs581-models | session_016r24PFxd7c5QBpCEq4hEba |
+| Rogue taxa in alignment and tree estimation | cs581/rogue, claude/cs581-rogue | session_017Wru2Wv82AvDP88BymCMXk |
 
 The ML session (claude/cs581-ml) was asked to also cover "better ML heuristics" and
 "scaling concatenation"; the GTM session covers DTM blending; consensus alignments run
