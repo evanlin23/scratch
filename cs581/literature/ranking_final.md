@@ -28,6 +28,68 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 8 (19:30 UTC).**
+- *ASTRID-Pro, empirical (`claude/cs581-astridpro2`; my paired recomputation from `results/{disco,fmrfs}_runs.jsonl`;
+  FN rate, ASTRID-Pro minus the other method, negative favours ASTRID-Pro):*
+
+  | vs | n | Δ FN | W/T/L | p |
+  |---|---|---|---|---|
+  | ASTRAL-Pro3 | 71 | −0.0113 | 46/14/11 | 2e-6 |
+  | ASTRID-multi | 113 | −0.0042 | 44/41/28 | 0.019 |
+  | DISCO+ASTRAL | 58 | −0.022 | — | 5e-7 |
+  | FastMulRFS | 57 | −0.021 | — | 2e-6 |
+  | DupLoss-2 | 54 | −0.108 | — | — |
+  | wQFM-GDL | 54 | −0.004 | — | 0.09 (tie) |
+  | ASTRID-DISCO | 113 | +0.001 | — | 0.36 (tie) |
+  | Asteroid | 106 | −0.0006 | — | 0.26 (tie) |
+
+  - The ASTRAL-Pro3 gain is mostly on the FastMulRFS (= ASTRAL-Pro S100) data: −0.0132, n = 57. On DISCO it is
+    −0.0036, n = 14, n.s.; ASTRAL-Pro3 timed out on the 3 heaviest DISCO conditions.
+  - Our ASTRAL-Pro3 reproduces the published ASTRAL-Pro trees (0.0855 vs 0.0863).
+  - Runtime: median 0.3 s vs 12.9 s for ASTRAL-Pro3. On 1000-gene DISCO inputs it takes 1–40 s vs 6–29 min. At
+    1000 taxa it takes 14 s, while ASTRAL-Pro3 and FastMulRFS take > 20 min at 500 taxa.
+  - Empirical 1KP: 5 FN, equal to ASTRAL-Pro3, vs 10 for ASTRID-multi.
+  - Session verdict: "promising; Go by the pre-registered criterion" (matches ASTRAL-Pro3 and is ≥ 10× faster).
+  - Honest framing: a provably consistent (true tags), very fast distance method that matches or beats ASTRAL-Pro3,
+    but ties the fast heuristics ASTRID-DISCO and Asteroid, which have no GDL proof.
+  - **This upgrades the GDL line from "theory only" to "theory plus a faster, at-least-as-accurate method".**
+- *gcmgen held-out, now n = 10–12:*
+  - The selected recipe `wsoft0.03:linsi&fftns2#es4`: −0.82 overall (7/1/2). Proteins −2.77 (3/3); DNA/RNA +0.02
+    (4/1/2), worst +0.34.
+  - Edge support alone `linsi#es3`: −0.44 (4/8/0, p = 0.009), worst +0.04. Its protein gain is mostly SIMMOD_R2
+    (−4.68); on the BAliBASE held-out sets it gives only −0.03 and −0.22.
+  - Held-out proteins are only n = 3 (SIMHIGH_R2 pending).
+- *protcons:*
+  - Fresh BAliBASE draws so far: L∩FFT `--op 3` −0.10 (BBA0039) and −0.38 (BBA0067); `cons0.7` −1.87 on BBA0067.
+  - 1000M2_R1: `cons0.7` +10.25 (DNA harm again).
+  - FastTree trees on the 8 simulated protein sets: L∩FFT vs MAGUS RF −0.60, −0.90, +0.60, +0.50, +0.10, 0, −0.60, 0
+    (mean −0.11). **No reliable tree gain**, within FastTree noise.
+- *magusgen (5 sets):* self-soft alone is ≤ 0 on all five (1000L1 −0.70, 1000M2 −0.73, BBA0039 −0.01, BBA0067 −0.31,
+  BBA0101 −1.22). Self-soft + wsoft0.03 on BBA0101 −1.83, vs −1.22 for self-soft alone.
+- *gtmscale RNASim 10K (1 rep):* with a good FastTree guide, GTM, Blend and full FastTree are all within 0.1 FN. With
+  a k-mer guide, Blend repairs GTM (−0.75), back to full-FastTree level. Same picture: blending only matters when
+  the guide tree is bad.
+- *bbtool phase 2:* MAFFT-only backbone modes (`--auto`, L-INS-i without `--ep`, G-INS-i) give noise-level changes on
+  BBA0154/0190 (−0.7 to +1.3) and −0.5 to −1.9 on BBA0081/0101. Clustal backbones: −0.7 to −7.9 on all 12 BAliBASE
+  draws, but catastrophic on DNA. Conclusion unchanged.
+
+**19:05 UTC: a general recipe for GCM evidence (`claude/cs581-gcmgen`, report draft; train/held-out split fixed
+in `SPLIT.md` before any results; no data-type switch).**
+- *Mechanism, on every data type:* cross-subset GCM edges supported by fewer than 4 of the 10 backbones are almost
+  all wrong. On BAliBASE, the precision of their evidence is 0.02–0.04 at support 1 and 0.05–0.10 at support 2–3, vs
+  0.76–0.88 at support ≥ 4.
+- *Recipe selected on 10 training sets:* `wsoft0.03:linsi&fftns2#es4`. L-INS-i pairs that FFT-NS-2 does not confirm get
+  weight 0.03, then edges with support < 4 are deleted.
+  - Train: −1.14 (7/2/1, p = 0.014); proteins −1.82; DNA/RNA −0.11; worst +0.41.
+  - Held-out so far (n = 5): −1.60 (4/0/1). Proteins: BBA0154 −1.22, BBA0190 −1.98, SIMMOD_R2 −5.11. DNA/RNA:
+    RNASim +0.34, 1000M4 −0.05.
+- *The edge-support threshold alone (`linsi#es3`, no second aligner, MAGUS's own evidence only):*
+  - held-out −0.87 (4/2/0, p = 0.031); no held-out set got worse (worst −0.03);
+  - train proteins −1.27 with `#es3`, −1.56 with `#es4`.
+- *This corrects check-in 7's "edge support ≈ 0":* thresholds 2–3 are ≈ 0 on DNA, but thresholds 3–5 help proteins.
+- Still running: more held-out DNA/RNA replicates (1000S3, 1000M2_R1, 1000L1_R1, RNASim_R1) and SIMHIGH_R2. If it
+  holds, this is the first MAGUS-line change that is better on proteins and neutral on DNA/RNA with one setting.
+
 **Check-in 7 (17:30 UTC).** Δ = error points vs MAGUS's own merge on the same subsets and backbones (negative is better).
 - *Consensus GCM evidence, held-out so far (`claude/cs581-protcons`):* MAFFT-only `L-INS-i ∩ FFT-NS-2 --op 3`:
   - simulated proteins: −2.27, 8/0/0, p = 0.008;

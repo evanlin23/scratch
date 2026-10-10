@@ -26,10 +26,14 @@ levels, 8 replicates) the MAFFT-only intersection lowers error on 8/8 replicates
 to −4.17; p = 0.008); the masking variant is weaker (−0.84, 5/8). On HomFam (10 families, Homstrad-seed scoring)
 it is flat (−0.15, 6/1/3, n.s.; −1.60 to +2.09), where MAGUS is limited by recall rather than precision; over all 20
 held-out sets −0.97 (15/1/4, p = 0.007). (4) *Limits.* Hard filtering hurts on nucleotide data (ROSE, RNASim: +7 to
-+31), where pairs found by only one alignment are mostly correct. Down-weighting those pairs (weight 0.03) instead
-of deleting them is neutral on 8 DNA/RNA sets (−0.08 mean) and keeps the BAliBASE gain (−1.05, 6/0/0), but gives up
-the simulated-protein gain on the one replicate tested (+1.12). Adding Clustal Omega backbones hurts simulated
-proteins, and a pre-registered reference-free gate did not transfer.
++31), where pairs found by only one alignment are mostly correct, and alignment gains do not yet show up in FastTree
+trees (8 simulated sets, mean RF −0.1, within noise). Adding Clustal Omega backbones hurts simulated proteins,
+and a pre-registered reference-free gate did not transfer. (5) *A recipe for all data types (chosen on 10
+training sets, no data-type switch).* Cross-subset GCM edges supported by fewer than 4 of the 10 backbones are
+almost all wrong on every data type (2-10% correct vs 76-88% at support ≥ 4). Down-weighting unconfirmed pairs to
+0.03 and deleting edges with support < 4 gives −1.14 on training sets (7/2/1, p = 0.014) and −0.82 on 10 held-out
+sets (7/1/2): proteins −2.77 (3/3), DNA/RNA +0.02 (4/1/2, worst +0.34). The support threshold alone, with no
+second aligner, is −0.44 held out (4/8/0, p = 0.009) and never worse than +0.04.
 
 **Research questions.** (1) Does consensus evidence improve MAGUS across protein benchmarks (BAliBASE with
 fresh draws, HomFam, 10AA, simulated proteins), and on which data does it hurt? (2) What explains when it helps:
