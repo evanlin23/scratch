@@ -24,7 +24,7 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | 1000S1_R0 | 8.5 (685s) | 9.8 (1563s) | 11.7 (1769s) | 26.5 (39s) | 96.8 (15s) |  | 97.1 (37s) | 98.8 (16s) |  |  |
 | 1000S2_R0 | 3.5 (476s) | 4.7 (994s) | 5.7 (1530s) | 13.7 (37s) | 96.7 (15s) |  | 96.8 (37s) | 98.9 (16s) |  |  |
 | 1000S3_R0 | 4.5 (533s) | 4.5 (1338s) | 4.9 (1343s) | 24.7 (38s) | 97.2 (16s) |  | 97.7 (38s) | 99.0 (19s) |  |  |
-| RNASim10K_R0 | 7.9 (9592s) |  | 10.0 (11747s) |  | 11.5 (285s) |  |  |  |  |  |
+| RNASim10K_R0 | 7.9 (9592s) |  | 10.0 (11747s) |  | 11.5 (285s) |  | 27.6 (629s) |  |  |  |
 
 ## Paired comparison vs published MAGUS(Fast), same replicate (Δ = tool − MAGUS, points; W/T/L = tool better/tie(±0.05)/worse; Wilcoxon signed-rank)
 
@@ -39,7 +39,7 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | ROSE | PASTA(pub) | 10 | +2.1 | 0/0/10 | 0.002 |
 | RNASim | twilight-1 | 2 | +4.2 | 0/0/2 | – |
 | RNASim | twilight | 1 | +1.5 | 0/0/1 | – |
-| RNASim | mafft-parttree | 1 | +14.1 | 0/0/1 | – |
+| RNASim | mafft-parttree | 2 | +16.9 | 0/0/2 | – |
 | RNASim | mafft-auto | 1 | +12.4 | 0/0/1 | – |
 | RNASim | MAGUS(4c) | 1 | +0.3 | 0/0/1 | – |
 | RNASim | PASTA(pub) | 2 | +1.3 | 0/0/2 | – |
@@ -59,7 +59,7 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | all | famsa | 19 | +16.5 | 0/0/19 | 3.8e-06 |
 | all | twilight-1 | 21 | +43.0 | 0/0/21 | 9.5e-07 |
 | all | twilight | 12 | +28.6 | 0/0/12 | 0.00049 |
-| all | mafft-parttree | 20 | +45.3 | 0/0/20 | 1.9e-06 |
+| all | mafft-parttree | 21 | +44.1 | 0/0/21 | 9.5e-07 |
 | all | mafft-auto | 20 | +43.6 | 0/0/20 | 1.9e-06 |
 | all | mafft-linsi | 3 | +3.9 | 0/0/3 | – |
 | all | MAGUS(4c) | 15 | +0.3 | 2/2/11 | 0.064 |
