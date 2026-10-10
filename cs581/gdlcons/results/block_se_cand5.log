@@ -1,0 +1,4 @@
+true:0 {'per_family_total': 0.0186, 'c_minus_AD|BC': 0.0186, 'se2': 0.0007, 'c_minus_AC|BD': 0.0186, 'se3': 0.0007, 'z2': 28.171, 'z3': 28.171, 'blocks': 200, 'block': 200}
+ovl:0 {'per_family_total': 0.5341, 'c_minus_AD|BC': -0.0209, 'se2': 0.0031, 'c_minus_AC|BD': -0.0199, 'se3': 0.0031, 'z2': -6.8249, 'z3': -6.4266, 'blocks': 200, 'block': 200}
+own:0 {'per_family_total': 0.8293, 'c_minus_AD|BC': -0.0658, 'se2': 0.0036, 'c_minus_AC|BD': -0.063, 'se3': 0.0041, 'z2': -18.3082, 'z3': -15.5107, 'blocks': 200, 'block': 200}
+multi:0 {'per_family_total': 1.0, 'c_minus_AD|BC': 0.0133, 'se2': 0.0028, 'c_minus_AC|BD': 0.0089, 'se3': 0.0029, 'z2': 4.7463, 'z3': 3.1132, 'blocks': 200, 'block': 200}

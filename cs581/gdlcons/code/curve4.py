@@ -27,7 +27,7 @@ cache = out + ".pool.nwk"
 if os.path.exists(cache):
     fams = [l.strip() for l in open(cache) if ";" in l]
 else:
-    fams, _, _ = core.simulate(st, lam, mu, pool_n, 4242, min_species=4, cap=6000, max_over=pool_n,
+    fams, _, _ = core.simulate(st, lam, mu, pool_n, 4242, min_species=4, cap=int(os.environ.get("SIMCAP", "6000")), max_over=pool_n,
                                max_tries=3000 * pool_n)
     open(cache, "w").write("\n".join(fams) + "\n")
 spi = {s: i for i, s in enumerate("ABCD")}

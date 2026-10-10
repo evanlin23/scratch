@@ -15,7 +15,8 @@ def feasible(b):
 def job(arg):
     i, r, nfam = arg
     b = r['br']
-    nwk = "(((A:%g,B:%g)x:%g,C:%g)y:%g,D:1);" % (b['A'][2], b['B'][2], b['x'][2], b['C'][2], b['y'][2])
+    nwk = "(((A:%g,B:%g)x:%g,C:%g)y:%g,D:%g);" % (b['A'][2], b['B'][2], b['x'][2], b['C'][2], b['y'][2],
+                                                b['D'][2] if 'D' in b else 1)
     st = parse_newick(nwk)
     lam = [0.0] * len(st.parent); mu = [0.0] * len(st.parent)
     for v in range(len(st.parent)):
