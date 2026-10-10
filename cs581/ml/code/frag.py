@@ -9,6 +9,9 @@
      true (oracle: the true tree restricted to the backbone -- an upper bound, not a method);
 3. frag_constr_<B>: RAxML-NG (GTR+G, one parsimony start) on ALL sequences with T_b as a
    non-comprehensive topological constraint, so only the fragments are placed freely;
+   --contract S: before step 3, collapse backbone edges whose support is < S (FastTree's SH-like
+   local supports, free with the backbone tree), so only confident backbone splits are enforced
+   and the search may rearrange the rest using all sequences (method tag gets "_cS");
 4. --polish: frag_polish_<B>: unconstrained RAxML-NG search started from the step-3 tree.
 Rows (FN vs true tree, cumulative wall/CPU seconds, backbone FN) are appended to --out.
 """
@@ -54,11 +57,14 @@ def main():
     ap.add_argument("--backbone", default="fasttree")
     ap.add_argument("--polish", action="store_true")
     ap.add_argument("--tau", type=float, default=0.5)
+    ap.add_argument("--contract", type=float, default=None)
     ap.add_argument("--aln", default="true_align", help="alignment name in the replicate dir (e.g. upp)")
     ap.add_argument("--out", default=os.path.join(HERE, "..", "results", "frag.jsonl"))
     a = ap.parse_args()
     ds, rep, bbm = a.dataset, a.rep, a.backbone
     tag = bbm if a.tau == 0.5 else "%s_tau%g" % (bbm, a.tau)
+    if a.contract is not None:
+        tag += "_c%g" % a.contract
     d = os.path.join(rt.MLDATA, ds, "R%s" % rep)
     true_tree = os.path.join(d, "true_tree.tre")
     names, seqs = rt.read_fasta(os.path.join(d, a.aln + ".fasta"))
@@ -79,8 +85,22 @@ def main():
     w0 = os.path.join(work, "bb")
     os.makedirs(w0)
     sec, cpu = backbone_tree(bbm, bba, tb, w0, true_tree, [names[i] for i in bb])
+    bb_fn = treeerr.error(true_tree, tb)["fn_rate"]
+    if a.contract is not None:
+        t = dendropy.Tree.get(path=tb, schema="newick", preserve_underscores=True)
+        for nd in list(t.postorder_internal_node_iter(exclude_seed_node=True)):
+            try:
+                sup = float(nd.label)
+            except (TypeError, ValueError):
+                continue  # no support value: keep the edge
+            if sup < a.contract:
+                nd.edge.collapse()
+        tb = tb.replace(".tre", "_c%g.tre" % a.contract)
+        t.write(path=tb, schema="newick", suppress_rooting=True, suppress_internal_node_labels=True)
+    e_c = treeerr.error(true_tree, tb)
     base = {"dataset": ds, "rep": rep, "aln": a.aln, "backbone": bbm, "tau": a.tau, "n_backbone": len(bb),
-            "backbone_fn": treeerr.error(true_tree, tb)["fn_rate"], "backbone_cpu": round(cpu, 1)}
+            "backbone_fn": bb_fn, "contract": a.contract, "constraint_fn": e_c["fn_rate"],
+            "constraint_fp": e_c["fp_rate"], "constraint_edges": e_c["est_int"], "backbone_cpu": round(cpu, 1)}
     rows = []
     t1 = os.path.join(d, "trees", "%s.frag_constr_%s.tre" % (a.aln, tag))
     w1 = os.path.join(work, "constr")
