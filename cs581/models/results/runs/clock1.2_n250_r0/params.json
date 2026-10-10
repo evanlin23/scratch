@@ -1,0 +1,15 @@
+{
+ "out": "/tmp/claude-0/sims/clock1.2_n250_r0",
+ "shape": "bd",
+ "n": 250,
+ "sigma": 1.2,
+ "height": 1.1,
+ "indel": 0.004,
+ "size": "geo:9",
+ "length": 1000,
+ "seed": 100,
+ "model": "HKY{2}+F{0.3/0.2/0.2/0.3}",
+ "rtt_cv": 0.3861343561578746,
+ "rtt_max_over_min": 5.485967034395622,
+ "alisim_cmd": "/opt/mm/root/envs/bio/bin/iqtree3 --alisim /tmp/claude-0/sims/clock1.2_n250_r0/alisim -t /tmp/claude-0/sims/clock1.2_n250_r0/model.tre -m HKY{2}+F{0.3/0.2/0.2/0.3} --length 1000 --indel 0.002,0.002 --indel-size GEO{9},GEO{9} --seed 100 -af fasta --no-unaligned -redo"
+}

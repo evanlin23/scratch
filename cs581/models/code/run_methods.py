@@ -45,7 +45,13 @@ def timed(cmd, log, cwd=None, stdout_file=None):
     return round(time.time() - start, 1), round(cpu, 1)
 
 
-def align(method, d, unaligned, out, T, k):
+def flags_m(k, bb):
+    f = magus_flags(k)
+    f[f.index("-m") + 1] = str(bb)  # backbone size, scaled with n (paper: 200 at n=1000, K=25)
+    return f
+
+
+def align(method, d, unaligned, out, T, k, bb=200):
     w = os.path.join(d, "work_" + method)
     shutil.rmtree(w, ignore_errors=True)
     os.makedirs(w)
@@ -58,7 +64,7 @@ def align(method, d, unaligned, out, T, k):
         r = timed([BIO + "/famsa", "-t", T, unaligned, out], log)
     elif method == "magus":
         r = timed([sys.executable, "-m", "gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d", w,
-                   "-i", unaligned, "-o", out, "--graphbuildhmmextend", "false"] + magus_flags(k), log, cwd=CODE)
+                   "-i", unaligned, "-o", out, "--graphbuildhmmextend", "false"] + flags_m(k, bb), log, cwd=CODE)
     elif method == "pasta":
         r = timed([PASTA_PY, PASTA, "-i", unaligned, "-o", w, "-d", "dna", "--num-cpus", T, "--iter-limit", "3",
                    "--temporaries", os.path.join(w, "tmp"), "-j", "pastajob"], log)
@@ -95,6 +101,7 @@ def main():
     ap.add_argument("--methods", default="true,famsa,mafft-auto,magus,pasta")
     ap.add_argument("--threads", type=int, default=4)
     ap.add_argument("--k", type=int, default=25)
+    ap.add_argument("--bb", type=int, default=200)
     a = ap.parse_args()
     d = os.path.abspath(a.d)
     T = str(a.threads)
@@ -116,7 +123,7 @@ def main():
                 aln = true
             else:
                 aln = os.path.join(d, m + ".fasta")
-                wall, cpu = align(m, d, unaligned, aln, T, a.k)
+                wall, cpu = align(m, d, unaligned, aln, T, a.k, a.bb)
                 s = score.fastsp(true, aln)
                 row.update({"wall": wall, "cpu": cpu, **{x: s[x] for x in ("SPFN", "SPFP", "avgErr", "TC", "LenEst", "LenRef")}})
             tre = os.path.join(d, m + ".fasttree.tre")
