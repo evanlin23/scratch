@@ -134,3 +134,101 @@ def family_scores(g, mode="true", species=("A", "B", "C", "D")):
     out["nroots"] = len(res)
     out["true_in_opt"] = any(set(e) == set(te) for *_, e in res) if te else None
     return out
+
+
+# ---------------------------------------------------------------- reconciliation (LCA)
+SPECIES_TREES = {   # rooted 4-taxon species trees as nested tuples
+    "AB|CD": ((("A", "B"), "C"), "D"),
+}
+
+
+def _st_index(st):
+    """nested tuple species tree -> (clusters list, map species-set -> smallest cluster id)."""
+    cl = []
+    def rec(x):
+        if isinstance(x, str):
+            s = frozenset([x])
+        else:
+            s = frozenset().union(*[rec(c) for c in x])
+        cl.append(s)
+        return s
+    rec(st)
+    return cl
+
+
+def recon_root_tag(adj, sp, st):
+    """DupTree-style: root minimising #duplications under LCA mapping to rooted species tree st
+    (ties: fewest losses, then uniform). Returns list of (par, ch, order, dup) optimal roots."""
+    cl = _st_index(st)
+    def M(s):  # smallest cluster containing s
+        return min((c for c in cl if s <= c), key=len)
+    def depthc(c):
+        return sum(1 for d in cl if c < d)
+    edges = [(u, v) for u in range(len(adj)) for v in adj[u] if u < v]
+    best, res = None, []
+    for e in edges:
+        par, ch, order = rooted(adj, sp, e)
+        sets, mp, dup, nd, nl = {}, {}, {}, 0, 0
+        for v in reversed(order):
+            if not ch[v]:
+                sets[v] = frozenset([sp[v]]); mp[v] = M(sets[v]); continue
+            sets[v] = sets[ch[v][0]] | sets[ch[v][1]]
+            mp[v] = M(sets[v])
+            d = mp[v] == mp[ch[v][0]] or mp[v] == mp[ch[v][1]]
+            dup[v] = d
+            nd += d
+            for c in ch[v]:   # losses on edge v->c (standard LCA loss count)
+                nl += depthc(mp[c]) - depthc(mp[v]) - (0 if d else 1)
+        key = (nd, nl)
+        if best is None or key < best:
+            best, res = key, [(par, ch, order, dup)]
+        elif key == best:
+            res.append((par, ch, order, dup))
+    return res, best
+
+
+def truetag_scores(g, species=("A", "B", "C", "D")):
+    adj, sp, te = to_unrooted(g)
+    # tags from GNode kinds: rebuild by walking g in the same order as to_unrooted
+    kinds = []
+    def rec(x):
+        kinds.append(x.kind)
+        for c in x.ch:
+            rec(c)
+    rec(g)
+    par, ch, order = rooted(adj, sp, te)
+    dup = {v: kinds[v] == "D" for v in range(len(kinds)) if sp[v] is None}
+    return quartet_scores(sp, par, ch, order, dup, species)
+
+
+def recon_scores(g, st, species=("A", "B", "C", "D")):
+    adj, sp, te = to_unrooted(g)
+    res, _ = recon_root_tag(adj, sp, st)
+    tot = defaultdict(float)
+    for par, ch, order, dup in res:
+        for k, v in quartet_scores(sp, par, ch, order, dup, species).items():
+            tot[k] += v / len(res)
+    return dict(tot)
+
+
+def gtp_cost(g, st, loss_w=1.0):
+    """min over gene-tree roots of dups + loss_w * losses w.r.t. rooted species tree st."""
+    adj, sp, te = to_unrooted(g)
+    cl = _st_index(st)
+    M = lambda s: min((c for c in cl if s <= c), key=len)
+    depthc = lambda c: sum(1 for d in cl if c < d)
+    best = None
+    for e in [(u, v) for u in range(len(adj)) for v in adj[u] if u < v]:
+        par, ch, order = rooted(adj, sp, e)
+        sets, mp, cost = {}, {}, 0.0
+        for v in reversed(order):
+            if not ch[v]:
+                sets[v] = frozenset([sp[v]]); mp[v] = M(sets[v]); continue
+            sets[v] = sets[ch[v][0]] | sets[ch[v][1]]; mp[v] = M(sets[v])
+            d = mp[v] == mp[ch[v][0]] or mp[v] == mp[ch[v][1]]
+            cost += d
+            for c in ch[v]:
+                cost += loss_w * (depthc(mp[c]) - depthc(mp[v]) - (0 if d else 1))
+        if best is None or cost < best:
+            best = cost
+    return best
