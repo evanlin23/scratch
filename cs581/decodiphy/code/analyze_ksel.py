@@ -167,6 +167,29 @@ for setname, S in [("TEST trees", test), ("ALL trees", runs)]:
             p = wilcoxon(nz).pvalue if len(nz) >= 5 else float("nan")
             lines.append(f"| {name} | {e['acc']:.3f} | {e['mae']:.2f} | {e['bias']:+.2f} | {e['jac']:.3f} | "
                          f"{diff.mean():+.3f} | {p:.2g} | {(nz > 0).sum()}/{(nz < 0).sum()} |")
+# leave-one-tree-out (LOTO) evaluation of the learned rule on ALL trees
+trees = sorted({r["tree"] for r in runs})
+loto_k = {}
+for tr in trees:
+    mdl = fit_logit([r for r in runs if r["tree"] != tr])
+    for r in runs:
+        if r["tree"] == tr:
+            loto_k[id(r)] = rule_logit(r, mdl)
+lines.append("\n### Leave-one-tree-out: learned rule vs paper rule on ALL trees")
+lines.append("| noise | n | paper exact-k | LOTO exact-k | paper mean abs err | LOTO mean abs err | paper Jaccard | LOTO Jaccard | dJac | Wilcoxon p | wins/losses | sign-test p (exact-k) |")
+lines.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
+for noise in ["noise0", "noise1", "noise2", "all"]:
+    sub = [r for r in runs if noise == "all" or r["noise"] == noise]
+    kp = np.array([rule_paper(r) for r in sub]); kl = np.array([loto_k[id(r)] for r in sub]); kt = np.array([r["k"] for r in sub])
+    jp = np.array([jac(r, k) for r, k in zip(sub, kp)]); jl = np.array([jac(r, k) for r, k in zip(sub, kl)])
+    diff = jl - jp; nz = diff[np.abs(diff) > 1e-12]
+    pw = wilcoxon(nz).pvalue if len(nz) >= 5 else float("nan")
+    a = ((kl == kt) & (kp != kt)).sum(); b = ((kp == kt) & (kl != kt)).sum()
+    ps = binomtest(int(a), int(a + b)).pvalue if a + b > 0 else float("nan")
+    lines.append(f"| {noise} | {len(sub)} | {np.mean(kp == kt):.3f} | {np.mean(kl == kt):.3f} | {np.mean(np.abs(kp - kt)):.2f} | "
+                 f"{np.mean(np.abs(kl - kt)):.2f} | {jp.mean():.3f} | {jl.mean():.3f} | {diff.mean():+.3f} | {pw:.2g} | "
+                 f"{(nz > 0).sum()}/{(nz < 0).sum()} | {ps:.2g} ({a} vs {b}) |")
+
 # per true k on test, all noise
 lines.append("\n### TEST trees, noisy only (noise1+noise2): exact-k accuracy by true k")
 sub = [r for r in test if r["noise"] != "noise0"]
