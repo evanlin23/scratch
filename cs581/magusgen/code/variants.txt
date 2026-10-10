@@ -1,0 +1,12 @@
+# one variant per line, run in this order (mg.py grammar)
+linsi
+linsi&fftns2-op3
+soft0.5:linsi&fftns2-op3
+linsi|cons0.7
+ss:linsi
+ss:linsi&fftns2-op3
+ss:soft0.5:linsi&fftns2-op3
+ss:linsi|cons0.7
+soft0.2:linsi&fftns2-op3
+sm0.5:linsi|cons0.7
+ss:soft0.2:linsi&fftns2-op3

@@ -5,7 +5,6 @@ set -u
 M=/home/user/scratch/cs581/magusgen
 C=/home/user/scratch/cs581/code
 W=/opt/work/mg
-V=${VARS:-"linsi linsi&fftns2-op3 soft0.5:linsi&fftns2-op3 linsi|cons0.7 ss:linsi ss:linsi&fftns2-op3 ss:soft0.5:linsi&fftns2-op3 ss:linsi|cons0.7"}
 mkdir -p $W/reps
 while read -r name src k; do
   [ -z "$name" ] && continue
@@ -20,6 +19,7 @@ while read -r name src k; do
       python3 $M/code/mg.py rep $name $R $src || continue
     fi
   fi
+  V=$(grep -v '^#' $M/code/variants.txt | tr '\n' ' ')  # re-read per job, so variants can be added mid-run
   (cd $C && python3 $M/code/mg.py run $R $V) >> $W/run.log 2>&1
   mkdir -p $M/results
   cp $R/results.jsonl $M/results/$name.results.jsonl

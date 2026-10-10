@@ -9,6 +9,7 @@ variant grammar is used unchanged for the one-stage merges:
   linsi                 MAGUS (control; reproduces MAGUS's own output)
   linsi&fftns2-op3      consensus evidence: only pairs L-INS-i and FFT-NS-2 --op 3 both make
   softW:A&B             soft consensus: confirmed pairs weight 1, unconfirmed W (gg.py)
+  smW:A|consT           soft mask: unmasked pairs weight 1, masked pairs W (new here)
   linsi|cons0.7         self-consistency mask (columns re-aligned by < 70% of the other backbones)
 
 New here, two-stage "self-soft" (cs581/code/gcmx/e2e_bench.py) on top of any one-stage variant BASE:
@@ -39,6 +40,23 @@ from gcmx.bbtool_bench import acc_ref  # noqa: E402
 from gcmx.pilot import self_backbones  # noqa: E402
 
 CODE = bbe.CODE
+_files_of = gg.files_of
+
+
+def files_of(rep, name):
+    """gg.files_of plus smW:A|M (soft mask): A once plus round(1/W) - 1 copies of A|M, so masked
+    pairs keep weight W relative to unmasked ones (MCL ignores the overall scale, see gg.py)."""
+    if name.startswith("sm"):
+        w, expr = name[2:].split(":", 1)
+        m = round(1 / float(w)) - 1
+        base = expr.rsplit("|", 1)[0]
+        A, wa, sa = bbe.parse_variant(rep, base)
+        M, wm, sm = bbe.parse_variant(rep, expr)
+        return [("u_" + lab, x) for lab, x in A] + [("c{}_{}".format(j, lab), x) for j in range(m) for lab, x in M], wm, sm
+    return _files_of(rep, name)
+
+
+gg.files_of = files_of
 T = str(bbe.THREADS)
 
 
