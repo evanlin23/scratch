@@ -22,7 +22,7 @@ DATA = "/opt/data/camus/sim/camus-dataset"
 PUB = "/opt/data/camus/inf/inferred-networks"
 TRAIN = {("n25", "g_500")}  # the paper tuned t on 26-taxon FastTree data; we tune on the same
 TIE = 1e-9
-GTAG = {"g_500": "fasttree", "iqtree_500": "iqtree"}
+GTAG = {"g_500": "fasttree", "iqtree_500": "iqtree", "g_true": "true-gt"}
 
 
 def load(resdir):
