@@ -23,6 +23,8 @@ def binary(tree, out):
     import dendropy
     t = dendropy.Tree.get(path=tree, schema="newick", preserve_underscores=True)
     t.resolve_polytomies(limit=2, update_bipartitions=False, rng=random.Random(1))
+    for e in t.postorder_edge_iter():  # input lengths are re-optimised anyway; simulator units can
+        e.length = None                # be far off-scale and break RAxML-NG's optimiser
     t.write(path=out, schema="newick", suppress_rooting=True, suppress_internal_node_labels=True)
 
 
