@@ -16,7 +16,7 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | BBA0134_R0 | 18.7 (845s) |  | 20.4 (573s) | 33.2 (83s) | 32.8 (6s) | 28.3 (68s) | 29.8 (2s) | 25.2 (13s) |
 | BBA0154_R0 | 21.1 (562s) | 21.7 (1106s) | 22.5 (307s) | 25.3 (77s) | 25.4 (6s) | 26.3 (55s) | 25.7 (2s) | 25.1 (7s) |
 | BBA0190_R0 | 23.1 (1117s) | 23.4 (2177s) | 23.9 (879s) | 33.7 (97s) | 26.0 (16s) | 30.4 (80s) | 26.9 (4s) | 26.5 (18s) |
-| 16S.T_R0 | 9.9 (2918s) |  | 12.9 (6979s) | 17.6 (123s) | 12.7 (78s) |  |  |  |
+| 16S.T_R0 | 9.9 (2918s) |  | 12.9 (6979s) | 17.6 (123s) | 12.7 (78s) |  | 18.8 (215s) | 19.4 (241s) |
 
 ## Paired comparison vs published MAGUS(Fast), same replicate (Δ = tool − MAGUS, points; W/T/L = tool better/tie(±0.05)/worse; Wilcoxon signed-rank)
 
@@ -44,11 +44,13 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | BAliBASE | PASTA(pub) | 8 | +2.7 | 2/0/6 | 0.055 |
 | 16S | famsa | 1 | +7.7 | 0/0/1 | – |
 | 16S | twilight-1 | 1 | +2.7 | 0/0/1 | – |
+| 16S | mafft-parttree | 1 | +8.9 | 0/0/1 | – |
+| 16S | mafft-auto | 1 | +9.4 | 0/0/1 | – |
 | 16S | PASTA(pub) | 1 | +3.0 | 0/0/1 | – |
 | all | famsa | 12 | +14.9 | 0/0/12 | 0.00049 |
 | all | twilight-1 | 13 | +27.9 | 0/0/13 | 0.00024 |
 | all | twilight | 12 | +28.6 | 0/0/12 | 0.00049 |
-| all | mafft-parttree | 12 | +30.1 | 0/0/12 | 0.00049 |
-| all | mafft-auto | 12 | +27.6 | 0/0/12 | 0.00049 |
+| all | mafft-parttree | 13 | +28.5 | 0/0/13 | 0.00024 |
+| all | mafft-auto | 13 | +26.2 | 0/0/13 | 0.00024 |
 | all | MAGUS(4c) | 9 | +0.2 | 2/0/7 | 0.36 |
 | all | PASTA(pub) | 13 | +2.4 | 2/0/11 | 0.0024 |

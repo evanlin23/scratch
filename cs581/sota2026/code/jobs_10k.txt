@@ -1,0 +1,1 @@
+RNASim10K_R0 /opt/data/Datasets/RNASim/10000/R0/true_align.txt 50

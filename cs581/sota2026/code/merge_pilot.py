@@ -46,6 +46,8 @@ def realign(tool, src_dir, dst_dir, threads, work):
         shutil.rmtree(tw, ignore_errors=True)
         if r["status"] != "ok":
             raise RuntimeError("{} failed on {}: {}".format(tool, f, r["status"]))
+        # MAFFT writes DNA in lower case; GCM matches backbone and subset letters case-sensitively
+        fasta.write(fasta.upper(fasta.read(dst)), dst)
         total += r["wall"]
     return total
 
