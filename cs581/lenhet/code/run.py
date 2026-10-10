@@ -8,13 +8,14 @@ sequences within 25% of the median length, with their TRUE alignment
 is a query.  Methods:
 
   magus        MAGUS on all sequences
-  mafft        MAFFT --auto on all sequences
+  mafft        MAFFT L-INS-i on all sequences (--auto picks FFT-NS-2, which fails on ROSE)
   upp          UPP (SEPP 4.4) -a backbone -t tree
   witch        WITCH (witch-msa) -b backbone -e tree
   emma         EMMA -b backbone -e tree
   mafft-add    mafft --add queries onto the backbone
   mafft-addlong mafft --addlong (MAFFT's mode for queries longer than the backbone)
-  upp-trim / witch-trim   see trim.py (pilot fix)
+  <m>-trim     trim queries to the backbone-HMM envelope, add, put flanks back unaligned
+  <m>-tfa      same, but flanks homologous to each other are aligned with MAFFT (trim.py)
 
 Output: DSDIR/<method>/aln.fasta, DSDIR/<method>/score.json.
 Scores: FastSP over all sequences, over the long sequences only and over the
@@ -105,6 +106,9 @@ def make_backbone(ds, bdir, done):
     # the median, so a mult=0 control has exactly the same queries
     long_ = set(open(os.path.join(ds, "long.txt")).read().split())
     bb = {n: s for n, s in seqs.items() if 0.75 * med <= len(s) <= 1.25 * med and n not in long_}
+    if os.path.exists(os.path.join(ds, "backbone.txt")):  # explicit list (validation: HF data)
+        keep = set(open(os.path.join(ds, "backbone.txt")).read().split())
+        bb = {n: s for n, s in seqs.items() if n in keep}
     q = {n: s for n, s in seqs.items() if n not in bb}
     fasta.write(bb, os.path.join(bdir, "bb.unaln.fasta"))
     fasta.write(q, os.path.join(bdir, "queries.fasta"))
@@ -138,16 +142,17 @@ def run_method(ds, method, threads, wd, log):
         return out
     if method == "mafft":
         with open(out, "w") as f:
-            subprocess.run(["mafft", "--auto", "--thread", str(threads), unal], stdout=f,
+            subprocess.run(["mafft", "--localpair", "--maxiterate", "1000", "--thread", str(threads), unal], stdout=f,
                            stderr=open(log, "a"), check=True)
         return out
     bdir = backbone(ds, threads)
     bb, tree, q = (os.path.join(bdir, x) for x in ("bb.aln.fasta", "tree.nwk", "queries.fasta"))
-    if method.endswith("-trim"):
+    if method.endswith(("-trim", "-tfa")):
         import trim
+        base, variant = method.rsplit("-", 1)
         q = trim.trim_queries(bb, q, wd, log)
-        aln = add(method[:-len("-trim")], bb, tree, q, wd, out, threads, log)
-        return trim.restore(aln, wd, os.path.join(wd, "restored.fasta"))
+        aln = add(base, bb, tree, q, wd, out, threads, log)
+        return trim.restore(aln, wd, os.path.join(wd, "restored.fasta"), realign=variant == "tfa")
     return add(method, bb, tree, q, wd, out, threads, log)
 
 
@@ -160,7 +165,8 @@ def add(method, bb, tree, q, wd, out, threads, log):
         return out
     if method == "upp":
         sh([ENV + "/python", ENV + "/run_upp.py", "-s", q, "-a", bb, "-t", tree, "-x", str(threads),
-            "-d", wd + "/", "-o", "upp", "-m", "dna"], log)
+            "-d", wd + "/", "-o", "upp", "-m", "dna", "-p", os.path.join(wd, "tmp")], log)
+        shutil.rmtree(os.path.join(wd, "tmp"), ignore_errors=True)
         return os.path.join(wd, "upp_alignment.fasta")
     if method == "witch":
         sh([ENV + "/python", ENV + "/witch.py", "-b", bb, "-e", tree, "-q", q, "-t", str(threads),
