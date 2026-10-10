@@ -33,3 +33,34 @@ Safe phrasing: "We evaluate a known but unbenchmarked strategy for alignments wi
 
 Search gaps: Park 2021 full text (403); Smirnov-Warnow supplement; theses; PUmPER (Izquierdo-Carrasco
 et al. 2014); IQ-TREE 3 tree-updating features.
+
+## GTM blending: ML-scored, constraint-preserving SPR from GTM (branch claude/cs581-gtm) - PARTIALLY KNOWN (novel core)
+
+The open problem is NOT stale: Warnow's 2023, ICERM 2024 and IMSI 2025 talks still list "Develop a better
+DTM approach that allows blending" (tandy.cs.illinois.edu/Warnow-DTMs-IMSI-2025.pdf).
+
+Closest prior work:
+- Smirnov & Warnow 2020 (GTM), BMC Genomics 21(S2):235, doi:10.1186/s12864-020-6605-1: blending is NP-hard,
+  unblended is polynomial; calls for blended DTMs.
+- Molloy & Warnow 2019 (NJMerge, AMB 14:14, doi:10.1186/s13015-019-0151-x; TreeMerge, Bioinformatics
+  35:i417, doi:10.1093/bioinformatics/btz344): blending mergers, distance-based / greedy.
+- Zhang, Rao & Warnow 2019 (Constrained-INC, AMB 14:2, doi:10.1186/s13015-019-0136-9); Le et al. 2021
+  (INC-ML, TCBB, doi:10.1109/TCBB.2020.2990867): full blending by constrained insertion, distance/quartet voting.
+- Park, Zaharias & Warnow 2021, Algorithms 14:148: benchmarks GTM/TreeMerge/C-INC; no constrained search after merging.
+- Rec-I-DCM3 (Roshan et al. 2004): merge then unconstrained refinement (overlapping subsets).
+- Chernomor, Minh & von Haeseler 2015, J Comput Biol 22:1129, doi:10.1089/cmb.2015.0146; Gentrius (MBE 2024,
+  msae219): conditions for SPR/NNI changing induced subtrees (our feasibility test is essentially known).
+- MrBayes / TNT enforce several partial constraints; IQ-TREE / RAxML-NG take one constraint tree.
+
+Still novel: likelihood on the full alignment to decide blending; SPR search keeping all k subset trees induced
+as a GTM post-processor; evidence it repairs GTM when subsets are not clades; headroom analysis on published data.
+
+Safe phrasing: "To our knowledge no published DTM uses sequence likelihood to decide blending. We test a simple
+constrained ML local search started from GTM that accepts only SPR moves keeping every subset tree induced
+(feasibility test adapted from Chernomor et al. 2015). In 200-taxon simulations where subsets are not clades it
+reduces GTM's error; on published benchmarks the available gain is small and we observed none significant."
+Avoid: "first blending DTM", "first search under multiple partial constraints", "solves the open problem",
+unqualified "6-14 points" (two of three conditions used exact subset trees).
+
+Search gaps: Google Scholar cited-by (used Semantic Scholar: 10 papers cite GTM, OpenAlex says 12); Park 2021
+and Smirnov 2021 thesis full texts (403); RECOMB-CG/WABI/ISMB 2025-26 not searched systematically.
