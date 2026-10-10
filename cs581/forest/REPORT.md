@@ -247,7 +247,23 @@ The same 480 datasets were also run with a coarser grid (7 τ × 5 m × 2 M inst
 slightly more false ones (0.03–0.17 more per tree). Merged accuracy changes by ≤ 0.013 FN in every
 regime (deep: F+GTM(NJ) 0.161 → 0.148; het: 0.619 → 0.615). The conclusions do not depend on the grid.
 
-LARGE_PLACEHOLDER
+### 5.5 Larger trees (n = 500, reduced grid of 18 points, 5 replicates per cell, cap2 distances)
+
+| regime | k | NJ | FastME | FastTree | Forest FN | #comp | F+GTM(NJ) | F+GTM(FastME) | centroid+GTM(NJ) | Forest time (s) |
+|---|---|---|---|---|---|---|---|---|---|---|
+| deep | 300 | 0.301 | 0.219 | 0.038 | 1.000 | 421 | 0.301 | 0.219 | 0.263 | 130 |
+| deep | 3000 | 0.246 | 0.048 | 0.010 | 0.976 | 294 | 0.241 | 0.048 | 0.106 | 161 |
+| het | 300 | 0.887 | 0.745 | 0.277 | 0.940 | 130 | 0.672 | 0.617 | 0.810 | 128 |
+| het | 3000 | 0.817 | 0.626 | 0.133 | 0.923 | 200 | 0.630 | 0.507 | 0.727 | 321 |
+
+Pooled over k (20 pairs): F+GTM(NJ) − NJ −0.102 (14/6/0, p = 0.001); F+GTM(FastME) − FastME −0.062
+(9/11/0, p = 0.008); F+GTM(NJ) − comps-only −0.002 (2/18/0, p = 0.18); F+GTM(NJ) − centroid −0.016
+(10/0/10, p = 0.62); F+GTM(NJ) − FastTree +0.35 (0/0/20).
+
+At n = 500 the deep-tree Forest is almost all singletons (the selected forest resolves 0–14 of 497
+splits), so Forest+GTM *is* the guide tree. The het-regime gains are the cap2 effect of §5.3
+(not re-checked with clipped distances at n = 500), and again the components alone give the same
+tree. The code does scale to n = 500 (2–5 min per replicate), but the Forest gets less useful as n grows.
 
 ## 6. Runtime
 
@@ -259,7 +275,7 @@ Mean wall-clock seconds per replicate (one core per replicate; 4–8 replicates 
 | long, 100 | 100–100 000 | 0.1 | 0.1 | 0.4–44 | 3–11 | 3–12 | 0.4 |
 | deep, 100 | 100–100 000 | 0.1 | 0.1 | 0.6–45 | 5–13 | 6–13 | 0.4 |
 | het, 100 | 100–100 000 | 0.05 | 0.1 | 1–66 | 13–66 | 14–67 | 0.3 |
-| deep, 500 | 300 | 1.8 | 8.6 | 7.3 | 206 (reduced grid, 18 points) | 209 | 2.2 |
+| deep / het, 500 | 300–3000 | 1.8 | 8.6 | 7–11 | 128–321 (reduced grid, 18 points) | 130–325 | 2.2 |
 
 The GTM merge itself takes < 0.5 s. The Forest grid search costs 10–1000 × NJ. My re-implementation is
 40–80 × faster per grid point than distphylo (0.17 s vs 8–15 s at n = 128), but each point is still
