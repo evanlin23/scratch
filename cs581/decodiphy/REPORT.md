@@ -85,8 +85,10 @@ Consequences (all proved by Theorem 1):
   edges of the "star" at v (k+1 or k+2 placements), with ȳ' = ȳ − ε. So zero residual persists above the
   true k; in noisy data the cheapest spurious placements are star splits next to existing placements.
   Only the **minimal** k with an exact fit is meaningful.
-* **C3 (k = 1 is identifiable)** against any alternative with k' ≤ 1 (proof: a T_U-leaf/sibling-pair
-  argument, below).
+* **C3 (k = 1 is identifiable)** against any alternative with k' ≤ 1. Proof: with g = m' − m = −Lα, the
+  negative entries of g lie in V(S) and the positive ones in V(S'), each an adjacent pair. Every leaf of the
+  subtree spanned by supp α has two private outside neighbours where g has the same nonzero sign
+  (objects defined in Theorem 2). They are siblings, so not adjacent, and cannot both lie in one adjacent pair.
 
 **Theorem 2 (k = 2).** If the two placements are not adjacent (S a matching), then (S, p, x, ȳ) is
 identifiable: (a) no continuum, and (b) no alternative with k' ≤ 2.
@@ -100,9 +102,10 @@ i.e. b_1, b_2, and then v–a_1–b_1–v'–b_2–a_2–v is a cycle in a tree.
 *Proof sketch of (b).* Same objects; negative entries of g lie in V(S), positive in V(S'); each T_U-leaf
 gives a same-sign sibling pair. |U| = 1: three siblings of one sign would need 3 edges. Two pairs of the
 same sign give the 6-cycle above. The remaining case (two T_U-leaves with opposite signs, T_U a path) we
-have not closed by hand; it is covered by the exhaustive check below (no counterexample, all shapes n ≤ 9).
+have not closed by hand; it is covered by the exhaustive check below (no counterexample, all unlabeled shapes n ≤ 12).
 
-**Theorem 3 (closed claw, k ≥ 3) — "only if" proved, "if" exhaustive.** Call v ∈ I a *closed claw* of S
+**Theorem 3 (closed claw, k ≥ 3): claw ⇒ non-identifiable is proved; the converse at k = 3 is verified
+exhaustively (n ≤ 9).** Call v ∈ I a *closed claw* of S
 if v ∈ V(S) and all three neighbours of v are in V(S) (needs ≥ 3 placements, all pairwise non-adjacent
 possible). If S has a closed claw then (i) the true (p,x,ȳ) lie in a continuum and (ii) on an open set
 of parameters there is a different edge set S' with |S'| = k fitting d exactly.
@@ -114,9 +117,10 @@ parameters, with generic branch lengths, as soon as k ≥ 3.
 
 **General criterion (conjecture, exhaustively verified).** For S a matching the following are
 equivalent: (A) some parameters admit an exact alternative with k' ≤ k; (B) the true solution has a
-continuum; (C) ker L[V ∖ V(S), I] ≠ {0} — a one-line rank test. For k ≤ 3, (C) ⇔ closed claw. At k = 4
-other patterns appear (e.g. a "double claw" around an internal edge), but (A) ⇔ (B) ⇔ (C) still holds in
-every case we enumerated.
+continuum; (C) ker L[V ∖ V(S), I] ≠ {0}, a one-line rank test. (B) ⇔ (C) is immediate from Theorem 1 (a continuum on
+fixed edges is exactly a nonzero α whose Laplacian vanishes off V(S)), so the open part is (A) ⇔ (B).
+For k ≤ 3, (C) ⇔ closed claw. At k = 4 a second pattern appears, the *split claw* (§4a), but (A) ⇔ (B)
+still holds in every case enumerated.
 
 ## 4. Exhaustive small-case evidence
 
@@ -260,7 +264,23 @@ but small in placement accuracy (+1–2 Jaccard points).
 
 ### 5b. A convex relaxation suggested by Theorem 1 (negative on noisy data)
 
-CONVEX_RESULTS
+`code/noisy_qp.py`: fit the node measure directly. Stage 1: non-negative least squares over all
+2n−2 nodes. Stage 2: maximize ȳ subject to RSS ≤ (1+τ)·RSS₀. Both are convex (CVXPY/Clarabel); there is
+no search over edge sets and no k. Evaluated on the same simulated d̂ as DecoDiPhy, seed 1 (135 paired
+runs, all 9 trees × 5 k × 3 noise levels; τ tuned on the training trees but irrelevant in practice). The
+metric is the tree earth-mover distance between true and estimated node measures, i.e. weighted
+UniFrac on placements with pendant lengths ignored, as in the paper (`results/convex_vs_decodiphy.md`):
+
+| noise | n | DecoDiPhy (paper k) | DecoDiPhy (oracle k) | convex | Δ (convex − DecoDiPhy) | Wilcoxon p | convex better/worse |
+|---|---|---|---|---|---|---|---|
+| 0 | 45 | 0.0003 | 0.0000 | 0.0005 | +0.0001 | 0.004 | 7/38 |
+| 1 | 45 | 0.0185 | 0.0180 | 0.0193 | +0.0008 (+4%) | 4e-5 | 7/38 |
+| 2 | 45 | 0.0360 | 0.0379 | 0.0388 | +0.0028 (+8%) | 3e-7 | 8/37 |
+
+Runtime 1.7 s vs 2.8 s per instance. The convex fit spreads mass over 12–15 nodes where the truth has
+2k = 10. **Negative result:** the relaxation is not more accurate than DecoDiPhy on noisy data, although
+the noise-free LP version is exact for k ≤ 2 (§4b). Making it competitive would need a sparsity
+mechanism (reweighting, or projection onto claw-free supports): a possible extension, not a plan.
 
 ## 6. Verdict
 
