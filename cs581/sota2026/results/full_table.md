@@ -17,18 +17,20 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | BBA0154_R0 | 21.1 (562s) | 21.7 (1106s) | 22.5 (307s) | 25.3 (77s) | 25.4 (6s) | 26.3 (55s) | 25.7 (2s) | 25.1 (7s) |
 | BBA0190_R0 | 23.1 (1117s) | 23.4 (2177s) | 23.9 (879s) | 33.7 (97s) | 26.0 (16s) | 30.4 (80s) | 26.9 (4s) | 26.5 (18s) |
 | 16S.T_R0 | 9.9 (2918s) |  | 12.9 (6979s) | 17.6 (123s) | 12.7 (78s) |  | 18.8 (215s) | 19.4 (241s) |
+| 1000M1_R0 | 11.5 (674s) |  | 13.0 (1993s) | 50.4 (773s) | 97.6 (30s) |  | 98.1 (39s) | 99.2 (25s) |
+| 1000M2_R0 | 8.3 (968s) | 8.2 (1493s) | 13.7 (2007s) | 43.6 (471s) | 97.9 (30s) |  | 98.0 (38s) | 99.0 (23s) |
 
 ## Paired comparison vs published MAGUS(Fast), same replicate (Δ = tool − MAGUS, points; W/T/L = tool better/tie(±0.05)/worse; Wilcoxon signed-rank)
 
 | data | tool | n | mean Δ | W/T/L | p |
 |---|---|---|---|---|---|
-| ROSE | famsa | 3 | +36.7 | 0/0/3 | – |
-| ROSE | twilight-1 | 3 | +89.7 | 0/0/3 | – |
+| ROSE | famsa | 5 | +36.9 | 0/0/5 | 0.062 |
+| ROSE | twilight-1 | 5 | +89.0 | 0/0/5 | 0.062 |
 | ROSE | twilight | 3 | +90.0 | 0/0/3 | – |
-| ROSE | mafft-parttree | 3 | +89.9 | 0/0/3 | – |
-| ROSE | mafft-auto | 3 | +91.0 | 0/0/3 | – |
-| ROSE | MAGUS(4c) | 3 | -0.4 | 2/0/1 | – |
-| ROSE | PASTA(pub) | 3 | +1.9 | 0/0/3 | – |
+| ROSE | mafft-parttree | 5 | +89.2 | 0/0/5 | 0.062 |
+| ROSE | mafft-auto | 5 | +90.3 | 0/0/5 | 0.062 |
+| ROSE | MAGUS(4c) | 4 | -0.3 | 2/1/1 | – |
+| ROSE | PASTA(pub) | 5 | +2.6 | 0/0/5 | 0.062 |
 | RNASim | twilight-1 | 1 | +4.8 | 0/0/1 | – |
 | RNASim | twilight | 1 | +1.5 | 0/0/1 | – |
 | RNASim | mafft-parttree | 1 | +14.1 | 0/0/1 | – |
@@ -47,10 +49,10 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | 16S | mafft-parttree | 1 | +8.9 | 0/0/1 | – |
 | 16S | mafft-auto | 1 | +9.4 | 0/0/1 | – |
 | 16S | PASTA(pub) | 1 | +3.0 | 0/0/1 | – |
-| all | famsa | 12 | +14.9 | 0/0/12 | 0.00049 |
-| all | twilight-1 | 13 | +27.9 | 0/0/13 | 0.00024 |
+| all | famsa | 14 | +18.1 | 0/0/14 | 0.00012 |
+| all | twilight-1 | 15 | +35.9 | 0/0/15 | 6.1e-05 |
 | all | twilight | 12 | +28.6 | 0/0/12 | 0.00049 |
-| all | mafft-parttree | 13 | +28.5 | 0/0/13 | 0.00024 |
-| all | mafft-auto | 13 | +26.2 | 0/0/13 | 0.00024 |
-| all | MAGUS(4c) | 9 | +0.2 | 2/0/7 | 0.36 |
-| all | PASTA(pub) | 13 | +2.4 | 2/0/11 | 0.0024 |
+| all | mafft-parttree | 15 | +36.4 | 0/0/15 | 6.1e-05 |
+| all | mafft-auto | 15 | +34.6 | 0/0/15 | 6.1e-05 |
+| all | MAGUS(4c) | 10 | +0.1 | 2/1/7 | 0.32 |
+| all | PASTA(pub) | 15 | +2.5 | 2/0/13 | 0.00061 |
