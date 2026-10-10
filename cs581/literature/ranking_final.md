@@ -28,6 +28,15 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**bbtool-6 final (20:05 UTC; 16S.M and 1000L1, 3 draws each; Δ vs MAGUS's own merge).**
+- *16S.M:* Clustal +5.4 to +7.1. `mafft --auto` backbones −0.39 / −0.84 / −0.32. Union with Clustal +0.1 to +0.3.
+  L-INS-i without `--ep` and G-INS-i ≈ 0.
+- *1000L1:* Clustal +23 to +25. `--auto` +40 to +44. Union −0.01 / −0.23 / −0.11. L-INS-i without `--ep` +0.4 to
+  +1.7. G-INS-i −0.01 / −0.32 / −0.55.
+- *Conclusion unchanged:* Clustal backbones are protein/BAliBASE-only.
+- *Caveat:* the 16S.M state rows carry `"protein": true` (the old type-check bug). It is a recorded label only:
+  `bbtool_bench` does not use it to choose any tool or option.
+
 **gtmscale final (20:04 UTC, `claude/cs581-gtmscale`): GTM blending is NOT PROMISING as a better DTM.**
 - Blending vs GTM over 46 cases: −0.45 FN points (CI −0.66 to −0.27), 32/7/7, p = 3e-6.
 - IQ-TREE `-fast` is more accurate up to 5K taxa at similar time. At RNASim 10K, blending only ties FastTree
