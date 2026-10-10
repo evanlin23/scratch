@@ -62,3 +62,8 @@ Compute, single thread, `nice 10`, with 4 other heavy jobs on the machine: the r
 
 ## R1
 Not run (out of time). To run it: `TAG=.r1 /home/user/scratch/cs581/fragml2/udance/run_udance_rep.sh R1`. The workdir `/opt/udance_work/R1` is already prepared (528 backbone, 472 queries). Expect about 22 min.
+
+## R1–R4 (run by the main session with `run_udance_rep.sh`, same config, single thread, nice 10)
+- R1, R2, R4 finished; scores in `results/udance.md` (`code/udance_score.py`).
+- R3 failed in the final `stitch` rule (snakemake "Error in rule stitch"; all 6 partition ASTRAL trees
+  exist). Not debugged (time box); R3 is reported as a failure.
