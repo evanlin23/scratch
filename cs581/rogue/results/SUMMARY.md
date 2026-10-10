@@ -21,7 +21,7 @@ Detector hmm: n=3, flagged 50.0, precision 1.00, recall 1.00, wall 55s
 | p-dist filter vs oracle | 3 | 4.36 | 4.16 | +0.21 | 0/0/3 | 0.25 |
 | HMM filter vs oracle | 3 | 4.16 | 4.16 | +0.00 | 0/3/0 | 1 |
 | TreeShrink vs oracle | 3 | 4.66 | 4.16 | +0.50 | 0/0/3 | 0.25 |
-| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 1 | 2.44 | 2.63 | -0.20 | 1/0/0 | 1 |
+| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 3 | 4.64 | 4.76 | -0.12 | 2/0/1 | 0.5 |
 | oracle vs all [SPFN] | 3 | 5.28 | 6.07 | -0.79 | 3/0/0 | 0.25 |
 | oracle vs all [SPFP] | 3 | 3.03 | 3.47 | -0.43 | 3/0/0 | 0.25 |
 
@@ -37,7 +37,7 @@ Detector hmm: n=3, flagged 50.0, precision 1.00, recall 1.00, wall 55s
 | TreeShrink filter + add-back vs all | 3 | 7.19 | 7.59 | -0.40 | 3/0/0 | 0.25 |
 | p-dist filter + add-back vs all | 3 | 6.89 | 7.59 | -0.70 | 3/0/0 | 0.25 |
 | HMM filter + add-back vs all | 3 | 6.75 | 7.59 | -0.84 | 3/0/0 | 0.25 |
-| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 1 | 7.29 | 7.07 | +0.21 | 0/0/1 | 1 |
+| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 3 | 7.11 | 7.43 | -0.32 | 1/0/2 | 1 |
 | ts-drop vs all (on C minus flagged) | 3 | 7.36 | 7.59 | -0.23 | 2/1/0 | 0.5 |
 | pd-drop vs all (on C minus flagged) | 3 | 6.89 | 7.39 | -0.50 | 2/0/1 | 0.5 |
 | hmm-drop vs all (on C minus flagged) | 3 | 6.75 | 7.59 | -0.84 | 3/0/0 | 0.25 |
@@ -48,89 +48,102 @@ wall-clock (s, alignment step incl. add-back): all 14, all-treeC 14, hmm 18, ora
 
 | comparison (A vs B) | n | A | B | A-B | W/T/L (A better) | Wilcoxon p |
 |---|---|---|---|---|---|---|
+| oracle-removed vs all | 1 | 0.88 | 0.86 | +0.02 | 0/0/1 | 1 |
+| oracle vs all [SPFN] | 1 | 1.04 | 1.00 | +0.04 | 0/0/1 | 1 |
+| oracle vs all [SPFP] | 1 | 0.72 | 0.72 | +0.01 | 0/0/1 | 1 |
 
 ### magus — tree FN (%) on non-rogue taxa (FastTree)
 
 | comparison (A vs B) | n | A | B | A-B | W/T/L (A better) | Wilcoxon p |
 |---|---|---|---|---|---|---|
+| oracle-removed vs all | 1 | 5.22 | 5.42 | -0.20 | 1/0/0 | 1 |
+| rogue rows dropped before FastTree vs all | 1 | 5.32 | 5.42 | -0.10 | 1/0/0 | 1 |
+| oracle vs rogue rows dropped (alignment effect) | 1 | 5.22 | 5.32 | -0.10 | 1/0/0 | 1 |
+| oracle + HMM add-back vs all | 1 | 5.52 | 5.42 | +0.10 | 0/0/1 | 1 |
+| oracle + add-back vs oracle | 1 | 5.52 | 5.22 | +0.30 | 0/0/1 | 1 |
 
-wall-clock (s, alignment step incl. add-back): all-treeC 2030
+wall-clock (s, alignment step incl. add-back): all 2030, all-treeC 2030, oracle 2000, oracle+add 2003
 
 ## M4inj1.5
 
-True alignment, tree FN% on non-rogues: with rogues 7.92, without 7.92 (n=1, W/T/L 0/1/0, p=1)
+True alignment, tree FN% on non-rogues: with rogues 6.57, without 6.57 (n=2, W/T/L 0/2/0, p=1)
 
-Detector ts : n=1, flagged 5.0, precision 1.00, recall 0.10, wall 122s
-Detector pd : n=1, flagged 51.0, precision 0.98, recall 1.00, wall 21s
-Detector hmm: n=1, flagged 50.0, precision 1.00, recall 1.00, wall 53s
+Detector ts : n=2, flagged 5.5, precision 1.00, recall 0.11, wall 211s
+Detector pd : n=2, flagged 50.5, precision 0.99, recall 1.00, wall 29s
+Detector hmm: n=2, flagged 50.0, precision 1.00, recall 1.00, wall 91s
 
 ### mafft — alignment error (avg of SPFN, SPFP; %) on non-rogue taxa
 
 | comparison (A vs B) | n | A | B | A-B | W/T/L (A better) | Wilcoxon p |
 |---|---|---|---|---|---|---|
-| oracle-removed vs all | 1 | 5.44 | 5.33 | +0.10 | 0/0/1 | 1 |
-| TreeShrink filter vs all | 1 | 5.28 | 5.33 | -0.06 | 1/0/0 | 1 |
-| p-dist filter vs all | 1 | 5.26 | 5.33 | -0.07 | 1/0/0 | 1 |
-| HMM filter vs all | 1 | 5.44 | 5.33 | +0.10 | 0/0/1 | 1 |
-| p-dist filter vs oracle | 1 | 5.26 | 5.44 | -0.18 | 1/0/0 | 1 |
-| HMM filter vs oracle | 1 | 5.44 | 5.44 | +0.00 | 0/1/0 | 1 |
-| TreeShrink vs oracle | 1 | 5.28 | 5.44 | -0.16 | 1/0/0 | 1 |
-| oracle vs all [SPFN] | 1 | 6.67 | 6.55 | +0.12 | 0/0/1 | 1 |
-| oracle vs all [SPFP] | 1 | 4.21 | 4.12 | +0.09 | 0/0/1 | 1 |
+| oracle-removed vs all | 2 | 5.04 | 5.14 | -0.10 | 1/0/1 | 1 |
+| TreeShrink filter vs all | 2 | 5.08 | 5.14 | -0.06 | 2/0/0 | 0.5 |
+| p-dist filter vs all | 2 | 4.95 | 5.14 | -0.19 | 2/0/0 | 0.5 |
+| HMM filter vs all | 2 | 5.04 | 5.14 | -0.10 | 1/0/1 | 1 |
+| p-dist filter vs oracle | 2 | 4.95 | 5.04 | -0.09 | 1/1/0 | 1 |
+| HMM filter vs oracle | 2 | 5.04 | 5.04 | +0.00 | 0/2/0 | 1 |
+| TreeShrink vs oracle | 2 | 5.08 | 5.04 | +0.04 | 1/0/1 | 1 |
+| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 2 | 4.98 | 5.14 | -0.16 | 2/0/0 | 0.5 |
+| oracle vs all [SPFN] | 2 | 6.35 | 6.44 | -0.09 | 1/0/1 | 1 |
+| oracle vs all [SPFP] | 2 | 3.72 | 3.83 | -0.11 | 1/0/1 | 1 |
 
 ### mafft — tree FN (%) on non-rogue taxa (FastTree)
 
 | comparison (A vs B) | n | A | B | A-B | W/T/L (A better) | Wilcoxon p |
 |---|---|---|---|---|---|---|
-| oracle-removed vs all | 1 | 7.82 | 8.32 | -0.50 | 1/0/0 | 1 |
-| rogue rows dropped before FastTree vs all | 1 | 8.32 | 8.32 | +0.00 | 0/1/0 | 1 |
-| oracle vs rogue rows dropped (alignment effect) | 1 | 7.82 | 8.32 | -0.50 | 1/0/0 | 1 |
-| oracle + HMM add-back vs all | 1 | 7.92 | 8.32 | -0.40 | 1/0/0 | 1 |
-| oracle + add-back vs oracle | 1 | 7.92 | 7.82 | +0.10 | 0/0/1 | 1 |
-| TreeShrink filter + add-back vs all | 1 | 7.72 | 8.32 | -0.60 | 1/0/0 | 1 |
-| p-dist filter + add-back vs all | 1 | 7.82 | 8.32 | -0.50 | 1/0/0 | 1 |
-| HMM filter + add-back vs all | 1 | 7.92 | 8.32 | -0.40 | 1/0/0 | 1 |
-| ts-drop vs all (on C minus flagged) | 1 | 7.62 | 8.32 | -0.70 | 1/0/0 | 1 |
-| pd-drop vs all (on C minus flagged) | 1 | 7.53 | 8.23 | -0.70 | 1/0/0 | 1 |
-| hmm-drop vs all (on C minus flagged) | 1 | 7.82 | 8.32 | -0.50 | 1/0/0 | 1 |
+| oracle-removed vs all | 2 | 6.87 | 7.27 | -0.40 | 2/0/0 | 0.5 |
+| rogue rows dropped before FastTree vs all | 2 | 6.87 | 7.27 | -0.40 | 1/1/0 | 1 |
+| oracle vs rogue rows dropped (alignment effect) | 2 | 6.87 | 6.87 | +0.00 | 1/0/1 | 1 |
+| oracle + HMM add-back vs all | 2 | 6.82 | 7.27 | -0.45 | 2/0/0 | 0.5 |
+| oracle + add-back vs oracle | 2 | 6.82 | 6.87 | -0.05 | 1/0/1 | 1 |
+| TreeShrink filter + add-back vs all | 2 | 7.27 | 7.27 | +0.00 | 1/0/1 | 1 |
+| p-dist filter + add-back vs all | 2 | 6.77 | 7.27 | -0.50 | 2/0/0 | 0.5 |
+| HMM filter + add-back vs all | 2 | 6.82 | 7.27 | -0.45 | 2/0/0 | 0.5 |
+| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 2 | 7.71 | 7.29 | +0.42 | 0/0/2 | 0.5 |
+| ts-drop vs all (on C minus flagged) | 2 | 7.07 | 7.27 | -0.20 | 1/0/1 | 1 |
+| pd-drop vs all (on C minus flagged) | 2 | 6.72 | 7.23 | -0.50 | 2/0/0 | 0.5 |
+| hmm-drop vs all (on C minus flagged) | 2 | 6.87 | 7.27 | -0.40 | 2/0/0 | 0.5 |
 
-wall-clock (s, alignment step incl. add-back): all 18, all-treeC 18, hmm 24, oracle 20, oracle+add 24, pd 24, ts 25
+wall-clock (s, alignment step incl. add-back): all 24, all-treeC 24, hmm 28, oracle 24, oracle+add 28, pd 28, ts 28
 
 ## M4lb
 
-True alignment, tree FN% on non-rogues: with rogues 7.50, without 7.92 (n=1, W/T/L 1/0/0, p=1)
+True alignment, tree FN% on non-rogues: with rogues 6.16, without 6.30 (n=3, W/T/L 1/2/0, p=1)
 
-Detector ts : n=1, flagged 2.0, precision 1.00, recall 0.04, wall 81s
-Detector pd : n=1, flagged 0.0, precision 0.00, recall 0.00, wall 14s
-Detector hmm: n=1, flagged 3.0, precision 0.67, recall 0.04, wall 42s
+Detector ts : n=3, flagged 1.7, precision 0.67, recall 0.02, wall 130s
+Detector pd : n=3, flagged 1.0, precision 0.67, recall 0.02, wall 22s
+Detector hmm: n=3, flagged 1.3, precision 0.22, recall 0.01, wall 61s
 
 ### mafft — alignment error (avg of SPFN, SPFP; %) on non-rogue taxa
 
 | comparison (A vs B) | n | A | B | A-B | W/T/L (A better) | Wilcoxon p |
 |---|---|---|---|---|---|---|
-| oracle-removed vs all | 1 | 5.36 | 5.32 | +0.04 | 0/0/1 | 1 |
-| TreeShrink filter vs all | 1 | 5.16 | 5.32 | -0.17 | 1/0/0 | 1 |
-| p-dist filter vs all | 1 | 5.32 | 5.32 | +0.00 | 0/1/0 | 1 |
-| HMM filter vs all | 1 | 5.10 | 5.32 | -0.23 | 1/0/0 | 1 |
-| p-dist filter vs oracle | 1 | 5.32 | 5.36 | -0.04 | 1/0/0 | 1 |
-| HMM filter vs oracle | 1 | 5.10 | 5.36 | -0.26 | 1/0/0 | 1 |
-| TreeShrink vs oracle | 1 | 5.16 | 5.36 | -0.20 | 1/0/0 | 1 |
-| oracle vs all [SPFN] | 1 | 6.54 | 6.53 | +0.01 | 0/0/1 | 1 |
-| oracle vs all [SPFP] | 1 | 4.18 | 4.12 | +0.06 | 0/0/1 | 1 |
+| oracle-removed vs all | 3 | 4.09 | 4.08 | +0.01 | 1/0/2 | 1 |
+| TreeShrink filter vs all | 2 | 4.92 | 4.94 | -0.03 | 1/0/1 | 1 |
+| p-dist filter vs all | 3 | 4.07 | 4.08 | -0.01 | 1/1/1 | 1 |
+| HMM filter vs all | 3 | 4.00 | 4.08 | -0.08 | 2/1/0 | 0.5 |
+| p-dist filter vs oracle | 3 | 4.07 | 4.09 | -0.02 | 2/0/1 | 0.75 |
+| HMM filter vs oracle | 3 | 4.00 | 4.09 | -0.09 | 2/0/1 | 0.5 |
+| TreeShrink vs oracle | 2 | 4.92 | 5.06 | -0.15 | 2/0/0 | 0.5 |
+| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 2 | 4.97 | 4.94 | +0.02 | 1/0/1 | 1 |
+| oracle vs all [SPFN] | 3 | 5.02 | 5.19 | -0.17 | 1/0/2 | 1 |
+| oracle vs all [SPFP] | 3 | 3.16 | 2.97 | +0.19 | 0/0/3 | 0.25 |
 
 ### mafft — tree FN (%) on non-rogue taxa (FastTree)
 
 | comparison (A vs B) | n | A | B | A-B | W/T/L (A better) | Wilcoxon p |
 |---|---|---|---|---|---|---|
-| oracle-removed vs all | 1 | 7.81 | 7.60 | +0.21 | 0/0/1 | 1 |
-| rogue rows dropped before FastTree vs all | 1 | 7.50 | 7.60 | -0.11 | 1/0/0 | 1 |
-| oracle vs rogue rows dropped (alignment effect) | 1 | 7.81 | 7.50 | +0.32 | 0/0/1 | 1 |
-| oracle + HMM add-back vs all | 1 | 7.71 | 7.60 | +0.11 | 0/0/1 | 1 |
-| oracle + add-back vs oracle | 1 | 7.71 | 7.81 | -0.11 | 1/0/0 | 1 |
-| TreeShrink filter + add-back vs all | 1 | 8.03 | 7.60 | +0.42 | 0/0/1 | 1 |
-| p-dist filter + add-back vs all | 1 | 7.60 | 7.60 | +0.00 | 0/1/0 | 1 |
-| HMM filter + add-back vs all | 1 | 7.92 | 7.60 | +0.32 | 0/0/1 | 1 |
-| ts-drop vs all (on C minus flagged) | 1 | 8.03 | 7.60 | +0.42 | 0/0/1 | 1 |
-| hmm-drop vs all (on C minus flagged) | 1 | 7.82 | 7.51 | +0.32 | 0/0/1 | 1 |
+| oracle-removed vs all | 3 | 6.05 | 6.34 | -0.28 | 2/0/1 | 0.5 |
+| rogue rows dropped before FastTree vs all | 3 | 6.09 | 6.34 | -0.25 | 2/1/0 | 0.5 |
+| oracle vs rogue rows dropped (alignment effect) | 3 | 6.05 | 6.09 | -0.04 | 1/0/2 | 1 |
+| oracle + HMM add-back vs all | 3 | 6.20 | 6.34 | -0.14 | 2/0/1 | 0.75 |
+| oracle + add-back vs oracle | 3 | 6.20 | 6.05 | +0.14 | 1/0/2 | 0.75 |
+| TreeShrink filter + add-back vs all | 2 | 6.55 | 6.44 | +0.11 | 1/0/1 | 1 |
+| p-dist filter + add-back vs all | 3 | 6.30 | 6.34 | -0.04 | 1/2/0 | 1 |
+| HMM filter + add-back vs all | 3 | 6.30 | 6.34 | -0.04 | 1/1/1 | 1 |
+| CONTROL: 50 random non-rogues dropped vs all (on remaining) | 2 | 6.97 | 6.52 | +0.45 | 0/0/2 | 0.5 |
+| ts-drop vs all (on C minus flagged) | 2 | 6.45 | 6.39 | +0.05 | 1/0/1 | 1 |
+| pd-drop vs all (on C minus flagged) | 2 | 5.70 | 5.70 | +0.00 | 1/0/1 | 1 |
+| hmm-drop vs all (on C minus flagged) | 2 | 6.45 | 6.40 | +0.05 | 1/0/1 | 1 |
 
-wall-clock (s, alignment step incl. add-back): all 10, all-treeC 10, hmm 20, oracle 13, oracle+add 25, pd 10, ts 20
+wall-clock (s, alignment step incl. add-back): all 15, all-treeC 15, hmm 22, oracle 18, oracle+add 36, pd 23, ts 26

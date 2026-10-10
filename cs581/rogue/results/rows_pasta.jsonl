@@ -1,0 +1,5 @@
+{"instance": "M4lb_R1", "mode": "longbranch", "k": 50, "length": null, "aligner": "true", "cond": "true-C", "FN": 0.048574445617740235, "FP": 0.048574445617740235}
+{"instance": "M4lb_R1", "mode": "longbranch", "k": 50, "length": null, "aligner": "true", "cond": "true", "FN": 0.048574445617740235, "FP": 0.048574445617740235}
+{"instance": "M4lb_R1", "mode": "longbranch", "k": 50, "length": null, "aligner": "detect", "cond": "pd", "nflag": 1, "TP": 1, "precision": 1.0, "recall": 0.02, "wall": 31.6, "flagged": ["SGII"]}
+{"instance": "M4lb_R1", "mode": "longbranch", "k": 50, "length": null, "aligner": "detect", "cond": "ts", "nflag": 2, "TP": 0, "precision": 0.0, "recall": 0.0, "wall": 139.9, "flagged": ["SCFJ", "SFIA"]}
+{"instance": "M4lb_R1", "mode": "longbranch", "k": 50, "length": null, "aligner": "detect", "cond": "hmm", "nflag": 1, "TP": 0, "precision": 0.0, "recall": 0.0, "wall": 48.1, "flagged": ["SCFJ"]}
