@@ -52,6 +52,9 @@ def prep(name, rep, true, inputs):
         subprocess.run(["tar", "xJf", inputs, "-C", rep], check=True)
     else:
         shutil.copytree(os.path.join(inputs, "inputs"), os.path.join(rep, "inputs"))
+    for f in os.listdir(os.path.join(rep, "inputs", "backbones")):
+        if "unalign" in f:  # fresh bbtool_bench draws keep MAGUS's unaligned backbone files next to the aligned ones
+            os.remove(os.path.join(rep, "inputs", "backbones", f))
     for d in ("subalignments", "backbones"):
         p = os.path.join(rep, "inputs", d)
         for f in os.listdir(p):
@@ -229,6 +232,9 @@ def run(rep, names):
         try:
             os.close(os.open(lock, os.O_CREAT | os.O_EXCL))
         except FileExistsError:
+            continue
+        if os.path.exists(res) and name in {json.loads(l)["variant"] for l in open(res)}:
+            os.remove(lock)  # another lane finished it meanwhile
             continue
         try:
             kind, method, *param = name.split(":")
