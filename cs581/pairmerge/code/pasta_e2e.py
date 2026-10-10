@@ -54,12 +54,24 @@ def main():
                 true = fasta.restrict(true, sorted(random.Random(dataset).sample(sorted(true), sub)))
             fasta.write(true, os.path.join(work, "true.fa"))
             fasta.write(fasta.ungap(true), os.path.join(work, "in.fa"))
+            # starting tree (shared by both arms): PASTA's own HMMER-based initial alignment fails in this
+            # bioconda build for >~200 sequences, so give it FastTree on a MAFFT FFT-NS-2 alignment.
+            start_tree = os.path.join(RUNS, dataset, "start.tre")
+            if not os.path.exists(start_tree):
+                init = os.path.join(RUNS, dataset, "init.fa")
+                with open(init, "w") as o:
+                    subprocess.run(["mafft", "--retree", "2", "--maxiterate", "0", "--thread", "2", "--quiet",
+                                    os.path.join(work, "in.fa")], stdout=o, check=True)
+                with open(start_tree + ".tmp", "w") as o:
+                    subprocess.run([TOOLS + "fasttree", "-nt", "-gtr", "-quiet", init], stdout=o,
+                                   stderr=subprocess.DEVNULL, check=True)
+                os.replace(start_tree + ".tmp", start_tree)
             cfg = os.path.join(work, "cfg.txt")
             config(cfg, arm != "opal")
             env = dict(os.environ, PATH=BIO + ":" + os.environ["PATH"], PAIRMERGE_METHOD=arm,
                        PAIRMERGE_TMP=work, PAIRMERGE_LOG=os.path.join(work, "merges.log"))
             out = os.path.join(work, "out_{}".format(int(time.time())))
-            cmd = [BIO + "/run_pasta.py", cfg, "-i", os.path.join(work, "in.fa"), "-d", "dna", "-o", out, "-j", "p",
+            cmd = [BIO + "/run_pasta.py", cfg, "-i", os.path.join(work, "in.fa"), "-d", "dna", "-o", out, "-j", "p", "-t", start_tree,
                    "--iter-limit", iters, "--num-cpus", os.environ.get("PASTA_CPUS", "4"),
                    "--merger", "opal" if arm == "opal" else "muscle"]
             start = time.time()
