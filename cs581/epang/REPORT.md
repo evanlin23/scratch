@@ -11,7 +11,10 @@ Any query whose first non-gap site is not at the start of the alignment gets wro
 inflated by thousands of log units. This covers fragments and amplicon reads, not full-length sequences.
 The result is a near-doubled delta error and falsely confident placements (LWR = 1.0). A 5-line patch
 fixes it (`code/epa-ng-fix.patch`). With the patch, error keeps decreasing as subtrees grow past 2,000
-leaves, and the patched EPA-ng is also faster on large trees (SIMD kernels are kept).
+leaves, and the patched EPA-ng is also ~30% faster on large trees (SIMD kernels are kept).
+End-to-end, BSCAMPP with the patched EPA-ng at b=5000 has 12% lower delta than the published default
+(stock, b=2000) over 4 replicates (0.757 vs 0.860, p=0.03), at ~2× runtime. Stock at b=5000 doubles
+the error (1.641), which reproduces the paper's anomaly.
 See [Verdict and 4-week plan](#verdict-and-4-week-plan).
 
 ## 1. Question and source open problem
@@ -99,7 +102,7 @@ machine (`--threads 4`, `--cpus-per-job 2`; b ≥ 5000 uses `--cpus-per-job 4`, 
    `attributes = PLL_ATTRIB_RATE_SCALERS;`. That turns on per-rate scalers and, because it is `=`
    rather than `|=`, also drops the SIMD architecture bits.
 3. **Forcing rate scalers on small trees reproduces the jump**: `--rate-scalers on` at 500/1k/2k leaves
-   raises mean delta to 2.06 / 1.98 / 1.73 (W/T/L 26/121/156 at 500, p≈1e-17). Above 2,000 its output
+   raises mean delta to 2.02 / 1.93 / 1.80 vs 1.09 / 0.97 / 0.82 (n=303; W/T/L 26/121/156 at 500, p≈1e-17). Above 2,000 its output
    is identical to the default.
 4. **SIMD loss is not the cause**: a build that forces non-SIMD kernels without rate scalers gives
    identical placements (303/303 ties at every size). A build that keeps SIMD with rate scalers is
@@ -141,7 +144,24 @@ Mean delta error (edges), fragmentary queries (~154 nt):
 | stock `--rate-scalers on` | 2.02 | 1.93 | 1.80 | 1.74 | 1.63 | - |
 | pplacer (FastTree params) | 1.033 | 0.954 | 0.799 | 0.693 | 0.696 | - |
 
-CONTROLS_PLACEHOLDER
+Controls on the >2,000-leaf cases (fragments, n=303 unless noted):
+
+| build / flag | what it changes | 3k | 5k | 9k (full tree, 1,000 queries) |
+|---|---|---|---|---|
+| stock 0.3.8 | - | 1.743 | 1.653 | 1.539 |
+| bug-1 fix only (`\|=`, keeps SIMD) | speed | 1.743 | 1.653 | 1.539 |
+| bug-2 fix only (scaler shift) | accuracy | 0.779 | 0.785 | 0.661 |
+| both fixes (the patch) | both | 0.779 | 0.785 | 0.661 |
+| both fixes + `--no-heur` | | 0.779 | 0.785 | - |
+| stock `--no-pre-mask` | avoids the shifted call | 0.785 | 0.756 | 0.642 |
+| stock `--rate-scalers off` | no per-rate scalers | 0.779 | aborts on 14/17 subtrees (−INF) | aborts: "Tree Log-Likelihood -INF!" |
+
+At ≤2k leaves, the patched build with `--rate-scalers on` forced gives placements identical to
+stock/scaler-free on all 303 queries (500/1k/2k: 1.086/0.974/0.822). The bug-1-only build with
+scalers forced on (labelled `simd_rson` in the data; an earlier draft mislabelled it `fix_rson`)
+is as bad as stock `--rate-scalers on`. So **bug 2 (the scaler shift) is the entire accuracy
+effect, and bug 1 (`=` instead of `|=`) only costs speed**. `--rate-scalers off` is not a usable
+workaround: the scalers are needed above a few thousand tips.
 
 Paired tests vs stock at the same size (fragments, n=303): patched at 3k: −0.964, W/T/L 142/133/28,
 p=4e−17. Patched at 5k: −0.868, 138/142/23, p=1e−16. At ≤2k, stock and patched are identical
@@ -158,7 +178,7 @@ worse, consistent with the BSCAMPP paper.
 preplacement, every edge goes through the focused thorough phase with misaligned scalers, so a
 wrongly inflated likelihood on a distant edge can win. The default dynamic heuristic shortlists
 candidates with the *correct* (unfocused) lookup likelihoods, which limits the damage to about 1
-edge. NOHEUR_FIX_PLACEHOLDER
+edge. Confirmed: the patched build with `--no-heur` gives 0.779 / 0.785 at 3k / 5k, the same as patched with the default heuristic.
 
 **Overconfidence.** Share of fragments whose best placement has LWR ≥ 0.9999: 0.18 at every size
 for patched EPA-ng, but 0.62 / 0.59 / 0.58 for stock at 3k / 5k / 9k (0.91–0.94 with `--no-heur`).
@@ -205,9 +225,87 @@ Patched b=5000 costs ~2× the baseline's time for the accuracy gain. Part of tha
 of four runs was killed). Bigger b means fewer but larger EPA-ng jobs: EPA-ng's memory grows with
 the tree, and BSCAMPP's speed comes from many small jobs.
 
-TIMING_PLACEHOLDER
+Dedicated EPA-ng timing (whole 9,000-leaf backbone, 1,000 queries, `-T 4`, one run at a time on the
+idle machine; accuracy on the same run):
+
+| build / flag | frag wall (s) | frag delta | full-length wall (s) | full delta | peak RSS (GB) |
+|---|---|---|---|---|---|
+| stock 0.3.8 | 50 | 1.539 | 52 | 0.190 | 13.8 |
+| bug-1 fix only (SIMD) | 35 | 1.539 | 37 | 0.190 | 13.8 |
+| bug-2 fix only | 44 | 0.661 | 47 | 0.190 | 13.8 |
+| both fixes | **36** | **0.661** | **37** | 0.190 | 13.8 |
+| stock `--no-pre-mask` | 77 | 0.642 | 41 | 0.190 | 12.5 |
+| stock `--rate-scalers off` | aborts after 5 s (−INF) | - | aborts | - | - |
+
+The patch makes EPA-ng on >2,000-tip trees both correct and ~28–30% faster (SIMD kernels restored).
+`--no-pre-mask` is the flag-only workaround for stock binaries. It is as accurate, but 1.5× slower
+on fragments than stock and 2.1× slower than the patch.
 
 
 ## Verdict and 4-week plan
 
-VERDICT_PLACEHOLDER
+**Verdict: promising** for a 4-week CS581 project, framed as "diagnosis + fix + corrected design",
+not as a new placement algorithm. The open question in the BSCAMPP paper now has a crisp, verified
+answer:
+
+* The jump comes from a bug in EPA-ng: the premasking shift ignores the per-rate scaler layout, and
+  rate scalers turn on automatically above 2,000 tips. It is not a tree-size or heuristic effect.
+* The fix is 5 lines. The decisive controls all agree:
+  * bug-2-only = full fix;
+  * bug-1-only = stock accuracy;
+  * `--no-pre-mask` fixes it;
+  * forcing scalers on at 500 tips reproduces it;
+  * full-length queries are untouched.
+
+The accuracy payoff for BSCAMPP is real but modest. Pooled over 4 replicates, b=5000 with the patch
+is 12% lower in delta (0.757 vs 0.860, p=0.03), and b=9000 is 17% lower (0.721 vs 0.864, p=0.03).
+About 94% of queries tie, and runtime is about 2× at b=5000. The bigger practical story is the
+bug's reach. Stock EPA-ng on any >2,000-tip reference with non-full-length queries gives roughly 2× error and
+overconfident LWRs. Downstream users on this path (not tested here) include EPA-ng on whole large
+trees (the BSCAMPP paper's Exp. 5 "EPA-ng much worse" on RNASim 180K is a likely casualty),
+PICRUSt2 (EPA-ng by default, a 16S reference tree with tens of thousands of tips, amplicon reads; not verified here), and SCAMPP/BSCAMPP/TIPP3 whenever
+b > 2000.
+
+**Weeks 1–4**
+1. *Week 1:* clean up the patch with a regression test (scalers on vs off on a small tree must give
+   identical placements). Re-run the BSCAMPP design experiment (RNASim 50K, 10K fragments,
+   b ∈ {1k, 2k, 3k, 5k, 10k}, 5/25 votes) with stock vs patched EPA-ng, to show the paper's Fig. 1
+   anomaly disappear and pick a new default b. Needs the IDB-1048258 data (4 GB) and a machine with
+   ≥32 GB RAM for b ≥ 5000.
+2. *Week 2:* EPA-ng on whole large trees (RNASim 50K/180K subsamples, as far as memory allows):
+   stock vs patched vs `--no-pre-mask`, to re-assess the "EPA-ng is inaccurate on large trees"
+   conclusions in the SCAMPP/BSCAMPP papers. Add reads with sequencing error (ART/PBSIM, as in BSCAMPP
+   Exp. 3) and the 16S.B.ALL biological dataset.
+3. *Week 3:* downstream impact. 16S amplicon (V4) placement into a PICRUSt2-size reference tree:
+   how many placements and predicted profiles change. Also TIPP3-style taxonomic assignment.
+   Accuracy/runtime frontier of BSCAMPP(e)-patched vs BSCAMPP(p) and SCAMPP(e) (pplacer was 0.69 vs
+   EPA-ng 0.78 at 3k–5k here, so pplacer remains the accuracy ceiling).
+4. *Week 4:* write-up; upstream issue/PR to EPA-ng (with the maintainers' consent, and timing chosen
+   so the course novelty is not lost); explain the memory/runtime trade-off of larger b.
+
+**Main risks**
+* The headline is a bug fix. If the course wants an algorithmic contribution, the BSCAMPP gain
+  (−12% at 2× time) is modest; position the project as resolving a published open question,
+  with a corrected design study.
+* Memory: EPA-ng needs ~13.8 GB for 9,000 tips × 1,623 sites, so b ≥ 5000 needs a larger machine
+  or one job at a time (slower).
+* Others could find it first: the bug is now visible to anyone reading the code; report it upstream
+  early enough to be credited.
+* Scope: the pilot used RNASim 10K subsets (9,000-leaf backbones), 1,000 queries, true alignments.
+  The 50K/180K results are extrapolated.
+
+## Reproduction
+
+* `code/setup` steps: `bash cs581/code/setup.sh`, then a micromamba env `place` with epa-ng 0.3.8,
+  pplacer, raxml-ng, gappa, taxtastic, fasttree, treeswift, dendropy, and pip `apples bscampp
+  treecluster pandas scipy matplotlib`. Patched EPA-ng: v0.3.8 source + `code/epa-ng-fix.patch`
+  (control builds: `epa-ng-shift-only.patch` = bug 2 only; SIMD-only = the `file_io.cpp` hunk;
+  `epa-ng-diag.patch` = non-SIMD diagnostic switch).
+* `code/prep.py`, `code/prep_rep.sh`: split, mask, fragments, backbone tree and model.
+* `code/nested.py prep`, `code/run_nested.sh`, `code/run_pplacer.sh`, `code/run_diag.sh`: Exp. A.
+* `code/run_bscampp.sh` (+ `code/epa_wrap.sh` as BSCAMPP's `epang_path`): Exp. B. `code/timing_full.sh`: timing.
+* `code/deltalib.py`, `code/score*.py`, `code/summarize.py`, `code/make_tables.py`, `code/plot.py`: scoring.
+* `code/queue*.sh`: the exact run order used overnight.
+* Results: `results/R*_nested_scores.tsv`, `results/R*_bscampp_{scores,times}.tsv`,
+  `results/R0_fulltree_{scores,timing}.tsv`, `results/R0_apples_scores.tsv`, all tables in
+  `results/TABLES.md`, figure `results/R0_nested.png`.
