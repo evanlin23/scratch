@@ -18,3 +18,5 @@
 {"data": "empirical", "cond": "vertebrates188", "method": "astrid-pro-s", "sec": 79.324, "FN": 5, "FP": 60, "nI": 130, "FNrate": 0.03846}
 {"data": "empirical", "cond": "vertebrates188", "method": "astrid-disco", "sec": 168.53, "FN": 5, "FP": 60, "nI": 130, "FNrate": 0.03846}
 {"data": "empirical", "cond": "vertebrates188", "method": "asteroid", "sec": 357.51, "error": "CalledProcessError"}
+{"data": "empirical", "cond": "fungi16", "method": "fastmulrfs", "sec": 8.937, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "wqfm-gdl", "sec": 17.069, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}

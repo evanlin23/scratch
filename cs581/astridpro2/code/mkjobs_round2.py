@@ -1,4 +1,4 @@
-"""Trimmed queue (written after a throughput check, before looking at accuracy):
+"""Trimmed queue (see round 3 note below) (written after a throughput check, before looking at accuracy):
  1. FastMulRFS data, 100 genes, reps 01-10: all methods.
  2. DISCO data, 1000 genes, reps 01-05: all methods except DupLoss-2 (wQFM-GDL only reps 01-03).
  3. FastMulRFS data, 500 genes, reps 01-05: all methods except wQFM-GDL and DupLoss-2.
@@ -22,11 +22,13 @@ def di(rep, methods):
         d = f"/opt/data/disco/trees/{c}/{rep}"
         key = {"data": "disco", "cond": c, "rep": rep, "sqln": 100, "ngen": 1000}
         L.append(f"--genes {d}/g_100.trees --true {d}/s_tree.trees --out {out_di} --key '{json.dumps(key)}' --methods {methods}")
-for i in range(1, 11):
-    fm(100, "%02d" % i, FAST + "," + SLOW + ",wqfm-gdl,duploss2")
+# Round 3 (throughput): DupLoss-2 dropped after reps 01-04 (53/1/0 losses); wQFM-GDL kept on
+# FastMulRFS reps 01-04 and DISCO reps 01-02 only.
 for i in range(1, 6):
-    di("%02d" % i, FAST + "," + SLOW + (",wqfm-gdl" if i <= 3 else ""))
+    di("%02d" % i, FAST + "," + SLOW + (",wqfm-gdl" if i <= 2 else ""))
+for i in range(5, 11):
+    fm(100, "%02d" % i, FAST + "," + SLOW)
 for i in range(1, 6):
-    fm(500, "%02d" % i, FAST + "," + SLOW)
+    fm(500, "%02d" % i, FAST + ",astral-pro3")
 open(jobs, "w").write("\n".join(L) + "\n")
 print(len(L))

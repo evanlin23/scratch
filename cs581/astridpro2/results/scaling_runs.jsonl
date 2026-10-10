@@ -19,3 +19,6 @@
 {"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 6.194, "FN": 12, "FP": 12, "nI": 197, "FNrate": 0.06091}
 {"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 9.171, "FN": 15, "FP": 15, "nI": 197, "FNrate": 0.07614}
 {"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "asteroid", "sec": 0.227, "error": "CalledProcessError"}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 541.558, "FN": 14, "FP": 14, "nI": 197, "FNrate": 0.07107}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "disco-astral", "sec": 485.306, "FN": 16, "FP": 16, "nI": 197, "FNrate": 0.08122}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 175.773, "FN": 18, "FP": 18, "nI": 197, "FNrate": 0.09137}
