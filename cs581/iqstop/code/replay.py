@@ -9,8 +9,27 @@ from scipy.stats import norm
 IQ = '/opt/work/bin/iqtree3'; W = '/opt/work/runs'
 OUT = '/home/user/scratch/cs581/iqstop/results/per_dataset'
 
-def aln_of(ds):
+def aln_orig(ds):
     return f'/opt/work/sim/{ds}.phy' if ds.startswith('rg') else f'/opt/work/emp/{ds}.fa'
+def aln_of(ds):
+    u = f'{W}/{ds}/iqdef1.uniqueseq.phy'
+    return u if os.path.exists(u) else aln_orig(ds)
+
+def taxa_of(path):
+    if path.endswith('.phy'):
+        return [l.split()[0] for l in open(path).read().strip().split('\n')[1:] if l.strip()]
+    return [l[1:].split()[0] for l in open(path) if l.startswith('>')]
+
+def relabel(tr, names):
+    return re.sub(r'([(,])(\d+):', lambda m: m.group(1) + names[int(m.group(2))] + ':', tr)
+
+def prune(tr, keep):
+    import dendropy
+    t = dendropy.Tree.get(data=tr, schema='newick', preserve_underscores=True)
+    drop = [n.taxon.label for n in t.leaf_node_iter() if n.taxon.label not in keep]
+    if drop: t.prune_taxa_with_labels(drop)
+    return t.as_string(schema='newick', suppress_rooting=True).strip()
+
 def model_of(ds):
     return 'LG+G4' if ds.startswith('empAA') else 'GTR+F+I+G4'
 
@@ -29,9 +48,10 @@ def wall(ds, tag):
 
 def evaluate(ds, trees):
     d = f'{W}/{ds}/eval'; os.makedirs(d, exist_ok=True)
-    with open(f'{d}/all.nwk', 'w') as f:
-        for t in trees: f.write(t.strip() + '\n')
-    if not os.path.exists(f'{d}/ev.sitelh'):
+    content = ''.join(t.strip() + '\n' for t in trees)
+    same = os.path.exists(f'{d}/all.nwk') and open(f'{d}/all.nwk').read() == content
+    open(f'{d}/all.nwk', 'w').write(content)
+    if not (same and os.path.exists(f'{d}/ev.sitelh')):
         subprocess.run([IQ, '-s', aln_of(ds), '-m', model_of(ds), '-z', f'{d}/all.nwk', '-n', '0', '-wsl',
                         '-zb', '1000', '-au', '-T', '1', '-seed', '1', '-pre', f'{d}/ev', '-redo', '--quiet'], check=True)
     L = []
@@ -104,7 +124,8 @@ RULES = {
 }
 
 def main(ds):
-    rows = read_trace(f'{W}/{ds}/iqdef1.itertrace')
+    names = taxa_of(aln_of(ds)); keep = set(names)
+    rows = [(a, b, c, d, relabel(e, names) if e else None) for a, b, c, d, e in read_trace(f'{W}/{ds}/iqdef1.itertrace')]
     T = wall(ds, 'iqdef1'); post = T - rows[-1][1]
     trees, tid = [], {}
     def add(t):
@@ -114,12 +135,11 @@ def main(ds):
     for it, t, sc, best, tr in rows:
         if tr is not None: cur = add(tr)
         idx_of_it[it] = cur
-    final = open(f'{W}/{ds}/iqdef1.treefile').read().strip()
     comps = {}
     for tag, fn in [('iqdef1_final', 'iqdef1.treefile'), ('iqdef2', 'iqdef2.treefile'), ('iqfast', 'iqfast.treefile'),
                     ('rxfast', 'rxfast.raxml.bestTree')]:
         p = f'{W}/{ds}/{fn}'
-        if os.path.exists(p): comps[tag] = add(open(p).read().strip())
+        if os.path.exists(p): comps[tag] = add(prune(open(p).read().strip(), keep))
     L, au = evaluate(ds, trees)
     lnl = L.sum(0)
     res = dict(ds=ds, ntaxa=None, nsites=L.shape[0], wall_default=T, post=post, last_it=rows[-1][0],
