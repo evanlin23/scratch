@@ -109,7 +109,7 @@ class Backbone:
         self.r = root_leaf or sorted(self.B)[0]
         self.T = RTree(est_tree_path, self.r)
         self.Ts = RTree(true_tree_path, self.r)
-        alln = [v.get_label() for v in self.Ts.traverse_leaves()]
+        alln = [v.get_label() for v in self.Ts.traverse_leaves()] + [self.r]
         self.key = leaf_keys(alln)
         self.nB = len(self.B)
         # estimated tree
