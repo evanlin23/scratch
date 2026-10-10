@@ -19,29 +19,29 @@ RAxML-NG's released early-stopping mode?
 
 ## Bottom line (numbers)
 
-* **Speed is easy; the statistics add nothing.** Plain `-nstop 20` (no test) is already 2.8x faster (geo-mean,
-  n=43). Every KH variant lies on the **same speed vs lnL-loss curve** as `-nstop N` (figure below). With the
+* **Speed is easy; the statistics add nothing.** Plain `-nstop 20` (no test) is already 2.9x faster (geo-mean,
+  n=44). Every KH variant lies on the **same speed vs lnL-loss curve** as `-nstop N` (figure below). With the
   speed matched (KHpat50 vs nstop20, 1.01x time ratio), the empirical-DNA mean difference is +0.9 lnL
   (W/T/L 3/6/3). Protein data are similar.
-* **Why:** across the 44 default runs, **0 of 172 new-best topologies found after the 20 initial iterations
-  are KH-significant** against the previous best. Medians: +2.0 lnL (DNA) and +1.0 lnL (protein) at iterations
+* **Why:** across the 44 default runs, **0 of 184 new-best topologies found after the 20 initial iterations
+  are KH-significant** against the previous best. Medians: +2.0 lnL (DNA) and +1.2 lnL (protein) at iterations
   21-100, +0.6 to 0.9 after that. Yet these individually non-significant gains add up. On the largest 16S set,
   stopping at iteration 23 loses 86 lnL, and several early trees are AU-rejected against the final one. A per-step
   KH test in IQ-TREE's perturbation loop has too little power, so it turns into a fixed iteration budget.
 * **Go/kill (>= 2x faster, no significant loss) fails on empirical data.** At >= 2x, every rule loses lnL
   significantly in the paired test. Empirical DNA (n=12): KHpat50 2.7x, -4.7 lnL, W/T/L 0/2/10, Wilcoxon p=0.002.
-  Protein (n=7): KHpat50 3.4x, -6.7 lnL, 0/2/5. Rules that lose nothing (KHpat100 1.8x, nstop50 1.6x) stay
+  Protein (n=8): KHpat50 3.4x, -6.5 lnL, 0/2/6, p=0.03. Rules that lose nothing (KHpat100 1.8x, nstop50 1.6x) stay
   within seed-to-seed noise but fall short of 2x. On simulated data everything ties: the best topology is found
   in the initial phase, so any rule gives 2-3x for free.
 * **The strongest baseline is far ahead in speed.** RAxML-NG 2.0.3 `--fast` already ships the KH-mult rule. It is
-  **24x** faster than IQ-TREE default (geo-mean, n=43), compared with 2-4x for the KH-IQ-TREE variants. Its trees
-  are worse on empirical DNA (-25 lnL vs default) but still AU-plausible in 100% of cases. On protein it is 46x
-  faster at -13 lnL, which beats KHpat20 (7.9x at -24 lnL).
+  **24x** faster than IQ-TREE default (geo-mean, n=44), compared with 2-4x for the KH-IQ-TREE variants. Its trees
+  are worse on empirical DNA (-25 lnL vs default) but still AU-plausible in 100% of cases. On protein it is 43x
+  faster at -12.5 lnL, which beats KHpat20 (8.2x at -23 lnL).
 * **The replay is exact:** real `-nstop 20` runs stop at the same iteration with the same best lnL (+-0.3) on 4/4
   checked datasets.
 * **Reproduction of the published number:** RAxML-NG `--fast` vs the classic single-parsimony-start search, run as
-  paired sequential runs, gives a speed-up of see `results/raxml_repro.md` (about 4.3x on 16S DNA; paper: 5x for
-  DNA vs RAxML-NG 1.2).
+  paired sequential runs, gives **4.68x** on 16S DNA (n=12; 4.61x over all 20 pairs), close to the paper's 5x for DNA vs RAxML-NG 1.2.
+  See `results/raxml_repro.md`.
 
 ![frontier](results/frontier.png)
 
@@ -71,14 +71,14 @@ an obvious port suggested by the original authors, and the same group already sh
 
 ## Methods
 
-**Data: 44 alignments, 52-445 taxa (43 analysed; one protein run did not finish in time).**
+**Data: 44 alignments, 52-445 taxa.**
 * **Simulated (24).** RAxML Grove empirical DNA trees with their fitted GTR(+I)+G parameters, 8 each with 50-99,
   100-199 and 200-499 taxa, original site counts (495-4,747). Simulated with AliSim (IQ-TREE 3.1.4), no indels.
   True tree = RG tree with branches <= 1e-5 contracted. (`code/simulate.py`)
 * **Empirical DNA (12).** Random 100/150/200/300-taxon subsamples of the curated CRW 16S rRNA reference alignments
   (16S.3, 16S.T, 16S.B.ALL; MAGUS-paper data, Illinois Data Bank). Fragments and all-gap columns removed;
   1,770-4,738 sites.
-* **Empirical protein (8; 7 analysed).** Random 100-200-sequence subsamples of the BAliBASE RV100 reference
+* **Empirical protein (8).** Random 100-200-sequence subsamples of the BAliBASE RV100 reference
   alignments (107-4,038 columns). (`code/prep_empirical.py`)
 * The paper's own 300 TreeBASE MSAs could not be used: Dryad sits behind a bot wall and treebase.org timed out.
 
@@ -88,7 +88,7 @@ GTR+F+I+G4 for DNA, LG+G4 for protein. (`code/run_jobs.sh`, `code/scheduler.py`)
   (`code/iqtree_trace.patch`) that writes, per iteration: wall time, score, best score, whether a new best
   *topology* appeared (the event that resets the `-nstop` counter), and that tree. On the test case the output is
   identical to the stock bioconda binary.
-* `iqdef2`: the same with seed 2, measuring run-to-run noise. Run on the 18 datasets whose default run took < 700 s.
+* `iqdef2`: the same with seed 2, measuring run-to-run noise. Run on 31 datasets: 22 simulated and 9 empirical DNA. It was skipped for slow default runs, including all protein sets.
 * `iqfast`: IQ-TREE `--fast`.
 * `rxfast`: RAxML-NG 2.0.3 `--fast`.
 * `iqnstop20`: real `-nstop 20` runs on 6 datasets, to validate the replay.
@@ -142,29 +142,29 @@ Full tables: `results/summary.md` (auto-generated), per-dataset rows `results/ro
 | IQ-TREE --fast | 52 | -67.1 | -141 | 0/0/12 | 0.0005 | 67% | 0.17 |
 | RAxML-NG 2.0 --fast | 24.7 | -25.5 | -56 | 0/0/12 | 0.0005 | 100% | 0.13 |
 
-### Empirical protein (BAliBASE subsets, n=7; default wall: median 3,166 s, last iteration 190)
+### Empirical protein (BAliBASE subsets, n=8; default wall: median ~3,200 s, last iteration ~190)
 
 | method | speed-up | mean dlnL | W/T/L | Wilcoxon p | AU-plausible |
 |---|---|---|---|---|---|
-| nstop50 | 1.74 | -1.7 | 0/5/2 | 0.5 | 100% |
-| nstop20 | 4.49 | -7.5 | 0/0/7 | 0.016 | 100% |
-| nstop10 | 9.72 | -24.9 | 0/0/7 | 0.016 | 71% |
-| KHpat100 | 1.90 | -3.6 | 0/4/3 | 0.25 | 100% |
-| KHpat50 | 3.37 | -6.7 | 0/2/5 | 0.06 | 100% |
-| KHpat20 | 7.93 | -23.7 | 0/0/7 | 0.016 | 71% |
-| KHwin20 | 4.84 | -14.5 | 0/2/5 | 0.06 | 100% |
-| KHwin10 | 6.15 | -20.1 | 0/0/7 | 0.016 | 71% |
-| IQ-TREE --fast | 68 | -40.0 | 0/0/7 | 0.016 | 71% |
-| RAxML-NG 2.0 --fast | 46 | -13.3 | 0/1/6 | 0.016 | 100% |
+| nstop50 | 1.73 | -1.7 | 0/5/3 | 0.25 | 100% |
+| nstop20 | 4.55 | -7.6 | 0/0/8 | 0.008 | 100% |
+| nstop10 | 9.11 | -22.8 | 0/0/8 | 0.008 | 75% |
+| KHpat100 | 1.95 | -3.7 | 0/4/4 | 0.13 | 100% |
+| KHpat50 | 3.39 | -6.5 | 0/2/6 | 0.03 | 100% |
+| KHpat20 | 8.16 | -23.0 | 0/0/8 | 0.008 | 75% |
+| KHwin20 | 5.03 | -13.7 | 0/2/6 | 0.03 | 100% |
+| KHwin10 | 6.36 | -18.8 | 0/0/8 | 0.008 | 75% |
+| IQ-TREE --fast | 70 | -43.8 | 0/0/8 | 0.008 | 75% |
+| RAxML-NG 2.0 --fast | 43 | -12.5 | 0/1/7 | 0.008 | 100% |
 
-(With n=7, the smallest possible two-sided Wilcoxon p is 0.016.)
+(With n=8, the smallest possible two-sided Wilcoxon p is 0.008.)
 
 ### Simulated (RAxML Grove + AliSim, n=24; default wall: median 60 s, last iteration 102, 1 new-best topology)
 
 | method | speed-up | mean dlnL | W/T/L | FN to true tree | dFN vs default (p) |
 |---|---|---|---|---|---|
 | default | 1 | 0 | - | 0.0562 | - |
-| default, seed 2 (n=9) | 0.93 | +0.08 | 1/8/0 | 0.068 | -0.002 (1.0) |
+| default, seed 2 (n=22) | 0.93 | +0.03 | 1/21/0 | 0.059 | -0.0007 (0.72) |
 | nstop20 | 2.51 | -0.07 | 0/22/2 | 0.0561 | -0.0001 (1.0) |
 | nstop10 | 3.26 | -3.6 | 0/20/4 | 0.0600 | +0.004 (0.23) |
 | KHpat50 | 1.75 | -0.07 | 0/22/2 | 0.0561 | -0.0001 (1.0) |
@@ -184,8 +184,9 @@ true-tree error. KH adds nothing over nstop20 here.
 | emp-DNA | KHpat100 vs nstop50 | 0.88 | -0.27 | 2/7/3 |
 | emp-DNA | KHpat50 vs nstop20 | 1.01 | +0.92 | 3/6/3 |
 | emp-DNA | KHpat20 vs nstop10 | 1.02 | +2.06 | 4/6/2 |
-| emp-AA | KHpat50 vs nstop20 | 1.33 | +0.86 | 3/3/1 |
-| emp-AA | KHpat20 vs nstop10 | 1.23 | +1.23 | 1/5/1 |
+| emp-AA | KHpat100 vs nstop50 | 0.89 | -2.05 | 1/4/3 |
+| emp-AA | KHpat50 vs nstop20 | 1.34 | +1.16 | 4/3/1 |
+| emp-AA | KHpat20 vs nstop10 | 1.12 | -0.17 | 1/5/2 |
 | sim | KHpat50 vs nstop20 | 1.43 | 0.00 | 0/24/0 |
 
 There is no consistent advantage: where KH gains a little lnL, it also takes proportionally longer.
@@ -200,9 +201,9 @@ test at alpha 0.05.
 | emp-DNA | iterations 1-20 (initial candidates) | 34 | 8.8% | 17.5 | 25.6 |
 | emp-DNA | iterations 21-100 | 70 | **0%** | 2.0 | 4.3 |
 | emp-DNA | iterations > 100 | 24 | **0%** | 0.86 | 1.4 |
-| emp-AA | iterations 1-20 | 14 | 0% | 8.9 | 9.7 |
-| emp-AA | iterations 21-100 | 48 | **0%** | 1.0 | 2.9 |
-| emp-AA | iterations > 100 | 30 | **0%** | 0.59 | 1.1 |
+| emp-AA | iterations 1-20 | 17 | 0% | 7.0 | 11.0 |
+| emp-AA | iterations 21-100 | 55 | **0%** | 1.2 | 2.8 |
+| emp-AA | iterations > 100 | 35 | **0%** | 0.64 | 1.1 |
 | sim | all | 39 | 15% | 0.01-0.3 | 0.3-4.5 |
 
 A perturbation iteration changes the tree locally, by a few NNIs. Its gain is a few lnL units, while the KH
@@ -226,8 +227,9 @@ n=300, iterations 23-576 together gain 86 lnL. The default's final tree AU-rejec
 ### Reproduction check against the paper (`results/raxml_repro.md`)
 
 RAxML-NG 2.0.3 `--fast` (KH-mult, simplified search) vs the classic search from one parsimony tree, run as paired
-sequential runs. On 16S DNA it is about 4.3x faster (paper: 5x for KH-mult vs RAxML-NG 1.2 on DNA). The final
-RAxML lnL is lower by 0-33 units. This is consistent with the paper's "statistically equivalent" claim, which
+sequential runs. On 16S DNA (n=12) it is **4.68x** faster; over all 20 pairs (incl. 8 simulated) 4.61x. The paper
+reports 5x for KH-mult vs RAxML-NG 1.2 on DNA, so our scoring and timing reproduce it reasonably well. The final
+RAxML lnL is lower by 5.7 on average (W/T/L 3/8/9, p=0.053). This is consistent with the paper's "statistically equivalent" claim, which
 rests on AU plausibility rather than identical lnL. See the file for the per-dataset table and the final n.
 
 ## Verdict: **not promising** for a 4-week CS581 project
@@ -235,19 +237,19 @@ rests on AU plausibility rather than identical lnL. See the file for the per-dat
 1. **It is not novel enough to stand alone.** The rule is published (2025), the authors suggested porting it, and
    it is already the default fast mode of the main competitor (RAxML-NG 2.0 `--fast`).
 2. **It does not beat the trivial baseline inside IQ-TREE.** The KH variants lie on the same speed/accuracy curve
-   as `-nstop 20/50`. The test has almost no power in a perturbation search: 0/172 post-initial improvements are
+   as `-nstop 20/50`. The test has almost no power in a perturbation search: 0/184 post-initial improvements are
    significant. The go/kill bar of ">= 2x with no significant loss" fails on empirical data for both KH and
    nstop rules.
-3. **It cannot beat the strongest baseline on speed.** RAxML-NG `--fast` is 20-46x faster than IQ-TREE default; a
+3. **It cannot beat the strongest baseline on speed.** RAxML-NG `--fast` is 20-43x faster than IQ-TREE default; a
    KH-IQ-TREE would be 2-4x. The best possible pitch would be "a faster IQ-TREE that is more accurate than
    RAxML-NG `--fast`". At ~2.7x, KHpat50 does have better lnL than RAxML `--fast` on empirical DNA (-4.7 vs -25.5)
-   but not on protein (-6.7 vs -13.3, at 14x more time). That is a speed/accuracy trade-off, not a win.
+   but not by much on protein (-6.5 vs -12.5, at ~13x more time). That is a speed/accuracy trade-off, not a win.
 
 **What could rescue it (if the student still likes the topic):** test the **accumulated** improvement, not each
 single step. For example, a sequential test (SPRT or CUSUM) on the cumulative lnL gain over a sliding window of
 w iterations, calibrated with RELL bootstrap so that correlated small steps are handled correctly. Or predict the
 remaining gain from the trajectory, e.g. by fitting the decay of gains. The data from this pilot (traces and site
-lnLs for 43 datasets) is a ready-made test bed. Even so, the honest ceiling is "IQ-TREE 2-3x faster at
+lnLs for 44 datasets) is a ready-made test bed. Even so, the honest ceiling is "IQ-TREE 2-3x faster at
 seed-noise-level loss", which is a modest engineering result.
 
 **If pursued anyway, weeks 1-4:**
