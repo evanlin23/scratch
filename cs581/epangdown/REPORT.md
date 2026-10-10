@@ -28,8 +28,11 @@ and fixed gives 0.78. So I went ahead.
    (single thread, nt78 subtrees, same placements as `--rate-scalers off`). Both bugs cost time
    on fragments. Inside BSCAMPP at b=5,000 the EPA-ng time drops by 18-41%. At b=2,000, BSCAMPP
    runs entirely below the threshold and gains nothing.
-4. **Downstream tool (PICRUSt2):** see section 5. The real 26,868-tip bacterial reference needs
-   more than 8 GB in EPA-ng (16 GB or more by extrapolation), so I used a 12,000-tip subset.
+4. **Downstream tool (PICRUSt2, 12,000-tip subset of its bacterial reference, 749 V4 ASVs):**
+   2.7% of the ASVs change placement. Five of them are grossly misplaced by stock (NSTI 32 vs
+   1.3) and dropped by the NSTI filter. The predicted metagenome changes by 0.18% per sample at
+   the median and up to 16% for one sample. The real 26,868-tip reference needs at least 16 GB
+   for EPA-ng and did not fit here.
 
 **Verdict for a 4-week CS581 project built on this bug fix: unclear, leaning not promising as a
 "downstream accuracy" project.** The diagnosis is a solid, novel result (explanation + fix +
@@ -204,7 +207,46 @@ headline that holds is "a silent EPA-ng bug degrades every placement of a fragme
 
 ## 5. PICRUSt2 (item 4)
 
-PICRUST_PLACEHOLDER
+**Setup.** PICRUSt2 2.6.3 (bioconda). Its post-link download of the reference files is blocked
+here, so I took the reference from the git tag v2.6.2. `place_seqs.py` calls EPA-ng with the
+defaults plus `--filter-acc-lwr 0.99 --filter-max 100`, so rate scalers are on above 2,000 tips.
+On the real 26,868-tip bacterial reference (1,578 sites), EPA-ng is killed at an 8 GB address
+limit within 6 s. Scaling from the 12,000-tip run below (7.3 GB), it needs at least 16 GB, so
+it does not fit here. I therefore used a **random 12,000-tip subset of the bacterial reference**
+(`code/picrust2_subref.py`). The tree is pruned, the alignment subset, the HMM rebuilt with
+`hmmbuild`, the model kept, and the default 16S/KO/EC trait tables subset to those tips.
+Steps (`code/run_picrust2_subref.sh`): `place_seqs.py` → `hsp.py` (16S + NSTI, KO, EC; max
+parsimony) → `metagenome_pipeline.py`. One gotcha: hsp with r-castor 1.8.7 fails ("invalid
+'ncol'"), so I downgraded it to 1.7.11.
+
+Queries: the QIIME 2 "Moving Pictures" tutorial (770 ASVs, 120 bp V4, 34 samples;
+docs.qiime2.org 2024.10 `rep-seqs.qza`/`table.qza`). 749 ASVs pass the alignment filter. The
+same ASVs and reference are placed with stock and with fixed EPA-ng (`-T 4`).
+
+| | stock | fixed |
+|---|---|---|
+| EPA-ng placement step, wall / max RSS | 23.7 s / 7.3 GB | 18.4 s / 7.4 GB |
+| ASVs above the NSTI cut-off (2.0), dropped downstream | 9 | 4 |
+| mean NSTI over 749 ASVs | 0.341 | 0.140 |
+
+Comparison (`results/picrust2/compare.txt`):
+- **Best placement edge changes for 20 of 749 ASVs (2.7%)** and NSTI for 22. Of the 22, 5 ASVs
+  get an NSTI of 31.9-32.9 with stock (a blown-up pendant length, the typical sign of the
+  scaler misalignment) vs 1.27-1.35 with the fix. These are the extra ASVs dropped by the
+  NSTI ≤ 2 filter. For the other 17 the NSTI moves both ways: the fix gives lower NSTI for 7
+  of 22.
+- **Predicted gene content** (KO and EC) changes for 16 ASVs.
+- **Predicted metagenome** (34 samples): per-sample relative L1 difference median 0.18%, max
+  16% (KO) and 15.5% (EC). The worst sample is L3S360, where the changed ASVs make up 10.8% of
+  reads. Per-sample Spearman between stock and fixed is at least 0.955. 3,681 of 7,840 KOs
+  change in at least one sample.
+
+Reading: for full-region 16S amplicons that all cover the same V4 window, the pre-mask range is
+the same for every query, and only a few percent of placements change. Those few include some
+grossly wrong placements (NSTI about 32), which shift the predictions of the samples where those
+ASVs are abundant by up to about 15%. That is a real but modest downstream effect on this
+dataset. It needs the full 26,868-tip reference (big-memory machine), more studies and other
+amplicon regions before one can claim more. Not done: TIPP3-fast (time).
 
 ## Files
 - `code/`: builds (`build_epang.sh`, `epa-ng-fix.patch`), data prep (`prep_scampp.py`,

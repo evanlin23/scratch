@@ -1,7 +1,7 @@
 #!/bin/bash
 # PICRUSt2 2.6.3 steps (place_seqs with EPA-ng -> hsp 16S+NSTI, hsp KO/EC -> metagenome_pipeline)
 # on a reduced bacterial reference (picrust2_subref.py), stock vs fixed EPA-ng on PATH.
-# Trait tables are the default bacterial ones subset to the reference tips (hsp's mp fails otherwise).
+# Needs r-castor 1.7.x (castor 1.8.7 breaks hsp mp: "invalid ncol"). Trait tables are the default bacterial ones subset to the reference tips (hsp's mp fails otherwise).
 # Usage: run_picrust2_subref.sh <workdir with asv.fna, table.biom, sub_ref/> [threads=4]
 W=$1; T=${2:-4}; E=/opt/mm/root/envs/picrust2/bin
 cd $W
