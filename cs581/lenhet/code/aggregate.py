@@ -131,7 +131,8 @@ def main():
           "| new vs base | scored | conditions | n | mean diff | W/T/L | Wilcoxon p |", "|---|---|---|---|---|---|---|"]
     stats = []
     for new, base in (("upp-tfa", "upp"), ("emma-tfa", "emma"), ("upp-trim", "upp"), ("emma-trim", "emma"),
-                      ("emma", "upp"), ("witch", "upp"), ("magus", "upp-tfa"), ("mafft", "upp-tfa")):
+                      ("emma", "upp"), ("witch", "upp"), ("upp-tfa", "mafft-add"), ("emma-tfa", "mafft-add"),
+                      ("magus", "upp-tfa"), ("mafft", "upp-tfa")):
         for part in ("long", "all"):
             for label, conds in (("all", None), ("random flank", [c for c in COND_ORDER if c.startswith("rand") and c != "rand_f0.1_m0"]),
                                  ("second domain", ["dom_f0.1_m0"]), ("control", ["rand_f0.1_m0"])):
