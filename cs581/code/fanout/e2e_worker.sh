@@ -22,7 +22,7 @@ while read -r name rest; do
   echo "$(date +%T) start $name"
   grep "^$name " "$JOBS" > /tmp/e2e_job.txt
   python3 -m gcmx.e2e_bench /tmp/e2e_job.txt "$OUT" /opt/runs/e2e --threads 4 < /dev/null || echo "$(date +%T) FAILED $name"
-  GIT add "$OUT" && GIT commit -q -m "e2e benchmark: $name" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+  GIT add "$OUT" && GIT commit -q -m "e2e benchmark: $name"
   for i in 1 2 3 4 5; do GIT push -q -u origin "HEAD:$BRANCH" && break; sleep $((2 ** i)); done
 done < "$JOBS"
 echo "ALL JOBS DONE"
