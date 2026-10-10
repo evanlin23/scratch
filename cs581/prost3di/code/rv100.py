@@ -88,14 +88,17 @@ def acc(path):
 
 
 inp = os.path.join(W, "inputs")
-res["bb3di_time"] = realign_dir(os.path.join(inp, "backbones"), os.path.join(W, "bb3di"), "_mafft.txt")
-res["sub3di_time"] = realign_dir(os.path.join(inp, "subalignments"), os.path.join(W, "sub3di"), ".txt")
+os.makedirs(W, exist_ok=True)
+HAVE = os.path.isdir(inp)  # cached MAGUS inputs exist only for some sets; otherwise whole-set runs only
+if HAVE:
+    res["bb3di_time"] = realign_dir(os.path.join(inp, "backbones"), os.path.join(W, "bb3di"), "_mafft.txt")
+    res["sub3di_time"] = realign_dir(os.path.join(inp, "subalignments"), os.path.join(W, "sub3di"), ".txt")
 save()
 conds = {"merge-A": ("subalignments", ["backbones"]), "merge-B": ("subalignments", ["bb3di"]),
          "merge-C": ("subalignments", ["backbones", "bb3di"]), "merge-D": ("sub3di", ["bb3di"]),
          "merge-E": ("sub3di", ["backbones", "bb3di"])}
 for key, (sub, bbs) in conds.items():
-    if key in res:
+    if key in res or not HAVE:
         continue
     d = os.path.join(W, key); shutil.rmtree(d, ignore_errors=True)
     bbdir = os.path.join(d, "bb"); os.makedirs(bbdir)
