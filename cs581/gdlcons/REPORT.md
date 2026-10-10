@@ -1,6 +1,6 @@
 # Pilot: is ASTRAL-Pro consistent under rooting/tagging error? Which methods are consistent under GDL / DLCOAL?
 
-*CS581 project pilot, 2026-10-10, about 2.75 h wall-clock on 4 cores. Branch `claude/cs581-gdlcons`. Code is in `code/` (see `code/README.md`); results are in `results/`. The theory note is `results/theory.md`; the prior-art table with DOIs is `results/prior_art.md`.*
+*CS581 project pilot, 2026-10-10, about 2.5 h wall-clock on 4 cores. Branch `claude/cs581-gdlcons`. Code is in `code/` (see `code/README.md`); results are in `results/`. The theory note is `results/theory.md`; the prior-art table with DOIs is `results/prior_art.md`.*
 
 ## 0. Verdict: **promising** (for question 1); unclear for question 2
 
