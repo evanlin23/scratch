@@ -22,6 +22,7 @@ others; for alignments with lower-case insertion letters also with -ml
 (lower-case letters masked = treated as unaligned).
 """
 import argparse
+import fcntl
 import json
 import os
 import shutil
@@ -89,9 +90,15 @@ def backbone(ds, threads):
     """Backbone = sequences within 25% of the median length (true alignment) + FastTree tree."""
     bdir = os.path.join(ds, "backbone")
     done = os.path.join(bdir, "tree.nwk")
-    if os.path.exists(done):
-        return bdir
     os.makedirs(bdir, exist_ok=True)
+    with open(os.path.join(bdir, ".lock"), "w") as lk:
+        fcntl.flock(lk, fcntl.LOCK_EX)  # parallel jobs on one dataset share the backbone
+        if not os.path.exists(done):
+            make_backbone(ds, bdir, done)
+    return bdir
+
+
+def make_backbone(ds, bdir, done):
     seqs = fasta.read(os.path.join(ds, "unaligned.fasta"))
     med = statistics.median(len(s) for s in seqs.values())
     # queries = the designated (lengthened) sequences plus anything outside 25% of
@@ -104,8 +111,14 @@ def backbone(ds, threads):
     # true alignment induced on the backbone sequences (isolates the adding step;
     # valid because no lengthened sequence is in the backbone)
     t0 = time.time()
-    ref = fasta.read(os.path.join(ds, "true.fasta"))
-    fasta.write(fasta.restrict(ref, list(bb)), os.path.join(bdir, "bb.aln.fasta"))
+    if os.environ.get("BACKBONE") == "magus":  # estimated backbone (validation runs)
+        shutil.rmtree(os.path.join(bdir, "magus_wd"), ignore_errors=True)
+        sh(MAGUS + ["-i", os.path.join(bdir, "bb.unaln.fasta"), "-o", os.path.join(bdir, "bb.aln.fasta"),
+                    "-d", os.path.join(bdir, "magus_wd"), "-np", os.environ.get("THREADS", "4")],
+           os.path.join(bdir, "log.txt"))
+    else:
+        ref = fasta.read(os.path.join(ds, "true.fasta"))
+        fasta.write(fasta.restrict(ref, list(bb)), os.path.join(bdir, "bb.aln.fasta"))
     with open(os.path.join(bdir, "tree.tmp"), "w") as f:
         subprocess.run(["FastTree", "-nt", "-gtr", "-quiet", os.path.join(bdir, "bb.aln.fasta")],
                        stdout=f, stderr=subprocess.DEVNULL, check=True)
