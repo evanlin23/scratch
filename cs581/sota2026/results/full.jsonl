@@ -1,0 +1,2 @@
+{"dataset": "1000L1_R0", "tool": "famsa", "nseq": 1000, "threads": 4, "status": "ok", "wall": 48.32, "cpu": 182.9, "maxrss_mb": 169, "SPFN": 0.3327944314244764, "SPFP": 0.32872495083686715, "avgErr": 0.3307596911306718, "TC": 0.04631217838765009, "LenEst": 2656, "LenRef": 3517}
+{"dataset": "1000L1_R0", "tool": "twilight-1", "nseq": 1000, "threads": 4, "status": "ok", "wall": 16.77, "cpu": 60.0, "maxrss_mb": 36, "SPFN": 0.9822749484204826, "SPFP": 0.9762523886627724, "avgErr": 0.9792636685416275, "TC": 0.0, "LenEst": 8276, "LenRef": 3517}
