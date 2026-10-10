@@ -1,0 +1,2 @@
+{"rep": "BBA0101", "variant": "linsi", "nbb": 10, "bb_wall": 0, "bb_sum": 0, "prep_wall": 0.0, "merge_wall": 45.9, "SPFN": 0.31636827284401237, "SPFP": 0.2673459791370091, "avgErr": 0.2918571259905107, "TC": 0.08603351955307263, "LenEst": 3849, "LenRef": 4214}
+{"rep": "BBA0101", "variant": "dup2:linsi", "nbb": 20, "bb_wall": 0, "bb_sum": 0, "prep_wall": 0.0, "merge_wall": 42.5, "SPFN": 0.31636827284401237, "SPFP": 0.2673459791370091, "avgErr": 0.2918571259905107, "TC": 0.08603351955307263, "LenEst": 3849, "LenRef": 4214}
