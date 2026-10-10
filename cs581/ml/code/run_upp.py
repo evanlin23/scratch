@@ -26,7 +26,7 @@ def main(ds, rep, threads="1"):
         rt.write_fasta(un, names, [s.replace("-", "").replace(".", "") for s in seqs])
     work = tempfile.mkdtemp(prefix="upp_%s_%s_" % (ds, rep))
     os.makedirs(os.path.join(work, "out"))
-    env = dict(os.environ, PATH="/opt/mm/root/envs/ml2/bin:" + os.environ["PATH"])
+    env = dict(os.environ, PATH="/opt/mm/root/envs/ml2/bin:" + os.environ["PATH"], CONDA_PREFIX="/opt/mm/root/envs/ml2")
     t = time.time()
     with open(os.path.join(work, "run.log"), "w") as log:
         p = subprocess.Popen(["python3", UPP, "-s", un, "-o", "upp", "-d", os.path.join(work, "out"), "-x", str(threads), "-m", "dna",
