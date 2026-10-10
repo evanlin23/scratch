@@ -6,12 +6,16 @@
 | s1000_d20 | astral4 | 8 | 32.07 | 32.07 | 32.07 | 44.9 | 10 |
 | s1000_d20 | mrlft | 10 | 19.64 | 19.64 | 19.64 | 16.9 | 37 |
 | s1000_d20 | dc:astral3:100:astral3 | 10 | 17.71 | 17.73 | 17.70 | 11.5 | 123 |
+| s1000_d20 | dc:dc:dc:mrlft:200:astral3:200:astral3:200:astral3 | 10 | 19.65 | 19.65 | 19.65 | 8.4 | 215 |
+| s1000_d20 | dc:dc:mrlft:200:astral3:200:astral3 | 10 | 19.65 | 19.65 | 19.65 | 8.4 | 216 |
 | s1000_d20 | dc:mrlft:100:astral3 | 10 | 20.10 | 20.15 | 20.07 | 11.8 | 124 |
 | s1000_d20 | dc:mrlft:200:astral3 | 10 | 19.65 | 19.66 | 19.64 | 12.5 | 213 |
 | s1000_d20 | dc:true:100:astral3 | 10 | 13.42 | 13.49 | 13.37 | 11.7 | 119 |
 | s1000_d50 | astral3 | 10 | 15.76 | 15.76 | 15.76 | 21.4 | 1518 |
 | s1000_d50 | mrlft | 10 | 20.88 | 20.88 | 20.88 | 27.2 | 45 |
 | s1000_d50 | dc:astral3:100:astral3 | 10 | 15.55 | 15.55 | 15.54 | 11.9 | 119 |
+| s1000_d50 | dc:dc:dc:mrlft:200:astral3:200:astral3:200:astral3 | 10 | 19.30 | 19.30 | 19.30 | 9.1 | 214 |
+| s1000_d50 | dc:dc:mrlft:200:astral3:200:astral3 | 10 | 19.24 | 19.24 | 19.24 | 8.9 | 214 |
 | s1000_d50 | dc:mrlft:100:astral3 | 10 | 19.92 | 19.97 | 19.90 | 11.9 | 121 |
 | s1000_d50 | dc:mrlft:200:astral3 | 10 | 19.27 | 19.31 | 19.25 | 13.2 | 215 |
 | s1000_d50 | dc:true:100:astral3 | 10 | 12.48 | 12.50 | 12.46 | 11.6 | 116 |
@@ -28,37 +32,43 @@
 
 ### Paired comparisons (RF %, new - baseline; negative = new is better). W/T/L = new wins/ties/losses, tie band |diff| <= 0.25 pp; two-sided Wilcoxon signed-rank
 
-| condition | new | baseline | n | mean diff (pp) | W/T/L | p |
-|---|---|---|---|---|---|---|
-| s1000_d20 | dc:astral3:100:astral3 | astral3 | 10 | +0.53 | 4/0/6 | 0.23 |
-| s1000_d20 | dc:mrlft:100:astral3 | astral3 | 10 | +2.91 | 0/0/10 | 0.002 |
-| s1000_d20 | dc:mrlft:200:astral3 | astral3 | 10 | +2.46 | 0/1/9 | 0.0039 |
-| s1000_d20 | dc:mrlft:100:astral3 | mrlft | 10 | +0.46 | 2/2/6 | 0.16 |
-| s1000_d20 | dc:mrlft:200:astral3 | mrlft | 10 | +0.01 | 4/1/5 | 0.92 |
-| s1000_d20 | mrlft | astral3 | 10 | +2.45 | 0/0/10 | 0.002 |
-| s1000_d20 | astral4 | astral3 | 8 | +13.99 | 0/0/8 | 0.0078 |
-| s1000_d50 | dc:astral3:100:astral3 | astral3 | 10 | -0.21 | 4/3/3 | 0.57 |
-| s1000_d50 | dc:mrlft:100:astral3 | astral3 | 10 | +4.17 | 0/0/10 | 0.002 |
-| s1000_d50 | dc:mrlft:200:astral3 | astral3 | 10 | +3.51 | 0/0/10 | 0.002 |
-| s1000_d50 | dc:mrlft:100:astral3 | mrlft | 10 | -0.96 | 7/0/3 | 0.064 |
-| s1000_d50 | dc:mrlft:200:astral3 | mrlft | 10 | -1.61 | 8/2/0 | 0.002 |
-| s1000_d50 | mrlft | astral3 | 10 | +5.12 | 0/0/10 | 0.002 |
-| s1000_d75 | dc:astral3:100:astral3 | astral3 | 10 | -0.11 | 6/1/3 | 0.62 |
-| s1000_d75 | dc:mrlft:100:astral3 | astral3 | 10 | +2.91 | 0/0/10 | 0.002 |
-| s1000_d75 | dc:mrlft:200:astral3 | astral3 | 10 | +2.68 | 0/1/9 | 0.002 |
-| s1000_d75 | dc:mrlft:100:astral3 | mrlft | 10 | -0.66 | 4/5/1 | 0.098 |
-| s1000_d75 | dc:mrlft:200:astral3 | mrlft | 10 | -0.90 | 5/4/1 | 0.16 |
-| s1000_d75 | mrlft | astral3 | 10 | +3.57 | 0/0/10 | 0.002 |
-| s1000_d100 | dc:astral3:100:astral3 | astral3 | 10 | -0.27 | 7/1/2 | 0.23 |
-| s1000_d100 | dc:mrlft:100:astral3 | astral3 | 10 | +0.06 | 5/3/2 | 0.67 |
-| s1000_d100 | dc:mrlft:200:astral3 | astral3 | 10 | +0.05 | 2/5/3 | 0.94 |
-| s1000_d100 | dc:mrlft:100:astral3 | mrlft | 10 | -0.24 | 5/3/2 | 0.17 |
-| s1000_d100 | dc:mrlft:200:astral3 | mrlft | 10 | -0.26 | 7/0/3 | 0.28 |
-| s1000_d100 | mrlft | astral3 | 10 | +0.30 | 4/1/5 | 0.68 |
-| ALL | dc:astral3:100:astral3 | astral3 | 40 | -0.02 | 21/5/14 | 0.65 |
-| ALL | dc:mrlft:100:astral3 | astral3 | 40 | +2.51 | 5/3/32 | 4.5e-07 |
-| ALL | dc:mrlft:200:astral3 | astral3 | 40 | +2.17 | 2/7/31 | 8.4e-07 |
-| ALL | dc:mrlft:100:astral3 | mrlft | 40 | -0.35 | 18/10/12 | 0.11 |
-| ALL | dc:mrlft:200:astral3 | mrlft | 40 | -0.69 | 24/7/9 | 0.0016 |
-| ALL | mrlft | astral3 | 40 | +2.86 | 4/1/35 | 2.8e-07 |
-| ALL | astral4 | astral3 | 8 | +13.99 | 0/0/8 | 0.0078 |
+| condition | new | baseline | n | mean dRF (pp) | W/T/L (RF) | p (RF) | mean dFN (pp) | W/T/L (FN) | p (FN) |
+|---|---|---|---|---|---|---|---|---|---|
+| s1000_d20 | dc:astral3:100:astral3 | astral3 | 10 | +0.53 | 4/0/6 | 0.23 | +0.54 | 4/0/6 | 0.23 |
+| s1000_d20 | dc:mrlft:100:astral3 | astral3 | 10 | +2.91 | 0/0/10 | 0.002 | +2.97 | 0/0/10 | 0.002 |
+| s1000_d20 | dc:mrlft:200:astral3 | astral3 | 10 | +2.46 | 0/1/9 | 0.0039 | +2.48 | 0/1/9 | 0.0039 |
+| s1000_d20 | dc:mrlft:100:astral3 | mrlft | 10 | +0.46 | 2/2/6 | 0.16 | +0.51 | 2/2/6 | 0.16 |
+| s1000_d20 | dc:mrlft:200:astral3 | mrlft | 10 | +0.01 | 4/1/5 | 0.92 | +0.03 | 4/1/5 | 0.92 |
+| s1000_d20 | mrlft | astral3 | 10 | +2.45 | 0/0/10 | 0.002 | +2.45 | 0/0/10 | 0.002 |
+| s1000_d20 | astral4 | astral3 | 8 | +13.99 | 0/0/8 | 0.0078 | +13.99 | 0/0/8 | 0.0078 |
+| s1000_d20 | dc:true:100:astral3 | astral3 | 10 | -3.77 | 10/0/0 | 0.002 | -3.70 | 10/0/0 | 0.002 |
+| s1000_d20 | dc:dc:mrlft:200:astral3:200:astral3 | dc:mrlft:200:astral3 | 10 | +0.00 | 0/10/0 | 1 | -0.01 | 0/10/0 | 1 |
+| s1000_d50 | dc:astral3:100:astral3 | astral3 | 10 | -0.21 | 4/3/3 | 0.57 | -0.21 | 4/3/3 | 0.57 |
+| s1000_d50 | dc:mrlft:100:astral3 | astral3 | 10 | +4.17 | 0/0/10 | 0.002 | +4.21 | 0/0/10 | 0.002 |
+| s1000_d50 | dc:mrlft:200:astral3 | astral3 | 10 | +3.51 | 0/0/10 | 0.002 | +3.55 | 0/0/10 | 0.002 |
+| s1000_d50 | dc:mrlft:100:astral3 | mrlft | 10 | -0.96 | 7/0/3 | 0.064 | -0.91 | 7/0/3 | 0.084 |
+| s1000_d50 | dc:mrlft:200:astral3 | mrlft | 10 | -1.61 | 8/2/0 | 0.002 | -1.57 | 8/2/0 | 0.002 |
+| s1000_d50 | mrlft | astral3 | 10 | +5.12 | 0/0/10 | 0.002 | +5.12 | 0/0/10 | 0.002 |
+| s1000_d50 | dc:true:100:astral3 | astral3 | 10 | -3.28 | 10/0/0 | 0.002 | -3.25 | 10/0/0 | 0.002 |
+| s1000_d50 | dc:dc:mrlft:200:astral3:200:astral3 | dc:mrlft:200:astral3 | 10 | -0.04 | 1/9/0 | 0.62 | -0.07 | 1/9/0 | 1 |
+| s1000_d75 | dc:astral3:100:astral3 | astral3 | 10 | -0.11 | 6/1/3 | 0.62 | -0.10 | 6/1/3 | 0.62 |
+| s1000_d75 | dc:mrlft:100:astral3 | astral3 | 10 | +2.91 | 0/0/10 | 0.002 | +2.94 | 0/0/10 | 0.002 |
+| s1000_d75 | dc:mrlft:200:astral3 | astral3 | 10 | +2.68 | 0/1/9 | 0.002 | +2.68 | 0/1/9 | 0.002 |
+| s1000_d75 | dc:mrlft:100:astral3 | mrlft | 10 | -0.66 | 4/5/1 | 0.098 | -0.64 | 4/5/1 | 0.098 |
+| s1000_d75 | dc:mrlft:200:astral3 | mrlft | 10 | -0.90 | 5/4/1 | 0.16 | -0.89 | 5/4/1 | 0.16 |
+| s1000_d75 | mrlft | astral3 | 10 | +3.57 | 0/0/10 | 0.002 | +3.57 | 0/0/10 | 0.002 |
+| s1000_d100 | dc:astral3:100:astral3 | astral3 | 10 | -0.27 | 7/1/2 | 0.23 | -0.26 | 7/1/2 | 0.22 |
+| s1000_d100 | dc:mrlft:100:astral3 | astral3 | 10 | +0.06 | 5/3/2 | 0.67 | +0.06 | 5/3/2 | 0.67 |
+| s1000_d100 | dc:mrlft:200:astral3 | astral3 | 10 | +0.05 | 2/5/3 | 0.94 | +0.05 | 2/5/3 | 0.9 |
+| s1000_d100 | dc:mrlft:100:astral3 | mrlft | 10 | -0.24 | 5/3/2 | 0.17 | -0.24 | 5/3/2 | 0.17 |
+| s1000_d100 | dc:mrlft:200:astral3 | mrlft | 10 | -0.26 | 7/0/3 | 0.28 | -0.25 | 6/1/3 | 0.28 |
+| s1000_d100 | mrlft | astral3 | 10 | +0.30 | 4/1/5 | 0.68 | +0.30 | 4/1/5 | 0.68 |
+| ALL | dc:astral3:100:astral3 | astral3 | 40 | -0.02 | 21/5/14 | 0.65 | -0.01 | 21/5/14 | 0.71 |
+| ALL | dc:mrlft:100:astral3 | astral3 | 40 | +2.51 | 5/3/32 | 4.5e-07 | +2.54 | 5/3/32 | 4.5e-07 |
+| ALL | dc:mrlft:200:astral3 | astral3 | 40 | +2.17 | 2/7/31 | 8.4e-07 | +2.19 | 2/7/31 | 8.1e-07 |
+| ALL | dc:mrlft:100:astral3 | mrlft | 40 | -0.35 | 18/10/12 | 0.11 | -0.32 | 18/10/12 | 0.14 |
+| ALL | dc:mrlft:200:astral3 | mrlft | 40 | -0.69 | 24/7/9 | 0.0016 | -0.67 | 23/8/9 | 0.0017 |
+| ALL | mrlft | astral3 | 40 | +2.86 | 4/1/35 | 2.8e-07 | +2.86 | 4/1/35 | 2.8e-07 |
+| ALL | astral4 | astral3 | 8 | +13.99 | 0/0/8 | 0.0078 | +13.99 | 0/0/8 | 0.0078 |
+| ALL | dc:true:100:astral3 | astral3 | 20 | -3.52 | 20/0/0 | 1.9e-06 | -3.48 | 20/0/0 | 1.9e-06 |
+| ALL | dc:dc:mrlft:200:astral3:200:astral3 | dc:mrlft:200:astral3 | 20 | -0.02 | 1/19/0 | 0.58 | -0.04 | 1/19/0 | 0.18 |

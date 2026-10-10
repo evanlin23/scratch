@@ -20,6 +20,9 @@ PAIRS = [  # (new, baseline)
     ("dc:scs:500:astral3", "astral3"),
     ("scs", "astral3"),
     ("dc:astral3:100:astral3", "scs"),
+    ("dc:scs:200:astral3", "scs"),
+    ("dc:true:100:astral3", "astral3"),
+    ("dc:dc:mrlft:200:astral3:200:astral3", "dc:mrlft:200:astral3"),
 ]
 
 
@@ -54,25 +57,30 @@ def main():
                   f"{f('wall'):.1f} | {f('peak_mb'):.0f} |")
     print(f"\n### Paired comparisons (RF %, new - baseline; negative = new is better). "
           f"W/T/L = new wins/ties/losses, tie band |diff| <= {TIE} pp; two-sided Wilcoxon signed-rank\n")
-    print("| condition | new | baseline | n | mean diff (pp) | W/T/L | p |")
-    print("|---|---|---|---|---|---|---|")
+    print("| condition | new | baseline | n | mean dRF (pp) | W/T/L (RF) | p (RF) | mean dFN (pp) | W/T/L (FN) | p (FN) |")
+    print("|---|---|---|---|---|---|---|---|---|---|")
     for c in conds + ["ALL"]:
         for new, base in PAIRS:
-            d = []
-            for (cc, case, mm), r in rows.items():
-                if mm != new or (c != "ALL" and cc != c):
-                    continue
-                b = rows.get((cc, case, base))
-                if b:
-                    d.append(100 * (r["rf"] - b["rf"]))
-            if len(d) < 3:
+            cols = []
+            for key in ("rf", "fn"):
+                d = []
+                for (cc, case, mm), r in rows.items():
+                    if mm != new or (c != "ALL" and cc != c):
+                        continue
+                    b = rows.get((cc, case, base))
+                    if b:
+                        d.append(100 * (r[key] - b[key]))
+                if len(d) < 3:
+                    break
+                w = sum(x < -TIE for x in d); l = sum(x > TIE for x in d); t = len(d) - w - l
+                try:
+                    p = wilcoxon(d).pvalue if any(x != 0 for x in d) else 1.0
+                except ValueError:
+                    p = float("nan")
+                cols.append((len(d), f"{sum(d)/len(d):+.2f} | {w}/{t}/{l} | {p:.2g}"))
+            if len(cols) < 2:
                 continue
-            w = sum(x < -TIE for x in d); l = sum(x > TIE for x in d); t = len(d) - w - l
-            try:
-                p = wilcoxon(d).pvalue if any(x != 0 for x in d) else 1.0
-            except ValueError:
-                p = float("nan")
-            print(f"| {c} | {new} | {base} | {len(d)} | {sum(d)/len(d):+.2f} | {w}/{t}/{l} | {p:.2g} |")
+            print(f"| {c} | {new} | {base} | {cols[0][0]} | {cols[0][1]} | {cols[1][1]} |")
 
 
 if __name__ == "__main__":

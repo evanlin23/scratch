@@ -124,9 +124,25 @@ Paired:
 | SCS vs ASTRAL-III, 500–2k | −4.40 | 15/0/0 | 6.1e-5 |
 | DC-GTM(ASTRAL, m = 100) vs ASTRAL-III, 500–2k | +2.60 | 0/0/15 | 6.5e-4 |
 
-### 5.3 SMIDGenOG-5500 (replicate 0 = 3,910 taxa)
+### 5.3 SMIDGenOG-5500 (5 replicates, ~3.9–5.5k taxa, ~503 RAxML source trees)
 
-SCS: 35.8% RF (FN 42.4%, FP 33.6%) in 281 s. DC-GTM with the SCS guide: 45.4% (m = 200) and 46.4% (m = 500). Inside the DC subsets, the ASTRAL-III subset trees miss 1,598 of 3,871 true within-subset splits, against 1,395 for the SCS tree restricted to the same subsets. The source trees themselves have only 7% RF, so the error comes from sparse deep-level information: 5 scaffold trees of 100 taxa constrain the relationships between ~500 clades. ASTRAL-III on the whole replicate: see §6. Replicates 1–4 (SCS and DC only): see `results/og5500.jsonl`.
+| method | RF % | FN % | FP % | wall s |
+|---|---|---|---|---|
+| SCS | **32.41** | **39.31** | 29.59 | 311 |
+| DC-GTM, SCS guide, m = 200 | 45.04 | 45.13 | 45.03 | 107 (+ SCS) |
+
+Paired (5 replicates): ΔRF +12.63 pp, 0/0/5, p = 0.062; ΔFN +5.82 pp, 0/0/5, p = 0.062. Since SCS returns polytomies, FN is the fair metric.
+
+Inside the DC subsets of replicate 0, the ASTRAL-III subset trees miss 1,598 of 3,871 true within-subset splits, against 1,395 for the SCS tree restricted to the same subsets. The source trees themselves have only 7% RF, so the error comes from sparse deep-level information: 5 scaffold trees of 100 taxa constrain the relationships between ~500 clades. ASTRAL-III on the whole of replicate 0: see §6.
+
+### 5.4 Two diagnostics
+
+- **Oracle guide (true tree), m = 100, ASTRAL-III subsets:**
+  - SMIDGen-1000 d20+d50: −3.52 pp vs ASTRAL-III (20/0/0, p = 1.9e-6);
+  - bd2000: −1.06 pp (3/2/0, p = 0.12).
+
+  This is the **upper bound** on what any guide can buy with ASTRAL-III subsets.
+- **Iterating DC-GTM** (output becomes the next guide), SMIDGen d20+d50, MRL-FT start: round 2 vs round 1 is −0.02 pp (1/19/0, p = 0.58), and round 3 is the same. DC-GTM is a fixed point after one round, so iteration does not climb toward the oracle bound.
 
 ## 6. Runtime and memory
 
@@ -141,11 +157,11 @@ All jobs ran single-threaded inside ProcessPools, with 3–4 jobs sharing 4 core
 | 5k (bd) | killed (exit 137) under shared memory; rerun alone pending (`results/bd5000.jsonl`) | 29 s / 0.7 GB | – | 58 s / 120 MB | < 1 s |
 | 10k (bd) | killed (exit 137) after 32 s at 7.8 GB with an 8 GB heap; 13 GB heap alone: `results/bd10000.jsonl` | 65 s / 1.3 GB | 1,033 s / 1.3 GB | 112 s / 120 MB | < 1 s |
 
-DC-GTM's memory is flat (~120 MB at m = 100, ~500 MB at m = 500) and its time is linear in n: about 11 ms per taxon in total for SCS guide + DC, or 3 min at 10k. Extrapolated, 100k taxa would take ~30 min single-threaded. That part of the idea works.
+DC-GTM's memory is flat (~120 MB at m = 100, ~500 MB at m = 500) and its time is linear in n: about 18 ms per taxon in total for SCS guide + DC (65 s + 112 s = ~3 min at 10k). Extrapolated linearly, 100k taxa would take ~30 min single-threaded, assuming SCS keeps scaling roughly linearly (29 s at 5k, 65 s at 10k). That part of the idea works.
 
 ## 7. Verdict: **not promising** (as an accuracy-improving supertree method)
 
-1. **DC-GTM never beat the best method on any dataset.** With realistic guides it lands on the accuracy of its *subset solver* (ASTRAL-III) or of its guide, whichever is worse. It is significantly worse than SCS on the rooted DCM data (+4.4 pp, 0/0/23). On SMIDGen it is significantly worse than ASTRAL-III unless ASTRAL-III itself is the guide, in which case it ties (−0.02 pp, 21/5/14, p = 0.65).
+1. **DC-GTM never beat the best method on any dataset.** With realistic guides it lands on the accuracy of its *subset solver* (ASTRAL-III) or of its guide, whichever is worse. It is significantly worse than SCS on the rooted DCM data (+4.4 pp, 0/0/23) and worse than SCS on all 5 SMIDGenOG-5500 replicates (+5.8 pp FN). On SMIDGen it is significantly worse than ASTRAL-III unless ASTRAL-III itself is the guide, in which case it ties (−0.02 pp, 21/5/14, p = 0.65).
 2. **The headroom is small even with a perfect guide.** With the true tree as guide, DC-GTM gets 13.4% / 12.5% on SMIDGen d20/d50 (ASTRAL-III 17.2% / 15.8%) and 6.2% on bd2000 (ASTRAL-III 7.2%). The subset trees, estimated from source trees restricted to the subset, are the bottleneck. Restricting the data loses information that the global analysis uses: on SMIDGen-1000 d20 replicate 0 (MRL-FT guide, m = 200, 7 subsets), the subset trees had 161 within-subset FN, against 147 for the global ASTRAL-III tree restricted to the same subsets.
 3. **What does work:** DC-GTM gives ASTRAL-III-level accuracy at a fraction of the memory: about 120 MB versus 3.7 GB at 2k taxa. ASTRAL-III was killed (exit 137) at 3.9k, 5k and 10k with an 8 GB heap while other jobs shared the 15 GB, and its 13 GB solo runs are pending (§6). DC-GTM's cost is linear, about 3 min at 10k. But a scalable method that is better than ASTRAL-III-level accuracy already exists for rooted inputs (SCS).
 4. Side findings worth a sentence in a proposal:
@@ -154,7 +170,7 @@ DC-GTM's memory is flat (~120 MB at m = 100, ~500 MB at m = 500) and its time is
 
 **If this were turned into a 4-week project anyway**, the only version I would propose changes the subset solver, not the merger:
 - (a) Use *overlapping* subsets and an RFS / Exact-RFS-2 merger instead of GTM (blending, per the D&C lecture's open problem). This addresses the information loss in point 2, but each merge is O(n²|X|), so it does not obviously scale.
-- (b) Iterate: guide → DC → new guide, and test whether accuracy climbs toward the oracle bound (13.4% vs 17.2% on d20). This is cheap to test: one afternoon.
+- (b) ~~Iterate guide → DC → new guide~~: **tested here and negative** (a fixed point after one round, §5.4).
 - (c) Simulate a 100k-taxon SMIDGen-style benchmark, since none exists. This is useful to the field regardless of the method.
 
 **Risks:**

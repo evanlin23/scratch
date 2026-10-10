@@ -30,8 +30,9 @@ def method_fn(name, src, wd):
         w, m = M.mrl_fasttree(src, out, os.path.join(wd, name))
     elif name.startswith("dc"):
         # dc:<guide>:<maxsize>:<subset method>   guide is another method's output in wd
-        _, guide, ms, sm = name.split(":")
-        gpath = os.path.join(wd, guide.replace("+", ":") + ".tre")  # '+' lets a dc output be a guide
+        # guide may itself be a dc method name (iterated DC), so split from the right
+        guide, ms, sm = name[3:].rsplit(":", 2)
+        gpath = os.path.join(wd, guide + ".tre")
         if not os.path.exists(gpath):
             raise RuntimeError("guide missing: " + gpath)
         info = M.dc_gtm(src, gpath, out, os.path.join(wd, name.replace(":", "_")), max_size=int(ms),
