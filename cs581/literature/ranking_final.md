@@ -28,6 +28,26 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 9 (21:40 UTC).**
+- *magusgen, 6 sets, still running.* Self-soft MAGUS alone vs MAGUS:
+  - 1000L1 −0.70, 1000M2 −0.73, 1000S1 −2.30;
+  - BBA0039 −0.01, BBA0067 −0.31, BBA0101 −1.22.
+- Self-soft + wsoft0.03 consensus: −0.62, −0.67, −2.28 on DNA and +0.01, −1.04, −1.83 on BAliBASE. This would be the
+  general MAGUS: the DNA gain comes from self-soft and the protein gain from the consensus weights.
+- But alncrit already found that self-soft's DNA alignment gain gives no tree gain (tree headroom on full-length
+  DNA ≈ 0.2–0.6 FN).
+- *Headroom map (for choosing):*
+  - full-length DNA, alignment → tree: ≤ 1 FN point, even with the true alignment (alncrit, ml);
+  - hard simulated proteins: MAGUS vs true-alignment trees 2–5 RF points (protcons);
+  - fragmentary data: FastTree 49% / IQ-TREE 30% / GTM 28% / RAxML-NG 25% FN on 1000M1-HF (Park et al. 2021,
+    reproduced). This is the largest gap.
+- *New sessions:*
+  - `claude/cs581-gcmtrees`: does the recipe improve FastTree/IQ-TREE trees? 16 simulated protein sets,
+    pre-registered.
+  - `claude/cs581-fragml2`: backbone → (constrained ML | fixed/stock EPA-ng placement + polish) vs RAxML-NG on
+    fragmentary data, pre-registered.
+- *bbtool-5:* phase 2 still running (1000M2); not needed for any decision.
+
 **astridpro2 final (20:27 UTC, `claude/cs581-astridpro2`; verdict "promising", pre-registered go criterion met).**
 - *Pooled simulated data (FastMulRFS 120 + DISCO 80 runs, 100 taxa, estimated gene trees):*
   - vs ASTRAL-Pro3: −0.0135 FN (84/30/26), Holm p = 6e-8, n = 140. On DISCO alone −0.004 (8/9/3, p = 0.054, n = 20).
