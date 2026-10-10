@@ -28,6 +28,17 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**astridpro2 final (20:27 UTC, `claude/cs581-astridpro2`; verdict "promising", pre-registered go criterion met).**
+- *Pooled simulated data (FastMulRFS 120 + DISCO 80 runs, 100 taxa, estimated gene trees):*
+  - vs ASTRAL-Pro3: −0.0135 FN (84/30/26), Holm p = 6e-8, n = 140. On DISCO alone −0.004 (8/9/3, p = 0.054, n = 20).
+  - vs ASTRID-multi: −0.0034 (p = 0.023, Holm 0.068); on high-duplication DISCO −0.014 (20/4/3, p = 0.003).
+  - Ties ASTRID-DISCO and Asteroid; beats DISCO+ASTRAL and FastMulRFS (−0.024); ties wQFM-GDL.
+- *Speed:* 100 taxa × 1,000 genes in 1–40 s vs 2.5–28 min for ASTRAL-Pro3, which timed out on 4 of 24 heavy runs.
+  14 s at 1,000 taxa.
+- *Theory:* proved (see check-in 7).
+- *Caveats:* 500-gene runs not reached; ASTRAL-Pro3 on DISCO covers reps 01–02 only; ASTRAL-Pro's own Dryad gene
+  trees were blocked (403).
+
 **protcons final (20:17 UTC, `claude/cs581-protcons`; pre-registered; 28 held-out protein sets: 8 simulated, 10
 HomFam, 2 10AA, 8 fresh BAliBASE draws).**
 - *Pre-registered primary `linsi|cons0.7` + gate:* FAILS. −0.59 (15/5/8, p = 0.13).

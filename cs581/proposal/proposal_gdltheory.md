@@ -44,12 +44,13 @@ the number of speciation nodes on the path between them. With true trees and tag
 Every published benchmark condition has β ≥ 0.46. *Empirically, it is the fast method:* a streaming C++
 implementation (MinDup rooting, species-overlap tags, FastME) on the FastMulRFS (= ASTRAL-Pro S100) and DISCO
 simulations (100 taxa, 12+ conditions, estimated gene trees), paired by replicate:
-- *vs ASTRAL-Pro3:* lower FN rate (−0.011, 46/14/11, p = 2e-6). Our ASTRAL-Pro3 reproduces the published
-  ASTRAL-Pro trees on the same inputs.
-- *Speed:* 0.3 s median vs 12.9 s; on 1000-gene DISCO inputs 1–40 s vs 6–29 min, where ASTRAL-Pro3 timed out on the
-  three heaviest conditions; 14 s at 1,000 taxa.
-- *vs other methods:* it beats ASTRID-multi (−0.004, p = 0.019), DISCO+ASTRAL and FastMulRFS (−0.02). It ties
-  wQFM-GDL, ASTRID-DISCO and Asteroid, which have no GDL consistency proof.
+- *vs ASTRAL-Pro3:* lower FN rate (−0.0135, 84/30/26, Holm p = 6e-8, n = 140); on DISCO alone −0.004 (8/9/3,
+  p = 0.054, n = 20). Our ASTRAL-Pro3 reproduces the published ASTRAL-Pro trees on the same inputs.
+- *Speed:* on 100 taxa × 1,000 genes 1–40 s vs 2.5–28 min, and ASTRAL-Pro3 timed out (> 40 min) on 4 of 24 heavy
+  runs; 14 s at 1,000 taxa, 8 s for 10,000 genes.
+- *vs other methods:* it beats ASTRID-multi (−0.0034, p = 0.023; −0.014 on high-duplication DISCO, p = 0.003),
+  DISCO+ASTRAL and FastMulRFS (−0.024). It ties wQFM-GDL, ASTRID-DISCO and Asteroid, which have no GDL consistency
+  proof.
 - *Empirical data:* on 1KP it matches ASTRAL-Pro3 (5 FN vs 10 for ASTRID-multi).
 
 **Research questions.**
@@ -76,8 +77,8 @@ failure-region conditions; scan published rates for near-failure branches. Week 
 
 **Risks.** (a) *Practical reach.* Both failures need extreme or heterogeneous rates, so the theory changes no
 answer on standard benchmarks. The method contribution is speed at ASTRAL-Pro3-level accuracy; it does not beat
-the fast heuristics ASTRID-DISCO or Asteroid. Most of the gain over ASTRAL-Pro3 comes from the S100 data (on DISCO
-only 14 pairs, n.s.), so RQ3 must test it more widely. (b) The stock-rooting proof and the DLCoal extension may not close in 4 weeks; the fallback is the proved
+the fast heuristics ASTRID-DISCO or Asteroid. The gain over ASTRAL-Pro3 is smaller on DISCO (−0.004, n = 20, p = 0.054)
+than on the S100 data, so RQ3 must test it more widely (more DISCO replicates, 500-gene runs, ILS). (b) The stock-rooting proof and the DLCoal extension may not close in 4 weeks; the fallback is the proved
 correct-root theorems plus rigorous numerics. (c) Novelty is checked against Zhang et al. 2020, Willson et al.
 2022 (DISCO), Molloy & Warnow 2020, Legried et al. 2021, Markin & Eulenstein 2021 and Parsons et al. 2026: none
 gives an inconsistency result for ASTRAL-Pro's own tagging or a consistency theorem for a GDL distance method; the
