@@ -58,6 +58,30 @@ def main(rep, ta, tb):
     B, _, _ = bbe.parse_variant(rep, tb)
     acc = {k: 0 for k in ("shared", "shared_tp", "a_only", "a_only_tp", "b_only", "b_only_tp",
                           "a_only_fp_gappy", "b_only_fp_gappy", "a", "b", "a_only_gappy", "b_only_gappy")}
+    # reference-free: do the OTHER A backbones that contain both residues also align an A-only pair?
+    G = off
+    colmaps = []
+    for _, a in A:
+        cm = np.full(G, -1, dtype=np.int64)
+        rc = bbe.residue_columns(a)
+        for t in a:
+            cm[gid[t]] = rc[t]
+        colmaps.append(cm)
+    sup = {"a_only": [0, 0], "shared": [0, 0]}
+    for bi, ((_, a), (_, b)) in enumerate(zip(A, B)):
+        ka, _, _ = pairs_of(R, a, gid)
+        kb, _, _ = pairs_of(R, b, gid)
+        inb = np.isin(ka, kb, assume_unique=True)
+        x, y = ka // G, ka % G
+        for name, sel in (("a_only", ~inb), ("shared", inb)):
+            xs, ys = x[sel], y[sel]
+            for bj, cm in enumerate(colmaps):
+                if bj == bi:
+                    continue
+                cx, cy = cm[xs], cm[ys]
+                both = (cx >= 0) & (cy >= 0)
+                sup[name][0] += int((cx[both] == cy[both]).sum())
+                sup[name][1] += int(both.sum())
     for (_, a), (_, b) in zip(A, B):
         assert set(a) == set(b)
         ka, tA, gA = pairs_of(R, a, gid)
@@ -83,7 +107,9 @@ def main(rep, ta, tb):
            "b_only_fp_share_gappy": round(acc["b_only_fp_gappy"] / max(acc["b_only"] - acc["b_only_tp"], 1), 4),
            "a_only_share_gappy": round(acc["a_only_gappy"] / max(acc["a_only"], 1), 4),
            "b_only_share_gappy": round(acc["b_only_gappy"] / max(acc["b_only"], 1), 4),
-           "n_a": acc["a"], "n_b": acc["b"]}
+           "n_a": acc["a"], "n_b": acc["b"],
+           "support_a_only": round(sup["a_only"][0] / max(sup["a_only"][1], 1), 4),
+           "support_shared": round(sup["shared"][0] / max(sup["shared"][1], 1), 4)}
     with open(os.path.join(rep, "pairdiff.jsonl"), "a") as f:
         f.write(json.dumps(row) + "\n")
     print(json.dumps(row))
