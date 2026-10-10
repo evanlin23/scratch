@@ -142,7 +142,7 @@ def main():
     if a.use_detectors is not None:
         det = {d: F for d, F in det.items() if d in a.use_detectors.split(",")}
     for X in a.aligners.split(","):
-        conds_needed = ["all", "all-treeC", "oracle", "oracle+add"] + [d for d in det] + [d + "-drop" for d in det]
+        conds_needed = ["all", "all-treeC", "oracle", "oracle+add", "rand-drop"] + [d for d in det] + [d + "-drop" for d in det]
         if all((name, X, c) in done for c in conds_needed):
             continue
         cache = {}
@@ -215,6 +215,22 @@ def main():
                 b = tree_fn(aln_all, CF, os.path.join(d_all, "all.tre"))
                 return dict(r, base_FN=b["FN"], base_FP=b["FP"], nscored=len(CF), **ext)
             later(X, D + "-drop", drop)
+        # control: drop len(R) random NON-rogue taxa instead (rogues kept); scored on C minus them,
+        # paired with `all` on the same taxa. Measures the effect of re-aligning a different taxon set.
+        if (name, X, "rand-drop") not in done:
+            import random
+            Rr = set(random.Random(name).sample(C, len(R)))
+            aln_r, w_r, d_r = get_aln([n for n in S if n not in Rr], "rand")
+            CR = [n for n in C if n not in Rr]
+
+            def rand(aln_r=aln_r, d_r=d_r, CR=CR):
+                r = tools.fastsp_restricted(true, aln_r, CR, os.path.join(d_r, "sp"))
+                b = tools.fastsp_restricted(true, aln_all, CR, os.path.join(d_r, "spb"))
+                r.update(tree_fn(aln_r, CR, None))
+                bt = tree_fn(aln_all, CR, None)
+                r.update(base_avgErr=b["avgErr"], base_FN=bt["FN"], base_FP=bt["FP"], nscored=len(CR))
+                return r
+            later(X, "rand-drop", rand)
     for f in futs:
         f.result()
     pool.shutdown()

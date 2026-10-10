@@ -157,11 +157,8 @@ def detect_treeshrink(tree_path, work):
     out = os.path.join(work, "ts")
     shutil.rmtree(out, ignore_errors=True)
     run([sys.executable, "-W", "ignore", TREESHRINK, "-t", tree_path, "-o", out], os.path.join(work, "treeshrink.log"))
-    txt = [p for p in os.listdir(out) if p.endswith(".txt")]
-    flagged = set()
-    for p in txt:
-        flagged |= set(open(os.path.join(out, p)).read().split())
-    return flagged
+    # output.txt holds the removed leaves (output_summary.txt lists all candidates; not used)
+    return set(open(os.path.join(out, "output.txt")).read().split())
 
 
 def pdist_matrix(aln):
