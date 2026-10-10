@@ -8,19 +8,20 @@ bbtool_bench.acc_ref (estimate restricted to the reference's sequences). A timeo
 import json, os, subprocess, sys, time
 from gcmx.bbtool_bench import acc_ref
 
-CAP = 1800
+CAP = int(os.environ.get("CAP", 1800))
 TOOLS = {
     "linsi": ["mafft", "--localpair", "--maxiterate", "1000", "--quiet", "--thread", "4", "--anysymbol"],
     "clustalo": ["clustalo", "--threads", "4", "--force", "--outfmt", "fa", "-i"],
 }
 work, out, names = sys.argv[1], sys.argv[2], sys.argv[3:]
+only = os.environ.get("TOOLS", "linsi,clustalo").split(",")
 done = set()
 if os.path.exists(out):
     done = {(r["dataset"], r["method"]) for r in map(json.loads, open(out))}
 for name in names:
     w = os.path.join(work, name + "_d0")
     for tool, argv in TOOLS.items():
-        if (name, tool) in done or not os.path.exists(os.path.join(w, "unaligned.fasta")):
+        if tool not in only or (name, tool) in done or not os.path.exists(os.path.join(w, "unaligned.fasta")):
             continue
         est = os.path.join(w, "base-" + tool + ".fasta")
         start = time.time()
