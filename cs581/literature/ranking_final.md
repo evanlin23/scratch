@@ -30,6 +30,14 @@ so a project would be the characterisation, re-tuning and downstream impact, plu
 
 **Check-in 4 (12:20 UTC).**
 
+*Clustal-backbone confirmation, BAliBASE final (`claude/cs581-bbtool-1..4`, 8 RV100 sets × 3 fresh MAGUS draws = 24 paired
+runs)*: merge-only −1.50 points (median −0.95, 20/0/4, p = 0.0025); end-to-end MAGUS with Clustal backbones −1.75
+(20/0/4, p = 0.0006) at 3.26× mean speed-up (1.85-4.47×). Per set: BBA0081 −7.95, BBA0154 −1.94, BBA0067 −1.31,
+BBA0190 −1.13, BBA0101 −0.99, BBA0039 −0.21, BBA0117 +0.47, BBA0134 +1.04. MAFFT-only backbone swaps do not reproduce
+it (`--auto` −0.29 n.s.; L-INS-i without `--ep` −0.22, G-INS-i −0.22, n = 12, n.s.); union L + Clustal −0.98
+(20/1/3, p = 2e-5). But outside BAliBASE (protbench, 15 datasets) Clustal backbones hurt: +1.85 (1/3/11, p = 0.005),
+worst on simulated proteins. So: better and 3× faster on MAGUS's own protein benchmark, not general.
+
 *Consistency-filtered GCM evidence, held-out test (interim, `claude/cs581-protcons`; pre-registered; Δ error points vs
 MAGUS's own merge, same subsets/backbones)*: SIMHIGH R1/R2, SIMMOD R1/R2, 10AA coli_epi.
 - Primary `linsi|cons0.7`: +0.27 / −1.99 / +0.14 / −1.63 / +0.03 (mixed).
