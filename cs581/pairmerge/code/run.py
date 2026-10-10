@@ -110,6 +110,8 @@ def run_replicate(results, dataset, rep_dir, conditions, merger_names, done):
             shutil.rmtree(mwork, ignore_errors=True)
             os.makedirs(mwork)
             out = os.path.join(work, "{}_{}.fasta".format(cond, m))
+            if os.path.exists(out):  # MAGUS silently skips the merge when its output file exists
+                os.remove(out)
             rec = {"dataset": dataset, "condition": cond, "merger": m, **info}
             start = time.time()
             try:
