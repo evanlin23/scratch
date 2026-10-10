@@ -19,7 +19,7 @@ import numpy as np
 sys.path.insert(0, "/home/user/scratch/cs581/code")
 from gcmx import fasta  # noqa: E402
 
-V = {"magus": "linsi", "recipe": "wsoft0.03_c_linsi_i_fftns2_es_4", "es3": "linsi_es_3", "hard": "linsi_i_fftns2-op3"}
+V = {"magus": "linsi", "recipe": "wsoft0.03_c_linsi_i_fftns2_es_es4", "es3": "linsi_es_es3", "hard": "linsi_i_fftns2-op3"}
 
 
 def colids(aln, taxa):

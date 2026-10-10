@@ -5,13 +5,13 @@
 W=/opt/work/gcmtrees; G=/home/user/scratch/cs581/gcmtrees
 one() {
   rep=$1; n=$(basename $rep); T=$W/trees/${n}_d0
-  for v in linsi wsoft0.03_c_linsi_i_fftns2_es_4 linsi_es_3 linsi_i_fftns2-op3; do
+  for v in linsi wsoft0.03_c_linsi_i_fftns2_es_es4 linsi_es_es3 linsi_i_fftns2-op3; do
     [ -s $rep/variants/$v/out.fasta ] || return 0; done
   mkdir -p $T
   ln -sf $rep/true.fasta $T/true.fasta
   ln -sf $rep/variants/linsi/out.fasta $T/magus.fasta
-  ln -sf $rep/variants/wsoft0.03_c_linsi_i_fftns2_es_4/out.fasta $T/recipe.fasta
-  ln -sf $rep/variants/linsi_es_3/out.fasta $T/es3.fasta
+  ln -sf $rep/variants/wsoft0.03_c_linsi_i_fftns2_es_es4/out.fasta $T/recipe.fasta
+  ln -sf $rep/variants/linsi_es_es3/out.fasta $T/es3.fasta
   ln -sf $rep/variants/linsi_i_fftns2-op3/out.fasta $T/hard.fasta
   b=${n%_d[0-9]*}; lvl=${b%_R*}; r=${b#*_R}
   nice -n 10 /opt/mm/root/envs/pasta183/bin/python /home/user/scratch/cs581/protbench/code/trees.py $T \
