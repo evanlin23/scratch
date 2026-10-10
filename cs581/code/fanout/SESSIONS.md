@@ -60,3 +60,19 @@ reproduction, paired pilot with runtime, and `cs581/<dir>/REPORT.md` with a verd
 The ML session (claude/cs581-ml) was asked to also cover "better ML heuristics" and
 "scaling concatenation"; the GTM session covers DTM blending; consensus alignments run
 on claude/cs581-consensus-1..4.
+
+## Measured end-to-end benchmark (launched 2026-10-10 01:19 UTC)
+
+PASTA 1.8.3 (paper's version) vs MAGUS vs MAGUS(Slow) vs self-soft / slow-soft MAGUS, every
+pipeline run for real from unaligned sequences on the same idle 4-core machine
+(`gcmx.e2e_bench`, `fanout/e2e_worker.sh`; results in cs581/experiments/e2e/<branch>.jsonl).
+
+| jobs | branch | session |
+|---|---|---|
+| 1000L3_R0, 1000S1_R0 | claude/cs581-e2e-1 | session_0183ArYxNTput6waSGiaMsqv |
+| 1000M1_R0, 1000M2_R0 | claude/cs581-e2e-2 | session_01VnRadyNWjuGQ3nVtXSXBCM |
+| 1000L1_R0, 1000S2_R0 | claude/cs581-e2e-3 | session_01Bk4wiTG4VFFMZD88ta8BnZ |
+| 1000S3_R0, 1000M3_R0 | claude/cs581-e2e-4 | session_0128Qxsj4s6xSbnPqBneEq9v |
+| 1000L2_R0, 1000M4_R0 | claude/cs581-e2e-5 | session_016uB1sp1SwXKKqGhDJC4EUz |
+| RNASim_R0, 16S.M_R0 | claude/cs581-e2e-6 | session_01XgjLDdFFSFeyfAcVFCo5LL |
+| BBA0101_R0, BBA0190_R0 | claude/cs581-e2e-7 | session_01QLmz7p1YWy9UFKDR1QP8gy |
