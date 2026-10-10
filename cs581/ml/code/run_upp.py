@@ -24,18 +24,27 @@ def main(ds, rep, threads="1"):
     if not os.path.exists(un):
         names, seqs = rt.read_fasta(os.path.join(d, "true_align.fasta"))
         rt.write_fasta(un, names, [s.replace("-", "").replace(".", "") for s in seqs])
+    # tell UPP the median length of the FULL-LENGTH sequences (>= 50% of the overall median);
+    # otherwise, with half the sequences fragmentary, UPP's default backbone criterion (within 25%
+    # of the overall median) admits fragments into the PASTA backbone (seen: 91% FN trees)
+    import statistics
+    lens = [len(s) for s in rt.read_fasta(un)[1]]
+    med_full = int(statistics.median([l for l in lens if l >= 0.5 * statistics.median(lens)]))
     work = tempfile.mkdtemp(prefix="upp_%s_%s_" % (ds, rep))
     os.makedirs(os.path.join(work, "out"))
     env = dict(os.environ, PATH="/opt/mm/root/envs/ml2/bin:" + os.environ["PATH"], CONDA_PREFIX="/opt/mm/root/envs/ml2")
     t = time.time()
     with open(os.path.join(work, "run.log"), "w") as log:
         p = subprocess.Popen(["python3", UPP, "-s", un, "-o", "upp", "-d", os.path.join(work, "out"), "-x", str(threads), "-m", "dna",
-                              "-seed", "1"], stdout=log, stderr=log, env=env, cwd=work)
+                              "-seed", "1", "-M", str(med_full)], stdout=log, stderr=log, env=env, cwd=work)
         _, status, ru = os.wait4(p.pid, 0)
     if os.waitstatus_to_exitcode(status) != 0:
         raise SystemExit("UPP failed, see " + work)
     # UPP's own python children are counted in ru (they are waited for by the parent process)
     shutil.copy(os.path.join(work, "out", "upp_alignment_masked.fasta"), os.path.join(d, "upp.fasta"))
+    for line in open(os.path.join(work, "run.log")):
+        if "Backbone size set to" in line:
+            print(line.strip())
     json.dump({"seconds": round(time.time() - t, 1), "cpu_seconds": round(ru.ru_utime + ru.ru_stime, 1)},
               open(os.path.join(d, "upp_time.json"), "w"))
     print(d, open(os.path.join(d, "upp_time.json")).read())

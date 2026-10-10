@@ -16,8 +16,8 @@
 | IQ-TREE 3 --fast | 5 | 39.3% | +6.7 (0/0/5) | 0.06 | 6 | – |
 | RAxML-NG --fast | 5 | 34.2% | +1.5 (0/1/4) | 0.12 | 8 | -130.5 |
 | RAxML-NG (1 start) | 5 | 32.7% | – | - | 28 | +0.0 |
-| **ours-fast** (constrained) | 1 | 34.4% | +5.2 (0/0/1) | - | 9 | -786.9 |
-| **ours-accurate** (+ fast polish) | 1 | 31.6% | +2.4 (0/0/1) | - | 16 | +0.6 |
+| **ours-fast** (constrained) | 5 | 39.2% | +6.6 (0/0/5) | 0.06 | 8 | -994.1 |
+| **ours-accurate** (+ fast polish) | 5 | 33.9% | +1.2 (1/0/4) | 0.19 | 16 | -96.5 |
 
 ### 16S.M, real 16S rRNA, amplicon-like fragments; reference = CRW tree — true alignment
 
@@ -27,6 +27,8 @@
 | IQ-TREE 3 --fast | 5 | 33.9% | +6.2 (0/0/5) | 0.06 | 5 | – |
 | RAxML-NG --fast | 5 | 27.0% | -0.7 (3/1/1) | 0.62 | 8 | -45.5 |
 | RAxML-NG (1 start) | 5 | 27.6% | – | - | 30 | +0.0 |
+| **ours-fast** (constrained) | 1 | 28.3% | +0.0 (0/1/0) | - | 8 | -398.5 |
+| **ours-accurate** (+ fast polish) | 1 | 26.8% | -1.4 (1/0/0) | - | 15 | -19.3 |
 
 ### 1000M1-HF, Park et al. 2021 published inputs (simulated) — true alignment
 
@@ -36,11 +38,20 @@
 | IQ-TREE 3 --fast | 5 | 37.5% | +12.8 (0/0/5) | 0.06 | 7 | – |
 | RAxML-NG --fast | 5 | 29.8% | +5.1 (0/0/5) | 0.06 | 17 | -246.2 |
 | RAxML-NG (1 start) | 5 | 24.7% | – | - | 35 | +0.0 |
-| **ours-fast** (constrained) | 3 | 24.5% | +0.9 (0/0/3) | 0.25 | 14 | -29.1 |
-| **ours-accurate** (+ fast polish) | 3 | 23.6% | +0.0 (1/1/1) | 1.00 | 25 | +3.1 |
+| **ours-fast** (constrained) | 5 | 25.7% | +0.9 (0/0/5) | 0.06 | 14 | -23.5 |
+| **ours-accurate** (+ fast polish) | 5 | 25.1% | +0.4 (1/1/3) | 0.62 | 24 | +1.4 |
 | published RAxML-NG (20 starts, 24 h cap) | 5 | 24.9% | +0.2 (1/1/3) | 0.88 | – | – |
 | published IQ-TREE 2 (default) | 5 | 30.2% | +5.4 (0/0/5) | 0.06 | – | – |
 | published GTM (IQ-TREE start) | 5 | 28.4% | +3.6 (0/0/5) | 0.06 | – | – |
+
+### 1000M1-HF, Park et al. 2021 published inputs (simulated) — UPP alignment
+
+| method | n | mean FN | Δ FN vs RAxML-NG (W/T/L) | Wilcoxon p | mean CPU min | mean ΔlnL vs RAxML-NG |
+|---|---|---|---|---|---|---|
+| FastTree 2 | 1 | 91.6% | – | - | 2 | – |
+| RAxML-NG --fast | 1 | 91.8% | – | - | 19 | – |
+| **ours-fast** (constrained) | 1 | 90.8% | – | - | 16 | – |
+| **ours-accurate** (+ fast polish) | 1 | 91.1% | – | - | 29 | – |
 
 ### RNASim1K-HF (simulated, our fragmentation) — true alignment
 
@@ -58,5 +69,5 @@
 | FastTree 2 | 21 | +19.18 | 0/0/21 | 9.54e-07 | 0.07 |
 | IQ-TREE 3 --fast | 21 | +9.15 | 0/0/21 | 5.94e-05 | 0.18 |
 | RAxML-NG --fast | 21 | +1.81 | 6/2/13 | 0.0089 | 0.37 |
-| **ours-fast** (constrained) | 4 | +1.99 | 0/0/4 | 0.125 | 0.38 |
-| **ours-accurate** (+ fast polish) | 4 | +0.62 | 1/1/2 | 0.5 | 0.66 |
+| **ours-fast** (constrained) | 11 | +3.40 | 0/1/10 | 0.00195 | 0.34 |
+| **ours-accurate** (+ fast polish) | 11 | +0.62 | 3/1/7 | 0.232 | 0.62 |
