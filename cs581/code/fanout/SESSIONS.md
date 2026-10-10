@@ -114,3 +114,4 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | KH-test early stopping for IQ-TREE 3 | cs581/iqstop, claude/cs581-iqstop | session_018wqFifessu4UYH14WK1CxP |
 | Identifiability and choosing k in phylogenetic distance deconvolution (theory) | cs581/decodiphy, claude/cs581-decodiphy | session_01D8vRCMw44Lw5ADdqt4qm6W |
 | Downstream payoff of the EPA-ng fix: BSCAMPP with larger subtrees, SIMD speed, TIPP3/PICRUSt2 | cs581/epangdown, claude/cs581-epangdown | session_01XUxoJUYQhJFfVzLYXzkjTJ |
+| Does the EPA-ng bug change PICRUSt2 placements and predictions? | cs581/picrust, claude/cs581-picrust | session_01YN3K4y9shtvUweCRkCx7DK |
