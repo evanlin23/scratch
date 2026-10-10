@@ -115,3 +115,5 @@
 {"dataset": "RNASim_R0", "tool": "twilight-truetree", "nseq": 1000, "threads": 4, "status": "ok", "wall": 36.19, "cpu": 52.8, "maxrss_mb": 28, "SPFN": 0.10478772717685714, "SPFP": 0.09801601319275566, "avgErr": 0.1014018701848064, "TC": 0.04251700680272109, "LenEst": 5935, "LenRef": 4903}
 {"dataset": "BBA0081_R0", "tool": "mafft-linsi", "nseq": 195, "threads": 4, "status": "ok", "wall": 587.76, "cpu": 681.4, "maxrss_mb": 469, "SPFN": 0.6716816391299328, "SPFP": 0.6762127149789843, "avgErr": 0.6739471770544585, "TC": 0.017432646592709985, "LenEst": 2570, "LenRef": 1693}
 {"dataset": "RNASim_R0", "tool": "famsa-truetree", "nseq": 1000, "threads": 4, "status": "fail rc=-9", "wall": 618.2, "cpu": 705.2, "maxrss_mb": 13068}
+{"dataset": "BBA0081_R0", "tool": "muscle5", "nseq": 195, "threads": 4, "status": "timeout", "wall": 900.14, "cpu": 1226.3, "maxrss_mb": 1080}
+{"dataset": "BBA0101_R0", "tool": "mafft-linsi", "nseq": 322, "threads": 4, "status": "ok", "wall": 603.97, "cpu": 849.8, "maxrss_mb": 356, "SPFN": 0.30069135942666914, "SPFP": 0.28449193673662954, "avgErr": 0.29259164808164934, "TC": 0.0782122905027933, "LenEst": 1600, "LenRef": 4214}
