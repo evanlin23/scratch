@@ -10,8 +10,8 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | RNASim_R0 | 9.6 (2227s) | 9.9 (888s) | 10.1 (3102s) | fail rc=-9 (357s) | 14.4 (21s) | 11.1 (230s) | 23.7 (60s) | 22.0 (26s) |  |  |
 | BBA0039_R0 | 4.5 (157s) | 4.7 (244s) | 4.3 (462s) | 5.5 (56s) | 6.9 (8s) | 8.0 (100s) | 6.7 (2s) | 5.5 (1s) |  |  |
 | BBA0067_R0 | 25.6 (371s) | 26.3 (1051s) | 25.7 (373s) | 32.0 (87s) | 42.9 (6s) | 37.3 (54s) | 38.4 (2s) | 33.2 (13s) | 26.1 (367s) | timeout (900s) |
-| BBA0081_R0 | 57.0 (1012s) |  | 74.1 (548s) | 72.2 (96s) | 75.9 (6s) | 72.3 (45s) | 75.7 (2s) | 68.3 (45s) | 67.4 (588s) |  |
-| BBA0101_R0 | 28.5 (477s) | 29.2 (829s) | 29.2 (381s) | 35.2 (88s) | 42.4 (7s) | 39.7 (65s) | 39.7 (3s) | 36.5 (14s) |  |  |
+| BBA0081_R0 | 57.0 (1012s) |  | 74.1 (548s) | 72.2 (96s) | 75.9 (6s) | 72.3 (45s) | 75.7 (2s) | 68.3 (45s) | 67.4 (588s) | timeout (900s) |
+| BBA0101_R0 | 28.5 (477s) | 29.2 (829s) | 29.2 (381s) | 35.2 (88s) | 42.4 (7s) | 39.7 (65s) | 39.7 (3s) | 36.5 (14s) | 29.3 (604s) |  |
 | BBA0117_R0 | 12.1 (14s) |  | 12.1 (35s) | 15.2 (11s) | 24.5 (0s) | 20.4 (45s) | 25.1 (0s) | 16.4 (1s) |  |  |
 | BBA0134_R0 | 18.7 (845s) |  | 20.4 (573s) | 33.2 (83s) | 32.8 (6s) | 28.3 (68s) | 29.8 (2s) | 25.2 (13s) |  |  |
 | BBA0154_R0 | 21.1 (562s) | 21.7 (1106s) | 22.5 (307s) | 25.3 (77s) | 25.4 (6s) | 26.3 (55s) | 25.7 (2s) | 25.1 (7s) |  |  |
@@ -47,7 +47,7 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | BAliBASE | twilight | 8 | +9.0 | 0/0/8 | 0.0078 |
 | BAliBASE | mafft-parttree | 8 | +9.7 | 0/0/8 | 0.0078 |
 | BAliBASE | mafft-auto | 8 | +5.7 | 0/0/8 | 0.0078 |
-| BAliBASE | mafft-linsi | 2 | +5.4 | 0/0/2 | – |
+| BAliBASE | mafft-linsi | 3 | +3.9 | 0/0/3 | – |
 | BAliBASE | MAGUS(4c) | 5 | +0.5 | 0/0/5 | 0.062 |
 | BAliBASE | PASTA(pub) | 8 | +2.7 | 2/0/6 | 0.055 |
 | 16S | famsa | 1 | +7.7 | 0/0/1 | – |
@@ -60,7 +60,7 @@ MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same r
 | all | twilight | 12 | +28.6 | 0/0/12 | 0.00049 |
 | all | mafft-parttree | 20 | +45.3 | 0/0/20 | 1.9e-06 |
 | all | mafft-auto | 20 | +43.6 | 0/0/20 | 1.9e-06 |
-| all | mafft-linsi | 2 | +5.4 | 0/0/2 | – |
+| all | mafft-linsi | 3 | +3.9 | 0/0/3 | – |
 | all | MAGUS(4c) | 15 | +0.3 | 2/2/11 | 0.064 |
 | all | PASTA(pub) | 20 | +2.3 | 2/0/18 | 1.9e-05 |
 

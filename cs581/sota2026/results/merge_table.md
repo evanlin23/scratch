@@ -14,6 +14,7 @@ Same MAGUS decomposition (25 subsets) and the same 10 MAFFT L-INS-i backbones as
 | 16S.M_R0 | mafft-ginsi | 6.97 | 12.89 | +0.03 | 113 |
 | BBA0039_R0 | L-INS-i (MAGUS's own) | 2.72 | 4.69 | – | – |
 | BBA0039_R0 | clustalo | 2.50 | 4.45 | -0.24 | 9 |
+| BBA0039_R0 | clustalo (backbones only) | 2.72 | 4.44 | -0.25 | 0 |
 | BBA0039_R0 | clustalo (subsets+backbones) | 2.50 | 4.24 | -0.45 | 9 |
 | BBA0039_R0 | mafft-ginsi | 2.75 | 4.64 | -0.05 | 28 |
 | BBA0039_R0 | muscle5 | 2.58 | 4.48 | -0.21 | 127 |
@@ -37,19 +38,22 @@ Same MAGUS decomposition (25 subsets) and the same 10 MAFFT L-INS-i backbones as
 | BBA0154_R0 | muscle5 | 7.78 | 21.86 | +0.20 | 54 |
 | BBA0190_R0 | L-INS-i (MAGUS's own) | 7.26 | 23.40 | – | – |
 | BBA0190_R0 | clustalo | 6.96 | 22.98 | -0.42 | 20 |
+| BBA0190_R0 | clustalo (backbones only) | 7.26 | 22.19 | -1.21 | 0 |
 | BBA0190_R0 | clustalo (subsets+backbones) | 6.96 | 21.59 | -1.81 | 19 |
 | BBA0190_R0 | mafft-ginsi | 7.40 | 23.55 | +0.15 | 34 |
 | BBA0190_R0 | muscle5 | 7.04 | 22.98 | -0.42 | 130 |
 | RNASim_R0 | L-INS-i (MAGUS's own) | 4.92 | 9.92 | – | – |
+| RNASim_R0 | clustalo (backbones only) | 4.92 | 9.86 | -0.06 | 0 |
 | RNASim_R0 | mafft-ginsi | 4.67 | 9.72 | -0.20 | 621 |
 
 | data | base method | n | mean Δ | better/tie/worse |
 |---|---|---|---|---|
 | 16S | mafft-ginsi | 1 | +0.03 | 0/1/0 |
 | BAliBASE | clustalo | 5 | -0.33 | 5/0/0 |
-| BAliBASE | clustalo (backbones only) | 3 | -2.22 | 3/0/0 |
+| BAliBASE | clustalo (backbones only) | 5 | -1.62 | 5/0/0 |
 | BAliBASE | clustalo (subsets+backbones) | 5 | -1.89 | 5/0/0 |
 | BAliBASE | mafft-ginsi | 5 | +0.03 | 1/2/2 |
 | BAliBASE | muscle5 | 5 | -0.48 | 4/0/1 |
+| RNASim | clustalo (backbones only) | 1 | -0.06 | 1/0/0 |
 | RNASim | mafft-ginsi | 1 | -0.20 | 1/0/0 |
 | ROSE | mafft-ginsi | 3 | -0.05 | 1/1/1 |
