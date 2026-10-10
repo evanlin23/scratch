@@ -1,0 +1,19 @@
+BBA0039 cs581/data/balibase_clean/RV100_BBA0039.fasta 25 cache:BBA0039_R0
+BBA0067 cs581/data/balibase_clean/RV100_BBA0067.fasta 25 cache:BBA0067_R0
+BBA0101 cs581/data/balibase_clean/RV100_BBA0101.fasta 25 cache:BBA0101_R0
+BBA0154 cs581/data/balibase_clean/RV100_BBA0154.fasta 25 cache:BBA0154_R0
+BBA0190 cs581/data/balibase_clean/RV100_BBA0190.fasta 25 cache:BBA0190_R0
+HF_zf-CCHH /opt/data/homfam2k/zf-CCHH/ref.fasta 25 /opt/data/homfam2k/zf-CCHH/unaln.fasta
+HF_rrm /opt/data/homfam2k/rrm/ref.fasta 25 /opt/data/homfam2k/rrm/unaln.fasta
+HF_PDZ /opt/data/homfam2k/PDZ/ref.fasta 25 /opt/data/homfam2k/PDZ/unaln.fasta
+HF_Acetyltransf /opt/data/homfam2k/Acetyltransf/ref.fasta 25 /opt/data/homfam2k/Acetyltransf/unaln.fasta
+HF_sdr /opt/data/homfam2k/sdr/ref.fasta 25 /opt/data/homfam2k/sdr/unaln.fasta
+HF_aat /opt/data/homfam2k/aat/ref.fasta 25 /opt/data/homfam2k/aat/unaln.fasta
+SIMMOD_R1 /opt/data/sim/SIMMOD/R1/sim.fa 25
+SIMHIGH_R1 /opt/data/sim/SIMHIGH/R1/sim.fa 25
+SIMMOD_R2 /opt/data/sim/SIMMOD/R2/sim.fa 25
+SIMHIGH_R2 /opt/data/sim/SIMHIGH/R2/sim.fa 25
+SIMMOD_R3 /opt/data/sim/SIMMOD/R3/sim.fa 25
+SIMHIGH_R3 /opt/data/sim/SIMHIGH/R3/sim.fa 25
+SIMMOD_R4 /opt/data/sim/SIMMOD/R4/sim.fa 25
+SIMHIGH_R4 /opt/data/sim/SIMHIGH/R4/sim.fa 25
