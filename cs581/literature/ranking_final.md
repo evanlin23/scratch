@@ -28,6 +28,32 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 4 (12:20 UTC).**
+
+*Consistency-filtered GCM evidence, held-out test (interim, `claude/cs581-protcons`; pre-registered; Δ error points vs
+MAGUS's own merge, same subsets/backbones)*: SIMHIGH R1/R2, SIMMOD R1/R2, 10AA coli_epi.
+- Primary `linsi|cons0.7`: +0.27 / −1.99 / +0.14 / −1.63 / +0.03 (mixed).
+- MAFFT-only `L-INS-i ∩ FFT-NS-2 --op 3`: −0.89 / −4.17 / −0.97 / −3.79 / +0.33 (better on all 4 simulated replicates).
+- `(L + Clustal)|cons0.7`: +11.71 / +3.57 / +1.51 / −2.75 / +0.11 (Clustal hurts simulated proteins again).
+- The pre-registered gate (support of L-only pairs < 0.615 → filter) said "do not filter" everywhere (support 0.66-0.87),
+  including where filtering helped by 2-4 points: the gate does not transfer. Edge-support threshold (≥ k of 10
+  backbones) ≈ 0 on 10AA. Still to come: SIM R3/R4, trees, HomFam, fresh BAliBASE draws, nucleotides.
+
+*EPA-ng final (`claude/cs581-epang`)*: 4 RNASim replicates × 1,000 fragments: stock BSCAMPP b2000 0.860, stock b5000
+1.641, patched b5000 0.757 (−12%, p = 0.03), patched b9000 0.721 (−17%, p = 0.03, 13.8 GB; 1 of 4 runs OOM); 94% of
+queries tie. Full 9K tree: stock 1.539 (50 s) vs patched 0.661 (36 s). Overconfidence: LWR ≥ 0.9999 on 59-62% of
+fragments (stock, > 2k tips) vs 18% patched. Verdict "promising as diagnosis + 5-line fix + corrected BSCAMPP design".
+
+*PICRUSt2 with metagenome ground truth (`claude/cs581-picrust`, the PICRUSt2 paper's mammal and ocean validation
+sets)*: placements change a lot (mammal: 94 of 323 ASVs change edge, 73 change closest reference; ocean: 85 of 1,148,
+9 change domain), but predicted KO/pathway accuracy vs the paired metagenomes is unchanged (KO Spearman 0.7816 vs
+0.7819 mammal, 0.8088 vs 0.8073 ocean; precision/recall within 0.003). Hidden-state prediction smooths placement
+errors: no downstream harm to PICRUSt2 accuracy.
+
+*Other finals*: prost3di "promising (narrowly)" for small low-identity MSAs (RV11 +0.048 SP, p = 0.002; RV12 −0.027;
+~300× L-INS-i CPU), "not promising as MAGUS evidence". iqstop "NOT PROMISING". PASTA reruns: RNASim 10.10% (published
+10.08%), 16S.M 14.06% (published 12.99%).
+
 **Check-in 3 (10:45 UTC).**
 
 *EPA-ng downstream, final* (`claude/cs581-epangdown`): on nt78 (77K leaves) stock BSCAMPP 1.72 / 4.77 / 5.09
