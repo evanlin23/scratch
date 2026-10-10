@@ -1,0 +1,6 @@
+intermediate/place_seqs/epa_out/epa_result.jplace: same tree string True; queries 749; best edge changed for 0 (0.0%)
+marker_predicted_and_nsti.tsv.gz: NSTI changed for 0 of 749 ASVs; mean NSTI 0.3412 vs 0.3412
+KO_predicted.tsv.gz: predicted gene-family profile changed for 0 of 749 ASVs; cells changed 0 of 10330957
+EC_predicted.tsv.gz: predicted gene-family profile changed for 0 of 749 ASVs; cells changed 0 of 2793021
+KO_metagenome_out/pred_metagenome_unstrat.tsv.gz: 7829 features x 34 samples; per-sample relative L1 diff median 0.0000 max 0.0000; Spearman min 1.00000; features with any change 0
+EC_metagenome_out/pred_metagenome_unstrat.tsv.gz: 2621 features x 34 samples; per-sample relative L1 diff median 0.0000 max 0.0000; Spearman min 1.00000; features with any change 0

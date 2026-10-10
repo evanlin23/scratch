@@ -29,9 +29,10 @@ and fixed gives 0.78. So I went ahead.
    on fragments. Inside BSCAMPP at b=5,000 the EPA-ng time drops by 18-41%. At b=2,000, BSCAMPP
    runs entirely below the threshold and gains nothing.
 4. **Downstream tool (PICRUSt2, 12,000-tip subset of its bacterial reference, 749 V4 ASVs):**
-   2.7% of the ASVs change placement. Five of them are grossly misplaced by stock (NSTI 32 vs
-   1.3) and dropped by the NSTI filter. The predicted metagenome changes by 0.18% per sample at
-   the median and up to 16% for one sample. The real 26,868-tip reference needs at least 16 GB
+   2-2.7% of the ASVs change placement (two random reference subsets; a stock re-run changes
+   0). On one subset, five ASVs are grossly misplaced by stock (NSTI 32 vs 1.3) and dropped by
+   the NSTI filter, and one sample's predicted metagenome moves by 16%. On the other subset the
+   worst sample moves by 3%. The median sample barely changes (≤0.2%). The real 26,868-tip reference needs at least 16 GB
    for EPA-ng and did not fit here.
 
 **Verdict for a 4-week CS581 project built on this bug fix: unclear, leaning not promising as a
@@ -241,10 +242,17 @@ Comparison (`results/picrust2/compare.txt`):
   reads. Per-sample Spearman between stock and fixed is at least 0.955. 3,681 of 7,840 KOs
   change in at least one sample.
 
+Controls: (i) stock re-run on the same subset gives **0 changes**, so PICRUSt2 + EPA-ng is
+deterministic here and all 20 changes are due to the fix. (ii) A second random 12,000-tip subset
+(seed 2): best edge changes for **15 of 749 (2.0%)**, NSTI for 24 and gene content for 14 ASVs.
+There are no NSTI blow-ups this time (mean NSTI 0.124 stock vs 0.137 fixed, 5 vs 5 ASVs over
+the cut-off). The predicted metagenome changes by 0% at the median and up to 3.0% (KO) / 3.3%
+(EC) in the worst sample; Spearman ≥ 0.974.
+
 Reading: for full-region 16S amplicons that all cover the same V4 window, the pre-mask range is
-the same for every query, and only a few percent of placements change. Those few include some
-grossly wrong placements (NSTI about 32), which shift the predictions of the samples where those
-ASVs are abundant by up to about 15%. That is a real but modest downstream effect on this
+the same for every query, and only a few percent of placements change. Those few sometimes include
+grossly wrong placements (NSTI about 32 on subset 1, none on subset 2), which shift the
+predictions of the samples where those ASVs are abundant by up to about 15% (3% on subset 2). That is a real but modest downstream effect on this
 dataset. It needs the full 26,868-tip reference (big-memory machine), more studies and other
 amplicon regions before one can claim more. Not done: TIPP3-fast (time).
 
