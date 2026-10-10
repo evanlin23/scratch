@@ -20,6 +20,7 @@ from magus.tasks import task  # noqa: E402
 from gcmx import weighting  # noqa: E402
 
 W = json.load(open(os.environ["GG_WEIGHTS"]))
+K = int(os.environ.get("GG_ESK", "1"))  # also delete edges that fewer than K of the weight-1 files support
 
 
 def buildMatrix(context):
@@ -30,9 +31,11 @@ def buildMatrix(context):
     for backboneFile in context.backbonePaths:
         if backboneFile not in files:
             files.append(backboneFile)
+    nbb = [dict() for _ in range(graph.matrixSize)]
     for alignedFile in files:
         w = int(W.get(os.path.basename(alignedFile), 1))
         alignmap = weighting._backbone_alignmap(context, alignedFile)
+        seen = set()
         for column in alignmap:
             items = list(column.items())
             for a, avalue in items:
@@ -44,6 +47,19 @@ def buildMatrix(context):
                         if asub == bsub and apos != bpos:
                             continue
                     row[b] = row.get(b, 0) + w * avalue * bvalue
+                    if w == 1:
+                        seen.add((a, b))
+        for a, b in seen:
+            nbb[a][b] = nbb[a].get(b, 0) + 1
+    if K > 1:
+        removed = 0
+        for a in range(graph.matrixSize):
+            row = graph.matrix[a]
+            for b in list(row):
+                if a != b and nbb[a].get(b, 0) < K:
+                    del row[b]
+                    removed += 1
+        Configs.log("[wmerge] K={}: removed {} directed edges".format(K, removed))
     Configs.log("[wmerge] weights {}".format(sorted(set(W.values()))))
 
 

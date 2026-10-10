@@ -1,0 +1,1 @@
+{"rep": "1000S1", "tool": "fftns2", "overlap": 0.0055, "overlap_min": 0.0046, "overlap_pooled": 0.0055, "support_unconf": 0.7468, "support_conf": 0.8525, "prec_linsi": 0.8032, "prec_conf": 0.8929, "prec_unconf": 0.8027, "prec_tool": 0.0117, "pairs_tool_over_linsi": 0.4844, "bb_wall": 144.6, "bb_sum": 533.2, "bb_mean_s": 53.3}

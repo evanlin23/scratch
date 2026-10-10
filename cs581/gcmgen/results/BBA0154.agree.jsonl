@@ -1,0 +1,1 @@
+{"rep": "BBA0154", "tool": "fftns2", "overlap": 0.8085, "overlap_min": 0.7888, "overlap_pooled": 0.8085, "support_unconf": 0.4949, "support_conf": 0.9768, "prec_linsi": 0.7542, "prec_conf": 0.8762, "prec_unconf": 0.2395, "prec_tool": 0.7586, "pairs_tool_over_linsi": 0.9475, "bb_wall": 14.5, "bb_sum": 52.4, "bb_mean_s": 5.2}
