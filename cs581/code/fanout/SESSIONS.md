@@ -118,3 +118,13 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | PASTA rerun on RNASim R0 (-d rna) and 16S.M R0 (-d dna) after the e2e datatype fix | claude/cs581-pastafix | session_01QMhfydVNQZ7wmwthEnGdTM |
 | Held-out test of consistency-filtered GCM evidence (MAFFT-only), pre-registered | cs581/protcons, claude/cs581-protcons | session_01EFnDHNVbHHWbWNFzR63MHi |
 | Generalize consensus GCM evidence to DNA/RNA (reliable second opinions, soft weights, self-consistency, agreement switch) | cs581/gcmgen, claude/cs581-gcmgen | session_01Mde1BAA2LWYXEvQGVhUdyE |
+
+## Round 2: general directions in parallel (launched 2026-10-10 15:10 UTC)
+
+| idea | dir / branch | session |
+|---|---|---|
+| Blending disjoint tree merger at scale (GTM-Blend round 2) | cs581/gtmscale, claude/cs581-gtmscale | session_01YDdCNu6WP2RqDSJGtsTMuH |
+| ASTRID-Pro: theorem write-up + broader GDL evaluation | cs581/astridpro2, claude/cs581-astridpro2 | session_01SA9eLis44FAe1cbduxbZqp |
+| ASTRAL-Pro GDL inconsistency: proof + practical reach | cs581/astralpro2, claude/cs581-astralpro2 | session_01VjGVSAAam7ugjhXoweAbar |
+| Distance-mixture identifiability: proofs + identifiability-aware output | cs581/decodiphy2, claude/cs581-decodiphy2 | session_01MHDF53LS457HdYpmfTTir4 |
+| One general improved MAGUS (self-soft + consensus evidence) for DNA, RNA and proteins | cs581/magusgen, claude/cs581-magusgen | session_013Ua7rdYjAfh7cX812BxYh4 |
