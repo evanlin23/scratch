@@ -1,0 +1,6 @@
+true:0 {'per_family_total': 0.0049, 'c_minus_AD|BC': 0.0049, 'se2': 0.0003, 'c_minus_AC|BD': 0.0049, 'se3': 0.0003, 'z2': 14.1202, 'z3': 14.1202, 'blocks': 200, 'block': 200}
+ovl:0 {'per_family_total': 0.6833, 'c_minus_AD|BC': -0.0173, 'se2': 0.0032, 'c_minus_AC|BD': -0.06, 'se3': 0.0034, 'z2': -5.451, 'z3': -17.4334, 'blocks': 200, 'block': 200}
+own:0 {'per_family_total': 0.9263, 'c_minus_AD|BC': -0.0193, 'se2': 0.0038, 'c_minus_AC|BD': -0.1356, 'se3': 0.0043, 'z2': -5.0945, 'z3': -31.545, 'blocks': 200, 'block': 200}
+multi:0 {'per_family_total': 1.0, 'c_minus_AD|BC': 0.0007, 'se2': 0.0024, 'c_minus_AC|BD': -0.0029, 'se3': 0.0024, 'z2': 0.285, 'z3': -1.1753, 'blocks': 200, 'block': 200}
+d2sv:0.5 {'per_family_total': 0.3426, 'c_minus_AD|BC': -0.0051, 'se2': 0.0022, 'c_minus_AC|BD': -0.0244, 'se3': 0.0024, 'z2': -2.2794, 'z3': -10.235, 'blocks': 200, 'block': 200}
+flipv:0.1 {'per_family_total': 0.0665, 'c_minus_AD|BC': 0.0028, 'se2': 0.001, 'c_minus_AC|BD': -0.0016, 'se3': 0.001, 'z2': 2.6875, 'z3': -1.5386, 'blocks': 200, 'block': 200}
