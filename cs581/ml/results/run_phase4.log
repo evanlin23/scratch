@@ -2,3 +2,7 @@
 1 jobs
 {"dataset": "Park1000M1HF", "rep": "3", "aln": "true_align", "method": "raxmlng", "seconds": 1805.8, "cpu_seconds": 1787.8, "lnl_tool": -637625.699549, "fn_rate": 0.23162134944612287, "fp_rate": 0.23470411233701102, "rf_rate": 0.23269809428284854, "tree": "/opt/data/mlcache/Park1000M1HF/R3/trees/true_align.raxmlng.tre"}
 1 jobs
+{"dataset": "Park1000M1HF", "rep": "4", "aln": "true_align", "method": "raxmlng", "seconds": 2385.3, "cpu_seconds": 2360.7, "lnl_tool": -661678.304873, "fn_rate": 0.2976791120080727, "fp_rate": 0.30190571715145437, "rf_rate": 0.29889669007021064, "tree": "/opt/data/mlcache/Park1000M1HF/R4/trees/true_align.raxmlng.tre"}
+1 jobs
+{"dataset": "Park1000M1HF", "rep": "3", "aln": "true_align", "backbone": "fasttree", "n_backbone": 518, "backbone_fn": 0.11695906432748537, "method": "frag_constr_fasttree", "seconds": 651.0, "cpu_seconds": 641.5, "lnl_tool": -637645.948864, "fn_rate": 0.25075528700906347, "rf_rate": 0.25175526579739216}
+{"dataset": "Park1000M1HF", "rep": "3", "aln": "true_align", "backbone": "fasttree", "n_backbone": 518, "backbone_fn": 0.11695906432748537, "method": "frag_polish_fasttree", "seconds": 2665.8, "cpu_seconds": 2620.4, "lnl_tool": -637624.951828, "fn_rate": 0.24471299093655588, "rf_rate": 0.24573721163490472}
