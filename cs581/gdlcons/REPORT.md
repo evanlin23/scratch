@@ -10,7 +10,7 @@
 |---|---|---|---|---|
 | (a) hidden paralogy | correct | species-overlap rule (ASTRAL-Pro's own, given the root) | cand2 | 4/4 datasets of 10,000 families; stock ASTRAL-Pro3 also 4/4, and 4/4 in an 8-taxon embedding |
 | (b) **random rooting error** | re-root at a uniformly random edge w.p. p = 0.3 | overlap rule | cand3 (correct root is consistent here) | 4/4 at 10,000 |
-| (c) **ASTRAL-Pro's own min-duplication rooting** | ASTRAL-Pro3 heuristic | ASTRAL-Pro3 | cand4 (moderate rates: about 20 copies; correct-root overlap tags are consistent) | 20/20 at 1,000 and 4/4 at 5,000 |
+| (c) **ASTRAL-Pro's own min-duplication rooting** | ASTRAL-Pro3 heuristic | ASTRAL-Pro3 | cand4 (moderate rates: about 20 copies; correct-root overlap tags are consistent) | 20/20 at 1,000 and 4/4 at 5,000; 4/4 in an 8-taxon embedding |
 
 In (c), the stock software puts the root inside the high-turnover C lineage in 43% of families and at the true position in only 15%.
 
@@ -190,6 +190,7 @@ Details: `results/theory.md` Section 4b.
 
 - Where ASTRAL-Pro3 roots 2,000 families: 868 inside C, 487 on the A or B lineage, and only 304 at the true root split (ABC | D).
 - So min-duplication rooting is pulled toward the high-turnover lineage.
+- In an 8-taxon embedding of cand4, stock ASTRAL-Pro3 is wrong in 4/4 datasets of 5,000 families; true tags and correct-root overlap tags are right in 4/4.
 
 ### 4.3 Naive random flips (outside Def. 1)
 
