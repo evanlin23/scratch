@@ -38,7 +38,9 @@ and every variant is paired against MAGUS's own merge (`linsi`) on the same repl
    no-switch recipe above is better on the same held-out sets, and training never prefers switching to it.
 5. **Safest single change:** `linsi#es3` (no second aligner): protein −2.03 (6/3/1), DNA/RNA −0.03 (3/10/1,
    worst +0.05), but its protein gain is almost all on the simulated sets (BAliBASE −0.36 to +0.13).
-6. **Caveats:** one MAGUS draw per dataset; only 10 protein replicates (6 BAliBASE, 4 AliSim) and 3 RNA;
+6. **Caveats:** most of the protein gain is on the simulated sets (−5.28 on 4); on the 6 BAliBASE sets the recipe
+   gives −1.08, slightly less than the hard FFT-NS-2 filter (−1.26) that it makes DNA-safe. One MAGUS draw per
+   dataset; only 10 protein replicates (6 BAliBASE, 4 AliSim) and 3 RNA;
    w and K were tuned on 10 training replicates; RNASim is the one data set where every evidence-removing recipe
    loses a little (+0.3 to +0.6).
 
@@ -60,7 +62,7 @@ flags):
 | RNA | RNASim 1000 R0 and R1, 16S.M R0 | 8.9–12.9 | cached MAGUS runs |
 
 BBA0081 and BBA0117 were dropped: their fresh MAGUS draws would have cost ~1 h each on the loaded machine.
-SIMHIGH_R2's MAGUS draw failed once (disk full) and was re-run; see §6 for what finished.
+SIMHIGH_R2's MAGUS draw failed once (disk full) and was re-run successfully.
 
 **Control.** `linsi` reproduces the cached MAGUS score exactly (e.g. BBA0101 29.19, identical to bbevidence's
 control), and `dup2:linsi` (every backbone twice) is identical to `linsi` on all 6 sets tested, so GCM (MCL +
@@ -91,8 +93,9 @@ All are merge-only and implemented in `code/gg.py` on top of `cs581/bbevidence/c
 
 ## 3. Results by variant
 
-All 25 replicates (16 trained-on or held-out alike; per-replicate Δ in `results/tables.md`). Mean Δ error
-points (W/T/L, Wilcoxon p), and mean ΔSPFN / ΔSPFP:
+All 24 replicates, training and held-out pooled (per-replicate Δ for every variant in `results/tables.md`).
+Mean Δ error points (W/T/L, Wilcoxon p), and mean ΔSPFN / ΔSPFP; n differs because the expensive or
+early-discarded variants were not run everywhere:
 
 | variant | proteins | ΔSPFN / ΔSPFP | DNA/RNA | ΔSPFN / ΔSPFP |
 |---|---|---|---|---|
@@ -120,7 +123,7 @@ points (W/T/L, Wilcoxon p), and mean ΔSPFN / ΔSPFP:
 | **`wsoft0.03:linsi&fftns2#es4`** | **−2.76 (9/1/0, p = 0.002)**, n = 10 | −3.34 / −2.18 | **+0.01 (6/4/4, p = 1.0)**, n = 14; worst +0.47 | +0.54 / −0.52 |
 | `wsoft0.03:linsi&fftns2#es3` | −2.52 (9/1/0, p = 0.002), n = 10 | −2.90 / −2.15 | −0.01 (6/4/4), n = 14; worst +0.45 | +0.45 / −0.46 |
 
-Per replicate, the selected recipe and its two halves (Δ error points; MAGUS error % in brackets):
+Per replicate, the selected recipe and its two halves (Δ error points; MAGUS column = MAGUS's error %):
 
 | replicate | MAGUS | `wsoft0.03:linsi&fftns2#es4` | `wsoft0.03:linsi&fftns2` | `linsi#es4` | `linsi&fftns2` | split |
 |---|---|---|---|---|---|---|
@@ -216,8 +219,8 @@ E-INS-i BBA0101 0.79 / 0.13. Per-replicate rows: `results/tables.md`, "Agreement
 - The overlap separates "second aligner broken" (ROSE except 1000M4: ≤ 0.11) from "second aligner usable"
   (everything else, including the easy 1000M4: ≥ 0.61) with a wide gap, but it does **not** separate "filtering helps" from "filtering hurts": RNASim
   (0.80) and 16S.M (0.88) look like proteins, yet on RNASim the unconfirmed L-INS-i pairs are mostly right and
-  every filter loses (+0.34 to +0.55), while 16S.M gains (−0.6 to −0.75). bbevidence's support statistic
-  (`support unconf`, also in the table) separates them a little better (RNASim 0.76–0.78 vs 16S.M 0.70, BAliBASE
+  every filter loses (+0.34 to +0.56), while 16S.M gains (−0.6 to −0.75). bbevidence's support statistic
+  (`support unconf` in `results/tables.md`) separates them a little better (RNASim 0.76–0.78 vs 16S.M 0.70, BAliBASE
   0.40–0.62, SIM 0.53–0.73), but overlaps with the simulated proteins.
 
 **Adaptive switch (variant 4), θ fixed on training** (`code/switch.py`; θ = the midpoint between training
@@ -227,12 +230,12 @@ overlaps that maximises the training mean):
 |---|---|---|---|---|---|---|
 | `linsi&fftns2` | MAGUS | 0.306 | −0.73 (6/4/0, p = 0.016) | −2.60 (4/0/0) | +0.11 (0/8/2) | −0.67 (4/8/2) |
 | `linsi&fftns2` | `wsoft0.03:linsi&fftns2#es4` | never filter hard | −1.14 | −4.17 (4/0/0) | +0.06 (4/3/3) | −1.15 |
-| `linsi&fftns2#es2` | `linsi#es4` | 0.306 | −1.22 (8/1/1, p = 0.014) | (not run on held-out) | | |
+| `linsi&fftns2#es2` | `linsi#es4` | 0.306 | −1.22 (8/1/1, p = 0.014) | (both arms run on too few held-out sets) | | |
 
 - With θ = 0.306 the switch is in effect a "ROSE detector": it keeps MAGUS on 10 of 11 ROSE sets and filters
   everything else. Held out it loses only on the two RNASim replicates (+0.54, +0.55), filters the easy 1000M4
   harmlessly (−0.04), and gets −2.60 on the held-out proteins. It is a legitimate reference-free rule, but its training θ is not really
-  determined (any θ in 0.11–0.61 is equivalent on training), and it adds nothing over the no-switch soft recipe.
+  determined (any θ between 0.005 and 0.61 is equivalent on training), and it adds nothing over the no-switch soft recipe.
 - When the soft + edge-support recipe is allowed as the "else" branch, the training data choose **never** to
   switch to the hard filter, so the best switched recipe is just the no-switch recipe.
 
@@ -260,30 +263,31 @@ diagnosis only; "support" = how many of the 10 L-INS-i backbones contribute to a
 - 45–86% of all GCM edges have support < 4, but they carry only 2–18% of the evidence weight, and only 1–25%
   of that weight is a true homology (vs 76–96% for support ≥ 4).
 - Deleting them (`linsi#es4`) helps a lot on the simulated proteins (−4.1 to −8.3) and on most BAliBASE sets a
-  little; on DNA/RNA it changes nothing (ΔSPFN, ΔSPFP within ±0.1). So the damage that these edges do depends on
-  the data: on ROSE MCL already ignores them (their weight is tiny next to the 9–10-backbone edges), on the
-  simulated proteins they chain clusters together and the gain is almost all **SPFN** (ΔSPFN −4.8, ΔSPFP +0.2 over the 10 protein replicates), i.e.
-  after the junk edges are gone MCL/minclusters can merge more true columns.
+  little; on DNA/RNA it changes almost nothing (mean ΔSPFN +0.02, ΔSPFP −0.05; worst replicate +0.35 on
+  1000M2). So the damage these edges do depends on the data. My reading (not tested directly): on ROSE their
+  weight is too small next to the 9–10-backbone edges for MCL to act on them, while on the simulated proteins
+  they connect clusters that should stay apart. The gain is almost all **SPFN** (ΔSPFN −4.8, ΔSPFP +0.2 over
+  the 10 protein replicates), i.e. without the junk edges MCL/minclusters merges more true columns.
 - This is the reference-free part of the recipe that needs no second aligner. It is close to the protcons
   edge-support baseline, but there K = 2–3 was only tested on proteins.
 
 **(b) Single-backbone-precision errors that a second aligner sees.** The hard intersection with FFT-NS-2 removes
 the L-INS-i pairs that FFT-NS-2 does not make. On proteins and 16S.M these unconfirmed pairs are 24–57% correct
-(`prec unconf` in §4), the confirmed ones 86–97%, so filtering raises precision (ΔSPFP −2.8 on proteins). On
-ROSE FFT-NS-2's own pairs are 1–18% correct and it confirms only 0.3–11% of L-INS-i's pairs, so the intersection
-deletes ~99% of mostly-correct evidence (ΔSPFN +35).
+(`prec unconf` in §4), the confirmed ones 86–97%, so filtering raises precision (ΔSPFP −2.6 on proteins). On
+ROSE (except 1000M4) FFT-NS-2's own pairs are 1–18% correct and it confirms only 0.3–11% of L-INS-i's pairs, so
+the intersection deletes ~90–99% of mostly-correct evidence (ΔSPFN +32 on average over DNA/RNA).
 
 **Why soft weighting is safe where the hard filter is not.** With weight w for unconfirmed pairs, an edge that
 competes with a confirmed edge is down-weighted by 1/w; an edge with no confirmed competitor keeps its *relative*
 weight, because MCL normalises each column (MAGUS's GCM is invariant to a global scale, §1). On ROSE almost
 nothing is confirmed, so the graph is MAGUS's graph scaled by w and the result is unchanged (Δ within ±0.25 on
-8 of 9 DNA/RNA sets at w = 0.03). On proteins most edges are confirmed and the unconfirmed ones lose. It is a
+11 of 14 DNA/RNA sets at w = 0.03; the other three are RNASim R0/R1, +0.42 / +0.56, and 16S.M, −0.64). On proteins most edges are confirmed and the unconfirmed ones lose. It is a
 per-node, self-calibrating version of the switch in §4. The curve is steep: w = 0.5 and 0.25 do almost
-nothing (MCL keeps any edge within a factor of 4 of the best one), w = 0.03–0.05 recovers most of the
+nothing, w = 0.03–0.05 recovers most of the
 hard-filter gain on BAliBASE, w = 0.01 starts to hurt ROSE (+0.96 on 1000M2).
 
 **Why soft weighting alone fails on the simulated proteins.** On SIMMOD/SIMHIGH `wsoft0.03` *raises* error
-(+1.1 to +3.8, all through SPFN) although the hard intersection lowers it. The down-weighted edges are still in
+(+0.95 to +3.8; ΔSPFN +2.4 to +9.1, ΔSPFP −0.5 to −1.4) although the hard intersection lowers it. The down-weighted edges are still in
 the graph; there they act like the low-support edges in (a). Adding the edge-support cut removes that failure:
 `wsoft0.03:linsi&fftns2#es4` gets −3.7 / −3.9 / −5.1 / −8.4 on the four simulated sets where `wsoft0.03` alone got
 +1.1 / +3.8 / +1.3 / +0.95.
@@ -292,7 +296,7 @@ the graph; there they act like the low-support edges in (a). Adding the edge-sup
 
 Per-backbone cost of the second opinions (seconds of wall time per backbone, 4 backbones in parallel with 4
 MAFFT threads each, on a 4-core VM that ran 3–6 lanes at once (load average 30–60), so these are inflated
-upper bounds; isolated single-thread CPU from bbevidence in brackets):
+upper bounds; last column: isolated single-thread CPU measured in bbevidence):
 
 | second aligner | protein s/backbone | DNA/RNA s/backbone | isolated CPU (bbevidence) |
 |---|---|---|---|
@@ -310,8 +314,8 @@ upper bounds; isolated single-thread CPU from bbevidence in brackets):
   so merge wall time was about the same or faster than MAGUS's on proteins (fewer edges survive; e.g. SIMMOD_R1
   8.5 s vs 42 s) and 2–3× slower on ROSE (75–87 s vs 26–39 s under load). A real implementation would add
   the weights inside MAGUS's own builder in one pass.
-- L-INS-i-based second opinions (random tree, G-INS-i, E-INS-i, `--op 3`) double MAGUS's backbone cost; the
-  random-tree L-INS-i was also slower than plain L-INS-i (iterative refinement works harder from a bad tree).
+- L-INS-i-based second opinions (random tree, G-INS-i, E-INS-i, `--op 3`) roughly double MAGUS's backbone
+  cost.
 
 ## 7. Verdict
 
@@ -320,9 +324,11 @@ MAFFT FFT-NS-2 (~2–15 s on proteins, ~15–80 s on 1,000-nt DNA), give L-INS-i
 not make 1/33 of the weight, and drop GCM edges that fewer than 4 of the 10 L-INS-i backbones support.
 
 **Honest verdict.**
-- On proteins it is the strongest recipe of the three pilots: −2.76 points on 10 replicates (9/1/0),
-  including the simulated proteins where bbevidence's hard filter was weaker and where Clustal backbones hurt
-  (protbench). The held-out half (scored once, after the choice) is at least as good as training.
+- On proteins: −2.76 points on 10 replicates (9/1/0, p = 0.002); the held-out half (scored once, after the
+  choice) is at least as good as training. The gain is uneven: on the 6 BAliBASE sets it is −1.08 on average,
+  slightly *less* than bbevidence's hard filter on the same sets (`linsi&fftns2` −1.26), while on the 4
+  simulated sets it is −5.28 (hard filter −2.39), where Clustal backbones hurt in protbench. So the recipe
+  trades a little of the BAliBASE gain for DNA safety and gains a lot on simulated proteins.
 - On DNA/RNA it is **neutral, not helpful**: +0.01 on 14 replicates, all within ±0.5, with small but consistent
   losses on RNASim (+0.34, +0.47) and on 1000M2 (+0.41), and small gains on 16S.M (−0.75) and some ROSE sets.
   "Does not hurt" holds to within half a point; "helps DNA/RNA" is not achieved by any variant here (the
@@ -332,9 +338,9 @@ not make 1/33 of the weight, and drop GCM edges that fewer than 4 of the 10 L-IN
   filter still loses on nucleotides, where MAGUS's error is recall-limited (deleting evidence raises SPFN by
   more than it lowers SPFP, even when the deleted pairs are 65% wrong). With FFT-NS-2 the unconfirmed L-INS-i
   pairs are 24–57% correct on proteins and 65–94% on ROSE/RNASim (34% on 16S.M).
-- What carries the generality is that the recipe never deletes L-INS-i evidence that has no competitor: soft
-  weighting only demotes, and the edge-support cut removes only edges that at most 3 of the 10 backbones
-  support (2–25% of their residue pairs are true, on every data type).
+- What carries the generality: the soft weighting deletes nothing (it only demotes unconfirmed pairs relative
+  to confirmed competitors, so where nothing is confirmed nothing changes), and the edge-support cut removes
+  only edges that at most 3 of the 10 backbones support, which are 1–25% true on every data type.
 
 **For the 4-week project.** (1) Confirm on 3–5 MAGUS draws per dataset and on HomFam (single draws here; the
 BAliBASE gains of 0.7–2 points are paired, but each comes from one decomposition); (2) implement both operations
