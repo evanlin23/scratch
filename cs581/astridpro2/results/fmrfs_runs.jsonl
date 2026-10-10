@@ -622,3 +622,5 @@
 {"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "05", "sqln": 100, "ngen": 100, "method": "astrid-disco", "sec": 2.155, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.04124}
 {"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "05", "sqln": 100, "ngen": 100, "method": "asteroid", "sec": 2.598, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.02062}
 {"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "05", "sqln": 100, "ngen": 100, "method": "astral-pro3", "sec": 10.897, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.03093}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "05", "sqln": 100, "ngen": 100, "method": "disco-astral", "sec": 10.168, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.04124}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "05", "sqln": 100, "ngen": 100, "method": "fastmulrfs", "sec": 14.458, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}

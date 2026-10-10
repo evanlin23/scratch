@@ -68,3 +68,16 @@
 {"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 3000, "method": "astrid-disco", "sec": 28.194, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
 {"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-pro", "sec": 6.894, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
 {"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-multi", "sec": 8.303, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-pro-s", "sec": 38.006, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-disco", "sec": 94.104, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 1200.446, "error": "TimeoutExpired"}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 1200.005, "error": "TimeoutExpired"}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 1201.569, "error": "TimeoutExpired"}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 1200.005, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "astral-pro3", "sec": 13.944, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "fastmulrfs", "sec": 10.138, "FN": 17, "FP": 17, "nI": 98, "FNrate": 0.17347}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "astral-pro3", "sec": 58.312, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "fastmulrfs", "sec": 29.446, "FN": 9, "FP": 9, "nI": 98, "FNrate": 0.09184}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "astral-pro3", "sec": 343.837, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "fastmulrfs", "sec": 168.521, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "astral-pro3", "sec": 1200.38, "error": "TimeoutExpired"}

@@ -114,6 +114,24 @@ def time_table(runs, title, group, methods=ORDER):
         print("| " + " | ".join(str(x) for x in gk) + " | " + " | ".join(cells) + " |")
 
 
+def failures():
+    print("\n### Failed runs (timeouts and crashes; excluded from all paired tables)\n")
+    print("| file | method | condition | error | n |")
+    print("|---|---|---|---|---|")
+    c = collections.Counter()
+    for f in sorted(glob.glob(os.path.join(R, "*_runs.jsonl"))):
+        ok = set()
+        rows = [json.loads(l) for l in open(f)]
+        for r in rows:
+            if "error" not in r:
+                ok.add((tuple(r.get(x) for x in KEYF), r["method"]))
+        for r in rows:
+            if "error" in r and (tuple(r.get(x) for x in KEYF), r["method"]) not in ok:
+                c[(os.path.basename(f), r["method"], r.get("cond"), r["error"])] += 1
+    for k, n in sorted(c.items()):
+        print("| " + " | ".join(str(x) for x in k) + f" | {n} |")
+
+
 if __name__ == "__main__":
     fm, di = load("fmrfs_runs.jsonl"), load("disco_runs.jsonl")
     sim = dict(fm)
@@ -139,6 +157,7 @@ if __name__ == "__main__":
         mean_table(tx, "FN rate vs #species", ["cond"])
         time_table(gn, "Runtime (s) vs #genes (gtrees_10000_l1, 100 species)", ["ngen"])
         mean_table(gn, "FN rate vs #genes", ["ngen"])
+    failures()
     em = load("empirical_runs.jsonl")
     if em:
         print("\n### Empirical")

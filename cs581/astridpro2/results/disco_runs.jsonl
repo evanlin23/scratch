@@ -332,3 +332,21 @@
 {"data": "disco", "cond": "gdl_1e-10_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "wqfm-gdl", "sec": 492.217, "error": "CalledProcessError"}
 {"data": "disco", "cond": "gdl_1e-9_1", "rep": "05", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 19.375, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
 {"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 18.986, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 645.453, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "disco", "cond": "gdl_5e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 33.104, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 784.438, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "disco", "cond": "gdl_5e-10_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 60.356, "error": "CalledProcessError"}
+{"data": "disco", "cond": "gdl_5e-10_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 1704.79, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-9_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "asteroid", "sec": 24.039, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-9_1", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 748.373, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "disco", "cond": "gdl_5e-10_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 2401.522, "error": "TimeoutExpired"}
+{"data": "disco", "cond": "gdl_1e-9_05", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 2401.635, "error": "TimeoutExpired"}
+{"data": "disco", "cond": "gdl_1e-9_0", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 2412.849, "error": "TimeoutExpired"}
+{"data": "disco", "cond": "ils_1e4", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 362.593, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "ils_2e8", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 388.059, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "disco", "cond": "missing_1000", "rep": "01", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 150.34, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "default", "rep": "02", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 293.868, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "disco", "cond": "gdl_1e-10_1", "rep": "02", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 265.862, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "02", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 271.707, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "02", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 328.499, "FN": 11, "FP": 11, "nI": 98, "FNrate": 0.11224}
+{"data": "disco", "cond": "gdl_5e-10_05", "rep": "02", "sqln": 100, "ngen": 1000, "method": "astral-pro3", "sec": 352.039, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
