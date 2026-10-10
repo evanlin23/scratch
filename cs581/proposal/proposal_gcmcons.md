@@ -31,9 +31,12 @@ trees (8 simulated sets, mean RF −0.1, within noise). Adding Clustal Omega bac
 and a pre-registered reference-free gate did not transfer. (5) *A recipe for all data types (chosen on 10
 training sets, no data-type switch).* Cross-subset GCM edges supported by fewer than 4 of the 10 backbones are
 almost all wrong on every data type (2-10% correct vs 76-88% at support ≥ 4). Down-weighting unconfirmed pairs to
-0.03 and deleting edges with support < 4 gives −1.14 on training sets (7/2/1, p = 0.014) and −0.82 on 10 held-out
-sets (7/1/2): proteins −2.77 (3/3), DNA/RNA +0.02 (4/1/2, worst +0.34). The support threshold alone, with no
-second aligner, is −0.44 held out (4/8/0, p = 0.009) and never worse than +0.04.
+0.03 and deleting edges with support < 4 (recipe fixed on 10 training replicates) gives, over all 24 replicates,
+proteins −2.76 (9/1/0, p = 0.002; BAliBASE −1.08, AliSim −5.28) and DNA/RNA +0.01 (6/4/4, worst +0.47); on the
+held-out replicates alone, proteins −4.17 (4/0/0) and DNA/RNA +0.06 (4/3/3). It costs one FFT-NS-2 run per
+backbone (~1% of L-INS-i). The support threshold alone, with no second aligner, gives proteins −2.03 (6/3/1)
+and DNA/RNA −0.03 (worst +0.05), but ≈ 0 on BAliBASE. On DNA/RNA the recipe is safe but does not help, because
+MAGUS's DNA error is recall-limited.
 
 **Research questions.** (1) Does consensus evidence improve MAGUS across protein benchmarks (BAliBASE with
 fresh draws, HomFam, 10AA, simulated proteins), and on which data does it hurt? (2) What explains when it helps:

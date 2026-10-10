@@ -28,6 +28,23 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**gcmgen final (20:02 UTC, `claude/cs581-gcmgen` REPORT.md; 24 replicates, one MAGUS draw each; recipe fixed on 10
+training replicates).**
+- *Recipe `wsoft0.03:linsi&fftns2#es4`:*
+  - Proteins −2.76 (9/1/0, p = 0.002): BAliBASE −1.08, AliSim −5.28.
+  - DNA/RNA +0.01 (6/4/4), worst +0.47 (RNASim_R1).
+  - Held-out only: proteins −4.17 (4/0/0), DNA/RNA +0.06 (4/3/3).
+  - Extra cost: one FFT-NS-2 run per backbone (~1% of L-INS-i).
+- *Edge support alone (`linsi#es3`):* proteins −2.03 (6/3/1), DNA/RNA −0.03 (worst +0.05), BAliBASE ≈ 0.
+- *Second opinions:*
+  - G-INS-i is reliable on ROSE (hard filter +0.87 vs +32.5 with FFT-NS-2) but weaker on BAliBASE.
+  - L-INS-i with a random guide tree is ~600× the cost for no gain.
+- *Reference-free switch:* it only detects ROSE and loses on RNASim; the no-switch recipe is better.
+- *Session verdict:* "yes, a general recipe: clearly helps proteins, neutral (not helpful) on DNA/RNA within ±0.5".
+  Caveats: single draws; 4 simulated and 6 BAliBASE replicates; RNASim loses ~0.4.
+- *Still missing:* end-to-end timing and tree accuracy for the recipe (protcons trees for the hard filter are within
+  noise).
+
 **Check-in 8 (19:30 UTC).**
 - *ASTRID-Pro, empirical (`claude/cs581-astridpro2`; my paired recomputation from `results/{disco,fmrfs}_runs.jsonl`;
   FN rate, ASTRID-Pro minus the other method, negative favours ASTRID-Pro):*
