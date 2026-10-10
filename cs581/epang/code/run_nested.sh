@@ -6,8 +6,12 @@
 D=$1; MODES=$2; QT=$3; PAR=${4:-4}
 P=/opt/mm/root/envs/place/bin
 EPA=${EPA_BIN:-$P/epa-ng}
+# binaries (see REPORT): stock = bioconda 0.3.8; simd* = epa-ng-simd (only `|=`, bug 1);
+# shift* = epa-ng-shift (only the scaler-shift fix, bug 2); fix* = EPA_FIX (both fixes)
 flags() {
   case $1 in
+    *_rson) echo "--rate-scalers on";; *_noheur) echo "--no-heur";;
+    simd|shift) echo "";;
     auto) echo "";; rs_on) echo "--rate-scalers on";; rs_off) echo "--rate-scalers off";;
     noheur) echo "--no-heur";; baseball) echo "--baseball-heur";; nopremask) echo "--no-pre-mask";;
     noheur_rsoff) echo "--no-heur --rate-scalers off";; reest) echo "";;
@@ -17,7 +21,9 @@ flags() {
 jobs=()
 for m in $MODES; do for q in $QT; do
   if [ "${ONLY_ALL:-0}" = 1 ]; then jobs+=("$D/nested/all|$m|$q"); continue; fi
-  for kd in "$D"/nested/c*/k*; do jobs+=("$kd|$m|$q"); done
+  for kd in "$D"/nested/c*/k*; do
+    [ -n "$KS" ] && [[ " $KS " != *" ${kd##*/k} "* ]] && continue
+    jobs+=("$kd|$m|$q"); done
 done; done
 run_one() {
   IFS='|' read kd m q <<< "$1"
@@ -33,6 +39,8 @@ run_one() {
     tree=$kd/reest.raxml.bestTree; model=$kd/reest.raxml.bestModel
   fi
   bin=$EPA; [ "${m#fix}" != "$m" ] && bin=${EPA_FIX}
+  [ "${m#simd}" != "$m" ] && bin=/opt/tools/epa/epa-ng-simd
+  [ "${m#shift}" != "$m" ] && bin=/opt/tools/epa/epa-ng-shift
   s=$(date +%s.%N)
   $bin -t $tree -s $ref -q $kd/$q.fa -m $model -w $out -T ${THREADS:-1} --redo $(flags $m) > $out/log.txt 2>&1
   rc=$?
