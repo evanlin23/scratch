@@ -13,7 +13,7 @@ All numbers below come from the scripts named in each section, so each can be re
 
 | Sub-idea | Verdict | Why |
 |---|---|---|
-| **A. Sample complexity of ASTRID/NJst vs ASTRAL** (slide question) | **Promising, as an evaluation and theory-guided study** | **What the pilot shows:** the f-dependence is about the same for all three methods. The n-dependence is not. On caterpillar trees ASTRID/NJst need more and more genes than ASTRAL as n grows: at n = 64 and f = 0.1 CU, k₉₅ ≈ 1390 vs ≈ 500. On balanced trees and on the 25-taxon Nute et al. data, the three methods are tied. **Why it is worth pursuing:** this matches the open conjecture in Roch (2018), that internode-distance methods need ≥ linear-in-n genes while ASTRAL needs O(log n), and nobody has measured it beyond n = 8. **Caveat:** the evidence is suggestive, not yet conclusive (9–21 replicates per cell). |
+| **A. Sample complexity of ASTRID/NJst vs ASTRAL** (slide question) | **Promising, as an evaluation and theory-guided study** | **What the pilot shows:** the f-dependence is about the same for all three methods. The n-dependence is not. On caterpillar trees ASTRID/NJst need more and more genes than ASTRAL as n grows: at n = 64 and f = 0.1 CU, k₉₅ ≈ 1190 vs ≈ 490 (30 replicates). In the n = 128 test at f = 0.2 CU (20 replicates), k₉₅ is about 350–400 for ASTRID vs about 150–285 for ASTRAL. On balanced trees the gap is smaller and shows up only at n ≥ 64 (n = 64, f = 0.1: 771 vs 467). On the 25-taxon Nute et al. data the three methods are tied. **Why it is worth pursuing:** this matches the open conjecture in Roch (2018), that internode-distance methods need ≥ linear-in-n genes while ASTRAL needs O(log n), and nobody has measured it beyond n = 8. **Caveat:** the evidence is suggestive, not yet conclusive (20–30 replicates per cell; several bootstrap CIs overlap). |
 | **B. Missing-data-corrected ASTRID** (new method) | **Not promising** | **The derivation works:** I derived the unique unbiased per-node correction, 1 − (−p/(1−p))^k, which makes ASTRID statistically consistent under i.i.d. deletion. **But it does not help empirically.** On held-out replicates, no bounded variant beats plain ASTRID (Δ FN = +0.0001, p = 0.71). The exact correction blows up for p ≥ 0.5 (+0.33 FN). The ASTRID bias it removes is small: a perfect correction gains at most about 0.005–0.009 FN in the infinite-gene limit. **The niche is already filled:** Asteroid (Morel et al. 2023), a consistent missing-data-aware internode method, is already published, and it is the only method here that beats ASTRID (−0.008 FN, p = 0.0035, RAxML gene trees). |
 
 **Recommendation.** If this topic is chosen, do **A** and frame it as "an empirical test of Roch's n-scaling conjecture for ASTRID". **B** can be one short section (the derivation, plus "the bias is real but small; Asteroid already addresses it").
@@ -142,7 +142,7 @@ __SCTABLE_BAL__
 | balanced, ASTRAL | __C_bal_astral__ |
 | balanced, ASTRID | __C_bal_astrid__ |
 
-- On caterpillars, ASTRID's constant grows clearly faster than ASTRAL's. Caterpillars have the longest leaf-to-leaf paths, so internode distances have the largest variance; Roch 2018's lower bound is driven by exactly this.
+- On caterpillars, ASTRID's constant grows clearly faster than ASTRAL's (about 4.9 → 15.3 vs 4.0 → 7.6 from n = 8 to 64). On balanced trees the two grow alike up to n = 64 (3.2 → 8.6 vs 3.4 → 7.6). Caterpillars have the longest leaf-to-leaf paths, so internode distances have the largest variance; Roch 2018's lower bound is driven by exactly this.
 
 ### 4c. Focused n-scaling test (f = 0.2, n up to 128)
 
@@ -154,7 +154,7 @@ __NSTABLE__
 
 **Interpretation.**
 - **ASTRAL vs ASTRID in n.** ASTRAL's k₉₅ grows slowly in n, consistent with log n. ASTRID's grows faster.
-- **Conjectured scaling not yet tested.** Over n = 8–128 the fitted exponents in n are __NSEXP__. Neither method looks linear in n at f = 0.2. With 8–20 replicates per cell, k₉₅ near 0.95 is noisy: the bootstrap CIs overlap at several n.
+- **Conjectured scaling not yet tested.** Over n = 8–128 the fitted exponents in n are __NSEXP__. Neither method looks linear in n at f = 0.2. With 20 replicates per cell, k₉₅ near 0.95 is noisy: the bootstrap CIs overlap at several n. The clearest separations are balanced n = 128 (ASTRAL 150 [135–245] vs ASTRID 346 [271–373]) and caterpillar n = 32 (96 [93–98] vs 200 [186–363]).
 - **What a project needs.** 100+ replicates per cell, n up to 256–512, and smaller f. Those runs are cheap for ASTRID (seconds). ASTRAL is the bottleneck.
 
 ## 5. New method: missing-data-corrected ASTRID
@@ -261,8 +261,8 @@ The correction itself costs nothing extra. My Python distance code dominates the
    - **Missing-data section:** the unbiased weight and why it fails (variance), as a short negative result.
 
 **Risks.**
-- **(i) The n-effect may be weaker than it looks.** The current evidence uses 9–21 replicates, and the k₉₅ CIs overlap. It may turn out to be a constant factor, not a different rate. That is still a publishable answer for a class project, but less striking.
+- **(i) The n-effect may be weaker than it looks.** The current evidence uses 20–30 replicates, and many k₉₅ CIs overlap. It may turn out to be a constant factor, not a different rate. That is still a publishable answer for a class project, but less striking.
 - **(ii) Overlap with Shekhar et al. 2018 at n = 8.** The novelty is n > 8 and the n-scaling.
-- **(iii) ASTRAL cost limits large-n, large-k runs.** ASTRAL at n = 64 and k = 5000 takes about 6 minutes per run. Mitigation: bisection on k and fewer, targeted cells.
+- **(iii) ASTRAL cost limits large-n, large-k runs.** ASTRAL at n = 64 and k = 5000 took 387 s per run on this 4-core machine; the whole pilot's simulation used about 3.5 h on 4 shared cores. Mitigation: bisection on k and fewer, targeted cells.
 - **(iv) This is an evaluation study**, not a new method. The course may favor method projects.
 - **(v) Search heuristics: checked, minor.** I compared ASTER's reduced search (`-r 1 -s 0`, used in the sweeps) with the default on 60 paired runs (`code/astral_search_check.py` → `results/astral_search_check.json`; n = 32–64, f = 0.1–0.2). It returned the identical tree in 59/60 runs. In the one other run it was slightly worse, so ASTRAL's k₉₅ here is, if anything, very slightly pessimistic.
