@@ -108,6 +108,22 @@ Per-copy survival is 3.8% in A, 0.9% in B and 7.3% in C.
 
 `d2sv(0.5)`: correct − AC|BD observed −0.0244 ± 0.0024, predicted −0.0254.
 
+**Threshold test for `d2sv(q)`** (random mislabelling of hidden paralogs only).
+- The formula predicts q* = 0.079.
+- Block estimates of correct − AC|BD per accepted family, 40,000 families:
+
+| q | observed | predicted |
+|---|---|---|
+| 0.03 | +0.0024 ± 0.0007 | +0.0030 |
+| 0.06 | +0.0007 ± 0.0009 | +0.0011 |
+| 0.10 | +0.0002 ± 0.0011 | −0.0013 |
+| 0.15 | **−0.0055 ± 0.0014** | −0.0043 |
+| 0.25 | **−0.0099 ± 0.0018** | −0.0103 |
+| 0.5 | **−0.0244 ± 0.0024** | −0.0254 |
+
+- The observed sign change lies between 0.10 and 0.15. That is within one standard error of the prediction at q = 0.1.
+- The other wrong topology (AD|BC) stays below the correct one at every q ≤ 0.25, as predicted.
+
 **Species-tree level** (`curve4.py`; fraction of disjoint replicate datasets on which ASTRAL-Pro3 returns a wrong 4-taxon tree):
 
 | tags | 100 families | 500 | 2,000 | 10,000 |
@@ -118,6 +134,12 @@ Per-copy survival is 3.8% in A, 0.9% in B and 7.3% in C.
 | ASTRAL-multi (ASTER `astral4` with a gene→species map) | 26/40 | 24/40 | 4/6 | — |
 
 So the unmodified ASTRAL-Pro3 software, given **true** gene trees under pure GDL, converges to the wrong species tree here. The cause is its own species-overlap tagging (hidden paralogs) and not gene-tree error. ASTRAL-multi sits near a three-way tie: block estimate correct − AC|BD = −0.003 ± 0.002. That is not significant, so I make no claim about ASTRAL-multi.
+
+**Inside a larger tree** (`code/embed8.py`).
+- Tree: (((((A,B)x:4,C:4)y:0.5,(D1,D2)):0.5,E):0.5,(F1,F2)), using cand2's rates on y, A, B and C. All other branches have no events.
+- ASTRAL-Pro3 (own rooting/tagging) and `ovl` both return a wrong 8-taxon tree (FN = 1, with A or C misplaced) in 4/4 datasets of 5,000 true gene trees.
+- True tags give the correct tree in 4/4.
+- So the failure is not an artefact of four taxa.
 
 **How common?** From the exact formula on 20,000 random rate configurations (λ, μ ∈ {0, …, 8}, branch lengths 0.05–4; `code/prevalence.py`):
 - `ovl` is inconsistent in **12 of 15,434** informative configurations (0.08%);
@@ -133,17 +155,21 @@ So this is a corner of parameter space: very high duplication on one short branc
 - Rates: y (4, 0); x (0.5, 2); A (0.25, 4); B (0.25, 1); C (0.25, 8).
 - Here `ovl`, `own` and `d2sv` are all consistent, and the formula predicts consistency for every q.
 
-**Naive model.** Labelling *any* duplication as S with probability q (`d2s`) breaks ASTRAL-Pro already at q ≈ 0.03–0.05. Block estimates (40,000 families):
+**Naive model.** Labelling *any* duplication as S with probability q (`d2s`) breaks ASTRAL-Pro already at q ≈ 0.035. Block estimates (40,000 families, blocks of 200; per accepted family):
 
-| q | correct − AD\|BC |
+| q | correct − AC\|BD |
 |---|---|
-| 0.02 | +0.025 ± 0.002 |
-| 0.05 | −0.020 ± 0.003 |
-| 0.1 | −0.10 ± 0.006 |
+| 0.02 | +0.024 ± 0.002 |
+| 0.035 | +0.001 ± 0.003 (about the threshold) |
+| 0.05 | −0.022 ± 0.003 |
+| 0.1 | −0.109 ± 0.006 |
+| 0.25 | −0.33 ± 0.02 |
 
-The species tree is wrong in 4/4 datasets of 10,000 families at q = 0.1 (also 4/4 for `flip(0.1)`), and in 0/4 at q = 0.02.
+`flip(0.1)` gives −0.092 ± 0.006. The species tree is wrong in 4/4 datasets of 10,000 families at q = 0.1 (and for `flip(0.1)`), and in 0/4 at q = 0.02.
 
-The cause: an S label on a node whose children share species makes ASTRAL-Pro count copy tuples with multiplicity across the two paralogous subtrees. These counts are large (a 7–90× inflation of the total score) and nearly topology-neutral, so a small bias wins. This is an **artifact of an error model that ASTRAL-Pro's own tagger cannot produce**. It shows that "random tag flips" is the wrong formalisation of the slide's question; the error model has to respect Def. 1.
+The favoured wrong topology is AC|BD, which pairs the two lineages that survive more often. That direction agrees with the containment inequality I2 failing for this configuration (I2 = P(⊇AB)P(⊇C) − P(⊇AC)P(⊇B) = −0.083, exact). I did not derive ASTRAL-Pro's exact multiplicity counting at such nodes, so this is a qualitative match, not a formula.
+
+The cause: an S label on a node whose children share species makes ASTRAL-Pro count copy tuples with multiplicity across the two paralogous subtrees. These counts are large and nearly topology-neutral: the total score per family grows from 0.053 (true tags) to 0.30, 1.85 and 9.2 at q = 0.02, 0.1 and 0.25. A small bias in this mass therefore beats the orthologous signal. This is an **artifact of an error model that ASTRAL-Pro's own tagger cannot produce**. It shows that "random tag flips" is the wrong formalisation of the slide's question; the error model has to respect Def. 1.
 
 ## 6. What a full answer to slide question 1 needs (4-week scope)
 
