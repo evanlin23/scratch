@@ -1,1 +1,0 @@
-{"dataset": "SIMHIGH_R1", "method": "magus", "FN": 0.1354, "FP": 0.1354, "RF": 0.1354, "true_internal": 997, "est_internal": 997, "fasttree_wall": 641.1}

@@ -41,3 +41,23 @@
 | 10AAfull | merge-only (paired) | 2 | -0.35 | 1/0/1 | 1 | +0.67 | -1.38 | +0.00 | bb realign 35 s avg |
 | ALL | end-to-end | 22 | +1.70 | 5/1/16 | 0.0157 | +2.55 | +0.85 | +2.89 | 0.38 |
 | ALL | merge-only (paired) | 22 | +1.62 | 3/4/15 | 0.00405 | +2.19 | +1.05 | +2.99 | bb realign 18 s avg |
+
+## Trees (FastTree -lg -gamma; RF = normalized Robinson-Foulds vs true tree, %)
+
+| dataset | true | magus | e2e-clustalo | merge-clustalo | d RF e2e | d RF merge |
+|---|---|---|---|---|---|---|
+| SIMHIGH_R1 | 6.12 | 13.54 | 12.04 | 14.74 | -1.50 | +1.20 |
+| SIMHIGH_R2 | 5.22 | 6.42 | 9.93 | 8.22 | +3.51 | +1.80 |
+| SIMHIGH_R3 | 6.42 | 11.03 | 8.93 | 11.13 | -2.10 | +0.10 |
+| SIMHIGH_R4 | 6.62 | 9.03 | 10.93 | 9.63 | +1.90 | +0.60 |
+| SIMMOD_R1 | 6.52 | 5.92 | 6.02 | 6.52 | +0.10 | +0.60 |
+| SIMMOD_R2 | 6.52 | 7.22 | 6.52 | 7.22 | -0.70 | +0.00 |
+| SIMMOD_R3 | 6.12 | 7.52 | 7.02 | 7.12 | -0.50 | -0.40 |
+| SIMMOD_R4 | 5.52 | 6.62 | 6.82 | 6.62 | +0.20 | +0.00 |
+
+| category | comparison | n | mean d RF | W/T/L | p |
+|---|---|---|---|---|---|
+| SIMHIGH | end-to-end | 4 | +0.45 | 2/0/2 | 0.875 |
+| SIMHIGH | merge-only | 4 | +0.93 | 0/0/4 | 0.125 |
+| SIMMOD | end-to-end | 4 | -0.23 | 2/0/2 | 0.625 |
+| SIMMOD | merge-only | 4 | +0.05 | 1/2/1 | 1 |

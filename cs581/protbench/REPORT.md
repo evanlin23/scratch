@@ -59,13 +59,48 @@ dataset; biggest savings on long sequences and many-sequence backbones, smallest
 and rvp). Realigning 10 backbones with Clustal took 7-36 s vs minutes for L-INS-i. The speedup is real and
 robust; the accuracy gain is not.
 
+**Trees.** On the simulated data the Clustal-backbone swap barely moves FastTree error: paired merge-only +0.05 RF
+points (SIMMOD) and +0.9 (SIMHIGH, 4/4 worse); end-to-end differences are dominated by MAGUS's random draw.
+
 **Bottom line for the project.** The BAliBASE gain looks benchmark-specific (BAliBASE references score only
 core blocks, where Clustal's lower-SPFP backbones are not penalized), and on simulated proteins with a known
 true alignment the swap costs 3-4 points. If the project keeps this direction, frame it as a speed/accuracy
 trade-off or as "which backbone aligner suits which data", and test the union of L-INS-i and Clustal backbones
 (not run here) rather than a replacement.
 
-<!-- TREES -->
+### Trees (simulated data only)
+
+FastTree 2.1 `-lg -gamma` on each alignment; normalized RF (%) against the true 1,000-taxon tree (all trees
+binary, so FN = FP = RF). `merge-mafft` has exactly MAGUS's SP scores and length, so MAGUS's tree is the
+paired-merge baseline. Raw rows: `results/trees.jsonl`.
+
+| dataset | true aln | MAGUS | e2e Clustal-bb | merge Clustal-bb | d RF e2e | d RF merge |
+|---|---|---|---|---|---|---|
+| SIMMOD_R1 | 6.52 | 5.92 | 6.02 | 6.52 | +0.10 | +0.60 |
+| SIMMOD_R2 | 6.52 | 7.22 | 6.52 | 7.22 | -0.70 | +0.00 |
+| SIMMOD_R3 | 6.12 | 7.52 | 7.02 | 7.12 | -0.50 | -0.40 |
+| SIMMOD_R4 | 5.52 | 6.62 | 6.82 | 6.62 | +0.20 | +0.00 |
+| SIMHIGH_R1 | 6.12 | 13.54 | 12.04 | 14.74 | -1.50 | +1.20 |
+| SIMHIGH_R2 | 5.22 | 6.42 | 9.93 | 8.22 | +3.51 | +1.80 |
+| SIMHIGH_R3 | 6.42 | 11.03 | 8.93 | 11.13 | -2.10 | +0.10 |
+| SIMHIGH_R4 | 6.62 | 9.03 | 10.93 | 9.63 | +1.90 | +0.60 |
+
+| level | comparison | n | mean d RF | W/T/L | p |
+|---|---|---|---|---|---|
+| SIMMOD | end-to-end | 4 | -0.23 | 2/0/2 | 0.63 |
+| SIMMOD | merge-only (paired) | 4 | +0.05 | 1/2/1 | 1 |
+| SIMHIGH | end-to-end | 4 | +0.45 | 2/0/2 | 0.88 |
+| SIMHIGH | merge-only (paired) | 4 | +0.93 | 0/0/4 | 0.125 |
+
+**Trees follow the alignment error only weakly.** At moderate divergence the 3-point SP loss from Clustal
+backbones does not change tree error at all (within +-0.7 RF points; MAGUS's tree is already as good as the
+true-alignment tree, 5.9-7.5% vs 5.5-6.5%). At high divergence the paired merge with Clustal backbones gives a
+worse tree on 4/4 replicates, but only by +0.1 to +1.8 RF points (mean +0.9), while end to end the
+decomposition draw dominates (-2.1 to +3.5). Note that MAGUS on SIMHIGH loses 0.2-7.4 RF points relative to
+the true alignment, so alignment error does matter for trees there; it is the Clustal-vs-L-INS-i backbone
+choice that moves trees little. (The pilot's SPFP gains on BAliBASE have no tree counterpart to test; there
+is no true tree.)
+
 
 ### Per-dataset results
 
@@ -104,7 +139,8 @@ backbone aligner.
 
 - Only 2 of the 8 unfiltered RV100 sets (out of time; ~30 min per set end to end).
 - No mafft-auto backbones and no L-INS-i + Clustal union (`--tools clustalo --union ''`), to fit the budget.
-- No stand-alone MAFFT L-INS-i / Clustal Omega baselines and no PASTA runs (out of time).
+- No stand-alone MAFFT L-INS-i / Clustal Omega baselines and no PASTA runs (out of time; `code/baselines.py` is
+  ready). FastTree on the merge-mafft alignments was skipped (same SP scores as MAGUS).
 - No additional BAliBASE 3 reference sets.
 - One MAGUS draw per dataset: the end-to-end differences contain decomposition noise (see HomFam); the
   paired merge-only differences do not.

@@ -1,1 +1,0 @@
-{"dataset": "SIMMOD_R4", "method": "magus", "FN": 0.0662, "FP": 0.0662, "RF": 0.0662, "true_internal": 997, "est_internal": 997, "fasttree_wall": 447.7}

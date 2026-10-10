@@ -1,1 +1,0 @@
-{"dataset": "SIMMOD_R3", "method": "e2e-clustalo", "FN": 0.0702, "FP": 0.0702, "RF": 0.0702, "true_internal": 997, "est_internal": 997, "fasttree_wall": 462.0}

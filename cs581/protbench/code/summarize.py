@@ -11,8 +11,8 @@ from collections import defaultdict
 from scipy.stats import wilcoxon
 
 rows = [json.loads(l) for l in open(sys.argv[1])]
-base = [json.loads(l) for l in open(sys.argv[2])] if len(sys.argv) > 2 else []
-trees = [json.loads(l) for l in open(sys.argv[3])] if len(sys.argv) > 3 else []
+base = [json.loads(l) for l in open(sys.argv[2])] if len(sys.argv) > 2 and sys.argv[2] else []
+trees = [json.loads(l) for l in open(sys.argv[3])] if len(sys.argv) > 3 and sys.argv[3] else []
 cat = lambda n: n.split("_")[0]
 pt = lambda x: 100 * x
 
