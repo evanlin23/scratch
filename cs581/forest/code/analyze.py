@@ -152,6 +152,26 @@ def main():
     fig.legend(h, l, loc="lower center", ncol=6, fontsize=8, frameon=False)
     fig.tight_layout(rect=(0, 0.08, 1, 1))
     fig.savefig(os.path.join(R, "fn_vs_k.png"), dpi=130)
+    if os.path.exists(ff) and not du.empty:
+        fig, axes = plt.subplots(1, 2, figsize=(8.8, 3.8))
+        ser = [("FastME_cap2", "#2a78d6", "o", "-", "FastME, cap2 (main)"),
+               ("FGTM_FastME", "#2a78d6", "o", "--", "Forest+GTM(FastME), cap2"),
+               ("FastME_pcap", "#eb6834", "s", "-", "FastME, p clipped"),
+               ("FGTM_FastME_pcap", "#eb6834", "s", "--", "Forest+GTM(FastME), p clipped")]
+        for ax, reg in zip(axes, ["U:0.1:0.4", "UH:2.0:1.0"]):
+            g = du[du.regime == reg].groupby("k")
+            for c, col, mk, ls, lab in ser:
+                v = g[f"FN_{c}"].mean()
+                ax.plot(v.index, v.values, color=col, marker=mk, ls=ls, lw=2, ms=6, label=lab)
+            ax.set_xscale("log"); ax.set_title(REG_NAME[reg], fontsize=9); ax.set_xlabel("sequence length k")
+            ax.grid(alpha=0.25, lw=0.5)
+            for sp in ("top", "right"):
+                ax.spines[sp].set_visible(False)
+        axes[0].set_ylabel("mean FN rate")
+        h, l = axes[0].get_legend_handles_labels()
+        fig.legend(h, l, loc="lower center", ncol=2, fontsize=8, frameon=False)
+        fig.tight_layout(rect=(0, 0.14, 1, 1))
+        fig.savefig(os.path.join(R, "saturation_followup.png"), dpi=130)
     print("\n".join(out))
 
 
