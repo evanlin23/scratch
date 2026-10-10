@@ -11,7 +11,7 @@ This builds on the earlier pilot in `cs581/gtm/` (copied here from branch `claud
 | Does blending beat GTM at scale with a cheap guide? | **Yes, almost always, but by a small amount.** Pooled over 46 paired first-round cases (simulated 2,000–5,000 taxa plus the published 1000M1-HF and Cox1-HET inputs): **−0.45 FN points (95% CI −0.66, −0.27), 32 better / 7 worse / 7 tied, Wilcoxon p = 3e-6.** Per condition the gain is 0.2–1.7 points. It is largest with the worst guide (k-mer NJ, 80% FN: −1.55) and about 0 when the guide is good (IQ-TREE guide on the published data: ±0.05). |
 | Is "a meaningful margin" reached? | **No.** On the conditions where a DTM pipeline is the realistic choice, the gain is too small. On RNASim10K the blended tree is 10.42% FN, versus 10.49% for GTM and 10.42% for full FastTree. With a k-mer guide (30% FN) on RNASim10K, blending recovers 0.75 points (11.21 → 10.46), which only brings it back to plain FastTree. |
 | Does the pipeline beat full FastTree on accuracy? | **Yes in the hard simulations, no on RNASim10K.** Simulations (Yule trees, short internal branches, 1000 sites): GTM / GTM-Blend-FT beat full FastTree by 5–8 FN points with the FastTree-fastest guide, because the IQ-TREE subset trees are much better than FastTree. RNASim10K: tie (10.42 vs 10.42). With the k-mer guide at 2,000 taxa the pipeline is *worse* than FastTree (+4 points) unless it is iterated. |
-| Does the pipeline beat IQ-TREE on time? | **Not at 2,000–5,000 taxa**: IQ-TREE `-fast` (2 threads) takes 1–7 min and is **more accurate than every DTM pipeline** we ran (by 0.6–5 points). **At 10,000 taxa (RNASim10K) full IQ-TREE `-fast` ran out of memory** on this 15 GB machine (13.1 GB resident when it was killed; see §4.4 for the solo retry). The GTM pipeline finished in 10–28 min at under 2 GB, and Blend-FT at 3.7 GB. |
+| Does the pipeline beat IQ-TREE on time? | **Not at 2,000–5,000 taxa**: IQ-TREE `-fast` (2 threads) takes 1–7 min and is **more accurate than every DTM pipeline** we ran (by 0.6–5 points). **At 10,000 taxa (RNASim10K) full IQ-TREE `-fast` ran out of memory** on this 15 GB machine (killed at 13.1–13.5 GB, also when run alone with 4 threads; §4.4). The GTM pipeline finished in 10–28 min at under 2 GB, and Blend-FT at 3.7 GB. |
 | Where does the remaining merge error come from? | **Mostly the guide/decomposition, not the lack of blending.** One extra iteration (decompose the blended tree again, re-estimate subset trees, merge again) gains 2–6 points over the first round. Blending adds a further 0.4–1.4 points. |
 | Prior art | No 2023–2026 DTM that does ML-scored blending of disjoint subset trees (§2). The idea of putting *all* subset-tree splits into FastTree's partial-split constraint mechanism did not turn up in our search either. |
 | **Verdict** | **Not promising** as a 4-week project framed as "a blending DTM that clearly beats GTM / is competitive at scale". The effect is real and very consistent but small (about 0.5 points), and full-data IQ-TREE `-fast` dominates wherever it fits in memory. It is **unclear-to-promising only** if reframed as a careful negative/analytical result ("how much does blending buy, and why not more"), or around iteration plus memory-bounded scaling (§6). |
@@ -132,7 +132,7 @@ How this compares with the earlier pilot:
 | Arm | FN % | wall (min) | peak RSS |
 |---|---|---|---|
 | full FastTree | 10.42 | 46.3 | 2.1 GB |
-| full IQ-TREE `-fast`, 2 threads, `-mem 10G` | **killed: out of memory** (13.1 GB resident) | – | > 13 GB |
+| full IQ-TREE `-fast` (2 threads `-mem 10G`; then alone, 4 threads `-mem 13G`) | **killed: out of memory** both times | – | > 13.5 GB |
 | guide ftfast (FastTree -fastest -noml) | 13.49 | 20.8 | 1.7 GB |
 | 16 IQ-TREE subset trees (≤ 1000 taxa) | 10.25 (mean subset FN) | 7.2 | 0.6 GB |
 | GTM (ftfast guide), end-to-end | 10.49 | 28.1 | 1.7 GB |
@@ -152,7 +152,12 @@ So with a decent cheap guide there is nothing for blending to fix. With the bad 
 
 ### 4.4 Full IQ-TREE on RNASim10K, solo retry
 
-See the note at the end of this section: it is filled in after the run (4 threads, `-mem 13G`, 60 min cap, nothing else running).
+Rerun with nothing else on the machine: 4 threads, `-mem 13G`, 60 min cap.
+- **It was killed again by the out-of-memory killer after 13.1 min, at 13.5 GB resident** (rc 137, `results`: `full_iq.json`), while computing ML distances after model optimisation.
+- It never reached tree search, so no IQ-TREE tree exists for RNASim10K on this 15 GB machine.
+- The two earlier concurrent attempts (2 threads, `-mem 10G`) died the same way at 11.9 and 13.1 GB.
+- So, on a laptop-class machine, the DTM pipeline (≤ 3.7 GB) and FastTree (2.1 GB) are the only ML-ish options at 10K taxa × 8.7K sites.
+- This is a memory win, not an accuracy win: FastTree ties the pipeline.
 
 ### 4.5 Other mergers (single cases, `n2000_i0.01` r1, ftfast guide, GTM 30.80%)
 
