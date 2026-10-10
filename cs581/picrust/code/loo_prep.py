@@ -37,3 +37,5 @@ with open(f'{out}/bac_ref/bac_ref.fna', 'w') as fo:
 for ext in ('hmm', 'model', 'raxml_info'):
     shutil.copy(f'{R}/bac_ref/bac_ref.{ext}', f'{out}/bac_ref/bac_ref.{ext}')
 print('amplicon length mean', sum(len(amp[k]) for k in pick) / N, file=sys.stderr)
+# NOTE: hmmalign --mapali requires the HMM to come from the same MSA, so the HMM is rebuilt on the
+# pruned MSA after this script: hmmbuild --dna --informat afa -n bac_ref bac_ref.hmm bac_ref.fna
