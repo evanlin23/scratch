@@ -17,7 +17,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from characterize import aln_stats, read_fasta  # noqa: E402
 
-METHODS = ["famsa", "mafft-auto", "mafft-linsi", "pasta", "magus", "true"]
+METHODS = ["famsa", "mafft-auto", "mafft-linsi", "pasta", "magus", "magus-k25", "true"]
 AXES = {
     "clock (log-normal sigma)": ["clock0", "base", "clock0.7", "clock1.2", "clock2.0"],
     "indel length distribution": ["base", "pow1.7", "pow1.5"],
@@ -27,7 +27,7 @@ LABEL = {"clock0": "0", "base": "base", "clock0.7": "0.7", "clock1.2": "1.2", "c
          "pow1.7": "Zipf 1.7", "pow1.5": "Zipf 1.5", "balanced": "balanced", "caterpillar": "caterpillar",
          "caterpillarbdh": "caterp.\n(BD heights)"}
 COLORS = {"famsa": "#8c6bb1", "mafft-auto": "#999999", "mafft-linsi": "#e6550d", "pasta": "#3182bd",
-          "magus": "#31a354", "true": "#000000"}
+          "magus": "#31a354", "magus-k25": "#a1d99b", "true": "#000000"}
 
 
 def main():
@@ -71,7 +71,7 @@ def main():
         return g
 
     lines = ["| cell | reps | rtt CV | mean p | gap frac | " + " | ".join("{} SP err".format(m) for m in METHODS[:-1])
-             + " | MAGUS-PASTA abs (rel) | " + " | ".join("{} tree FN".format(m) for m in METHODS) + " | ranking (SP err) |",
+             + " | PASTA−MAGUS pts ±SE (rel, ratio of means) | " + " | ".join("{} tree FN".format(m) for m in METHODS) + " | ranking (SP err) |",
              "|" + "---|" * (6 + 2 * len(METHODS)) + "--|"]
     cells = [c for c in LABEL if any(r["cell"] == c for r in rows)]
     summary = {}
@@ -86,7 +86,13 @@ def main():
         summary[c] = {"sp": sp, "tree": tf, "gain_abs": [x[0] for x in g], "gain_rel": [x[1] for x in g],
                       "tree_gain_abs": [x[0] for x in gt], "rank": rank}
         fmt = lambda v, s=100: "{:.1f}±{:.1f}".format(v[0] * s, v[1] * s) if v else "–"
-        gtxt = "{:+.1f} ({:+.0f}%)".format(100 * statistics.mean(x[0] for x in g), 100 * statistics.mean(x[1] for x in g)) if g else "–"
+        if g:
+            ga = [x[0] for x in g]
+            se = statistics.stdev(ga) / len(ga) ** 0.5 if len(ga) > 1 else 0
+            gtxt = "{:+.1f}±{:.1f} ({:+.0f}%)".format(100 * statistics.mean(ga), 100 * se,
+                                                   100 * statistics.mean(ga) / sp["pasta"][0])  # ratio of means
+        else:
+            gtxt = "–"
         lines.append("| {} | {} | {:.2f} | {:.2f} | {:.2f} | {} | {} | {} | {} |".format(
             c, reps, statistics.mean(r["rtt_cv"] for r in cr), statistics.mean(r["mean_p"] for r in cr),
             statistics.mean(r["gap_frac"] for r in cr), " | ".join(fmt(sp[m]) for m in METHODS[:-1]), gtxt,
@@ -116,15 +122,15 @@ def main():
             if i == 0:
                 ax.legend(fontsize=8)
         ax = axs[i][2]
-        for k, lab, col in (("gain_rel", "SP error", "#31a354"),):
+        for k, lab, col in (("gain_abs", "SP error", "#31a354"),):
             vals = [summary[c][k] for c in cs]
-            ax.bar(x, [100 * statistics.mean(v) if v else 0 for v in vals], color=col, alpha=0.6, label="relative SP-error reduction")
+            ax.bar(x, [100 * statistics.mean(v) if v else 0 for v in vals], color=col, alpha=0.6, label="mean over replicates")
             for xx, v in zip(x, vals):
                 ax.scatter([xx] * len(v), [100 * y for y in v], color="k", s=10, zorder=3)
         ax.axhline(0, color="k", lw=0.8)
         ax.set_xticks(x, [LABEL[c] for c in cs])
         ax.set_xlabel(axis)
-        ax.set_ylabel("MAGUS gain over PASTA, % of PASTA error")
+        ax.set_ylabel("PASTA minus MAGUS SP error (points);\n>0 = MAGUS better; dots = replicates")
         ax.grid(alpha=0.3)
     fig.tight_layout()
     fig.savefig(os.path.join(out, "error_vs_factor.png"), dpi=110)

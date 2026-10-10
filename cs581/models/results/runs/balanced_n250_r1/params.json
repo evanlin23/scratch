@@ -1,0 +1,15 @@
+{
+ "out": "/tmp/claude-0/sims/balanced_n250_r1",
+ "shape": "balanced",
+ "n": 250,
+ "sigma": 0.3,
+ "height": 1.1,
+ "indel": 0.004,
+ "size": "geo:9",
+ "length": 1000,
+ "seed": 101,
+ "model": "HKY{2}+F{0.3/0.2/0.2/0.3}",
+ "rtt_cv": 0.10630670170387789,
+ "rtt_max_over_min": 1.612259074693976,
+ "alisim_cmd": "/opt/mm/root/envs/bio/bin/iqtree3 --alisim /tmp/claude-0/sims/balanced_n250_r1/alisim -t /tmp/claude-0/sims/balanced_n250_r1/model.tre -m HKY{2}+F{0.3/0.2/0.2/0.3} --length 1000 --indel 0.002,0.002 --indel-size GEO{9},GEO{9} --seed 101 -af fasta --no-unaligned -redo"
+}
