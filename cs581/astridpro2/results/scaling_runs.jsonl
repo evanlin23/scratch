@@ -22,3 +22,4 @@
 {"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 541.558, "FN": 14, "FP": 14, "nI": 197, "FNrate": 0.07107}
 {"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "disco-astral", "sec": 485.306, "FN": 16, "FP": 16, "nI": 197, "FNrate": 0.08122}
 {"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 175.773, "FN": 18, "FP": 18, "nI": 197, "FNrate": 0.09137}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 3.63, "FN": 32, "FP": 32, "nI": 497, "FNrate": 0.06439}
