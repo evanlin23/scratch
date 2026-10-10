@@ -4,7 +4,7 @@
 #   bash trees.sh [PARALLEL]     one pass;   LOOP=1 bash trees.sh  keeps scanning until $W/STOP_TREES exists
 W=/opt/work/gcmtrees; G=/home/user/scratch/cs581/gcmtrees
 one() {
-  rep=$1; n=$(basename $rep); T=$W/trees/${n}_d0
+  rep=$1; shift; n=$(basename $rep); T=$W/trees/${n}_d0
   for v in linsi wsoft0.03_c_linsi_i_fftns2_es_es4 linsi_es_es3 linsi_i_fftns2-op3; do
     [ -s $rep/variants/$v/out.fasta ] || return 0; done
   mkdir -p $T
@@ -15,11 +15,12 @@ one() {
   ln -sf $rep/variants/linsi_i_fftns2-op3/out.fasta $T/hard.fasta
   b=${n%_d[0-9]*}; lvl=${b%_R*}; r=${b#*_R}
   nice -n 10 /opt/mm/root/envs/pasta183/bin/python /home/user/scratch/cs581/protbench/code/trees.py $T \
-    /opt/data/sim/$lvl/R$r/tree.nwk $rep/trees.jsonl true magus recipe es3 hard >/dev/null
+    /opt/data/sim/$lvl/R$r/tree.nwk $rep/trees.jsonl "$@" >/dev/null
 }
 export -f one; export W
 while true; do
-  ls -d $W/reps/* 2>/dev/null | xargs -r -P ${1:-2} -I{} bash -c 'one {}'
+  ls -d $W/reps/* 2>/dev/null | xargs -r -P ${1:-2} -I{} bash -c 'one {} true magus recipe'
+  ls -d $W/reps/* 2>/dev/null | xargs -r -P ${1:-2} -I{} bash -c 'one {} es3 hard'
   bash $G/code/collect.sh
   [ -z "${LOOP:-}" ] && break
   [ -f $W/STOP_TREES ] && break
