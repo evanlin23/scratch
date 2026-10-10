@@ -36,6 +36,9 @@ from . import fasta, score
 from .e2e_bench import CODE, REPO, acc, is_protein, magus_flags, timed
 from .run_magus import BACKBONE_TOOLS
 
+# Bumped when timings of e2e-/merge- rows change meaning; older rows are redone on the next run
+# (v2: Clustal Omega single-threaded and backbones realigned in parallel, as MAGUS schedules them).
+VERSION = 2
 MERGE_FLAGS = ["--graphclustermethod", "mcl", "--graphtracemethod", "minclusters", "--graphtraceoptimize", "false",
                "-f", "4"]
 
@@ -137,6 +140,8 @@ def main():
                 shutil.rmtree(os.path.join(w, "magus"), ignore_errors=True)
                 shutil.rmtree(inputs, ignore_errors=True)
                 out = os.path.join(w, "magus.fasta")
+                if os.path.exists(out):
+                    os.remove(out)
                 wall, cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d",
                                         os.path.join(w, "magus"), "-i", unaligned, "-o", out] + magus_flags(k),
                                   os.path.join(w, "magus.log"))
@@ -151,17 +156,19 @@ def main():
 
             for tool in e2e:
                 key = "e2e-" + tool
-                if key in row:
+                if row.get(key, {}).get("v", 1) >= VERSION:
                     continue
                 d = os.path.join(w, key)
                 shutil.rmtree(d, ignore_errors=True)
                 out = os.path.join(w, key + ".fasta")
+                if os.path.exists(out):
+                    os.remove(out)  # MAGUS skips the whole run when its output file exists
                 wall, cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "--gcmx-backbonetool", tool,
                                         "-np", T, "-d", d, "-i", unaligned, "-o", out] + magus_flags(k),
                                   os.path.join(w, key + ".log"))
                 stats = backbone_stats(ref, os.path.join(d, "graph"))
                 shutil.rmtree(d, ignore_errors=True)
-                log_row(key, {"wall": wall, "cpu": cpu, **acc(true, out), **stats})
+                log_row(key, {"wall": wall, "cpu": cpu, **acc(true, out), **stats, "v": VERSION})
 
             def realigned(tool, d):
                 """X-realigned backbones, kept in inputs/bb_X (small) for merge-union-X; returns (dir, wall)."""
@@ -175,7 +182,7 @@ def main():
 
             for tool in ["mafft"] + tools + ["union-" + t for t in unions]:
                 key = "merge-" + tool
-                if key in row:
+                if row.get(key, {}).get("v", 1) >= VERSION:
                     continue
                 d = os.path.join(w, key)
                 shutil.rmtree(d, ignore_errors=True)
@@ -195,10 +202,13 @@ def main():
                         if f.endswith("_mafft.txt"):
                             shutil.copy(os.path.join(src, f), os.path.join(bb_only, prefix + f))
                 out = os.path.join(w, key + ".fasta")
+                if os.path.exists(out):
+                    os.remove(out)
                 m_wall, m_cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d",
                                             os.path.join(d, "magus"), "-s", os.path.join(inputs, "subalignments"),
                                             "-b", bb_only, "-o", out] + MERGE_FLAGS, os.path.join(w, key + ".log"))
-                data = {"merge_wall": m_wall, "merge_cpu": m_cpu, **acc(true, out), **backbone_stats(ref, bb_only)}
+                data = {"merge_wall": m_wall, "merge_cpu": m_cpu, **acc(true, out), **backbone_stats(ref, bb_only),
+                        "v": VERSION}
                 if bb_wall is not None:
                     data["backbone_wall"] = bb_wall
                 shutil.rmtree(d, ignore_errors=True)
