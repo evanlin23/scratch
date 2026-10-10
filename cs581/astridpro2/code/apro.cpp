@@ -273,6 +273,68 @@ static RTree root_and_tag(const Tree& t, vector<uint64_t>& S, bool keep) {
   return bestr;
 }
 
+// Root the first-pass species tree on the edge that minimises the total number of duplications
+// (LCA reconciliation) over at most 200 gene trees (evenly spaced). Input may be rooted or not.
+static Tree reroot_on(const vector<vector<int>>& nb, const vector<string>& lab, int a, int b) {
+  Tree t;
+  int r = t.add(-1);
+  vector<tuple<int, int, int>> stck{{a, b, r}, {b, a, r}};
+  while (!stck.empty()) {
+    auto [v, frm, p] = stck.back(); stck.pop_back();
+    int i = t.add(p);
+    if (nb[v].size() == 1) t.lab[i] = lab[v];
+    for (int q : nb[v]) if (q != frm) stck.push_back({q, v, i});
+  }
+  return t;
+}
+static Tree root_species(const Tree& st, const vector<RTree>& rts, vector<int>& sleaf_unused) {
+  int n = (int)st.par.size();
+  vector<vector<int>> nb(n);
+  for (int v = 0; v < n; v++) if (st.par[v] >= 0) { nb[v].push_back(st.par[v]); nb[st.par[v]].push_back(v); }
+  int rt = st.root;
+  if (nb[rt].size() == 2) {
+    int a = nb[rt][0], b = nb[rt][1];
+    for (int* x : {&a, &b}) { auto& L = nb[*x]; L.erase(find(L.begin(), L.end(), rt)); }
+    nb[a].push_back(b); nb[b].push_back(a); nb[rt].clear();
+  }
+  vector<size_t> use;
+  size_t G = rts.size(), m = min<size_t>(G, 200);
+  for (size_t j = 0; j < m; j++) use.push_back(j * G / m);
+  long best = LONG_MAX;
+  Tree bt;
+  for (int a = 0; a < n; a++)
+    for (int b : nb[a]) {
+      if (b < a) continue;
+      Tree t = reroot_on(nb, st.lab, a, b);
+      int tn = (int)t.par.size();
+      vector<int> dep(tn, 0), leafof(SPNAMES.size(), -1);
+      for (int v = 1; v < tn; v++) dep[v] = dep[t.par[v]] + 1;  // parents precede children
+      for (int v = 0; v < tn; v++) if (t.ch[v].empty()) leafof[spof(t.lab[v])] = v;
+      auto lca = [&](int x, int y) {
+        if (x < 0) return y;
+        while (dep[x] > dep[y]) x = t.par[x];
+        while (dep[y] > dep[x]) y = t.par[y];
+        while (x != y) { x = t.par[x]; y = t.par[y]; }
+        return x;
+      };
+      long dups = 0;
+      for (size_t g : use) {
+        const RTree& r = rts[g];
+        vector<int> M(r.par.size(), -1);
+        for (int v : r.post) {
+          if (r.ch[v].empty()) { M[v] = leafof[r.sp[v]]; continue; }
+          int mm = -1;
+          for (int c : r.ch[v]) mm = lca(mm, M[c]);
+          M[v] = mm;
+          for (int c : r.ch[v]) if (M[c] == mm) { dups++; break; }
+        }
+      }
+      if (dups < best) { best = dups; bt = t; }
+    }
+  fprintf(stderr, "first-pass root: %ld duplications over %zu genes\n", best, use.size());
+  return bt;
+}
+
 // ---------------------------------------------------------------- distances
 struct Ent { int sp; double n; double s; };  // species, #leaves, sum of path weights to them
 
@@ -326,6 +388,13 @@ int main(int argc, char** argv) {
   }
   auto t2 = chrono::steady_clock::now();
   bool pro = mode != "multi";
+  if (mode == "pros") st = root_species(st, rts, sleaf);
+  if (mode == "pros") {  // recompute depths and leaf ids for the rerooted tree
+    sdepth.assign(st.par.size(), 0);
+    vector<int> ord{st.root};
+    for (size_t j = 0; j < ord.size(); j++) for (int c : st.ch[ord[j]]) { sdepth[c] = sdepth[ord[j]] + 1; ord.push_back(c); }
+    for (size_t v = 0; v < st.par.size(); v++) if (st.ch[v].empty()) sleaf[spof(st.lab[v])] = (int)v;
+  }
   // pros: reconciliation and survival estimates
   vector<double> shat;
   vector<vector<int>> maps(genes.size());
