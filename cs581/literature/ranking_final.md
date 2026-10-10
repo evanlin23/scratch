@@ -28,6 +28,15 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**gtmscale final (20:04 UTC, `claude/cs581-gtmscale`): GTM blending is NOT PROMISING as a better DTM.**
+- Blending vs GTM over 46 cases: −0.45 FN points (CI −0.66 to −0.27), 32/7/7, p = 3e-6.
+- IQ-TREE `-fast` is more accurate up to 5K taxa at similar time. At RNASim 10K, blending only ties FastTree
+  (10.42), though IQ-TREE ran out of memory there.
+- One re-decomposition gains 2–6 points; blending gains ~0.5. Hard constraints lock in subset-tree errors
+  (an unconstrained FastTree polish beats blending with poor guides).
+- Only "unclear" if reframed (soft constraints plus iteration, or an analytical negative result).
+- Row 5 is downgraded to not promising.
+
 **gcmgen final (20:02 UTC, `claude/cs581-gcmgen` REPORT.md; 24 replicates, one MAGUS draw each; recipe fixed on 10
 training replicates).**
 - *Recipe `wsoft0.03:linsi&fftns2#es4`:*
