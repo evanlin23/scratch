@@ -1,3 +1,4 @@
 1000M2_R0 /opt/data/Datasets/ROSE/1000M2/R0/rose.aln.true.fasta 25 magus,magus+ss,pt-r4,pt-r4+ss,cl-r4,r4,r4+ss,r4+ss2,sk100-r4,sk100-r4+ss,sk100-r4+ss2,sk100-r2,sk100-r2+ss,sk100-r2+ss2
 1000L1_R0 /opt/data/Datasets/ROSE/1000L1/R0/rose.aln.true.fasta 25 magus,magus+ss,sk100-r4,sk100-r4+ss,sk100-r4+ss2
 BBA0101_R0 cs581/data/balibase_clean/RV100_BBA0101.fasta 25 magus,magus+ss,sk100-r4,sk100-r4+ss,sk100-r4+ss2
+1000S2_R0 /opt/data/Datasets/ROSE/1000S2/R0/rose.aln.true.fasta 25 magus,magus+ss,sk100-r4,sk100-r4+ss,sk100-r4+ss2
