@@ -145,8 +145,9 @@ The progdp arm plugs in through PASTA's `muscle` merger slot (`code/pasta_shim.s
 | replicate | PASTA (OPAL) error | PASTA (progdp) error | diff | runtime OPAL / progdp |
 |---|---|---|---|---|
 | 1000M2_R10 (500 taxa) | 46.61 | 46.45 | −0.16 | 806 s / 2537 s |
+| 1000M2_R11 (500 taxa) | 26.81 | 26.43 | −0.38 | 466 s / 1770 s |
 
-Only one pair finished in the budget; the second pair's progdp arm was still running when this was written. With n = 1 no test is possible. This is a tie within noise, at 3.1× the runtime. The very high absolute error comes from one iteration started from a poor FFT-NS-2 tree. Strictly, the precondition of task 3 ("one merger clearly best") was not met, because OPAL is already PASTA's default and nothing beat it significantly. The run only checks that the plug-in works and does not show an obvious gain.
+Two pairs finished in the budget; a third was stopped. With n = 2 no test is meaningful. progdp is 0.16 and 0.38 points better, at 3.1–3.8× the runtime. The direction matches §5b on 1000M2, but the size is much smaller than the −3 points seen for single merges. One likely reason is that the PASTA shim builds weaker evidence (10 backbones of 50 sequences per merge). The very high absolute error comes from one iteration started from a poor FFT-NS-2 tree. Strictly, the precondition of task 3 ("one merger clearly best") was not met, because OPAL is already PASTA's default and nothing beat it significantly. The run only checks that the plug-in works and does not show an obvious gain.
 
 ## 6. Runtime
 
@@ -156,7 +157,7 @@ Only one pair finished in the budget; the second pair's progdp arm was still run
 | progdp DP given the graph | 1–3 s (more on RNASim) |
 | GCM given the graph (MCL + trace) | 1–60 s |
 | **backbone evidence (10 × L-INS-i on 100 sequences)** | **15–60 single-core minutes per replicate** (some measurements under 2× CPU oversubscription) |
-| PASTA, 500 taxa, 1 iteration: OPAL vs progdp merger | 806 s vs 2537 s (3.1×) |
+| PASTA, 500 taxa, 1 iteration: OPAL vs progdp merger | 806 / 466 s vs 2537 / 1770 s (3.1–3.8×) |
 
 The evidence-based mergers cost roughly 1000× more than OPAL per merge, because they align new backbones. Inside PASTA this cost recurs for every spanning-tree edge and every iteration.
 
@@ -166,7 +167,7 @@ The evidence-based mergers cost roughly 1000× more than OPAL per merge, because
 
 - With correct inputs, OPAL, PASTA's default for DNA, is already essentially optimal (0.42% error, under 1% cross-pair error). There is no merger error left to remove.
 - With realistic estimated inputs, exact MWT with backbone evidence is 0.75 points better on average (W/T/L 6/4/0, p = 0.037, n = 10). Nearly all of that comes from one model condition (1000M2, about −3 points). It costs about 1000× OPAL's compute per merge.
-- The end-to-end PASTA check showed a tie (n = 1).
+- The end-to-end PASTA check gave −0.16 and −0.38 points (n = 2) at 3–4× the runtime.
 - The algorithm is the B = 2 case of a published theorem (Zaharias et al. 2023) and an obvious extension of WITCH-NG.
 
 The genuine finding is about which tools PASTA should use. MUSCLE 3 and MAFFT `--merge` are much worse than OPAL as mergers (5–13 points with oracle inputs, 2.6–6.0 points with L-INS-i inputs, p = 0.002). PASTA uses MUSCLE for protein data.
