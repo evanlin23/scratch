@@ -13,13 +13,14 @@ Needs: /opt/p3d/rv100runs/SET/inputs/{subalignments,backbones} (cached MAGUS run
   full-linsi, full-linsi3di, full-fm   one alignment of the whole set (4 threads)
 """
 import concurrent.futures, json, os, shutil, subprocess, sys, time
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path[:0] = [HERE, os.path.join(HERE, "..", "..", "code")]
 from bbscore import read_fasta
 from gcmx import score
 
 S = sys.argv[1]
 W = f"/opt/p3d/rv100runs/{S}"
-REF = f"/home/user/scratch/cs581/data/balibase_clean/RV100_{S}.fasta"
+REF = os.environ.get("P3D_REF", f"/home/user/scratch/cs581/data/balibase_clean/RV100_{S}.fasta")
 AA = f"/opt/p3d/rv100p/{S}.aa.fa"; TDI = f"/opt/p3d/rv100p/{S}.3di.fa"
 MAT = "/opt/p3d/mat/mat3di.mafft"
 MERGE = ["--graphclustermethod", "mcl", "--graphtracemethod", "minclusters", "--graphtraceoptimize", "false", "-f", "4"]

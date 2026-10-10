@@ -9,6 +9,12 @@ from bbscore import score
 
 root, out = sys.argv[1], sys.argv[2]
 base = sys.argv[3] if len(sys.argv) > 3 else "linsi"
+# oracle (experimental-structure 3Di) rows only where every sequence mapped to a PDB chain (min coverage >= 0.9)
+cov = {}
+covf = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results", "true3di_coverage.tsv")
+if os.path.exists(covf):
+    for line in open(covf).read().splitlines()[1:]:
+        f = line.split("\t"); cov[f[0]] = float(f[2])
 rows = []
 for d in sorted(glob.glob(os.path.join(root, "BB*"))):
     sid = os.path.basename(d)
@@ -16,7 +22,7 @@ for d in sorted(glob.glob(os.path.join(root, "BB*"))):
     xml = f"/opt/bb3/bb3_release/RV{sid[-5:-3]}/{sid}.xml"
     for f in sorted(glob.glob(os.path.join(d, "*.fa"))):
         m = os.path.basename(f)[:-3]
-        if m.endswith(".3di"):
+        if m.endswith(".3di") or (m.endswith("_true") and cov.get(sid, 0) < 0.9):
             continue
         try:
             sp, tc, fn, fp = score(xml, f)
