@@ -45,6 +45,8 @@ for m in models:
             blk = base[b * k:(b + 1) * k]
             if model == "own":
                 est = core.run_apro([core.plain(r) for r, _ in blk], [r for r, _ in blk], fixed=False)
+            elif model == "multi":
+                est = core.run_apro([core.plain(r) for r, _ in blk], [r for r, _ in blk], fixed=False, binary=core.ASTRAL)
             else:
                 rng = random.Random(1000 * k + b)
                 err = [core.apply_error(model, float(par), rt, tg, spi, rng) for rt, tg in blk]
