@@ -3,3 +3,10 @@
 {"pool": "cand4.nwk", "method": "own", "K": 1000, "block": 0, "topo": "AD|BC", "wrong": true, "scores": {"AD|BC": 243.33333333333334, "AC|BD": 237.5, "AB|CD": 157.16666666666666}}
 {"pool": "cand4.nwk", "method": "recon_true", "K": 1000, "block": 0, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 135.0}}
 {"pool": "cand4.nwk", "method": "recon_first", "K": 1000, "block": 0, "topo": "AD|BC", "wrong": true, "scores": {"AD|BC": 4.0}}
+{"pool": "cand4.nwk", "method": "apro_bin", "K": 1000, "block": 0, "topo": "AD|BC", "wrong": true, "scores": {}}
+{"pool": "cand4.nwk", "method": "astral_multi", "K": 1000, "block": 0, "topo": "AB|CD", "wrong": false, "scores": {}}
+{"pool": "cand4.nwk", "method": "disco_astral", "K": 1000, "block": 0, "topo": "AD|BC", "wrong": true, "scores": {}}
+{"pool": "cand4.nwk", "method": "wqfm_gdl", "K": 1000, "block": 0, "topo": "AD|BC", "wrong": true, "scores": {}}
+{"pool": "cand4.nwk", "method": "duploss2", "K": 1000, "block": 0, "topo": "AB|CD", "wrong": false, "scores": {}}
+{"pool": "cand4.nwk", "method": "true", "K": 1000, "block": 1, "topo": "AB|CD", "wrong": false, "scores": {"AB|CD": 43.0}}
+{"pool": "cand4.nwk", "method": "ovl", "K": 1000, "block": 1, "topo": "AB|CD", "wrong": false, "scores": {"AD|BC": 76.0, "AB|CD": 135.0, "AC|BD": 111.0}}
