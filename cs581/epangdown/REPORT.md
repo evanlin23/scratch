@@ -15,8 +15,9 @@ and fixed gives 0.78. So I went ahead.
 ## Bottom line
 
 1. **The fix explains BSCAMPP's open problem end to end.** On three benchmarks with 26K-77K
-   leaves, BSCAMPP with stock EPA-ng gets 2.7-3x worse delta error when the subtree size goes
-   from 2,000 to 5,000 (and 10,000). With the patched EPA-ng, delta error at 5,000 and 10,000 is
+   leaves, BSCAMPP with stock EPA-ng gets worse delta error when the subtree size goes from 2,000
+   to 5,000 (and 10,000): 2.8x on nt78 (1.72 → 4.77; 5.09 at 10,000), 2.7x on RNASim 50K
+   (0.53 → 1.43), and +11% on the noisy 16S.B.ALL (25.3 → 28.0). With the patched EPA-ng, delta error at 5,000 and 10,000 is
    the same as at 2,000. **All of the accuracy effect comes from bug 2.** The bug-2-only build
    matches the full fix on 98% of queries. The bug-1-only build matches stock on 98.6%.
 2. **The fix does not make BSCAMPP more accurate than the published default.** With the fix,
@@ -32,8 +33,8 @@ and fixed gives 0.78. So I went ahead.
    2-2.7% of the ASVs change placement (two random reference subsets; a stock re-run changes
    0). On one subset, five ASVs are grossly misplaced by stock (NSTI 32 vs 1.3) and dropped by
    the NSTI filter, and one sample's predicted metagenome moves by 16%. On the other subset the
-   worst sample moves by 3%. The median sample barely changes (≤0.2%). The real 26,868-tip reference needs at least 16 GB
-   for EPA-ng and did not fit here.
+   worst sample moves by 3%. The median sample barely changes (≤0.2%). The real 26,868-tip
+   reference needs at least 16 GB for EPA-ng and did not fit here.
 
 **Verdict for a 4-week CS581 project built on this bug fix: unclear, leaning not promising as a
 "downstream accuracy" project.** The diagnosis is a solid, novel result (explanation + fix +
@@ -41,8 +42,11 @@ attribution). But the payoff in BSCAMPP is "the larger-subtree setting stops bei
 "BSCAMPP gets more accurate". The default was already safe, and memory caps EPA-ng subtrees at
 about 10K leaves on a laptop. The speed result is clean but modest. The most promising angle is
 the tools that run EPA-ng *directly* on references with more than 2,000 tips and fragmentary
-queries (PICRUSt2 with 120-250 bp amplicons, TIPP3, App-SpaM/PEWO-style pipelines). Those are
-hit by the full accuracy bug, with no b=2,000 escape hatch (see weeks 1-4 below).
+queries (PICRUSt2, TIPP3, PEWO-style pipelines), which have no b=2,000 escape hatch. But the
+PICRUSt2 pilot shows a smaller effect than BSCAMPP: 2-3% of the placements change. All the V4
+amplicons crop the alignment to the same window, which seems to limit the damage. Queries with
+varying fragment positions (metagenomic reads, TIPP3) are the case to test (see weeks 1-4
+below).
 
 ## 1. Methods
 
