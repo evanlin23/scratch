@@ -8,7 +8,14 @@ import numpy as np
 from scipy.stats import wilcoxon
 
 out = sys.argv[1]
-rows = [json.loads(l) for l in open(sys.argv[2])]
+rows, _seen = [], set()
+for fn in sys.argv[2].split(","):
+    for l in open(fn):
+        r = json.loads(l)
+        k = (r["cond"], r["rep"], r["sqln"], r["ngen"])
+        if k not in _seen:
+            _seen.add(k)
+            rows.append(r)
 L = []
 SHOW = ["astrid-multi", "astrid-multi-w", "astrid-pro", "astrid-pro-min", "astrid-pro-w", "ortho-allnodes",
         "astrid-disco", "astral-pro"]
