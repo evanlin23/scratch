@@ -156,7 +156,7 @@ Species-tree error (fraction of disjoint datasets wrong; `results/curve4_cand2.j
 
 - **Embedding.** In an 8-taxon tree containing cand2, stock ASTRAL-Pro3 is wrong in 4/4 datasets of 5,000 families; true tags are right in 4/4.
 - **Threshold.** For `d2sv(q)` the predicted q* is 0.079; the observed sign change lies between q = 0.10 and 0.15 (table in theory.md).
-- **Prevalence.** 12/15,434 random configurations are inconsistent with overlap tags (11 of them with a supercritical y-branch). A finite q* exists in 353 configurations, and in only 12 of these is q* < 1.
+- **Prevalence.** 12/15,434 random configurations are inconsistent with overlap tags (11 have a supercritical y-branch; the 12th is critical, λ = μ = 8 over length 2). A finite q* exists in 353 configurations, and in only 12 of these is q* < 1.
 
 ### 4.3 Naive random flips (outside Def. 1)
 
@@ -215,7 +215,7 @@ All of these are checked numerically; none are written up as formal proofs yet.
 | week | work |
 |---|---|
 | 1 | Write the 4-taxon proposition rigorously: class decomposition, the integral formula, conditioning on the species filter, and the version with a root branch. Read Parsons et al. 2026 in full; get the PDF from a library or the authors. |
-| 2 | **Positive result.** Try to prove ASTRAL-Pro with overlap tags is consistent under GDL when every branch is subcritical (λ_e ≤ μ_e). The prevalence scan supports this: only 1 of 12 failures is not supercritical. Use the formula to map the inconsistency region in (λ_y·T, loss asymmetry). Extend the formula to random rooting (`rovl(p)`). |
+| 2 | **Positive result.** Try to prove ASTRAL-Pro with overlap tags is consistent under GDL when duplication is bounded, for example λ_e < μ_e with bounded turnover λ_e·t_e. "No supercritical branch" alone is *not* enough: the one non-supercritical failure in the scan is critical with huge turnover (λ = μ = 8 on a branch of length 2; formula only, not simulated). Use the formula to map the inconsistency region in (λ_y·T, loss asymmetry). Extend the formula to random rooting (`rovl(p)`). |
 | 3 | **n-taxon and empirical side.** Show inconsistency for n > 4 (the 8-taxon embedding already works empirically). Rerun the atlas on the adversarial region, including estimated gene trees from sequences, to see whether the effect survives gene-tree error. Run under DLCOAL with SimPhy, where tag errors go both ways. |
 | 4 | Write-up. Optional: a "tag-robust" ASTRAL-Pro variant that downweights S-tagged nodes whose children have very unbalanced copy numbers, or uses closest-copy information as STAG does. Test whether it fixes cand2 without hurting generic accuracy. |
 
