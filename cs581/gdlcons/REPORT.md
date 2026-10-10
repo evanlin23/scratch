@@ -14,12 +14,25 @@
 
 In (c), the stock software puts the root inside the high-turnover C lineage in 43% of families and at the true position in only 15%.
 
+**Follow-up: constant rates (one λ, one μ on every branch, as in Arvestad / Legried et al. / Zhang et al.): YES, it still fails, but only at extreme turnover** (Section 4.5).
+- The exact formula over 237,088 constant-rate 4-taxon caterpillars finds **7** where correct-root overlap tagging is inconsistent.
+- All 7 are critical with λ = μ = 8, have long cherry branches (λt = 16–32) and an almost zero x branch.
+- The worst one, **cand5** (((A:4,B:4)x:0.01,C:0.5)y:2,D:0.05), confirmed by simulation at 10,000 families:
+
+| tags | wrong at 2,000 families | wrong at 10,000 families |
+|---|---|---|
+| overlap tags (true root) | 20/20 | **4/4** |
+| **stock ASTRAL-Pro3** | 20/20 | **4/4** |
+| true tags | 0/20 | 0/4 |
+
+- 53 random constant-rate configurations at moderate rates: stock ASTRAL-Pro3 was never wrong in the limit (0/53), although its own rooting lowered the margin in 50 of them.
+
 **Exact theory.** For (a) and for random hidden-paralog mislabelling `d2sv(q)` I derived the limiting ASTRAL-Pro scores in closed form, as an integral over duplication times with exact birth–death generating functions (`results/theory.md` Section 3).
 - Consistency holds iff O + H_AB > max(H_AC, H_BC), where O counts orthologous classes and the H terms count hidden-paralog classes.
 - Under random mislabelling there is a sharp threshold q* = O / (H_wrong − H_AB).
 - The formula matches ASTRAL-Pro3's own scores within about 1.5 SE:
   - correct − AC|BD = −0.060 ± 0.003 observed vs −0.0555 predicted (cand2, overlap tags);
-  - predicted q* = 0.079, observed sign change between 0.10 and 0.15; the margins at all six q values tested lie within 1.5 SE of the prediction.
+  - predicted q* = 0.079; a weighted line through all seven observed points (q = 0 to 0.5) gives **q* = 0.080 ± 0.005**, and the prediction has χ² = 3.8 on 7 df. The earlier "sign change between 0.10 and 0.15" read single points; the observation at q = 0.10 (+0.0002 ± 0.0011 vs −0.0013 predicted) is a 1.4 SE fluctuation, so there is no discrepancy.
 
 **How common, and caveats.**
 - Under the formula, only **12 of 15,434** random rate configurations are inconsistent with correct-root overlap tags. All have very high duplication or turnover on one branch, and one of them is *critical* (λ = μ), so "no supercritical branch" is not sufficient.
@@ -67,6 +80,14 @@ Full table with 26 rows and verified DOIs: `results/prior_art.md`. [A] means rea
 | FastMulRFS | **proved if no "adversarial GDL"** (Thm 6) | — | none | Molloy & Warnow, Bioinformatics 2020, doi:10.1093/bioinformatics/btaa444 |
 | STAG, SpeciesRax, DupLoss-2 | empirical only | empirical only | — | doi:10.1101/267914; doi:10.1093/molbev/msab365; doi:10.1093/sysbio/syaf073 |
 | DupTree / gene-tree parsimony | **open** (listed as open by Molloy & Warnow 2020 and Willson et al. 2021) | GTP is *inconsistent* under the MSC alone | rooted | Wehe et al. 2008, doi:10.1093/bioinformatics/btn230; Sapoval & Nakhleh, RECOMB-CG 2026, doi:10.1007/978-3-032-26891-4_9 |
+
+**Newer methods and whether this result bears on them.** I read abstracts and search summaries only; bioRxiv returned HTTP 429 for both full texts and the DupLoss-2 manual returned 503.
+
+- **wQFM-GDL** (Rafi, Rumi, Hakim, Bayzid; bioRxiv 10.1101/2025.04.04.647228, listed as RECOMB-CG 2026, doi:10.1007/978-3-032-26891-4_8). It "adapts ASTRAL-Pro's speciation-driven quartet measure" to the QFM framework [A: abstract]. An SQ is defined on a *rooted, tagged* gene tree, so wQFM-GDL must use rooting and tagging. I infer [M, not verified] that it uses ASTRAL-Pro's own rooting/tagging, as wQFM-DISCO did. If so:
+  - the hidden-paralogy and min-duplication-rooting failures (cand2, cand4, cand5) apply to its *input quartet weights*;
+  - QFM's amalgamation cannot undo a wrong majority quartet on a 4-taxon tree;
+  - so I expect the same inconsistency, though I have not run it.
+- **DupLoss-2** (Parsons & Bansal, Syst Biol 2025, doi:10.1093/sysbio/syaf073). It is gene-tree parsimony: it finds the species tree minimizing duplication + loss reconciliation cost [A: abstract]. Events come from LCA reconciliation against each *candidate* species tree, not from species-overlap tagging. I expect [M] that unrooted gene trees are rooted to minimize reconciliation cost. So **my result does not transfer directly**: there is no fixed tagging step. Its consistency under GDL remains open (Section 2 table), and under the MSC alone GTP is known to be inconsistent (Sapoval & Nakhleh 2026).
 
 **Not found.**
 - Any paper on ASTRAL-Pro or DISCO under *rooting/tagging error*.
@@ -165,7 +186,7 @@ Species-tree error (fraction of disjoint datasets wrong; `results/curve4_cand2.j
 | **own** | 38/40 | **40/40** | **20/20** | **4/4** |
 
 - **Embedding.** In an 8-taxon tree containing cand2, stock ASTRAL-Pro3 is wrong in 4/4 datasets of 5,000 families; true tags are right in 4/4.
-- **Threshold.** For `d2sv(q)` the predicted q* is 0.079; the observed sign change lies between q = 0.10 and 0.15 (table in theory.md).
+- **Threshold.** For `d2sv(q)` the predicted q* is 0.079. A weighted fit to all observed points gives 0.080 ± 0.005 (prediction χ² = 3.8 on 7 df). Taking the first observed negative point, as I did at first, suggests 0.10–0.15, but the q = 0.10 point is only a 1.4 SE fluctuation, since all q values reuse the same 40,000-family pool. No simulated families were discarded for overflow (0 in this configuration).
 - **Prevalence.** 12/15,434 random configurations are inconsistent with overlap tags (11 have a supercritical y-branch; the 12th is critical, λ = μ = 8 over length 2). A finite q* exists in 353 configurations, and in only 12 of these is q* < 1.
 
 ### 4.2b Rooting error: random re-rooting (cand3) and ASTRAL-Pro's own rooting (cand4)
@@ -210,6 +231,54 @@ Details: `results/theory.md` Section 4b.
 | flip(0.1) | — | wrong 4/4 |
 
 Why: an S label on a node whose children share species makes ASTRAL-Pro count copy tuples with multiplicity. The total support grows 35× at q = 0.1, and a small bias in that mass wins.
+
+### 4.5 Constant rates (follow-up)
+
+**Exact scan.** `code/constscan.py`; flagged configurations are in `results/constscan_flagged.jsonl`.
+- Grid: one (λ, μ) on all branches, with λ ∈ {0.1, …, 8} and μ/λ ∈ {0, 0.25, …, 4}, so supercritical, critical and subcritical rates are all included.
+- Branch lengths: tips 0.05–4, x and y 0.01–2. Non-ultrametric trees are allowed.
+- The formula is exact at constant rates as well:
+  - duplications on x and on the tip branches are handled by the generating functions;
+  - D's duplications do not change any class count, only the common factor P(D present).
+  - I checked this by simulation: predicted vs observed overlap-tag margins differ by a median 0.0009 and at most 0.012 over 53 configurations (`results/constroot.jsonl`).
+- Result: **7 of 237,088** informative caterpillars are inconsistent with correct-root overlap tags. **All 7** have λ = μ = 8, tA, tB ∈ {2, 4}, tx = 0.01 and ty ∈ {1, 2}.
+- No configuration with λ ≤ 4 fails, and no λ ≠ μ configuration fails anywhere on the grid.
+- A finite q* (some rate of random hidden-paralog mislabelling breaks it) exists in 3,380 configurations, but q* < 1 in only these 7.
+
+**Simulation of cand5.** λ = μ = 8 everywhere; tree (((A:4,B:4)x:0.01,C:0.5)y:2,D:0.05); 40,000-family pool; about 150 leaves per family.
+- The prediction is correct − AC|BD = −0.0266 per accepted family, i.e. −3.3% of total support.
+- Fraction of datasets wrong (`results/curve4_cand5.jsonl`):
+
+| method | 2,000 families | 10,000 families |
+|---|---|---|
+| true tags | 0/20 | 0/4 |
+| overlap tags (true root) | 20/20 | 4/4 |
+| **stock ASTRAL-Pro3** | 20/20 | 4/4 |
+| ASTRAL-multi (astral4) | 11/20 | 2/4 (near tie) |
+
+- Block estimates. Per accepted family, 40,000 families (`results/block_se_cand5.log`):
+
+| tags | correct − AC\|BD | correct − AD\|BC |
+|---|---|---|
+| overlap tags | −0.020 ± 0.003 | −0.021 ± 0.003 |
+| stock ASTRAL-Pro3 | **−0.063 ± 0.004** | **−0.066 ± 0.004** |
+| true tags | +0.019 ± 0.001 | — |
+| ASTRAL-multi | +0.009 ± 0.003 | +0.013 ± 0.003 (consistent here) |
+
+As a fraction of total support, the overlap-tag margin is −3.7 ± 0.6%, against −3.3% predicted.
+
+*Caveat and recheck.* The simulator caps each family at 6,000 duplications. For cand5 this discarded about 13% of would-be families (the largest), which biases absolute per-family values; this is why O and H do not match the prediction in absolute terms. I re-ran without a cap (12,000 families, `results/block_se_cand5_nocap.log`):
+- overlap tags: correct − AC|BD = −0.0135 ± 0.005, i.e. −2.4 ± 1% of support (predicted −3.3%);
+- stock ASTRAL-Pro3: −0.060 ± 0.007;
+- species tree wrong in 6/6 datasets of 2,000 families for both, and 0/6 with true tags.
+
+So the conclusion does not depend on the cap. The cap was not binding in cand2 (0 overflows).
+
+**Stock ASTRAL-Pro3 at moderate constant rates.** `code/constroot.py`: 53 random configurations with λ ∈ {0.5, …, 8}, μ/λ ∈ {0.5, …, 2}, feasible copy numbers, 3,000 families each.
+- The own-rooting margin was never negative (0/53).
+- It was smaller than the correct-root margin in 50/53; median 0.967, minimum 0.25.
+
+**Answer to the follow-up question:** yes, ASTRAL-Pro can be inconsistent under constant-rate GDL from true gene trees. It needs extreme, critical turnover (λ = μ with λt of 16–32 on several branches) and a near-zero internal branch. In the rest of the constant-rate space scanned it is consistent; there, correct rooting and tagging are not needed in the limit, only for efficiency.
 
 ### 4.4 How good is ASTRAL-Pro3's own tagging on true trees?
 
@@ -302,7 +371,7 @@ All of these are checked numerically; none are written up as formal proofs yet.
 
 ## 8. Risks
 
-- **Pathological regime.** The tagging counterexample (cand2) needs λ ≈ 8 on one branch and heavy loss; only 0.08% of random configurations fail with correct-root overlap tags. The rooting counterexample (cand4) uses moderate growth but a high-turnover tip branch (λ = μ = 8 over 0.2). The honest framing: correct rooting and tagging are *necessary* for the theorem, and overlap tagging is safe in all but extreme regimes. Proving the "safe" part is the harder half. In a random scan, min-duplication rooting never flipped a margin (0/56); the failure needs a high-turnover lineage.
+- **Pathological regime.** Constant rates do not remove the failure: cand5 has one λ = μ = 8 everywhere. But every constant-rate failure needs critical turnover λt ≥ 16 and a near-zero internal branch (7 of 237,088 grid points). The tagging counterexample (cand2) needs λ ≈ 8 on one branch and heavy loss; only 0.08% of random configurations fail with correct-root overlap tags. The rooting counterexample (cand4) uses moderate growth but a high-turnover tip branch (λ = μ = 8 over 0.2). The honest framing: correct rooting and tagging are *necessary* for the theorem, and overlap tagging is safe in all but extreme regimes. Proving the "safe" part is the harder half. In a random scan, min-duplication rooting never flipped a margin (0/56); the failure needs a high-turnover lineage.
 - **Overlap with Parsons et al. 2026.** That preprint studies tagging correctness and ASTRAL-Pro consistency under DLCOAL. If it already contains a hidden-paralogy counterexample under GDL, the novelty shrinks to the exact formula and threshold law. Check first.
 - **ASTRAL-multi near-ties.** On both pools ASTRAL-multi's limiting margin is within ±0.003 of zero (not significant). A reviewer may ask whether Legried et al.'s theorem covers branch-specific rates [M: I believe their model uses uniform rates]. That needs checking, since a failure there would be a separate, larger claim.
 - **Approximations.** The formula covers duplications on one branch only. The general case needs nested patterns (root branch, duplications on several internal branches).
