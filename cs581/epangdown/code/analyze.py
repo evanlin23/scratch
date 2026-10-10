@@ -29,7 +29,12 @@ def cmp(a, b):
 print(f'queries placed by all runs: {len(p)} of {n_all}\n')
 print('| run | mean delta | median | % delta=0 | vs ' + ref + ': diff | W/T/L | Wilcoxon p | wall (m:s) | max RSS (GB) |')
 print('|---|---|---|---|---|---|---|---|---|')
-order = sorted(p.columns, key=lambda c: (int(c.split('_b')[1].split('_')[0]), c))
+def size(c):
+    try:
+        return int(c.split('_b')[1].split('_')[0])
+    except (IndexError, ValueError):
+        return 10**9  # whole-tree runs last
+order = sorted(p.columns, key=lambda c: (size(c), c))
 for c in order:
     s = cmp(c, ref) if c != ref else ('', '', '')
     w, m = times.get(c, ('', float('nan')))
