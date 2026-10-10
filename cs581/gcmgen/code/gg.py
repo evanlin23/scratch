@@ -13,6 +13,8 @@ cs581/protcons/code/pc.py (edge-support merge). New here:
   softW:A&B   soft intersection: pairs confirmed by B keep weight 1, unconfirmed pairs get weight W.
               MAGUS's edge weight is a residue-pair count summed over backbones, so this is A once plus
               (1/W - 1) copies of A&B; all weights are scaled by 1/W, which MCL ignores (checked with dupK).
+  wsoftW:A&B  the same through per-file integer weights (run_wmerge.py): A at weight 1 plus A&B at weight
+              1/W - 1; also wsoftW:A|cons0.7 (masked pairs of A down-weighted instead of deleted)
   dupK:A      K copies of A (scale control for soft weighting)
   A#esK       GCM graph keeps only cross-subset edges supported by >= K backbones (pc.merge_edgesup)
 """
@@ -128,7 +130,7 @@ def files_of(rep, name):
     if name.startswith("wsoft"):  # same as softW, via integer per-file weights (run_wmerge.py)
         w, expr = name[5:].split(":", 1)
         m = round(1 / float(w)) - 1
-        A, wa, sa = bbe.parse_variant(rep, expr.split("&", 1)[0])
+        A, wa, sa = bbe.parse_variant(rep, expr.replace("|", "&").split("&", 1)[0])
         I, wi, si = bbe.parse_variant(rep, expr)
         return [("u_" + lab, x) for lab, x in A] + [("c_" + lab, x) for lab, x in I], wi, si, \
             {"c_" + lab + ".txt": m for lab, _ in I}
