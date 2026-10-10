@@ -145,6 +145,13 @@ def main():
     d, guide, maxsub = sys.argv[1], sys.argv[2], int(sys.argv[3])
     arms = (sys.argv[4] if len(sys.argv) > 4 else "full_ft,full_iq,gtm,blendft,polishft,cft").split(",")
     aln = f"{d}/aln.fa"
+    import fcntl
+    lockf = open(f"{d}/.lock", "w")
+    try:
+        fcntl.flock(lockf, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except OSError:
+        print("locked by another run:", d)
+        return
     st = Steps(d)
     S = st.s
     T = read_tree(f"{d}/true.tre")
@@ -173,7 +180,7 @@ def main():
         score("full_ft", f"{d}/full_ft.tre")
     if "full_iq" in arms and not os.path.exists(f"{d}/full_iq.treefile"):
         run("full_iq", [IQ, "-s", aln, "-m", "GTR+G", "-T", str(THREADS), "-fast", "-seed", "1", "--prefix",
-                        f"{d}/full_iq", "-redo", "-quiet"], f"{d}/full_iq.treefile", timeout=IQ_CAP)
+                        f"{d}/full_iq", "-redo", "-quiet", "-mem", os.environ.get("IQ_MEM", "10G")], f"{d}/full_iq.treefile", timeout=IQ_CAP)
     if "full_iq" in arms:
         score("full_iq", f"{d}/full_iq.treefile")
 
@@ -272,9 +279,43 @@ def main():
         run(pre + "cft", [FT, *FTOPT, "-constraints", con, aln], f"{w}/cft.tre", stdout_to_out=True)
         score(pre + "cft", f"{w}/cft.tre")
     if "blendml" in arms:
-        run(pre + "blendml", [sys.executable, f"{HERE}/run_blendml.py", aln, gtm, f"{w}/blendml.tre", *subfiles],
+        run(pre + "blendml", [sys.executable, f"{HERE}/run_blendml.py", aln, gtm_bin, f"{w}/blendml.tre", *subfiles],
             f"{w}/blendml.tre", timeout=int(os.environ.get("BLENDML_CAP", "3600")))
         score(pre + "blendml", f"{w}/blendml.tre")
+    if "tm" in arms and pre + "treemerge" not in S:
+        # TreeMerge (original code + PAUP*), topological distances on the guide tree as in Park et al. 2021
+        import shutil
+        TM_PY = os.environ.get("TM_PY", "/opt/mm/root/envs/tm27/bin/python")
+        TM_DIR = os.environ.get("TM_DIR", "/opt/tools/treemerge/python")
+        leafid = {GU.label[v]: v for v in GU.label}
+        gnames = sorted(leafid)
+        mat = f"{w}/guide_node.mat"
+        with open(mat, "w") as f:
+            f.write(f"{len(gnames)}\n")
+            for a in gnames:
+                dist = {leafid[a]: 0}
+                stk = [leafid[a]]
+                while stk:
+                    v = stk.pop()
+                    for u in GU.adj[v]:
+                        if u not in dist:
+                            dist[u] = dist[v] + 1
+                            stk.append(u)
+                f.write(a + " " + " ".join(str(dist[leafid[b]]) for b in gnames) + "\n")
+        open(mat + "_taxlist", "w").write("\n".join(gnames) + "\n")
+        work = f"{w}/tm_work"
+        shutil.rmtree(work, ignore_errors=True)
+        os.makedirs(work)
+        env_ld = os.path.dirname(TM_PY) + "/../lib"
+        os.environ["LD_LIBRARY_PATH"] = env_ld
+        wall, mem, rc = timed([TM_PY, f"{TM_DIR}/treemerge.py", "-s", g, "-m", mat, "-x", mat + "_taxlist",
+                               "-o", f"{w}/treemerge.tre", "-p", "/opt/tools/paup/paup", "-w", work, "-t", *subfiles])
+        del os.environ["LD_LIBRARY_PATH"]
+        shutil.rmtree(work, ignore_errors=True)
+        os.remove(mat)
+        S[pre + "treemerge"] = dict(wall=wall, mem=mem, rc=rc)
+        st.save()
+        score(pre + "treemerge", f"{w}/treemerge.tre")
     # constraint satisfaction of the blended outputs
     for a in ("blendft", "cft", "blendml", "polishft"):
         k = pre + a
