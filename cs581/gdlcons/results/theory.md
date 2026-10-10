@@ -128,10 +128,10 @@ Per-copy survival is 3.8% in A, 0.9% in B and 7.3% in C.
 
 | tags | 100 families | 500 | 2,000 | 10,000 |
 |---|---|---|---|---|
-| true | 0/40 | 0/40 | 0/20 | 0/4 |
+| true (sparse signal: about 0.005 orthologous classes per family) | 24/40 | 4/40 | 0/20 | 0/4 |
 | ovl | 35/40 | 39/40 | 20/20 | 4/4 |
 | **own (unmodified ASTRAL-Pro3, true unrooted gene trees)** | 38/40 | 40/40 | 20/20 | 4/4 |
-| ASTRAL-multi (ASTER `astral4` with a gene→species map) | 26/40 | 24/40 | 4/6 | — |
+| ASTRAL-multi (ASTER `astral4` with a gene→species map) | 26/40 | 24/40 | 13/20 | 2/4 |
 
 So the unmodified ASTRAL-Pro3 software, given **true** gene trees under pure GDL, converges to the wrong species tree here. The cause is its own species-overlap tagging (hidden paralogs) and not gene-tree error. ASTRAL-multi sits near a three-way tie: block estimate correct − AC|BD = −0.003 ± 0.002. That is not significant, so I make no claim about ASTRAL-multi.
 

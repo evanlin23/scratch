@@ -9,7 +9,7 @@
 1. **The unmodified ASTRAL-Pro3 binary is statistically inconsistent under pure GDL, even with true gene trees.**
    - Configuration: one very supercritical short branch above a three-taxon clade, followed by heavy, unequal loss.
    - ASTRAL-Pro3 returns the wrong tree in 4/4 datasets of 10,000 families, 20/20 of 2,000 and 4/4 in an 8-taxon embedding.
-   - Given the *true* tags it is always right (wrong in 0/104 datasets, plus 0/4 in the embedding).
+   - Given the *true* tags it converges to the right tree (wrong in 0/24 datasets of ≥ 2,000 families, plus 0/4 in the embedding). Below 500 families the orthologous signal is too sparse.
    - Cause: hidden paralogs. These are duplications whose two sides become species-disjoint after complementary losses. Any species-overlap rule, including ASTRAL-Pro's own, must label them speciations, and here they systematically favour a wrong quartet.
    - This does not contradict Zhang et al.'s theorem, which assumes correct tags. It shows the assumption is not just technical.
 2. **Under random errors that respect ASTRAL-Pro's tagging rule** (mislabel each hidden paralog with probability q), there is a sharp threshold q* = O / (H_wrong − H_correct).
@@ -150,7 +150,7 @@ Species-tree error (fraction of disjoint datasets wrong; `results/curve4_cand2.j
 
 | tags | 100 families | 500 | 2,000 | 10,000 |
 |---|---|---|---|---|
-| true | 0/40 | 0/40 | 0/20 | 0/4 |
+| true (sparse signal: about 0.005 orthologous classes per family) | 24/40 | 4/40 | 0/20 | 0/4 |
 | ovl | 35/40 | 39/40 | 20/20 | 4/4 |
 | **own** | 38/40 | **40/40** | **20/20** | **4/4** |
 
