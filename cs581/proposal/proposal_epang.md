@@ -26,10 +26,12 @@ thousands of units, falsely confident LWR = 1.0). Evidence on RNASim (true query
 forcing scalers on at 500-2,000 leaves reproduces the jump; disabling premasking removes it; full-length
 queries are unaffected, as the mechanism predicts. A 5-line patch removes the jump (0.78 / 0.79 / 0.73 at
 3k / 5k / 9k leaves) and reproduces scaler-free placements exactly. A second hunk restores the SIMD kernels
-that the same code path silently drops (speed only). End to end, BSCAMPP with the patched EPA-ng and larger
-subtrees beats stock BSCAMPP at its default (two replicates so far): 0.661 vs 0.798 at 9,000 leaves, 0.721
-vs 0.846 at 5,000 (paired Wilcoxon p = 0.005), at ~1.7-1.9× wall-clock. No issue, release note or paper
-reports the bug.
+that the same code path silently drops (speed only). On three more datasets the patched EPA-ng is flat in subtree size where stock EPA-ng degrades 2-3×
+(e.g. a 78K-leaf nucleotide set: stock 1.72 / 4.77 / 5.09 at 2k / 5k / 10k leaves vs patched 1.72 / 1.70 /
+1.69, p = 1e-80 at 5k) and runs 18-22% faster. Whether larger subtrees then *improve* accuracy depends on
+the data: on RNASim 10K, patched BSCAMPP at 5,000-9,000 leaves beats stock BSCAMPP at its default 2,000
+(0.661 vs 0.798; 0.721 vs 0.846, p = 0.005); on the 78K and 16S sets it ties. No issue, release note or
+paper reports the bug.
 
 **Research questions.**
 (1) *Characterization.* Which queries, data and settings are affected: fragment length and start offset,

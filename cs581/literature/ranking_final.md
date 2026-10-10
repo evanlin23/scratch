@@ -28,6 +28,24 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**EPA-ng follow-up (09:15 UTC, `claude/cs581-epang`, `claude/cs581-epangdown`).** Replicated on RNASim R1:
+stock BSCAMPP 0.846 at 2,000 vs 1.682 at 5,000 (the paper's 2× jump), fixed 0.721 at 5,000 (p = 0.005).
+On two more datasets (1,000 fragment queries each, BSCAMPP subtree sizes 2k/5k/10k): nt78, stock 1.72 /
+4.77 / 5.09 vs fixed 1.72 / 1.70 / 1.69 (fix vs stock at 5k: p = 1e-80); 16S, stock 25.3 / 28.0 vs fixed
+25.4 / 26.9 (5k: p = 0.009). Bug 2 alone carries the whole accuracy effect; bug 1 alone is speed only
+(fixed EPA-ng 18-22% faster on 5k-10k subtrees). So the robust results are: the anomaly is explained, the
+fixed placer is flat in subtree size, and it is faster; "larger subtrees are more accurate" holds on
+RNASim 10K (−15 to −17%) but not on nt78 or 16S (≈ 0). The fix matters most where EPA-ng runs on whole
+large trees with fragmentary queries (PICRUSt2's amplicons on a ~26.9K-tip tree; BSCAMPP paper Exp. 5).
+
+**Distance-mixture deconvolution theory (`claude/cs581-decodiphy`, final).** Exhaustive LP checks (all
+tree shapes to n = 12 for k ≤ 2, n = 9 for k = 3) plus ~54k random instances, zero exceptions: k = 1 and
+non-adjacent k = 2 identifiable; adjacent k = 2 always a continuum; k = 3 non-identifiable exactly when a
+"closed claw" exists. Refutes the paper's "needs extreme symmetry" conjecture (28% of generic k = 3 claw
+cases; explicit n = 5 counterexample). Theorem: d determines the node measure modulo weighted-Laplacian
+moves. k-selection: learned rule 0.43 vs 0.33 exact-k (p = 5e-18) but placement barely changes. Verdict:
+promising as a theory project; source is a Mirarab-lab RECOMB 2026 paper; course link via tree metrics.
+
 **Clustal Omega backbones: real on BAliBASE, not general.** Measured end to end with the threading fix,
 MAGUS with Clustal backbones is 3-4× faster on BAliBASE (e.g. BBA0067 254 s vs 985 s; BBA0154 268 vs 940 s)
 and more accurate on BBA0039 (−0.14 to −0.36, 3 draws), BBA0067 (−0.8 to −1.2), BBA0154 (−1.9); cached
