@@ -4,9 +4,9 @@
 
 | group | method | n | mean Δ err | W/T/L | p | Δ SPFN | Δ SPFP | Δ TC |
 |---|---|---|---|---|---|---|---|---|
-| **all held-out protein** | primary: L-INS-i \| cons0.7 | 27 | -0.60 | 14/5/8 | 0.158 | +0.92 | -2.12 | -0.19 |
-| **all held-out protein** | L-INS-i ∩ FFT-NS-2 --op 3 | 27 | -1.23 | 22/1/4 | 0.000479 | -0.75 | -1.72 | +1.06 |
-| **all held-out protein** | (L-INS-i + Clustal) \| cons0.7 | 27 | +0.94 | 11/3/13 | 0.454 | +5.18 | -3.30 | +2.07 |
+| **all held-out protein** | primary: L-INS-i \| cons0.7 | 28 | -0.59 | 15/5/8 | 0.131 | +0.90 | -2.07 | -0.18 |
+| **all held-out protein** | L-INS-i ∩ FFT-NS-2 --op 3 | 28 | -1.28 | 23/1/4 | 0.000286 | -0.69 | -1.87 | +1.03 |
+| **all held-out protein** | (L-INS-i + Clustal) \| cons0.7 | 28 | +0.86 | 12/3/13 | 0.548 | +5.02 | -3.29 | +2.00 |
 | simulated (SIMMOD+SIMHIGH) | primary: L-INS-i \| cons0.7 | 8 | -0.85 | 5/0/3 | 0.109 | -1.31 | -0.38 | +1.35 |
 | simulated (SIMMOD+SIMHIGH) | L-INS-i ∩ FFT-NS-2 --op 3 | 8 | -2.28 | 8/0/0 | 0.00781 | -4.13 | -0.42 | +4.17 |
 | simulated (SIMMOD+SIMHIGH) | (L-INS-i + Clustal) \| cons0.7 | 8 | +4.52 | 2/0/6 | 0.0781 | +9.68 | -0.65 | +10.55 |
@@ -30,9 +30,9 @@
 | HomFam | primary: L-INS-i \| cons0.7 | 10 | +0.66 | 3/2/5 | 0.25 | +2.38 | -1.06 | -1.60 |
 | HomFam | L-INS-i ∩ FFT-NS-2 --op 3 | 10 | -0.15 | 6/1/3 | 0.426 | +0.82 | -1.11 | -0.42 |
 | HomFam | (L-INS-i + Clustal) \| cons0.7 | 10 | +1.34 | 1/3/6 | 0.0547 | +4.42 | -1.74 | -2.89 |
-| BAliBASE (fresh draws) | primary: L-INS-i \| cons0.7 | 7 | -2.29 | 6/1/0 | 0.0312 | +1.66 | -6.25 | +0.01 |
-| BAliBASE (fresh draws) | L-INS-i ∩ FFT-NS-2 --op 3 | 7 | -1.98 | 7/0/0 | 0.0156 | +0.56 | -4.53 | -0.07 |
-| BAliBASE (fresh draws) | (L-INS-i + Clustal) \| cons0.7 | 7 | -3.46 | 7/0/0 | 0.0156 | +2.49 | -9.41 | +0.08 |
+| BAliBASE (fresh draws) | primary: L-INS-i \| cons0.7 | 8 | -2.03 | 7/1/0 | 0.0156 | +1.47 | -5.54 | +0.03 |
+| BAliBASE (fresh draws) | L-INS-i ∩ FFT-NS-2 --op 3 | 8 | -2.05 | 8/0/0 | 0.00781 | +0.60 | -4.70 | -0.03 |
+| BAliBASE (fresh draws) | (L-INS-i + Clustal) \| cons0.7 | 8 | -3.18 | 8/0/0 | 0.00781 | +2.26 | -8.62 | +0.05 |
 | nucleotide (held out) | primary: L-INS-i \| cons0.7 | 5 | +4.66 | 0/1/4 | 0.125 | +10.73 | -1.40 | -0.00 |
 | nucleotide (held out) | L-INS-i ∩ FFT-NS-2 --op 3 | 5 | +4.76 | 0/0/5 | 0.0625 | +9.18 | +0.34 | -0.67 |
 | nucleotide (held out) | (L-INS-i + Clustal) \| cons0.7 | 5 | +24.17 | 0/0/5 | 0.0625 | +51.11 | -2.78 | +0.00 |
@@ -71,6 +71,7 @@
 | BB_BBA0117 | BAliBASE (fresh draws) | 13.15 | 13.15 | -0.34 | -0.44 | -0.68 | -0.71 / +0.02 | 0.6081 | filter | 0.0892 |
 | BB_BBA0134 | BAliBASE (fresh draws) | 18.61 | 18.58 | -0.60 | -0.81 | -0.44 | +3.21 / -4.40 | 0.3643 | filter | 0.2818 |
 | BB_BBA0154 | BAliBASE (fresh draws) | 21.40 | 21.40 | -0.99 | -1.29 | -2.26 | +1.34 / -3.31 | 0.4347 | filter | 0.1634 |
+| BB_BBA0190 | BAliBASE (fresh draws) | 23.32 | 23.32 | -0.19 | -2.53 | -1.19 | +0.18 / -0.57 | 0.6003 | filter | 0.1483 |
 | 1000L1_R0 | nucleotide (held out) | 7.47 | 7.47 | +9.16 | +7.22 | +41.76 | +21.42 / -3.10 | 0.6607 | keep | 0.893 |
 | 1000M2_R1 | nucleotide (held out) | 11.01 | 11.01 | +10.25 | +11.76 | +38.53 | +23.24 / -2.74 | 0.6302 | keep | 0.8349 |
 | 1000M3_R0 | nucleotide (held out) | 4.52 | 4.52 | +0.16 | +0.42 | +0.79 | +0.27 / +0.04 | 0.7753 | keep | 0.1898 |
@@ -82,22 +83,22 @@
 
 Observed help = Δ(L\|cons0.7) < 0 (strict sign).
 
-- all: n = 33; accuracy 18/33 = 55% (filter & helped 7, filter & hurt 6, keep & would-hurt 11, keep & would-help 9)
-- protein: n = 27; accuracy 14/27 = 52% (filter & helped 7, filter & hurt 6, keep & would-hurt 7, keep & would-help 7)
+- all: n = 34; accuracy 19/34 = 56% (filter & helped 8, filter & hurt 6, keep & would-hurt 11, keep & would-help 9)
+- protein: n = 28; accuracy 15/28 = 54% (filter & helped 8, filter & hurt 6, keep & would-hurt 7, keep & would-help 7)
 - nucleotide (held out + 16S): n = 6; accuracy 4/6 = 67% (filter & helped 0, filter & hurt 0, keep & would-hurt 4, keep & would-help 2)
 
 Gated policy (primary method if the gate says filter, else MAGUS's own merge), Δ vs MAGUS:
 
 | group | n | mean Δ | W/T/L | p | n filtered | mean Δ if always filtering |
 |---|---|---|---|---|---|---|
-| **all held-out protein** | 27 | -0.35 | 7/16/4 | 0.583 | 13 | -0.60 |
+| **all held-out protein** | 28 | -0.35 | 8/16/4 | 0.507 | 14 | -0.59 |
 | simulated (SIMMOD+SIMHIGH) | 8 | +0.00 | 0/8/0 | nan | 0 | -0.85 |
 | protein excl. BAliBASE | 20 | +0.33 | 1/15/4 | 0.225 | 6 | -0.01 |
 | SIMMOD | 4 | +0.00 | 0/4/0 | nan | 0 | -0.79 |
 | SIMHIGH | 4 | +0.00 | 0/4/0 | nan | 0 | -0.90 |
 | 10AA | 2 | +0.00 | 0/2/0 | nan | 0 | +0.02 |
 | HomFam | 10 | +0.65 | 1/5/4 | 0.312 | 6 | +0.66 |
-| BAliBASE (fresh draws) | 7 | -2.29 | 6/1/0 | 0.0312 | 7 | -2.29 |
+| BAliBASE (fresh draws) | 8 | -2.03 | 7/1/0 | 0.0156 | 8 | -2.03 |
 | nucleotide (held out) | 5 | +0.00 | 0/5/0 | nan | 0 | +4.66 |
 | 16S.M (in-sample) | 1 | +0.00 | 0/1/0 | nan | 0 | -0.37 |
 
@@ -107,9 +108,9 @@ Gated policy (primary method if the gate says filter, else MAGUS's own merge), �
 
 | group | method | n | mean Δ err | W/T/L | p | Δ SPFN | Δ SPFP | Δ TC |
 |---|---|---|---|---|---|---|---|---|
-| **all held-out protein** | edge support ≥ 2 | 22 | -1.34 | 11/5/6 | 0.0496 | -2.53 | -0.14 | +1.39 |
-| **all held-out protein** | edge support ≥ 3 | 22 | -1.83 | 11/4/7 | 0.063 | -3.44 | -0.23 | +3.21 |
-| **all held-out protein** | edge support ≥ 5 | 22 | -2.16 | 11/4/7 | 0.0386 | -3.71 | -0.61 | +4.96 |
+| **all held-out protein** | edge support ≥ 2 | 28 | -1.05 | 14/6/8 | 0.0679 | -1.95 | -0.16 | +1.06 |
+| **all held-out protein** | edge support ≥ 3 | 28 | -1.48 | 14/6/8 | 0.0679 | -2.76 | -0.19 | +2.49 |
+| **all held-out protein** | edge support ≥ 5 | 28 | -1.90 | 17/4/7 | 0.00365 | -3.01 | -0.80 | +3.90 |
 | simulated (SIMMOD+SIMHIGH) | edge support ≥ 2 | 8 | -3.73 | 8/0/0 | 0.00781 | -7.67 | +0.22 | +3.89 |
 | simulated (SIMMOD+SIMHIGH) | edge support ≥ 3 | 8 | -5.18 | 8/0/0 | 0.00781 | -10.62 | +0.25 | +8.92 |
 | simulated (SIMMOD+SIMHIGH) | edge support ≥ 5 | 8 | -5.81 | 8/0/0 | 0.00781 | -11.60 | -0.03 | +13.76 |
@@ -128,15 +129,15 @@ Gated policy (primary method if the gate says filter, else MAGUS's own merge), �
 | HomFam | edge support ≥ 2 | 10 | +0.02 | 3/2/5 | 0.426 | +0.60 | -0.56 | -0.06 |
 | HomFam | edge support ≥ 3 | 10 | +0.08 | 3/1/6 | 0.426 | +0.97 | -0.81 | -0.08 |
 | HomFam | edge support ≥ 5 | 10 | -0.11 | 3/1/6 | 0.82 | +1.17 | -1.38 | -0.15 |
-| BAliBASE (fresh draws) | edge support ≥ 2 | 2 | +0.13 | 0/1/1 | 1 | -0.11 | +0.37 | +0.00 |
-| BAliBASE (fresh draws) | edge support ≥ 3 | 2 | +0.19 | 0/1/1 | 0.5 | -0.12 | +0.49 | +0.00 |
-| BAliBASE (fresh draws) | edge support ≥ 5 | 2 | +0.04 | 0/1/1 | 1 | -0.21 | +0.28 | +0.00 |
-| nucleotide (held out) | edge support ≥ 2 | 0 | | | |   |  |  |
-| nucleotide (held out) | edge support ≥ 3 | 0 | | | |   |  |  |
-| nucleotide (held out) | edge support ≥ 5 | 0 | | | |   |  |  |
-| 16S.M (in-sample) | edge support ≥ 2 | 0 | | | |   |  |  |
-| 16S.M (in-sample) | edge support ≥ 3 | 0 | | | |   |  |  |
-| 16S.M (in-sample) | edge support ≥ 5 | 0 | | | |   |  |  |
+| BAliBASE (fresh draws) | edge support ≥ 2 | 8 | +0.02 | 3/2/3 | 0.945 | +0.11 | -0.06 | -0.11 |
+| BAliBASE (fresh draws) | edge support ≥ 3 | 8 | -0.09 | 3/3/2 | 0.945 | -0.26 | +0.08 | -0.11 |
+| BAliBASE (fresh draws) | edge support ≥ 5 | 8 | -0.71 | 6/1/1 | 0.0234 | -0.39 | -1.04 | +0.02 |
+| nucleotide (held out) | edge support ≥ 2 | 5 | +0.00 | 0/5/0 | 1 | +0.00 | -0.00 | +0.04 |
+| nucleotide (held out) | edge support ≥ 3 | 5 | -0.01 | 1/4/0 | 0.438 | -0.02 | -0.00 | +0.35 |
+| nucleotide (held out) | edge support ≥ 5 | 5 | -0.03 | 2/2/1 | 0.625 | +0.04 | -0.10 | +0.59 |
+| 16S.M (in-sample) | edge support ≥ 2 | 1 | -0.01 | 0/1/0 | nan | +0.08 | -0.11 | +0.00 |
+| 16S.M (in-sample) | edge support ≥ 3 | 1 | -0.02 | 0/1/0 | nan | +0.01 | -0.05 | -0.11 |
+| 16S.M (in-sample) | edge support ≥ 5 | 1 | -0.12 | 1/0/0 | nan | +0.01 | -0.24 | -0.75 |
 
 | dataset | edge support ≥ 2 | edge support ≥ 3 | edge support ≥ 5 |
 |---|---|---|---|
@@ -162,17 +163,18 @@ Gated policy (primary method if the gate says filter, else MAGUS's own merge), �
 | HF_zf-CCHH | -0.16 | +0.20 | +0.20 |
 | BB_BBA0039 | -0.02 | +0.01 | -0.01 |
 | BB_BBA0067 | +0.28 | +0.36 | +0.08 |
-| BB_BBA0081 |  |  |  |
-| BB_BBA0101 |  |  |  |
-| BB_BBA0117 |  |  |  |
-| BB_BBA0134 |  |  |  |
-| BB_BBA0154 |  |  |  |
-| 1000L1_R0 |  |  |  |
-| 1000M2_R1 |  |  |  |
-| 1000M3_R0 |  |  |  |
-| 1000S1_R0 |  |  |  |
-| RNASim_R1 |  |  |  |
-| 16S.M_R0 |  |  |  |
+| BB_BBA0081 | -0.52 | -0.69 | -3.48 |
+| BB_BBA0101 | +0.16 | +0.03 | -0.31 |
+| BB_BBA0117 | +0.00 | +0.00 | -0.42 |
+| BB_BBA0134 | +0.42 | -0.32 | -0.64 |
+| BB_BBA0154 | -0.08 | +0.09 | -0.59 |
+| BB_BBA0190 | -0.07 | -0.18 | -0.35 |
+| 1000L1_R0 | -0.02 | -0.04 | -0.18 |
+| 1000M2_R1 | -0.00 | -0.05 | -0.05 |
+| 1000M3_R0 | +0.01 | +0.04 | +0.08 |
+| 1000S1_R0 | -0.01 | -0.01 | +0.00 |
+| RNASim_R1 | +0.02 | -0.00 | -0.00 |
+| 16S.M_R0 | -0.01 | -0.02 | -0.12 |
 
 ## Tree error (FastTree -lg -gamma, nRF to the true tree, %)
 
@@ -226,6 +228,7 @@ Extra = prep (new backbone alignments + masking/intersection) + (merge − contr
 | BB_BBA0117 | 58 | 1 | 1 | 2 | 5 | 5 |
 | BB_BBA0134 | 1609 | 115 | -101 | -42 | -41 | 68 |
 | BB_BBA0154 | 965 | 39 | -20 | -9 | 43 | 74 |
+| BB_BBA0190 | 2906 | 32 | 10 | 5 | 130 | 162 |
 | 1000L1_R0 | 1870 | 30 | 3 | 67 | 675 | 744 |
 | 1000M2_R1 | 1562 | 26 | 8 | 84 | 675 | 738 |
 | 1000M3_R0 | 1145 | 8 | 22 | 53 | 171 | 210 |
