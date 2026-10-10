@@ -103,7 +103,11 @@ def estimate(method, aln, out_tree, work, extra=None, start_tree=None):
         return sec, lnl
     if method.startswith("raxmlng"):
         start = {"raxmlng": ["--tree", "pars{1}"], "raxmlng_rand1": ["--tree", "rand{1}"],
-                 "raxmlng_default": [], "raxmlng_ft": ["--tree", start_tree or ""]}[method]
+                 "raxmlng_default": ["--tree", "auto"], "raxmlng_ft": ["--tree", start_tree or ""],
+                 # RAxML-NG's own fast mode (alias --fast): 1 parsimony start, simplified topology
+                 # optimisation, KH-test stopping rule
+                 "raxmlng_fastmode": ["--tree", "pars{1}", "--opt-topology", "simplified",
+                                      "--stop-rule", "kh-mult"]}[method]
         sec = run([RAXMLNG, "--search", "--msa", aln, "--model", "GTR+G", "--threads", "1", "--seed", "1",
                    "--prefix", os.path.join(work, "rx"), "--redo"] + start + extra, os.path.join(work, "rx.out"))
         shutil.copy(os.path.join(work, "rx.raxml.bestTree"), out_tree)

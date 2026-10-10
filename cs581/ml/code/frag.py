@@ -54,34 +54,35 @@ def main():
     ap.add_argument("--backbone", default="fasttree")
     ap.add_argument("--polish", action="store_true")
     ap.add_argument("--tau", type=float, default=0.5)
+    ap.add_argument("--aln", default="true_align", help="alignment name in the replicate dir (e.g. upp)")
     ap.add_argument("--out", default=os.path.join(HERE, "..", "results", "frag.jsonl"))
     a = ap.parse_args()
     ds, rep, bbm = a.dataset, a.rep, a.backbone
     tag = bbm if a.tau == 0.5 else "%s_tau%g" % (bbm, a.tau)
     d = os.path.join(rt.MLDATA, ds, "R%s" % rep)
     true_tree = os.path.join(d, "true_tree.tre")
-    names, seqs = rt.read_fasta(os.path.join(d, "true_align.fasta"))
+    names, seqs = rt.read_fasta(os.path.join(d, a.aln + ".fasta"))
     lens = [len(s.replace("-", "")) for s in seqs]
     med = statistics.median(lens)
     bb = [i for i, l in enumerate(lens) if l >= a.tau * med]
     work = tempfile.mkdtemp(prefix="frag_%s_%s_%s_" % (ds, rep, tag))
-    full = os.path.join(d, "true_align.clean.fasta")
+    full = os.path.join(d, a.aln + ".clean.fasta")
     if not os.path.exists(full):
         tmp = full + ".%d.tmp" % os.getpid()
-        rt.clean_alignment(os.path.join(d, "true_align.fasta"), tmp)
+        rt.clean_alignment(os.path.join(d, a.aln + ".fasta"), tmp)
         os.replace(tmp, full)
     bba = os.path.join(work, "backbone.fasta")
     rt.write_fasta(bba + ".raw", [names[i] for i in bb], [seqs[i] for i in bb])
     rt.clean_alignment(bba + ".raw", bba)
     os.makedirs(os.path.join(d, "trees"), exist_ok=True)
-    tb = os.path.join(d, "trees", "backbone.%s.tre" % tag)
+    tb = os.path.join(d, "trees", "%sbackbone.%s.tre" % ("" if a.aln == "true_align" else a.aln + ".", tag))
     w0 = os.path.join(work, "bb")
     os.makedirs(w0)
     sec, cpu = backbone_tree(bbm, bba, tb, w0, true_tree, [names[i] for i in bb])
-    base = {"dataset": ds, "rep": rep, "aln": "true_align", "backbone": bbm, "tau": a.tau, "n_backbone": len(bb),
+    base = {"dataset": ds, "rep": rep, "aln": a.aln, "backbone": bbm, "tau": a.tau, "n_backbone": len(bb),
             "backbone_fn": treeerr.error(true_tree, tb)["fn_rate"], "backbone_cpu": round(cpu, 1)}
     rows = []
-    t1 = os.path.join(d, "trees", "true_align.frag_constr_%s.tre" % tag)
+    t1 = os.path.join(d, "trees", "%s.frag_constr_%s.tre" % (a.aln, tag))
     w1 = os.path.join(work, "constr")
     os.makedirs(w1)
     s1, lnl1 = rt.estimate("raxmlng", full, t1, w1, extra=["--tree-constraint", tb])
@@ -90,7 +91,7 @@ def main():
     rows.append({**base, "method": "frag_constr_" + tag, "seconds": round(sec, 1), "cpu_seconds": round(cpu, 1),
                  "lnl_tool": lnl1, "fn_rate": e["fn_rate"], "rf_rate": e["rf_rate"], "tree": t1})
     if a.polish:
-        t2 = os.path.join(d, "trees", "true_align.frag_polish_%s.tre" % tag)
+        t2 = os.path.join(d, "trees", "%s.frag_polish_%s.tre" % (a.aln, tag))
         w2 = os.path.join(work, "polish")
         os.makedirs(w2)
         s2, lnl2 = rt.estimate("raxmlng_ft", full, t2, w2, start_tree=t1)
