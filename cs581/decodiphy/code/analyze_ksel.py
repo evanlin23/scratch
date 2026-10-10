@@ -74,6 +74,37 @@ def rule_ratio(r, tau):
     return R[-1]["k"]
 
 
+def step_features(r, prev, cur):
+    par = r["parent"]
+    A = cur["anchors"]
+    anyadj = any(adjacent(par, A[i], A[j]) for i in range(len(A)) for j in range(i + 1, len(A)))
+    return [math.log10(max(min(cur["p"]), 1e-6)),
+            (prev["ybar"] - cur["ybar"]) / max(prev["ybar"], 1e-9),
+            math.log10(max(cur["loss"], 1e-300) / max(prev["loss"], 1e-300)),
+            float(anyadj)]
+
+
+def fit_logit(train_runs):
+    from sklearn.linear_model import LogisticRegression
+    X, y = [], []
+    for r in train_runs:
+        R = r["rounds"]
+        for i in range(1, len(R)):
+            X.append(step_features(r, R[i - 1], R[i])); y.append(R[i]["k"] > r["k"])
+    return LogisticRegression(C=1.0, max_iter=1000).fit(np.array(X), np.array(y))
+
+
+def rule_logit(r, model, thr=0.5):
+    """walk k upward; stop at the first step the classifier calls spurious, return k-1."""
+    R = r["rounds"]
+    for i in range(1, len(R)):
+        if R[i - 1]["loss"] < 1e-10:
+            return R[i - 1]["k"]
+        if model.predict_proba(np.array([step_features(r, R[i - 1], R[i])]))[0, 1] > thr:
+            return R[i - 1]["k"]
+    return R[-1]["k"]
+
+
 def jac(r, k):
     rd = next(x for x in r["rounds"] if x["k"] == k)
     A, T = set(rd["anchors"]), set(r["true_anchors"])
@@ -103,6 +134,9 @@ best_thr = max(thrs, key=lambda t: evaluate(lambda r: rule_paper(r, t), train)["
 best_thr_adj = max(thrs, key=lambda t: evaluate(lambda r: rule_adj(r, t), train)["jac"])
 lines.append(f"tuned on train trees ({sorted(TRAIN)}): bic lam={best_lam}, ratio tau={best_tau}, "
              f"paper min_p={best_thr}, adj min_p={best_thr_adj}")
+logit = fit_logit(train)
+lines.append("logistic stop-rule coefficients [log10 min p, rel. ybar drop, log10 loss ratio, adjacent]: "
+             + str(np.round(logit.coef_[0], 2).tolist()) + f" intercept {logit.intercept_[0]:.2f}")
 rules = {
     "paper(min_p=0.01)": rule_paper,
     f"bic(lam={best_lam})": lambda r: rule_bic(r, best_lam),
@@ -110,7 +144,7 @@ rules = {
     f"paper(min_p tuned={best_thr})": lambda r: rule_paper(r, best_thr),
     "adj (paper+adjacency stop)": rule_adj,
     f"adj(min_p tuned={best_thr_adj})": lambda r: rule_adj(r, best_thr_adj),
-    "adj+bic": lambda r: min(rule_adj(r), rule_bic(r, best_lam)),
+    "learned (logistic, 4 features)": lambda r: rule_logit(r, logit),
     "oracle(true k)": lambda r: r["k"],
 }
 for setname, S in [("TEST trees", test), ("ALL trees", runs)]:

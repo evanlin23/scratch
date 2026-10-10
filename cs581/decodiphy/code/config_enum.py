@@ -11,7 +11,7 @@ parameters (p, x, ybar of the truth) making S' an exact alternative iff some alp
 The strict inequalities are homogeneous, so we test feasibility with |g| >= 1. Also report whether
 the true S alone has a continuum (kernel of L[V \ V(S), I] nontrivial).
 
-usage: python config_enum.py NMAX OUT.md
+usage: python config_enum.py NMAX OUT.md [NMIN] [KMAX]
 """
 import sys, itertools, collections
 import numpy as np
@@ -32,12 +32,20 @@ def canon(n, edges):
 
 
 def shapes(n):
-    seen = {}
-    for E in all_topologies(n):
-        c = canon(n, E)
-        if c not in seen:
-            seen[c] = E
-    return list(seen.values())
+    """unlabeled shapes, grown from the shapes on n-1 leaves (leaf ids 0..n-1, internal n..2n-3)."""
+    if n == 4:
+        return [[(0, 4), (1, 4), (4, 5), (2, 5), (3, 5)]]
+    out = {}
+    for E in shapes(n - 1):
+        # relabel: internal nodes of the (n-1)-tree shift by +1 to make room for the new leaf id n-1
+        E1 = [(a if a < n - 1 else a + 1, b if b < n - 1 else b + 1) for a, b in E]
+        u = 2 * n - 3
+        for i, (a, b) in enumerate(E1):
+            new = E1[:i] + E1[i + 1:] + [(a, u), (u, b), (u, n - 1)]
+            c = canon(n, new)
+            if c not in out:
+                out[c] = new
+    return list(out.values())
 
 
 def laplacian(N, edges, lens):
@@ -66,11 +74,13 @@ def alt_exists(L, n, VS, VSp):
 
 def main():
     NMAX = int(sys.argv[1]); OUT = sys.argv[2]
+    NMIN = int(sys.argv[3]) if len(sys.argv) > 3 else 4
+    KMAX = int(sys.argv[4]) if len(sys.argv) > 4 else 4
     rng = np.random.default_rng(7)
     lines = ["| n | shape | k | #S (matchings) | #S with continuum | #S with alternative k'<=k (unit lengths) | (random lengths) | claw-free S with alt | S with claw but no alt | claw centred in V(S) | alt <=> continuum? |",
              "|---|---|---|---|---|---|---|---|---|---|---|"]
     detail = []
-    for n in range(4, NMAX + 1):
+    for n in range(NMIN, NMAX + 1):
         for si, E in enumerate(shapes(n)):
             N = 2 * n - 2
             m = len(E)
@@ -78,7 +88,7 @@ def main():
             for a, b in E:
                 nbr[a].add(b); nbr[b].add(a)
             Ls = {"unit": laplacian(N, E, np.ones(m)), "rand": laplacian(N, E, rng.exponential(1, m) + 0.05)}
-            for k in ((1, 2, 3, 4) if n <= 8 else (1, 2, 3)):
+            for k in [k for k in ((1, 2, 3, 4) if n <= 8 else (1, 2, 3)) if k <= KMAX]:
                 if 2 * k > N:
                     continue
                 cnt = collections.Counter()
