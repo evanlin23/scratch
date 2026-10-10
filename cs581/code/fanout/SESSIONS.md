@@ -130,3 +130,5 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | One general improved MAGUS (self-soft + consensus evidence) for DNA, RNA and proteins | cs581/magusgen, claude/cs581-magusgen | session_013Ua7rdYjAfh7cX812BxYh4 |
 | gcmtrees: does the GCM evidence recipe improve ML trees? (FastTree/IQ-TREE on 16 simulated protein sets) | claude/cs581-gcmtrees | session_012jUiaZ8rzSFs56nuL5D3Qt |
 | fragml2: fast ML trees with fragmentary sequences (backbone + fixed EPA-ng / constrained ML) | claude/cs581-fragml2 | session_017GJCTSw6j4rhjwWQvYujTi |
+| wapro: weighted ASTRID-Pro (support/length weighting, contraction, missing-data norm) vs best GDL methods | claude/cs581-wapro | session_013LfRmp3zorCpsEbqRSCdPT |
+| aproroom: headroom for GDL species-tree methods (true vs estimated trees/tags, 1000 species, fair speed, hybrid) | claude/cs581-aproroom | session_01S5dW3pZ3M1RoZppz3YMxpv |
