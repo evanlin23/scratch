@@ -53,7 +53,44 @@
 
 ### 2b. Stock ASTRAL-Pro3 rooting enlarges the region (`results/ownmap.jsonl`; 100,000 families per cell)
 
-TABLE_OWNMAP
+| a = b | c | λT | exact, correct root | sim, correct root (z) | **stock own rooting** (z) |
+|---|---|---|---|---|---|
+| 0.02 | 0.2 | 1 | +0.061 | +0.101 (1.1) | +0.111 (2.0) |
+| 0.02 | 0.4 | 1 | +0.125 | +0.162 (3.3) | +0.118 (3.3) |
+| 0.02 | 0.6 | 1 | +0.258 | +0.234 (3.4) | +0.038 (0.4) |
+| 0.05 | 0.2 | 1 | +0.086 | +0.034 (1.9) | +0.041 (1.5) |
+| 0.05 | 0.4 | 1 | +0.157 | +0.154 (3.8) | +0.063 (1.7) |
+| 0.05 | 0.6 | 1 | +0.295 | +0.282 (13.1) | +0.076 (4.1) |
+| 0.1 | 0.2 | 1 | +0.131 | +0.108 (7.5) | +0.063 (4.7) |
+| 0.1 | 0.4 | 1 | +0.212 | +0.198 (21.4) | +0.094 (14.9) |
+| 0.1 | 0.6 | 1 | +0.356 | +0.358 (37.8) | +0.137 (15.9) |
+| 0.2 | 0.4 | 1 | +0.329 | +0.329 (42.8) | +0.180 (31.9) |
+| 0.2 | 0.6 | 1 | +0.476 | +0.482 (156.0) | +0.251 (52.5) |
+| 0.02 | 0.2 | 2 | -0.036 | -0.032 (-3.4) | -0.030 (-4.2) |
+| 0.02 | 0.4 | 2 | +0.003 | +0.005 (0.1) | -0.089 (-9.0) |
+| 0.02 | 0.6 | 2 | +0.129 | +0.091 (2.3) | -0.151 (-8.7) |
+| 0.05 | 0.2 | 2 | -0.001 | -0.018 (-3.8) | -0.018 (-4.5) |
+| 0.05 | 0.4 | 2 | +0.048 | +0.029 (4.5) | -0.061 (-16.8) |
+| 0.05 | 0.6 | 2 | +0.184 | +0.185 (30.2) | -0.079 (-16.0) |
+| 0.1 | 0.2 | 2 | +0.055 | +0.044 (5.4) | +0.007 (0.7) |
+| 0.1 | 0.4 | 2 | +0.120 | +0.124 (12.6) | +0.013 (1.4) |
+| 0.1 | 0.6 | 2 | +0.267 | +0.261 (58.7) | +0.032 (7.2) |
+| 0.2 | 0.4 | 2 | +0.261 | +0.266 (137.7) | +0.158 (91.3) |
+| 0.2 | 0.6 | 2 | +0.416 | +0.417 (123.5) | +0.247 (99.0) |
+| 0.02 | 0.2 | 3 | -0.077 | -0.094 (-10.4) | -0.121 (-23.1) |
+| 0.02 | 0.4 | 3 | -0.035 | -0.072 (-5.2) | -0.212 (-24.1) |
+| 0.02 | 0.6 | 3 | +0.095 | +0.063 (4.2) | -0.255 (-43.9) |
+| 0.05 | 0.2 | 3 | -0.028 | -0.033 (-7.1) | -0.071 (-19.0) |
+| 0.05 | 0.4 | 3 | +0.023 | +0.013 (1.8) | -0.111 (-53.2) |
+| 0.05 | 0.6 | 3 | +0.162 | +0.169 (34.6) | -0.092 (-31.8) |
+| 0.1 | 0.2 | 3 | +0.040 | +0.039 (8.9) | +0.008 (1.0) |
+| 0.1 | 0.4 | 3 | +0.105 | +0.104 (50.6) | +0.029 (16.9) |
+
+All cells use relative margin = (correct − best wrong)/total, with z from 10 blocks. The 'sim' column is slightly biased negative because the max over two noisy wrong scores is taken.
+
+**Readout.**
+- Stock rooting makes **7 cells negative that are positive with the correct root**: at λT = 2, c ≥ 0.4 and a ≤ 0.05; and at λT = 3. An example is a = b = 0.05, c = 0.6, λT = 2: correct root +0.18, stock **−0.08** (z = −16).
+- Even where both are consistent, stock rooting roughly halves the margin, for example 0.36 → 0.14 at a = b = 0.1, c = 0.6, λT = 1.
 
 ### 2c. Published-style rates (`results/realscan.jsonl`, exact formula, correct root + overlap tags)
 
@@ -78,7 +115,17 @@ TABLE_OWNMAP
 
 **Stock rooting at S25-like rates** (`results/realown.jsonl`, full 26-taxon gene trees, 2,000 families, 30 quartets × 3 trees per setting):
 
-TABLE_REALOWN
+| setting | quartets | true tags: neg / min | correct root + ovl: neg / min | **stock own**: neg / min (median) |
+|---|---|---|---|---|
+| S25 default (λH = 0.93, homogeneous) | 90 | 0 / 1.00 | 0 / 0.97 | 0 / 0.87 (0.99) |
+| 4× load (λH = 4, homogeneous) | 90 | 0 / 1.00 | 0 / 0.39 | 0 / 0.21 (0.96) |
+| λH = 2, per-branch σ = 1 | 79 | 0 / 1.00 | 0 / 0.00 | 0 / 0.00 (1.00) |
+| λH = 4, per-branch σ = 1 | 39 | 0 / 1.00 | 1 / -1.00 | 1 / -1.00 (1.00) |
+
+**Readout.**
+- At the published S25 setting, stock rooting is safe: no quartet has a negative margin, the minimum is 0.87 and the median 0.99.
+- At 4× load, stock rooting lowers the worst margin from 0.39 to 0.21.
+- The single negative quartet (σ = 1, λH = 4) has zero orthologous support under true tags: its entire ASTRAL-Pro score comes from hidden paralogs. That is the Theorem 3 mechanism, but on a quartet with negligible weight.
 
 ## 3. Which methods inherit the failure? (task 3)
 
@@ -99,7 +146,34 @@ TABLE_REALOWN
   - ASTRAL-multi (astral4 with a gene→species map);
   - DupLoss-2 (Linux binary, default settings).
 
-TABLE_METH
+| method | K | R1 | R2 | cand4 | ctrl |
+|---|---|---|---|---|---|
+| true | 1000 | 0/10 | 0/10 | 0/10 | 0/10 |
+| true | 5000 | 0/1 | 0/1 | - | 0/4 |
+| ovl | 1000 | 10/10 | 10/10 | 1/10 | 0/10 |
+| ovl | 5000 | 1/1 | 1/1 | - | 0/4 |
+| own | 1000 | 10/10 | 10/10 | 10/10 | 0/10 |
+| own | 5000 | 1/1 | 1/1 | - | 0/4 |
+| apro_bin | 1000 | 10/10 | 10/10 | 9/9 | 0/10 |
+| apro_bin | 5000 | - | - | - | 0/3 |
+| recon_true | 1000 | 0/10 | 0/10 | 0/9 | 0/10 |
+| recon_true | 5000 | - | 0/1 | - | 0/4 |
+| recon_first | 1000 | 10/10 | 10/10 | 9/9 | 0/10 |
+| recon_first | 5000 | - | - | - | 0/4 |
+| disco_astral | 1000 | 10/10 | 10/10 | 9/9 | 0/10 |
+| disco_astral | 5000 | - | - | - | 0/3 |
+| wqfm_gdl | 1000 | 10/10 | 10/10 | 9/9 | 0/10 |
+| wqfm_gdl | 5000 | - | - | - | 0/3 |
+| astral_multi | 1000 | 7/10 | 9/10 | 2/9 | 0/10 |
+| astral_multi | 5000 | - | - | - | 0/3 |
+| gtp_dup | 1000 | 10/10 | 10/10 | - | 0/10 |
+| gtp_dup | 5000 | - | - | - | 0/3 |
+| gtp_dl | 1000 | 0/10 | 0/10 | - | 0/10 |
+| gtp_dl | 5000 | - | - | - | 0/3 |
+| duploss2 | 1000 | 0/10 | 0/10 | 0/9 | 0/10 |
+| duploss2 | 5000 | - | - | - | 0/3 |
+
+The K = 5,000 blocks were cut short by the time budget. Those that finished agree with K = 1,000: R1/R2 `ovl` wrong 1/1 and `own` wrong 1/1; ctrl correct in every method. `-` means not run: `gtp_*` is too slow in Python on cand4's large trees, and DupLoss-2 covers that case.
 
 **Readout.**
 - **Inherit the failure:**
@@ -126,7 +200,19 @@ TABLE_METH
   - **S25het**: λH = μH = 2 with per-branch σ = 1;
   - **Rown**: 4 taxa, model R with a = b = 0.02, c = 0.6, λT = 2. This is a cell where the correct root is consistent (+0.13) but stock rooting is not (−0.15).
 
-TABLE_EST
+| setting | gene trees | ASTRAL-Pro3 wrong | DISCO+ASTRAL wrong | ASTRAL-multi wrong |
+|---|---|---|---|---|
+| **Rown** (4 taxa) | true | **5/5** | 5/5 | 2/5 |
+| **Rown** (4 taxa) | FastTree estimates | **5/5** | 0/5 | 2/5 |
+| S25 (26 taxa, rep 0) | true | FN 0 | FN 0 | FN 0 |
+| S25 (26 taxa, rep 0) | FastTree estimates | FN 0 | FN 0 | FN 0 |
+
+**Readout.**
+- **The effect survives gene-tree estimation.** In the failure cell, stock ASTRAL-Pro3 returns the wrong tree on 5/5 estimated-tree replicates of 1,000 genes.
+- DISCO+ASTRAL becomes right on estimated trees. My guess [unverified] is that estimation error breaks up the hidden-paralog patterns that DISCO's decomposition keeps.
+- ASTRAL-multi sits near a tie here too.
+- At the published S25 setting, all methods recover the tree, on true and on estimated trees.
+- S25 reps 1–2 and S25het were cut by the time budget (the pipeline in `run_est.sh` is restartable).
 
 ## 5. Files
 
