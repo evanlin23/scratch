@@ -77,12 +77,12 @@
 
 | method | n | mean FN | FN vs raxmlng (mean paired diff, wins/ties/losses) | mean CPU min | mean lnL - raxmlng lnL |
 |---|---|---|---|---|---|
-| fasttree | 5 | 48.9% | +25.0 pts (0/0/4) | 1.9 | - |
-| iqtree_fast | 5 | 37.5% | +12.4 pts (0/0/4) | 7.2 | - |
-| raxmlng | 4 | 23.5% | - | 34.4 | - |
-| raxmlng_from_iqtree_fast | 3 | 22.9% | -0.7 pts (2/0/1) | 48.8 | +1.8 |
-| frag_constr_fasttree | 3 | 23.3% | -0.3 pts (2/0/1) | 12.1 | -44.0 |
-| frag_polish_fasttree | 3 | 22.8% | -0.8 pts (2/0/1) | 49.7 | +2.4 |
+| fasttree | 5 | 48.9% | +24.2 pts (0/0/5) | 1.9 | - |
+| iqtree_fast | 5 | 37.5% | +12.8 pts (0/0/5) | 7.2 | - |
+| raxmlng | 5 | 24.7% | - | 35.4 | - |
+| raxmlng_from_iqtree_fast | 5 | 24.5% | -0.2 pts (3/0/2) | 49.0 | +1.8 |
+| frag_constr_fasttree | 5 | 25.2% | +0.5 pts (2/0/3) | 12.1 | -36.2 |
+| frag_polish_fasttree | 5 | 24.5% | -0.2 pts (2/0/3) | 49.6 | +2.3 |
 
 ### Pilot: start trees, 1000M2 R0, MAGUS alignment
 
