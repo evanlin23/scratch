@@ -12,7 +12,7 @@ Mirarab, "Deconvolving Phylogenetic Distance Mixtures", RECOMB 2026 (bioRxiv 10.
   some set U of internal nodes has |N[U] ∖ V(S)| < |U|. One direction is proved. For the other:
   * the continuum ⇔ Hall step held in all 145,543 (shape, S) pairs checked (n ≤ 10, k ≤ 5, 4 length
     draws);
-  * alternative ⇔ continuum held in **≈ 90k MILP-certified continuum-free matchings with k = 4–5,
+  * alternative ⇔ continuum held in **≈ 140k MILP-certified continuum-free matchings with k = 4–5,
     n ≤ 12, with 0 counterexamples**.
 * **Corollary:** more than n/2 non-adjacent placements are never identifiable.
 * **Supplement checked** (SB.3, bioRxiv media-1.pdf). The paper proves the adjacency continuum
@@ -72,6 +72,7 @@ MILP evidence for the conjecture (`results/milp_enum_*.md`; random lengths, unit
 | 12 | 4 | 78,420 | 17,636 | 60,784 | 0 |
 | 10 | 5 | 5,660 | 4,880 | 780 | 0 |
 | 11 | 5 | 25,120 | 17,604 | 7,516 | 0 |
+| 12 | 5 | 118,116 | 67,572 | 50,544 | 0 |
 | 8–11 | 5–6 with k > n/2 | 17,988 | all (Corollary 6) | 0 | — |
 
 ## 2. Overlap with the paper's supplement (question 2)
