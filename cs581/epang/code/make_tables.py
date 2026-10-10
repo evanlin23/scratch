@@ -57,7 +57,7 @@ def bscampp(rep):
     d['variant'] = d.label.str.split('_').str[0]
     d['b'] = d.label.str.split('_').str[1].str[1:].astype(int)
     d['qtype'] = d.label.str.split('_').str[2]
-    t = pd.read_csv(f'{R}/{rep}_bscampp_times.tsv', sep='\t', names=['variant', 'b', 'qtype', 'wall', 'rss'])
+    t = pd.read_csv(f'{R}/{rep}_bscampp_times.tsv', sep='\t', names=['variant', 'b', 'qtype', 'wall', 'rss', 'cpj'])
     t = t.drop_duplicates(['variant', 'b', 'qtype'], keep='last')
 
     def secs(s):
@@ -96,3 +96,31 @@ def bscampp(rep):
 for rep in sorted({os.path.basename(f).split('_')[0] for f in glob.glob(f'{R}/R*_*.tsv')}):
     nested(rep)
     bscampp(rep)
+
+
+def pooled():
+    """Pool queries over replicates: each variant vs stock b=2000."""
+    rows = []
+    for f in sorted(glob.glob(f'{R}/R*_bscampp_scores.tsv')):
+        rep = os.path.basename(f).split('_')[0]
+        d = pd.read_csv(f, sep='\t', names=['label', 'query', 'delta', 'lwr'])
+        d['query'] = rep + ':' + d['query']
+        rows.append(d)
+    d = pd.concat(rows)
+    d['qtype'] = d.label.str.split('_').str[2]
+    d['cfg'] = d.label.str.rsplit('_', n=1).str[0]
+    for qt in ['frag', 'full']:
+        p = d[d.qtype == qt].pivot_table(index='query', columns='cfg', values='delta')
+        if 'stock_b2000' not in p:
+            continue
+        print(f'\n**Pooled over replicates, {qt}: vs stock b=2000 on the same queries**\n')
+        print('| config | reps×queries | mean delta (config) | mean delta (baseline) | diff | W/T/L | p |')
+        print('|---|---|---|---|---|---|---|')
+        for c in sorted(p.columns):
+            if c == 'stock_b2000':
+                continue
+            s = p[[c, 'stock_b2000']].dropna()
+            print(f'| {c} | {len(s)} | {s[c].mean():.3f} | {s["stock_b2000"].mean():.3f} | ' + wtl(s[c], s['stock_b2000']) + ' |')
+
+
+pooled()
