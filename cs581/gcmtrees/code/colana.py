@@ -74,6 +74,22 @@ for rep in sys.argv[1:]:
         tp_per_tc = np.bincount(u // (ec.max() + 1), weights=c2(k), minlength=L)
         est_pairs = c2(np.bincount(ec)).sum()
         rec[m] = tp_per_tc
+        # residue level: a residue is misplaced if it is not in the largest true-column group of its estimated
+        # column; 'block' = it sits in a group of >= 10 residues from one other true column (a shifted block),
+        # 'scattered' = smaller groups. Plus how many true columns are split (residues outside the largest
+        # estimated fragment of their true column).
+        ecol_max = ec.max() + 1
+        grp_t, grp_e = u // ecol_max, u % ecol_max
+        order = np.lexsort((-k, grp_e))
+        ge, gk = grp_e[order], k[order]
+        first = np.r_[True, ge[1:] != ge[:-1]]
+        mis = gk[~first]
+        row[m + "_misplaced_res"] = round(int(mis.sum()) / len(tc), 4)
+        row[m + "_misplaced_block_res"] = round(int(mis[mis >= 10].sum()) / len(tc), 4)
+        order2 = np.lexsort((-k, grp_t))
+        gt2, gk2 = grp_t[order2], k[order2]
+        first2 = np.r_[True, gt2[1:] != gt2[:-1]]
+        row[m + "_split_res"] = round(int(gk2[~first2].sum()) / len(tc), 4)
         row[m + "_fp_pairs"] = int(est_pairs - tp_per_tc.sum())
         row[m + "_tp_pairs"] = int(tp_per_tc.sum())
     bins = {}
