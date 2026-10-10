@@ -28,6 +28,39 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 7 (17:30 UTC).** Δ = error points vs MAGUS's own merge on the same subsets and backbones (negative is better).
+- *Consensus GCM evidence, held-out so far (`claude/cs581-protcons`):* MAFFT-only `L-INS-i ∩ FFT-NS-2 --op 3`:
+  - simulated proteins: −2.27, 8/0/0, p = 0.008;
+  - HomFam (10 families): −0.15, 6/1/3, p = 0.43 (Acetyltransf −1.60, aat −1.00, PDZ −0.65 … blmb +2.09, p450 +0.43);
+  - 10AA: −0.14, +0.33;
+  - all 20 held-out sets: −0.97, 15/1/4, p = 0.007.
+  So it is real on simulated proteins, flat on HomFam (recall-limited there), and harmful on DNA. Still to come: fresh
+  BAliBASE draws, trees, nucleotide controls.
+- *Generalizing it to DNA (`claude/cs581-gcmgen`, one draw per set):* instead of deleting backbone pairs that FFT-NS-2
+  does not also align, keep them at weight 0.03 (`wsoft0.03`).
+  - DNA/RNA (8 sets): mean −0.08, 3/3/2, range −0.64 (16S.M) to +0.23. This makes it safe on DNA (the hard filter is
+    +20 to +31 on ROSE).
+  - BAliBASE (6 sets): mean −1.05, 6/0/0, including BBA0154 −1.64 and BBA0190 −1.84, which are in its held-out split.
+  - But SIMMOD_R1 is +1.12, where the hard filter gave −2.12. The soft weight gives up the simulated-protein gain.
+  - Edge-support thresholds (`#es2/3`) and duplicated backbones (`dup2`) ≈ 0 everywhere.
+  - The session's pre-registered adaptive switch (train/held-out split in `SPLIT.md`) is still running.
+- *General MAGUS (`claude/cs581-magusgen`, 3 sets so far):* self-soft + soft consensus 1000L1 −0.65, BBA0039 −0.05,
+  BBA0101 −1.02; self-soft alone −0.70 / −0.01 / −1.22. So far the combination adds nothing beyond self-soft.
+- *GTM blending at scale (`claude/cs581-gtmscale`), FN points:*
+  - n = 2,000 with a poor FastTree guide (56% FN): Blend-FT vs GTM −0.75 (5/0/1, p = 0.06); it beats full FastTree by
+    6.4 but loses to full IQ-TREE by 3.0.
+  - Published conditions: 1000M1-HF −0.62 (FT guide) and 0.00 (IQ guide); Cox1-HET −0.22 (7/2/1, p = 0.023) and −0.05.
+  - So the large round-1 gains (−6 to −14) need a bad guide tree; with the guides used in practice, blending adds
+    ≤ 0.75. Downgrade to "modest". RNASim 10K still running.
+- *ASTRID-Pro theory (`claude/cs581-astridpro2`, interim; empirical part running):*
+  - Exact limit with true trees and tags: additive on the species tree with closed-form edge lengths
+    β(c) = ½[s(c₁) + s(c₂) + s(sib) − s(c)], where s(·) is a survival probability.
+  - Consistent iff every interior β > 0. β > 0 whenever the branch above c is not supercritical. A counterexample
+    with β = −0.267 matches simulation to 0.003.
+  - Survival reweighting is consistent under any rates, given a correct first-pass tree.
+  - Every DISCO/FastMulRFS benchmark condition has β ≥ 0.46, so the failure does not occur in published benchmarks.
+    That is the same "theory, low practical reach" profile as ASTRAL-Pro.
+
 **ASTRAL-Pro under GDL, round 2 final (16:15 UTC, `claude/cs581-astralpro2`, proofs in `cs581/astralpro2/theory.md`).**
 Updates row 1: the "numerical, not proofs" caveat is now largely removed.
 - *Proved* on the 4-taxon caterpillar (((A,B),C),D):
@@ -61,6 +94,11 @@ Updates row 1: the "numerical, not proofs" caveat is now largely removed.
     nucleotide controls are still running.
 - *magusgen (general MAGUS):* hard filters are catastrophic on 1000L1 DNA (consistency mask +9.2, SPFN 29); self-soft
   −0.70 there, as before; soft-weighted consensus variants queued next.
+- *bbtool-5, nucleotide controls (17:12 UTC; 3 MAGUS draws each; Δ vs MAGUS's own merge, same subsets):*
+  - Clustal backbones: RNASim +0.23 to +0.88; 1000M2 +17.9 to +19.9 (e2e +13.8 to +15.5). They are unusable on DNA.
+  - Union of 10 L-INS-i + 10 Clustal backbones: RNASim −0.41 / −0.45 / −0.50 (3/3); 1000M2 +0.01 / +0.38 / +0.22.
+    The RNASim gain may just come from having 20 backbones instead of 10. "20 L-INS-i backbones" is the control
+    that separates the two.
 - *gcmgen:* a soft down-weight (w = 0.03 on pairs without consensus) keeps the BAliBASE gain; it is being run on all datasets.
 
 **Check-in 6 (15:30 UTC): DecoDiPhy identifiability, round 2 final (`claude/cs581-decodiphy2`, proofs in
