@@ -14,3 +14,8 @@
 {"dataset": "1000M4_R4", "variant": "_timing", "split_seconds": 1, "extend_seconds": 103}
 {"dataset": "1000S1_R2", "variant": "_timing", "split_seconds": 1, "extend_seconds": 98}
 {"dataset": "1000L1_R0", "variant": "_timing", "split_seconds": 0, "extend_seconds": 135}
+{"dataset": "1000L2_R0", "variant": "_timing", "split_seconds": 1, "extend_seconds": 106}
+{"dataset": "1000L3_R0", "variant": "_timing", "split_seconds": 0, "extend_seconds": 180}
+{"dataset": "1000M2_R0", "variant": "_timing", "split_seconds": 1, "extend_seconds": 112}
+{"dataset": "1000M3_R0", "variant": "_timing", "split_seconds": 1, "extend_seconds": 93}
+{"dataset": "1000M4_R0", "variant": "_timing", "split_seconds": 1, "extend_seconds": 110}
