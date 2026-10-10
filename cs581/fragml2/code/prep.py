@@ -47,3 +47,19 @@ for r in range(5):
     make_frag.main("RNASim", r)
 for r in range(2):
     make_frag.main("RNASim10K", r)
+
+# RNASim10KHF: analysis alignment = columns with < 95% gaps among the full-length sequences
+# (ungapped length >= 0.5 x median), as in the epang pilot (memory for 5,000-tip EPA-ng); all arms use it.
+for r in range(2):
+    d = os.path.join(rt.MLDATA, "RNASim10KHF", "R%d" % r)
+    if os.path.exists(os.path.join(d, "true_mask.fasta")):
+        continue
+    import statistics
+    n, s = rt.read_fasta(os.path.join(d, "true_align.fasta"))
+    s = [x.upper().replace(".", "-") for x in s]
+    L = [len(x.replace("-", "")) for x in s]
+    med = statistics.median(L)
+    full = [x for x, l in zip(s, L) if l >= 0.5 * med]
+    keep = [j for j in range(len(s[0])) if sum(x[j] == "-" for x in full) < 0.95 * len(full)]
+    rt.write_fasta(os.path.join(d, "true_mask.fasta"), n, ["".join(x[j] for j in keep) for x in s])
+    print(d, "masked", len(s[0]), "->", len(keep))
