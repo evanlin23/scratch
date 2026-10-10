@@ -1,0 +1,11 @@
+1000L1_R0 /opt/data/Datasets/ROSE/1000L1/R0/rose.aln.true.fasta 25
+1000L2_R0 /opt/data/Datasets/ROSE/1000L2/R0/rose.aln.true.fasta 25
+1000L3_R0 /opt/data/Datasets/ROSE/1000L3/R0/rose.aln.true.fasta 25
+1000M1_R0 /opt/data/Datasets/ROSE/1000M1/R0/rose.aln.true.fasta 25
+1000M2_R0 /opt/data/Datasets/ROSE/1000M2/R0/rose.aln.true.fasta 25
+1000M3_R0 /opt/data/Datasets/ROSE/1000M3/R0/rose.aln.true.fasta 25
+1000M4_R0 /opt/data/Datasets/ROSE/1000M4/R0/rose.aln.true.fasta 25
+1000S1_R0 /opt/data/Datasets/ROSE/1000S1/R0/rose.aln.true.fasta 25
+1000S2_R0 /opt/data/Datasets/ROSE/1000S2/R0/rose.aln.true.fasta 25
+1000S3_R0 /opt/data/Datasets/ROSE/1000S3/R0/rose.aln.true.fasta 25
+RNASim_R0 /opt/data/Datasets/RNASim/1000/R0/true_align.txt 25

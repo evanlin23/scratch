@@ -78,10 +78,19 @@ def full():
             if (ds, m) in pub:
                 err[(ds, name)] = 100 * pub[(ds, m)]["avgErr"]
                 wall[(ds, name)] = pub[(ds, m)].get("published_seconds")
-    cols = ["MAGUS(pub)", "PASTA(pub)"] + tools
+    runs = os.path.join(HERE, "..", "..", "experiments", "runs")
+    for ds in datasets:  # earlier MAGUS(Fast) reruns, paper flags, 4 cores, same machine type (prep.json)
+        pj = os.path.join(runs, ds, "prep.json")
+        if os.path.exists(pj):
+            r = json.load(open(pj))
+            err[(ds, "MAGUS(4c)")] = 100 * r["avgErr"]
+            wall[(ds, "MAGUS(4c)")] = r["seconds"]
+    cols = ["MAGUS(pub)", "MAGUS(4c)", "PASTA(pub)"] + tools
     out = ["## Full datasets: average error (SPFN+SPFP)/2, %, and wall-clock seconds (4 threads)\n",
            "MAGUS(pub)/PASTA(pub) = FastSP on the authors' published alignment of the same replicate; their "
-           "seconds are the paper's own timing (different hardware). `magus` = our rerun with the paper's flags.\n",
+           "seconds are the paper's own timing (different hardware). MAGUS(4c) = earlier rerun of MAGUS(Fast) with the "
+           "paper's flags on this 4-core machine type (cs581/experiments/runs/<rep>/prep.json; random backbones, so "
+           "not identical to the published alignment).\n",
            "| dataset | " + " | ".join(cols) + " |", "|---" * (len(cols) + 1) + "|"]
     for ds in datasets:
         cells = []
@@ -101,7 +110,7 @@ def full():
             "| data | tool | n | mean Δ | W/T/L | p |", "|---|---|---|---|---|---|"]
     for group in ("ROSE", "RNASim", "BAliBASE", "16S", "all"):
         sub = {k: v for k, v in err.items() if group == "all" or dtype(k[0]) == group}
-        for t in tools + ["PASTA(pub)"]:
+        for t in tools + ["MAGUS(4c)", "PASTA(pub)"]:
             s = paired(sub, t, "MAGUS(pub)")
             if s:
                 out.append("| {} | {} | {} | {:+.1f} | {}/{}/{} | {} |".format(
@@ -131,7 +140,7 @@ def full():
                 best = y
         ax.plot(*zip(*front), color="#999", lw=1, ls="--", zorder=1)
         for c, (x, y) in pts.items():
-            pub_pt = "(pub)" in c
+            pub_pt = "MAGUS" in c or "PASTA" in c
             ax.scatter(x, y, s=40, marker="s" if pub_pt else "o", color="#c44" if "MAGUS" in c else "#36a", zorder=2)
             ax.annotate(c, (x, y), textcoords="offset points", xytext=(4, 4), fontsize=8)
         ax.set_xscale("log")
