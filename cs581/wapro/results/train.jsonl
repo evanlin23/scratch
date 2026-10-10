@@ -1,0 +1,234 @@
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.151, "cpu": 0.068}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.181, "cpu": 0.074}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W supe", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.08, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.085, "cpu": 0.062}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W len -N diam", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.082, "cpu": 0.062}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.1", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.151, "cpu": 0.065}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.3", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.08, "cpu": 0.063}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.5", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.141, "cpu": 0.065}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-N mean", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.14, "cpu": 0.062}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-A pair", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.087, "cpu": 0.062}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-G msup", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.092, "cpu": 0.062}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.457, "cpu": 0.353}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.45, "cpu": 0.412}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 1.598, "cpu": 1.537}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 1.486, "cpu": 1.318}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astral-pro3", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 6.406, "cpu": 6.244}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "disco-wastral", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 9.387, "cpu": 9.088}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wqfm-gdl", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 57.666, "cpu": 59.895}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astrid-pro", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.248, "cpu": 0.108}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.147, "cpu": 0.101}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W supe", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.185, "cpu": 0.1}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.149, "cpu": 0.101}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W len -N diam", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.133, "cpu": 0.088}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.1", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.181, "cpu": 0.122}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.3", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.189, "cpu": 0.106}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.5", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.185, "cpu": 0.106}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-N mean", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.2, "cpu": 0.103}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-A pair", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.149, "cpu": 0.102}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-G msup", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.195, "cpu": 0.114}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "disco-wastrid", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.399, "cpu": 0.34}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astrid-disco", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.389, "cpu": 0.352}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "asteroid", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 1.44, "cpu": 1.371}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "asteroid-bl", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 1.232, "cpu": 1.181}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astral-pro3", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 5.197, "cpu": 5.09}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 10.682, "cpu": 10.523}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wqfm-gdl", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 44.963, "cpu": 46.954}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.135, "cpu": 0.067}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.131, "cpu": 0.064}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W supe", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.187, "cpu": 0.068}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.134, "cpu": 0.068}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W len -N diam", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.135, "cpu": 0.068}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.1", "threads": 1, "FN": 13, "FP": 13, "nI": 97, "FNrate": 0.13402061855670103, "wall": 0.134, "cpu": 0.071}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.3", "threads": 1, "FN": 13, "FP": 13, "nI": 97, "FNrate": 0.13402061855670103, "wall": 0.085, "cpu": 0.07}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.5", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.135, "cpu": 0.069}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-N mean", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 0.087, "cpu": 0.063}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-A pair", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.087, "cpu": 0.062}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-G msup", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.091, "cpu": 0.064}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.508, "cpu": 0.403}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.46, "cpu": 0.387}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 1.582, "cpu": 1.476}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 1.943, "cpu": 1.725}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astral-pro3", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 7.167, "cpu": 6.953}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "disco-wastral", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 13.548, "cpu": 13.369}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wqfm-gdl", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 52.0, "cpu": 53.783}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astrid-pro", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.134, "cpu": 0.08}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.136, "cpu": 0.072}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W supe", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.136, "cpu": 0.101}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.147, "cpu": 0.069}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W len -N diam", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.135, "cpu": 0.069}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.1", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.128, "cpu": 0.073}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.3", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.137, "cpu": 0.077}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.5", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.141, "cpu": 0.078}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-N mean", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.126, "cpu": 0.067}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-A pair", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.145, "cpu": 0.068}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-G msup", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.139, "cpu": 0.077}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "disco-wastrid", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.447, "cpu": 0.404}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astrid-disco", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.496, "cpu": 0.359}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 1.381, "cpu": 1.313}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid-bl", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 1.485, "cpu": 1.409}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astral-pro3", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 5.513, "cpu": 5.34}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 7.981, "cpu": 7.747}
+{"data": "fmrfs", "cond": "dl1e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wqfm-gdl", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 46.29, "cpu": 48.854}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.1, "cpu": 0.051}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.092, "cpu": 0.062}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W supe", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.141, "cpu": 0.073}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.138, "cpu": 0.053}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W len -N diam", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.079, "cpu": 0.051}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.1", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.079, "cpu": 0.054}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.3", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.083, "cpu": 0.053}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.5", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.086, "cpu": 0.054}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-N mean", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.088, "cpu": 0.048}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-A pair", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.087, "cpu": 0.049}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-G msup", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.087, "cpu": 0.051}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.464, "cpu": 0.369}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.507, "cpu": 0.373}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 1.347, "cpu": 1.266}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 1.343, "cpu": 1.19}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astral-pro3", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 6.367, "cpu": 6.238}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "disco-wastral", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 12.335, "cpu": 12.042}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wqfm-gdl", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 54.259, "cpu": 56.743}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astrid-pro", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.101, "cpu": 0.053}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.143, "cpu": 0.099}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W supe", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.293, "cpu": 0.21}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.184, "cpu": 0.119}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W len -N diam", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.086, "cpu": 0.057}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.1", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.084, "cpu": 0.067}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.3", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.153, "cpu": 0.075}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.5", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.188, "cpu": 0.11}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-N mean", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.087, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-A pair", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.134, "cpu": 0.08}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-G msup", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.087, "cpu": 0.055}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "disco-wastrid", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.622, "cpu": 0.465}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astrid-disco", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.515, "cpu": 0.395}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "asteroid", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 1.233, "cpu": 1.08}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "asteroid-bl", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 1.282, "cpu": 1.214}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astral-pro3", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 5.309, "cpu": 5.154}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 1, "FP": 1, "nI": 97, "FNrate": 0.010309278350515464, "wall": 7.625, "cpu": 7.393}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wqfm-gdl", "threads": 1, "FN": 1, "FP": 1, "nI": 97, "FNrate": 0.010309278350515464, "wall": 45.378, "cpu": 48.422}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.131, "cpu": 0.088}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.18, "cpu": 0.093}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W supe", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.188, "cpu": 0.1}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.135, "cpu": 0.096}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W len -N diam", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.103, "cpu": 0.056}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.1", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.189, "cpu": 0.103}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.3", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.195, "cpu": 0.095}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.5", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.144, "cpu": 0.091}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-N mean", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.151, "cpu": 0.092}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-A pair", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.136, "cpu": 0.094}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-G msup", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.135, "cpu": 0.091}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.545, "cpu": 0.453}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.44, "cpu": 0.381}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 1.33, "cpu": 1.243}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 1.634, "cpu": 1.531}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astral-pro3", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 8.414, "cpu": 8.313}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "disco-wastral", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 10.142, "cpu": 9.796}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wqfm-gdl", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 50.633, "cpu": 52.717}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astrid-pro", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.081, "cpu": 0.055}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.086, "cpu": 0.057}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W supe", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.192, "cpu": 0.091}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.144, "cpu": 0.087}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W len -N diam", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.088, "cpu": 0.057}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.1", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.089, "cpu": 0.064}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.3", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.138, "cpu": 0.064}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.5", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.137, "cpu": 0.072}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-N mean", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.086, "cpu": 0.053}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-A pair", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.089, "cpu": 0.053}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-G msup", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.139, "cpu": 0.057}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "disco-wastrid", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.5, "cpu": 0.392}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astrid-disco", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.49, "cpu": 0.4}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 1.378, "cpu": 1.19}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid-bl", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 1.533, "cpu": 1.394}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astral-pro3", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 6.067, "cpu": 5.936}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 11.42, "cpu": 11.193}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wqfm-gdl", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 48.252, "cpu": 50.736}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.137, "cpu": 0.066}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.085, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W supe", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.087, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.103, "cpu": 0.056}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-W len -N diam", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.138, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.1", "threads": 1, "FN": 13, "FP": 13, "nI": 97, "FNrate": 0.13402061855670103, "wall": 0.14, "cpu": 0.07}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.3", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.139, "cpu": 0.059}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.5", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.084, "cpu": 0.059}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-N mean", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.101, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-A pair", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.087, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wapro:-G msup", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.086, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.505, "cpu": 0.428}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.512, "cpu": 0.369}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.783, "cpu": 0.678}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.785, "cpu": 0.687}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "astral-pro3", "threads": 1, "FN": 16, "FP": 16, "nI": 97, "FNrate": 0.16494845360824742, "wall": 7.112, "cpu": 6.96}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "disco-wastral", "threads": 1, "FN": 14, "FP": 14, "nI": 97, "FNrate": 0.14432989690721648, "wall": 12.242, "cpu": 12.025}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 25, "method": "wqfm-gdl", "threads": 1, "FN": 15, "FP": 15, "nI": 97, "FNrate": 0.15463917525773196, "wall": 37.462, "cpu": 40.445}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astrid-pro", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.144, "cpu": 0.082}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.142, "cpu": 0.079}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W supe", "threads": 1, "FN": 2, "FP": 2, "nI": 97, "FNrate": 0.020618556701030927, "wall": 0.145, "cpu": 0.079}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.14, "cpu": 0.08}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-W len -N diam", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.084, "cpu": 0.049}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.1", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.135, "cpu": 0.088}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.3", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.141, "cpu": 0.086}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.5", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.137, "cpu": 0.09}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-N mean", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.134, "cpu": 0.085}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-A pair", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.135, "cpu": 0.08}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wapro:-G msup", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.145, "cpu": 0.081}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "disco-wastrid", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.511, "cpu": 0.396}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astrid-disco", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.445, "cpu": 0.365}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "asteroid", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.728, "cpu": 0.662}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "asteroid-bl", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.689, "cpu": 0.598}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "astral-pro3", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 4.75, "cpu": 4.58}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 5.315, "cpu": 5.107}
+{"data": "fmrfs", "cond": "dl5e-10_ps1e7", "rep": "01", "sqln": 100, "method": "wqfm-gdl", "threads": 1, "FN": 1, "FP": 1, "nI": 97, "FNrate": 0.010309278350515464, "wall": 31.527, "cpu": 34.474}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.151, "cpu": 0.059}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.087, "cpu": 0.054}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W supe", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.087, "cpu": 0.054}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.084, "cpu": 0.054}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-W len -N diam", "threads": 1, "FN": 14, "FP": 14, "nI": 97, "FNrate": 0.14432989690721648, "wall": 0.099, "cpu": 0.061}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.1", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.088, "cpu": 0.074}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.3", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.087, "cpu": 0.061}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-c 0.5", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 0.089, "cpu": 0.061}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-N mean", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.094, "cpu": 0.055}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-A pair", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 0.087, "cpu": 0.056}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wapro:-G msup", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.087, "cpu": 0.061}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 0.507, "cpu": 0.437}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 0.563, "cpu": 0.517}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.952, "cpu": 0.885}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 1.082, "cpu": 1.001}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "astral-pro3", "threads": 1, "FN": 18, "FP": 18, "nI": 97, "FNrate": 0.18556701030927836, "wall": 6.968, "cpu": 6.872}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "disco-wastral", "threads": 1, "FN": 19, "FP": 19, "nI": 97, "FNrate": 0.1958762886597938, "wall": 12.34, "cpu": 12.133}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 25, "method": "wqfm-gdl", "threads": 1, "FN": 15, "FP": 15, "nI": 97, "FNrate": 0.15463917525773196, "wall": 41.02, "cpu": 44.312}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astrid-pro", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.13, "cpu": 0.085}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.131, "cpu": 0.086}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W supe", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.181, "cpu": 0.159}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.13, "cpu": 0.091}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-W len -N diam", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.13, "cpu": 0.089}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.1", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.13, "cpu": 0.095}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.3", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.13, "cpu": 0.118}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-c 0.5", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.181, "cpu": 0.111}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-N mean", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.136, "cpu": 0.095}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-A pair", "threads": 1, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216494845360824, "wall": 0.14, "cpu": 0.091}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "wapro:-G msup", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.135, "cpu": 0.11}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "disco-wastrid", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 0.437, "cpu": 0.421}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astrid-disco", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.436, "cpu": 0.404}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astrid-disco", "threads": 1, "FN": 5, "FP": 5, "nI": 97, "FNrate": 0.05154639175257732, "wall": 0.605, "cpu": 0.443}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 0.882, "cpu": 0.826}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid", "threads": 1, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.041237113402061855, "wall": 1.196, "cpu": 0.737}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid-bl", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 0.891, "cpu": 0.831}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "asteroid-bl", "threads": 1, "FN": 3, "FP": 3, "nI": 97, "FNrate": 0.030927835051546393, "wall": 1.316, "cpu": 0.966}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "astral-pro3", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 5.176, "cpu": 5.045}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.199, "cpu": 0.056}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-W sup", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.143, "cpu": 0.056}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-W supe", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.254, "cpu": 0.091}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-W sup -p 2", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.153, "cpu": 0.056}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-W len -N diam", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.151, "cpu": 0.056}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-c 0.1", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.151, "cpu": 0.063}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-c 0.3", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.143, "cpu": 0.063}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-c 0.5", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.15, "cpu": 0.063}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-N mean", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.158, "cpu": 0.07}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-A pair", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 0.149, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "wapro:-G msup", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.158, "cpu": 0.058}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.723, "cpu": 0.401}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 0.806, "cpu": 0.406}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 8.432, "cpu": 7.923}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 12, "FP": 12, "nI": 97, "FNrate": 0.12371134020618557, "wall": 3.661, "cpu": 1.549}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "02", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247422680412371, "wall": 3.461, "cpu": 1.366}
+{"data": "fmrfs", "cond": "dl5e-10_ps5e7", "rep": "01", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.061855670103092786, "wall": 17.841, "cpu": 8.071}
