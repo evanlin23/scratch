@@ -190,6 +190,8 @@ def run(rep, names):
         else:
             out, m_wall = bbe.merge(rep, name.replace(":", "_c_"), files)
         s = acc_ref(os.path.join(rep, "true.fasta"), out)
+        import shutil
+        shutil.rmtree(os.path.join(os.path.dirname(out), "bb"), ignore_errors=True)  # disk: keep only out.fasta
         row = {"rep": os.path.basename(rep.rstrip("/")), "variant": name, "nbb": len(files), "bb_wall": bb_wall,
                "bb_sum": bb_sum, "prep_wall": prep_wall, "merge_wall": m_wall, **s}
         with open(res, "a") as f:

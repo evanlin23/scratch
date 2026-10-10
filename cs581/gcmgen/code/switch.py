@@ -19,11 +19,13 @@ from scipy.stats import wilcoxon
 R = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results")
 TRAIN = {"BBA0101", "BBA0134", "BBA0067", "BBA0039", "SIMMOD_R1", "SIMHIGH_R1", "1000M2", "1000L1", "1000L2", "16S.M"}
 HELD = {"BBA0154", "BBA0190", "BBA0081", "BBA0117", "SIMMOD_R2", "SIMHIGH_R2", "1000L3", "1000M3", "1000S1",
-        "1000S2", "RNASim"}
+        "1000S2", "RNASim", "1000M4", "1000S3", "1000M2_R1", "1000L1_R1", "RNASim_R1"}
 RECIPES = [  # (second aligner, variant if overlap >= theta, variant otherwise)
     ("fftns2", "linsi&fftns2", "linsi"),
     ("fftns2", "wsoft0.01:linsi&fftns2", "linsi"),
     ("fftns2", "linsi&fftns2", "wsoft0.03:linsi&fftns2"),
+    ("fftns2", "linsi&fftns2", "wsoft0.03:linsi&fftns2#es4"),
+    ("fftns2", "linsi&fftns2#es2", "linsi#es4"),
     ("fftns2-op3", "linsi&fftns2-op3", "linsi"),
     ("fftns2", "linsi|cons0.7", "linsi"),
     ("linsi-rt", "linsi&linsi-rt", "linsi"),

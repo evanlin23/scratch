@@ -21,3 +21,10 @@ number of L-INS-i backbones supporting an edge) is run on the 10 training replic
 replicates are scored only with the selected recipe and the named comparison variants. Some held-out
 replicates were already run with a few grid points before this rule was written (they are reported,
 but not used to choose).
+
+## Selection outcome (18:06)
+
+Selected on training by the rule above: `wsoft0.03:linsi&fftns2#es4`. Before scoring it, five extra
+held-out DNA/RNA replicates were added (cached MAGUS inputs, never looked at): 1000M4_R0, 1000S3_R0,
+1000M2_R1, 1000L1_R1, RNASim_R1. (BBA0081 and BBA0117 were dropped for lack of compute: fresh MAGUS
+draws took ~1 h each on the loaded machine.)
