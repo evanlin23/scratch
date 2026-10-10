@@ -28,6 +28,27 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**protcons final (20:17 UTC, `claude/cs581-protcons`; pre-registered; 28 held-out protein sets: 8 simulated, 10
+HomFam, 2 10AA, 8 fresh BAliBASE draws).**
+- *Pre-registered primary `linsi|cons0.7` + gate:* FAILS. −0.59 (15/5/8, p = 0.13).
+  - BAliBASE replicates the pilot (−2.03, 7/1/0), but excluding BAliBASE it is −0.01.
+  - The gate's protein accuracy is 54% (chance).
+- *MAFFT-only `L ∩ FFT-NS-2 --op 3`:* −1.28 (23/1/4, p = 0.0003); excluding BAliBASE −0.97 (p = 0.007); simulated
+  8/8 (−2.28); HomFam −0.15; nucleotides +4.8 (0/0/5).
+- *Post-hoc edge support ≥ 5 of 10 backbones* (k chosen from 3 values on the same data):
+  - proteins −1.90 (17/4/7, p = 0.004); simulated −5.81 (8/0/0, via SPFN −11.6); HomFam −0.11; BAliBASE −0.71;
+  - nucleotides −0.03.
+  - This independently agrees with gcmgen's edge-support result.
+- *Trees (FastTree, 8 simulated sets):* Δ nRF +0.36 (primary), −0.11 (L∩F), all p > 0.4. **No tree gain.**
+- *Runtime:* all recipes cost < 5% of MAGUS on proteins.
+- *Session verdict:* consistency filtering as pre-registered is not promising. The pivot, support-aware GCM graphs
+  (edge-support threshold/weighting, plus L∩F on proteins) pre-registered on fresh data, is "unclear to promising".
+  The suspected mechanism is MCL fragmentation from low-support edges.
+- *Consolidated picture with gcmgen:*
+  - Edge support is the general lever: it helps proteins (mostly simulated, via recall) and is neutral on DNA.
+  - The FFT-NS-2 confirmation adds a BAliBASE (precision) gain.
+  - Neither helps DNA/RNA, and neither yet improves trees.
+
 **bbtool-6 final (20:05 UTC; 16S.M and 1000L1, 3 draws each; Δ vs MAGUS's own merge).**
 - *16S.M:* Clustal +5.4 to +7.1. `mafft --auto` backbones −0.39 / −0.84 / −0.32. Union with Clustal +0.1 to +0.3.
   L-INS-i without `--ep` and G-INS-i ≈ 0.

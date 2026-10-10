@@ -20,14 +20,13 @@ are mostly wrong on 7 of 8 sets (4-29% correct). (2) *Method.* Keeping only the 
 L-INS-i and MAFFT FFT-NS-2 (`--op 3`, ~1.5 CPU-s per backbone) align, and merging as usual, lowers MAGUS's
 error by 1.83 points on BAliBASE (7/1/0 sets, one MAGUS run each, paired, Wilcoxon p = 0.016); masking columns
 the ten L-INS-i backbones disagree on (no new alignment at all) gives −1.73 (7/1/0, p = 0.008). For scale,
-MAGUS's own gain over PASTA on the paper's 1,000-sequence data is 2.7 points. (3) *Held-out test (pre-registered,
-interim).* On simulated proteins with true alignments (AliSim LG+G4 with indels, 1,000 sequences, two divergence
-levels, 8 replicates) the MAFFT-only intersection lowers error on 8/8 replicates (mean −2.27 points, range −0.89
-to −4.17; p = 0.008); the masking variant is weaker (−0.84, 5/8). On HomFam (10 families, Homstrad-seed scoring)
-it is flat (−0.15, 6/1/3, n.s.; −1.60 to +2.09), where MAGUS is limited by recall rather than precision; over all 20
-held-out sets −0.97 (15/1/4, p = 0.007). (4) *Limits.* Hard filtering hurts on nucleotide data (ROSE, RNASim: +7 to
-+31), where pairs found by only one alignment are mostly correct, and alignment gains do not yet show up in FastTree
-trees (8 simulated sets, mean RF −0.1, within noise). Adding Clustal Omega backbones hurts simulated proteins,
+MAGUS's own gain over PASTA on the paper's 1,000-sequence data is 2.7 points. (3) *Held-out test (pre-registered).* Over 28 held-out protein sets (8 AliSim LG+G4 simulations with true
+alignments, 10 HomFam families, 2 10AA sets, 8 fresh BAliBASE draws), the MAFFT-only intersection lowers error by
+1.28 points (23/1/4, p = 0.0003; −0.97 excluding BAliBASE, p = 0.007; simulations 8/8, −2.28), but HomFam is flat
+(−0.15), where MAGUS is limited by recall rather than precision. The pre-registered primary (consistency masking
+plus a reference-free gate) failed: −0.59, p = 0.13, and the gate was at chance (54%). (4) *Limits.* Hard filtering hurts on nucleotide data (ROSE, RNASim: +7 to
++31), where pairs found by only one alignment are mostly correct, and alignment gains do not show up in FastTree
+trees (8 simulated sets, Δ nRF −0.11, p > 0.4). Adding Clustal Omega backbones hurts simulated proteins,
 and a pre-registered reference-free gate did not transfer. (5) *A recipe for all data types (chosen on 10
 training sets, no data-type switch).* Cross-subset GCM edges supported by fewer than 4 of the 10 backbones are
 almost all wrong on every data type (2-10% correct vs 76-88% at support ≥ 4). Down-weighting unconfirmed pairs to
