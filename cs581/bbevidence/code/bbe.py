@@ -144,16 +144,18 @@ def align_set(rep, tool, seed, only=None):
     def one(f):
         argv = [mafft_bin() if a == "MAFFT" else a for a in TOOLS[tool]]
         dst = os.path.join(out, f)
+        tmp = "{}.{}.tmp".format(dst, os.getpid())  # lanes may align the same cache concurrently
         start = time.time()
         if tool == "famsa":
-            subprocess.run(argv + [os.path.join(src, f), dst + ".tmp"], check=True, capture_output=True)
+            subprocess.run(argv + [os.path.join(src, f), tmp], check=True, capture_output=True)
         elif tool.startswith("muscle"):
-            subprocess.run(argv + [os.path.join(src, f), "-output", dst + ".tmp"], check=True, capture_output=True)
+            subprocess.run(argv + [os.path.join(src, f), "-output", tmp], check=True, capture_output=True)
         else:
-            with open(dst + ".tmp", "w") as o:
+            with open(tmp, "w") as o:
                 subprocess.run(argv + [os.path.join(src, f)], stdout=o, stderr=subprocess.DEVNULL, check=True)
-        fasta.write(fasta.upper(fasta.read(dst + ".tmp")), dst)
-        os.remove(dst + ".tmp")
+        fasta.write(fasta.upper(fasta.read(tmp)), tmp + "2")
+        os.replace(tmp + "2", dst)
+        os.remove(tmp)
         return f, round(time.time() - start, 1)
 
     start = time.time()
@@ -289,13 +291,6 @@ def parse_variant(rep, name):
         else:
             raise SystemExit("unknown mask " + how)
         return [(lab, mask_columns(a, m)) for (lab, a), m in zip(files, masks)], wall, tot
-    if "&" in name:  # pair intersection of the same sequence sets aligned by several tools
-        parts = name.split("&")
-        got = [parse_variant(rep, p) for p in parts]
-        out = []
-        for i, (lab, a) in enumerate(got[0][0]):
-            out.append((lab, intersect([a] + [g[0][i][1] for g in got[1:]])))
-        return out, sum(g[1] or 0 for g in got), sum(g[2] or 0 for g in got)
     if "+" in name:
         out, wall, tot = [], 0, 0
         for part in name.split("+"):
@@ -303,6 +298,13 @@ def parse_variant(rep, name):
             out += [(part + "_" + lab, a) for lab, a in f]
             wall, tot = wall + (w or 0), tot + (s or 0)
         return out, wall, tot
+    if "&" in name:  # pair intersection of the same sequence sets aligned by several tools
+        parts = name.split("&")
+        got = [parse_variant(rep, p) for p in parts]
+        out = []
+        for i, (lab, a) in enumerate(got[0][0]):
+            out.append((lab, intersect([a] + [g[0][i][1] for g in got[1:]])))
+        return out, sum(g[1] or 0 for g in got), sum(g[2] or 0 for g in got)
     if "^" in name:
         base, k = name.split("^")
         f, w, s = parse_variant(rep, base)
