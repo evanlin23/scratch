@@ -76,6 +76,19 @@ def main():
             "{:.3g}".format(p) if p == p else "-", np.mean([b["wall"] for _, b in pairs]), speed.mean(), cpu.mean()))
         points[v] = (1 / speed.mean(), delta.mean(), len(pairs))
 
+    # the same comparison against the authors' published MAGUS(Fast) alignment of each replicate
+    # (a different random backbone draw: shows how much of a delta is backbone-draw noise)
+    pub = published()
+    lines += ["", "## Against the published MAGUS(Fast) alignment of the same replicate", "",
+              "| variant | n | mean delta vs published MAGUS(Fast) (pts) | W/T/L |", "|---|---|---|---|"]
+    for v in variants:
+        dl = [100 * rows[d][v]["avgErr"] - pub[d]["MAGUS(Fast)"][0] for d in ds
+              if "avgErr" in rows[d].get(v, {}) and "MAGUS(Fast)" in pub.get(d, {})]
+        if dl:
+            dl = np.array(dl)
+            lines.append("| {} | {} | {:+.2f} | {}/{}/{} |".format(v, len(dl), dl.mean(), (dl < -TIE).sum(),
+                                                               (abs(dl) <= TIE).sum(), (dl > TIE).sum()))
+
     # stage breakdown of MAGUS runs
     lines += ["", "## MAGUS (paper flags) stage breakdown on this machine", "",
               "| replicate | wall s | guide tree s (%) | subsets+backbones until graph built s (%) | cluster+trace s (%) |",
@@ -92,7 +105,6 @@ def main():
             d, m["wall"], st["decomp"], 100 * st["decomp"] / tot, bb, 100 * bb / tot, rest, 100 * rest / tot))
 
     # PASTA reference (published logs, same replicates): ratio of runtimes, difference of errors
-    pub = published()
     ref = []
     for d in ds:
         p = pub.get(d, {})
