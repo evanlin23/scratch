@@ -34,7 +34,7 @@ def load():
     for p in glob.glob(os.path.join(ROOT, "*", "R*", "*", "score.json")):
         d = json.load(open(p))
         cond, rep, meth = p.split(os.sep)[-4:-1]
-        if cond.startswith("valid"):
+        if cond.startswith(("valid", "small")):
             continue
         r = {"cond": cond, "rep": rep, "method": meth, "time": d["time"]}
         for part in ("all", "long"):
@@ -110,6 +110,18 @@ def paired(rows, new, base, part, conds=None):
             "W": w, "T": t, "L": l_, "p": p}
 
 
+def small_table():
+    """De novo check on 100-sequence datasets (small_denovo.sh)."""
+    lines = ["| condition | rep | method | long SPFN / SPFP | all SPFN / SPFP | time (s) |", "|---|---|---|---|---|---|"]
+    for p in sorted(glob.glob(os.path.join(ROOT, "small_*", "R*", "*", "score.json"))):
+        d = json.load(open(p))
+        cond, rep, meth = p.split(os.sep)[-4:-1]
+        lo, al = pick(d["score"], "long"), pick(d["score"], "all")
+        lines.append("| %s | %s | %s | %.3f / %.3f | %.3f / %.3f | %.0f |" % (
+            cond, rep, meth, lo["SPFN"], lo["SPFP"], al["SPFN"], al["SPFP"], d["time"]))
+    return "\n".join(lines)
+
+
 def main():
     rows = load()
     os.makedirs(OUT, exist_ok=True)
@@ -142,6 +154,7 @@ def main():
                     stats.append(s)
                     md.append("| %s vs %s | %s | %s | %d | %+.4f | %d/%d/%d | %.3g |" % (
                         new, base, part, label, s["n"], s["mean_diff"], s["W"], s["T"], s["L"], s["p"]))
+    md += ["", "## De novo check on small datasets (100 sequences, 10 long; 2 threads)", "", small_table()]
     json.dump(stats, open(os.path.join(OUT, "paired.json"), "w"), indent=1)
     open(os.path.join(OUT, "tables.md"), "w").write("\n".join(md) + "\n")
     print("\n".join(md))

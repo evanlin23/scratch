@@ -100,3 +100,9 @@ Cells: mean SPFN / SPFP over replicates (UPP/WITCH-based: insertion letters mask
 | emma-tfa vs mafft-add | all | random flank | 9 | -0.0049 | 9/0/0 | 0.00391 |
 | emma-tfa vs mafft-add | all | second domain | 6 | -0.0014 | 6/0/0 | 0.0312 |
 | emma-tfa vs mafft-add | all | control | 3 | -0.0001 | 3/0/0 | 0.25 |
+
+## De novo check on small datasets (100 sequences, 10 long; 2 threads)
+
+| condition | rep | method | long SPFN / SPFP | all SPFN / SPFP | time (s) |
+|---|---|---|---|---|---|
+| small_rand_m0 | R0 | upp | 0.006 / 0.003 | 0.001 / 0.000 | 5 |
