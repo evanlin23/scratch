@@ -315,7 +315,7 @@ For nucleotides, no.**
 ## 6. Risks and caveats
 
 - **One replicate per condition.**
-  - ROSE results are paired across 10 conditions, not across replicates. RNASim and 16S.T have n = 1. On RNASim 10K, only TWILIGHT (1 iteration) finished before the budget ran out: 11.5% error in 285 s, against 8.3% for published MAGUS (mean of 10 replicates).
+  - ROSE results are paired across 10 conditions, not across replicates. RNASim and 16S.T have n = 1. On RNASim 10K, only TWILIGHT (1 iteration) finished before the budget ran out: 11.5% error in 285 s, against 8.3% for published MAGUS (mean of 10 replicates). MAFFT PartTree got 27.6% in 629 s.
   - The gaps are 10–80 points, so this barely matters for Question 1. It does matter for the 0.3–0.5-point merge
     results (n = 5).
 - **MAGUS runtimes are not fresh.**
