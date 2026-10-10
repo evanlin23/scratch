@@ -28,7 +28,8 @@ and every variant is paired against MAGUS's own merge (`linsi`) on the same repl
    DNA/RNA. Together they win 8/9 protein replicates (1 tie).
 3. **The "reliable second opinion" hypothesis is half right.** A second opinion that is as accurate as L-INS-i
    removes the DNA catastrophe — G-INS-i on ROSE 1000M2: hard intersection +0.87 instead of +32.5 — but still
-   does not *help* on DNA, because there the L-INS-i pairs a second aligner misses are mostly correct (65–94%).
+   does not *help* on DNA: on these recall-limited nucleotide sets deleting even mostly-wrong evidence raises
+   SPFN more than it lowers SPFP.
    L-INS-i with a random guide tree (GUIDANCE-style, 1c) is **not** reliable on ROSE (its backbones are ~99%
    wrong too; hard filter +4.1 / +16.7) and costs ~600× FFT-NS-2.
 4. **Adaptive switch (4)** on measured FFT-NS-2 agreement (θ = 0.306, fixed on training) acts as a ROSE detector:
@@ -97,15 +98,17 @@ points (W/T/L, Wilcoxon p), and mean ΔSPFN / ΔSPFP:
 | **1. second opinion, hard intersection** | | | | |
 | `linsi&fftns2` | −1.45 (8/1/0, p = 0.004), n = 9 | −0.09 / −2.81 | **+15.20** (1/1/12, p = 0.001), n = 14 | +31.9 / −1.5 |
 | `linsi&fftns2-op3` | −1.10 (6/0/1), n = 7 | −0.06 / −2.14 | +7.58 (1/0/4), n = 5 | +15.8 / −0.7 |
-| `linsi&linsi-rt` (1c) | −1.37 (BBA0101) | +0.01 / −2.75 | +4.12, +16.67 (1000L1, 1000M2) | +21.4 / −0.6 |
-| `linsi~5&ginsi@h` (1a, 5 backbones, vs `linsi~5`) | −0.89 (BBA0101) | | +0.87 (1000M2) | |
+| `linsi&linsi-rt` (1c) | −1.37, +0.08 (BBA0101, BBA0134) | | +4.12, +16.67 (1000L1, 1000M2) | +21.4 / −0.6 |
+| `linsi~5&ginsi@h` (1a, 5 backbones, vs `linsi~5`) | −0.89 (BBA0101) | | +0.87 (1000M2) | +3.65 / −1.89 |
+| `linsi~5&einsi@h` (1b, vs `linsi~5`) | −1.41 (BBA0101) | | not run | |
+| `linsi~5&linsi-op3@h` (1d, vs `linsi~5`) | __OP3__ (BBA0101) | | not run | |
 | `linsi~5&fftns2~5` (same 5 backbones, vs `linsi~5`) | | | +32.45 (1000M2) | |
 | **2. soft weighting** (unconfirmed pairs at weight w) | | | | |
 | `soft0.5:linsi&fftns2` | −0.09 (3/0/1), n = 4 | +0.01 / −0.19 | −0.03 (1/2/0), n = 3 | |
 | `wsoft0.1:linsi&fftns2` | −0.56 (5/1/1), n = 7 | +1.15 / −2.26 | −0.06 (3/4/2), n = 9 | +0.30 / −0.42 |
 | `wsoft0.03:linsi&fftns2` | −0.01 (6/0/3), n = 9 | +2.56 / −2.58 | +0.03 (4/5/5), n = 14 | +0.50 / −0.45 |
 | `wsoft0.01:linsi&fftns2` | −0.21 (5/1/2), n = 8 | +2.64 / −3.06 | +0.23 (2/2/5), n = 9 | +1.17 / −0.72 |
-| `soft0.5` / `wsoft0.03` / `wsoft0.01` `:linsi&linsi-rt` | −0.25 / −0.59 / −1.23 (BBA0101) | | −0.01 / +0.11 / +1.34 | |
+| `soft0.5` / `wsoft0.03` / `wsoft0.01` `:linsi&linsi-rt` | BBA0101 −0.25 / −0.59 / −1.23; BBA0134 +0.23 / +2.77 / −0.29 | | 1000L1 −0.01 / +0.11 / +0.19; 1000M2 −0.00 / — / +2.49 | |
 | `wsoft0.03:linsi~5&ginsi@h` (vs `linsi~5`) | −1.21 (BBA0101) | | +0.54 (1000M2) | |
 | **3. self-consistency only** | | | | |
 | `linsi\|cons0.7` | −0.99 (5/1/1), n = 7 | +1.03 / −3.00 | +7.03 (2/0/4), n = 6 | +15.6 / −1.6 |
@@ -147,16 +150,22 @@ Per replicate, the selected recipe and its two halves (Δ error points; MAGUS er
     `--anysymbol`: FFT-NS-2 with `--nuc` gives the same alignments and the same +25.6 on 1000M2.
   - **L-INS-i with a random guide tree (1c) is just as broken on ROSE** (backbone SPFN/SPFP 0.99 / 0.99 on
     1000M2; agreement with MAGUS's L-INS-i 0.8%), so the GUIDANCE-style perturbation is not a "reliable second
-    opinion" on hard DNA either: hard intersection +4.1 / +16.7. On BBA0101 it is as good a filter as FFT-NS-2
-    (−1.37 vs −1.91) at ~600× the cost. The shuffled-order-only variant (`linsi-sh`) was dropped for cost
+    opinion" on hard DNA either: hard intersection +4.1 / +16.7. On proteins it is no better a filter than
+    FFT-NS-2 (BBA0101 −1.37 vs −1.91; BBA0134 +0.08 vs −0.97), agrees with L-INS-i no more (overlap 0.61 / 0.63
+    vs FFT-NS-2 0.61 / 0.69), and costs ~600× more. The shuffled-order-only variant (`linsi-sh`) was dropped for cost
     before it ran.
   - **G-INS-i (1a) is reliable on ROSE**: on 1000M2 its backbones are as accurate as L-INS-i's (SPFN/SPFP
-    0.26 / 0.20), and the hard intersection costs only +0.87 (vs +32.45 for FFT-NS-2 on the same 5 backbones);
-    on BBA0101 it gives −0.89 hard / −1.21 soft. So the hypothesis is **half right**: a reliable second opinion
-    removes the catastrophe, but on DNA the filter still does not *help* (+0.87, +0.54), because there the
-    L-INS-i pairs that the second aligner does not make are mostly correct (§4: 65–94% on ROSE/RNASim).
-    And G-INS-i costs as much as L-INS-i (here ~820–1,160 s per backbone under load), doubling MAGUS's
-    backbone time. E-INS-i (1b) and L-INS-i `--op 3` (1d) were screened on BBA0101 only (§3 note below).
+    0.26 / 0.20; it confirms 75% of L-INS-i's pairs, FFT-NS-2 0.4%), and the hard intersection costs only
+    +0.87 (vs +32.45 for FFT-NS-2 on the same 5 backbones); on BBA0101 it gives −0.89 hard / −1.21 soft.
+    So the hypothesis is **half right**: a reliable second opinion removes the catastrophe, but on DNA the
+    filter still does not *help* (+0.87 hard, +0.54 soft). Here the L-INS-i pairs G-INS-i rejects are mostly
+    wrong (35% correct), and SPFP does fall (−1.9), but SPFN rises more (+3.7): MAGUS's error on these
+    nucleotide sets is recall-limited, so deleting evidence costs more than it buys even when it is mostly
+    junk. G-INS-i also costs as much as L-INS-i (~820–1,160 s per backbone here, under load), doubling
+    MAGUS's backbone time.
+  - E-INS-i (1b) and L-INS-i `--op 3` (1d) were screened on BBA0101 only (5 backbones, vs `linsi~5`): E-INS-i
+    −1.41, `--op 3` __OP3__; both confirm ~80% of L-INS-i's pairs (like G-INS-i) and reject pairs that are only
+    12% correct, but they cost 565–1,400 s per backbone, and none was tested on DNA for lack of time.
 - **(2) Soft weighting** keeps DNA/RNA safe (w = 0.03: +0.03, 4/5/5; vs +15.2 for the hard filter) and keeps
   most of the BAliBASE gain (−0.06 to −1.89 on 6 sets), but on its own it **hurts the simulated proteins**
   (+1.1 to +3.8). w = 0.5 and 0.25 change almost nothing anywhere; w = 0.01 starts to hurt ROSE (+0.96 on
@@ -181,8 +190,6 @@ of 15 candidates (`results/tables.md`, "Recipe selection"); training: −1.14 (7
 | `linsi#es3` (no second aligner) | −0.41 (5/8/0, p = 0.005) | −1.65 (2/1/0) | −0.04 (3/7/0) | +0.04 |
 | `linsi&fftns2` (bbevidence's filter) | +9.80 (3/1/9) | −2.12 (3/0/0) | +13.38 (0/1/9) | +27.60 |
 
-Note on 1b/1d: on BBA0101 the 5-backbone screen of E-INS-i and L-INS-i `--op 3` intersections __EINSI__.
-
 ## 4. Agreement statistics (reference-free) and the adaptive switch
 
 Reference-free agreement = fraction of MAGUS's L-INS-i cross-subset residue pairs that FFT-NS-2's alignment of
@@ -198,8 +205,8 @@ mean everywhere). "prec unconf" uses the reference and is shown only to explain 
 | BAliBASE | 6 | 0.61–0.96 | 0.67–0.94 | **0.24–0.41** |
 | AliSim proteins | 3 | 0.66–0.86 | 0.69–0.89 | 0.49–0.57 |
 
-Other second aligners (overlap / prec unconfirmed): random-tree L-INS-i BBA0101 0.61 / 0.33, BBA0134 __RT134__,
-1000M2 0.008 / 0.77, 1000L1 0.009 / 0.77; G-INS-i (5 backbones) BBA0101 0.81 / 0.11, 1000M2 __GINSI_M2__;
+Other second aligners (overlap / prec unconfirmed): random-tree L-INS-i BBA0101 0.61 / 0.33, BBA0134 0.63 / 0.37,
+1000M2 0.008 / 0.77, 1000L1 0.009 / 0.77; G-INS-i (5 backbones) BBA0101 0.81 / 0.11, 1000M2 0.75 / 0.35;
 E-INS-i BBA0101 0.79 / 0.13. Per-replicate rows: `results/tables.md`, "Agreement".
 
 - The overlap separates "second aligner broken" (ROSE except 1000M4: ≤ 0.11) from "second aligner usable"
@@ -314,9 +321,10 @@ not make 1/33 of the weight, and drop GCM edges that fewer than 4 of the 10 L-IN
   "Does not hurt" holds to within half a point; "helps DNA/RNA" is not achieved by any variant here (the
   best DNA/RNA mean over ≥ 9 replicates is −0.06, `wsoft0.1:linsi&fftns2`, with 3/4/2).
 - The original hypothesis ("filtering helps whenever the second opinion is as reliable as L-INS-i") is only
-  half supported: reliability removes the catastrophe (G-INS-i on ROSE) but not the cost of deleting L-INS-i's
-  mostly-correct unconfirmed pairs on nucleotides. The data-type difference is in *how often L-INS-i's
-  uncorroborated pairs are right* (proteins 24–57%, nucleotides 65–94%, 16S.M 34%), not in the second aligner.
+  half supported: reliability removes the catastrophe (G-INS-i on ROSE: +0.87 instead of +32.5) but the
+  filter still loses on nucleotides, where MAGUS's error is recall-limited (deleting evidence raises SPFN by
+  more than it lowers SPFP, even when the deleted pairs are 65% wrong). With FFT-NS-2 the unconfirmed L-INS-i
+  pairs are 24–57% correct on proteins and 65–94% on ROSE/RNASim (34% on 16S.M).
 - What carries the generality is that the recipe never deletes L-INS-i evidence that has no competitor: soft
   weighting only demotes, and the edge-support cut removes only edges that at most 3 of the 10 backbones
   support (2–25% of their residue pairs are true, on every data type).
