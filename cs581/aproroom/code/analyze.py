@@ -298,6 +298,21 @@ def main():
         if "FNrate" in dd:
             t = dd.pivot_table(index=["cond", "ngen"], columns="cfg", values="FNrate", aggfunc="first")
             out.write("**FN rate**\n\n" + t.round(3).fillna("–").to_markdown() + "\n\n")
+    p = os.path.join(R, "qscore.jsonl")
+    if os.path.exists(p):
+        q = pd.DataFrame([json.loads(l) for l in open(p)]).drop_duplicates(["cond", "rep", "level"], keep="last")
+        rows = []
+        for lev, g in q.groupby("level"):
+            a, t, b = g["astral-pro3_score"], g["true_score"], g["astrid-pro_score"]
+            rows.append([lev, len(g), int((t > a).sum()), int((t == a).sum()), int((t < a).sum()),
+                         float(((a - t) / a).mean() * 100), int((b < a).sum()),
+                         int(((g["astrid-pro_FN"] < g["astral-pro3_FN"]) & (b < a)).sum()),
+                         float(g["astral-pro3_FN"].mean()), float(g["astrid-pro_FN"].mean())])
+        out.write("## Q4b. Search or objective? ASTRAL-Pro3 quartet score of the true tree vs ASTRAL-Pro3's tree "
+                  "(FastMulRFS, 100 genes, reps 01-05)\n\n" + table(
+                      ["level", "n", "true scores higher (search failure)", "equal", "true scores lower (objective failure)",
+                       "score gap ASTRAL - true (%)", "ASTRID-Pro tree scores lower than ASTRAL's",
+                       "... and has fewer FN", "mean FN ASTRAL-Pro3", "mean FN ASTRID-Pro"], rows) + "\n")
     # failures
     rows = []
     for f in ["fmrfs.jsonl", "disco_q1.jsonl", "disco_q2.jsonl", "genes_q2.jsonl", "sp1000_q2.jsonl", "hybrid_disco.jsonl",

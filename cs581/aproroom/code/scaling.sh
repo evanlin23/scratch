@@ -18,3 +18,6 @@ for n in 100 1000 10000; do
   [ $n -le 1000 ] && BENCH_TIMEOUT=1500 $B --genes $D/g_100.trees --ngen $n --true $D/s_tree.trees --out $O --key "${K/THR/4}" --methods astral-pro3 --threads 4
   [ $n -le 100 ] && BENCH_TIMEOUT=1500 $B --genes $D/g_100.trees --ngen $n --true $D/s_tree.trees --out $O --key "${K/THR/4}" --methods wqfm-gdl --threads 4
 done
+# hardest DISCO regime, where ASTRAL-Pro3 timed out at 1 thread in the previous pilot: retry with 4 threads
+D=/opt/data/disco/trees/gdl_1e-9_0/01
+BENCH_TIMEOUT=1800 $B --genes $D/g_100.trees --true $D/s_tree.trees --out $H/../results/disco_q2.jsonl --key '{"data": "disco", "cond": "gdl_1e-9_0", "rep": "01", "ngen": 1000, "level": "est100"}' --methods astral-pro3 --threads 4
