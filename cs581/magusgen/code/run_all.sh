@@ -19,7 +19,9 @@ while read -r name src k; do
       python3 $M/code/mg.py rep $name $R $src || continue
     fi
   fi
-  V=$(grep -v '^#' $M/code/variants.txt | tr '\n' ' ')  # re-read per job, so variants can be added mid-run
+  VF=$M/code/variants.txt  # re-read per job, so variants can be added mid-run
+  case $name in BBA*|SIM*) ;; *) [ -f $M/code/variants_nuc.txt ] && VF=$M/code/variants_nuc.txt ;; esac
+  V=$(grep -v '^#' $VF | tr '\n' ' ')
   (cd $C && python3 $M/code/mg.py run $R $V) >> $W/run.log 2>&1
   mkdir -p $M/results
   cp $R/results.jsonl $M/results/$name.results.jsonl
