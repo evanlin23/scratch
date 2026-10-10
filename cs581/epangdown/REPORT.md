@@ -14,6 +14,20 @@ and fixed gives 0.78. So I went ahead.
 
 ## Bottom line
 
+0. **(Added after the orchestrator's follow-up.) Whole-tree EPA-ng, BSCAMPP paper Exp. 5.**
+   EPA-ng on the whole backbone does not fit for 77K/49K leaves, so I used a random
+   10,000-leaf nt78 sub-backbone and an 8,000-leaf RNASim sub-backbone, with the same 1,000
+   fragments. **Stock whole-tree EPA-ng is much worse than BSCAMPP, and fixed whole-tree EPA-ng
+   is as good as BSCAMPP:**
+   - nt78 10K: stock whole-tree 2.55, fixed whole-tree 0.78, BSCAMPP(e) stock b=2000 0.79.
+     Fixed vs stock whole: 565/381/54, p=2e-82.
+   - RNASim 8K: stock whole-tree 1.72, fixed whole-tree 0.78, BSCAMPP b=2000 0.81. Fixed vs
+     stock: 470/436/94, p=6e-52.
+
+   So the paper's "EPA-ng on the full tree is much more error-prone" (Exp. 5) is, on these
+   data, the EPA-ng bug and not a weakness of whole-tree placement. With the fix, whole-tree
+   EPA-ng is also fast: 24 s vs 32-39 s stock, and BSCAMPP takes 43-69 s. Its limit is memory
+   (12-13 GB at 8-10K leaves).
 1. **The fix explains BSCAMPP's open problem end to end.** On three benchmarks with 26K-77K
    leaves, BSCAMPP with stock EPA-ng gets worse delta error when the subtree size goes from 2,000
    to 5,000 (and 10,000): 2.8x on nt78 (1.72 → 4.77; 5.09 at 10,000), 2.7x on RNASim 50K
@@ -36,8 +50,12 @@ and fixed gives 0.78. So I went ahead.
    worst sample moves by 3%. The median sample barely changes (≤0.2%). The real 26,868-tip
    reference needs at least 16 GB for EPA-ng and did not fit here.
 
-**Verdict for a 4-week CS581 project built on this bug fix: unclear, leaning not promising as a
-"downstream accuracy" project.** The diagnosis is a solid, novel result (explanation + fix +
+**Verdict for a 4-week CS581 project built on this bug fix: unclear, but better than it first
+looked.** Within BSCAMPP it is not promising as a "downstream accuracy" project (point 2). But
+the whole-tree result (point 0) gives the project a publishable-style claim: a published
+comparison (EPA-ng vs BSCAMPP/SCAMPP) is confounded by the bug, and fixed EPA-ng matches
+BSCAMPP whenever it fits in memory. BSCAMPP's remaining value is then memory and scaling,
+not accuracy. The diagnosis is a solid, novel result (explanation + fix +
 attribution). But the payoff in BSCAMPP is "the larger-subtree setting stops being broken", not
 "BSCAMPP gets more accurate". The default was already safe, and memory caps EPA-ng subtrees at
 about 10K leaves on a laptop. The speed result is clean but modest. The most promising angle is
@@ -152,6 +170,34 @@ The unseeded 16S runs (first five rows without "seed 0", plus bug*only) ran whil
 error comes from biological 16S fragments with many identical or near-identical sequences in a
 27K-leaf tree. Ties make this dataset noisy (see noise floor). Note "% delta=0": stock at 5000
 halves the exactly-correct placements on all three datasets (37→16%, 68→41%, 8→4%).
+
+### BSCAMPP(p) (pplacer) vs BSCAMPP(e) at matched subtree sizes (nt78, 1,000 fragments)
+
+BSCAMPP's bundled pplacer v1.1.alpha19 with taxit refpkgs, on the same backbone tree. Its model
+comes from the dataset's `RAxML_info.REF` (RAxML 7 GTR+Γ), while EPA-ng uses the RAxML-NG
+model. I ran one pplacer job at a time with 4 threads (BSCAMPP passes `-j` threads).
+
+| run | mean delta | % delta=0 | BSCAMPP wall | max RSS |
+|---|---|---|---|---|
+| BSCAMPP(p) b=2000 | 1.705 | 41 | 13:30 | 2.0 GB |
+| BSCAMPP(p) b=5000 | 1.633 | 42 | 23:31 | 5.1 GB |
+| BSCAMPP(e) stock b=2000 | 1.720 | 37 | 5:06 | 2.4 GB |
+| BSCAMPP(e) fixed b=2000 | 1.721 | 37 | 5:36* | 2.4 GB |
+| BSCAMPP(e) stock b=5000 | 4.769 | 16 | 9:16* | 6.5 GB |
+| BSCAMPP(e) fixed b=5000 | 1.697 | 37 | 7:36* | 6.4 GB |
+| BSCAMPP(e) fixed b=10000 | 1.690 | 38 | 8:15 | 13.0 GB |
+
+Paired comparisons:
+- (p) vs fixed (e) at b=2000: -0.016, W/T/L 105/818/77, p=0.27.
+- (p) vs fixed (e) at b=5000: -0.064, 112/821/67, p=0.006.
+- (p) b=5000 vs (p) b=2000: -0.072, p=0.04.
+- Stock (e) at b=5000 is 3x worse than (p) at b=5000.
+
+**pplacer is about as accurate as fixed EPA-ng: slightly better at b=5000, and with more exact
+placements (41-42% vs 37%). It is 2.6-3.1x slower and uses about 20% less memory.** Unlike stock
+EPA-ng, pplacer shows no jump at b>2000, which fits a bug in EPA-ng rather than a property of
+large subtrees. For "TIPP3 with BSCAMPP(p) instead of BSCAMPP(e)": at b=2000 the two are tied
+on accuracy, and (e) is much faster. Above 2,000, (e) needs the fix to be usable.
 
 ### Memory is the practical cap on subtree size
 EPA-ng RSS is about 1.3 GB per 1,000 tips at 1,286 sites (5,000 → 6.4 GB, 10,000 → 13 GB) and
@@ -271,3 +317,6 @@ amplicon regions before one can claim more. Not done: TIPP3-fast (time).
   seconds, rc). The rows with b=10000 and an empty time in nt78/16S `times.tsv` are runs killed
   for running out of memory while FastTree was running; nt78 b=10000 was rerun alone.
 - `results/speed/`: standalone timing and placement agreement.
+- `results/nt78_10k/`, `results/rna_8k/`: whole-tree EPA-ng (stock vs fixed) vs BSCAMPP on 10K/8K
+  sub-backbones (`code/make_subset_dataset.py`, `code/run_whole.sh`).
+- `results/nt78/scores_p.tsv.gz`, `analysis_pplacer.md`: BSCAMPP(p) comparison.
