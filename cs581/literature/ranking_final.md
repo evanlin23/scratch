@@ -28,6 +28,19 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**magusgen final (22:16 UTC, `claude/cs581-magusgen`): self-soft + consensus as "one general MAGUS" is killed.**
+- 15 sets: 6 DNA/RNA and 9 protein.
+- *Best combination `ss:wsoft0.03:linsi&fftns2`:* DNA −0.88 (6/0/0, p = 0.031); protein −0.27 (5/1/3, n.s.); about
+  +20–30% wall time.
+  - Held-out proteins: BBA0154 −1.34, BBA0190 −1.61, BBA0117 +1.02, SIMMOD_R1 +2.83; SIMHIGH_R1 timed out.
+- *Self-soft alone:* DNA −0.74 (6/0/0), but protein +1.28. BBA0134 is +11.07 after a 2,292 s trace: the minclusters
+  trace blows up on hard proteins.
+- *Mechanism:* self-soft is the DNA ingredient and consensus/support is the protein ingredient, but they do not
+  combine safely.
+- *Session verdict:* "kill as one variant; unclear, leaning not promising".
+- *For the MAGUS proposal:* use gcmgen's `wsoft0.03:linsi&fftns2#es4` (no self-soft). It is protein-better and
+  DNA-neutral.
+
 **Check-in 9 (21:40 UTC).**
 - *magusgen, 6 sets, still running.* Self-soft MAGUS alone vs MAGUS:
   - 1000L1 −0.70, 1000M2 −0.73, 1000S1 −2.30;
