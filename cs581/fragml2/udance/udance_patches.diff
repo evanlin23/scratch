@@ -1,0 +1,71 @@
+diff --git a/uDance/PoolAstralWorker.py b/uDance/PoolAstralWorker.py
+index 512023e..7340aea 100644
+--- a/uDance/PoolAstralWorker.py
++++ b/uDance/PoolAstralWorker.py
+@@ -141,6 +141,24 @@ class PoolAstralWorker:
+         astral_const_file['incremental'] = join(partition_output_dir, 'astral_constraint.nwk')
+         astral_const_file['updates'] = join(partition_output_dir, 'raxml_constraint.nwk')
+ 
++        # PATCH(cs581): prune constraint trees to taxa present in the gene trees (TreeShrink may drop an anchor
++        # when there is a single gene; ASTRAL then aborts with 'X was not seen in main input trees').
++        gt_labels = set()
++        for t_ in confident_trees.values():
++            gt_labels.update(t_.labels(internal=False))
++        for mtd_ in ['incremental', 'updates']:
++            cp_ = astral_const_file[mtd_]
++            if Path(cp_).is_file():
++                ct_ = ts.read_tree_newick(cp_)
++                extra_ = set(ct_.labels(internal=False)) - gt_labels
++                if extra_:
++                    print('PATCH: pruning %s from %s' % (sorted(extra_), cp_), file=stderr)
++                    ct_ = ct_.extract_tree_without(list(extra_))
++                    ct_.suppress_unifurcations()
++                    pruned_ = cp_ + '.pruned.nwk'
++                    with open(pruned_, 'w') as f_:
++                        f_.write(str(ct_) + '\n')
++                    astral_const_file[mtd_] = pruned_
+         for mtd in ['incremental', 'updates']:
+             astral_output_file[mtd] = Path(join(partition_output_dir, 'astral_output.%s.nwk' % mtd))
+             if (
+@@ -184,6 +202,9 @@ class PoolAstralWorker:
+                     str(cls.options.num_thread),
+                 ]
+ 
++            if cls.options.num_thread == 1:  # PATCH(cs581): ASTRAL-MP refuses 1 thread; use single-threaded ASTRAL 5.17.2
++                s = [str(x) for x in s if str(x) not in ('-C', '-T', str(cls.options.num_thread))]
++                s = [str(x).replace('astralmp.5.17.2.jar', 'astral.5.17.2.jar') for x in s]
+             with open(astral_log_file[mtd], 'w') as lg:
+                 with Popen(s, stdout=PIPE, stdin=PIPE, stderr=lg) as p:
+                     astral_stdout = p.stdout.read().decode('utf-8')
+diff --git a/uDance/create_concat_alignment.sh b/uDance/create_concat_alignment.sh
+index 133ff57..00ac684 100644
+--- a/uDance/create_concat_alignment.sh
++++ b/uDance/create_concat_alignment.sh
+@@ -33,7 +33,8 @@ ls $ALNDIR | while read aln; do
+     echo $TDR/$aln.gz >> $TDR/alnpaths.txt
+ done
+ # concatenate all alignments
+-seqkit concat --quiet -w 0 $(cat $TDR/alnpaths.txt) | gzip -c - > $TDR/concat.fa.gz
++if [ $(wc -l < $TDR/alnpaths.txt) -eq 1 ]; then cp $(cat $TDR/alnpaths.txt) $TDR/concat.fa.gz; else
++seqkit concat --quiet -w 0 $(cat $TDR/alnpaths.txt) | gzip -c - > $TDR/concat.fa.gz; fi  # PATCH(cs581): single-gene support
+ # order it so that bacbone sequences are the first N records
+ (seqkit grep -f <(nw_labels -I $BBONE) -w 0 --quiet $TDR/concat.fa.gz; seqkit grep -v -f <(nw_labels -I $BBONE) -w 0 --quiet $TDR/concat.fa.gz) | gzip -c - >  $TDR/concat_ordered.fa.gz
+ # Duplicate map is written to OUTDIR.
+diff --git a/udance.smk b/udance.smk
+index 8544c1d..031c7b2 100644
+--- a/udance.smk
++++ b/udance.smk
+@@ -319,11 +319,11 @@ rule blinference:
+                 if [ -f  {outdir}/udance/{wildcards.cluster}/skip_partition ] ; then
+                     cp {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk.bl
+                 else
+-                    java -Xmx{resources.mem_mb}M -Djava.library.path=$pwdd/uDance/tools/ASTRAL/lib/ -jar $pwdd/uDance/tools/ASTRAL/astralmp.5.17.2.jar \
++                    java -Xmx{resources.mem_mb}M -Djava.library.path=$pwdd/uDance/tools/ASTRAL/lib/ -jar $pwdd/uDance/tools/ASTRAL/astral.5.17.2.jar \
+                         -q {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk \
+                         -i {outdir}/udance/{wildcards.cluster}/astral_input.trees \
+                         -o {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk.bl \
+-                        -C -T {resources.cpus} -u > {outdir}/udance/{wildcards.cluster}/astral.$approach.log.bl 2>&1
++                        -u > {outdir}/udance/{wildcards.cluster}/astral.$approach.log.bl 2>&1
+                     mv {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk.bl {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk.bl.falsesupport
+                     python uDance/transfer_supports.py {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk.bl.falsesupport > {outdir}/udance/{wildcards.cluster}/astral_output.$approach.nwk.bl
+                 fi
