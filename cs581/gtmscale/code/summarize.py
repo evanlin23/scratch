@@ -14,6 +14,9 @@ out = sys.argv[1]
 rows = []
 for p in sorted(glob.glob("/opt/gtms/sim/n*_i*/r*/steps.json") + glob.glob("/opt/gtms/rnasim10k/R*/steps.json")):
     S = json.load(open(p))
+    fj = os.path.join(os.path.dirname(p), "full_iq.json")
+    if "full_iq" not in S and os.path.exists(fj):
+        S["full_iq"] = json.load(open(fj))
     parts = p.split("/")
     cond, rep = (parts[-3], parts[-2]) if "sim" in p else ("RNASim10K", parts[-2])
     guides = sorted({k.split("_m")[0] for k in S if "_m" in k and k.endswith("_subtrees")})
@@ -115,4 +118,15 @@ with open(f"{out}/paired_tests.txt", "w") as fh:
             c, g, len(rs), *(np.mean([r[k] for r in rs]) * 100 for k in ("fn_gtm", "fn_blendft", "fn_polishft"))))
         for A, B in (("gtm", "blendft"), ("gtm", "polishft"), ("polishft", "blendft")):
             paired("   %s -> %s" % (A, B), [r["fn_" + A] for r in rs], [r["fn_" + B] for r in rs], fh)
+    fh.write("\n== POOLED (each replicate x guide x condition is one pair)\n")
+    simrows = [r for r in rows if r["cond"] != "RNASim10K"]
+    first = [r for r in simrows if not r["guide"].endswith("+it")]
+    for lab, rs in (("simulated, first round (ftfast + kmer guides)", first),
+                    ("simulated, iteration round", [r for r in simrows if r["guide"].endswith("+it")]),
+                    ("published (1000M1-HF, Cox1-HET; FT + IQ guides)", pub)):
+        for A, B in (("gtm", "blendft"), ("gtm", "polishft"), ("polishft", "blendft")):
+            paired("   %s: %s -> %s" % (lab, A, B), [r.get("fn_" + A) for r in rs], [r.get("fn_" + B) for r in rs], fh)
+    allp = first + pub
+    paired("   ALL first-round + published: gtm -> blendft", [r.get("fn_gtm") for r in allp],
+           [r.get("fn_blendft") for r in allp], fh)
 print(open(f"{out}/paired_tests.txt").read())

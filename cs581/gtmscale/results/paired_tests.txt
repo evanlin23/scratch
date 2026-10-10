@@ -1,7 +1,7 @@
 Differences in FN points (B - A); negative = B more accurate. Two-sided Wilcoxon signed-rank.
 
 == n2000_i0.01, guide ftfast (6 reps)
-   mean FN%: guide 56.31 subsets 22.23 fullFT 34.06 fullIQ 24.64 GTM 28.41 BlendFT 27.66 polishFT 32.15 cFT 58.95 TreeMerge nan
+   mean FN%: guide 56.31 subsets 22.23 fullFT 34.06 fullIQ 24.64 GTM 28.41 BlendFT 27.66 polishFT 32.15 cFT 59.96 TreeMerge nan
    mean wall s: e2e GTM 58, e2e BlendFT 127, full FT 91, full IQ(-fast) 113
    gtm -> blendft                                          n= 6 mean  -0.75 (95% CI -1.12, -0.33)  better/worse/tie 5/0/1  Wilcoxon p=0.0625
    gtm -> polishft                                         n= 6 mean  +3.74 (95% CI +3.00, +4.57)  better/worse/tie 0/6/0  Wilcoxon p=0.0312
@@ -16,6 +16,33 @@ Differences in FN points (B - A); negative = B more accurate. Two-sided Wilcoxon
    full_ft -> blendft                                      n= 1 mean  -8.96 (95% CI -8.96, -8.96)  better/worse/tie 1/0/0  Wilcoxon p=1
    full_iq -> blendft                                      n= 1 mean  +0.25 (95% CI +0.25, +0.25)  better/worse/tie 0/1/0  Wilcoxon p=1
    full_ft -> gtm                                          n= 1 mean  -8.76 (95% CI -8.76, -8.76)  better/worse/tie 1/0/0  Wilcoxon p=1
+== n2000_i0.01, guide kmer (3 reps)
+   mean FN%: guide 79.87 subsets 22.00 fullFT 34.42 fullIQ 24.74 GTM 40.34 BlendFT 38.61 polishFT 33.75 cFT 58.80 TreeMerge nan
+   mean wall s: e2e GTM 35, e2e BlendFT 104, full FT 92, full IQ(-fast) 112
+   gtm -> blendft                                          n= 3 mean  -1.74 (95% CI -3.61, -0.50)  better/worse/tie 3/0/0  Wilcoxon p=0.25
+   gtm -> polishft                                         n= 3 mean  -6.59 (95% CI -10.02, -4.41)  better/worse/tie 3/0/0  Wilcoxon p=0.25
+   polishft -> blendft                                     n= 3 mean  +4.86 (95% CI +3.91, +6.41)  better/worse/tie 0/3/0  Wilcoxon p=0.25
+   full_ft -> blendft                                      n= 3 mean  +4.19 (95% CI +1.05, +5.76)  better/worse/tie 0/3/0  Wilcoxon p=0.25
+   full_iq -> blendft                                      n= 3 mean +13.87 (95% CI +9.91, +16.78)  better/worse/tie 0/3/0  Wilcoxon p=0.25
+   full_ft -> gtm                                          n= 3 mean  +5.93 (95% CI +1.55, +9.36)  better/worse/tie 0/3/0  Wilcoxon p=0.25
+== n2000_i0.02, guide ftfast (4 reps)
+   mean FN%: guide 37.71 subsets 12.83 fullFT 16.56 fullIQ 13.37 GTM 14.76 BlendFT 13.98 polishFT 15.49 cFT 48.82 TreeMerge nan
+   mean wall s: e2e GTM 52, e2e BlendFT 121, full FT 85, full IQ(-fast) 67
+   gtm -> blendft                                          n= 4 mean  -0.78 (95% CI -1.44, -0.36)  better/worse/tie 4/0/0  Wilcoxon p=0.125
+   gtm -> polishft                                         n= 4 mean  +0.73 (95% CI +0.11, +1.23)  better/worse/tie 1/3/0  Wilcoxon p=0.25
+   polishft -> blendft                                     n= 4 mean  -1.50 (95% CI -1.85, -1.10)  better/worse/tie 4/0/0  Wilcoxon p=0.125
+   full_ft -> blendft                                      n= 4 mean  -2.58 (95% CI -2.93, -2.20)  better/worse/tie 4/0/0  Wilcoxon p=0.125
+   full_iq -> blendft                                      n= 4 mean  +0.61 (95% CI +0.25, +0.98)  better/worse/tie 0/4/0  Wilcoxon p=0.125
+   full_ft -> gtm                                          n= 4 mean  -1.80 (95% CI -2.43, -1.18)  better/worse/tie 4/0/0  Wilcoxon p=0.125
+== n5000_i0.01, guide ftfast (1 reps)
+   mean FN%: guide 57.31 subsets 24.40 fullFT 36.10 fullIQ 26.34 GTM 32.02 BlendFT 31.42 polishFT 33.06 cFT nan TreeMerge nan
+   mean wall s: e2e GTM 139, e2e BlendFT 327, full FT 244, full IQ(-fast) 365
+   gtm -> blendft                                          n= 1 mean  -0.60 (95% CI -0.60, -0.60)  better/worse/tie 1/0/0  Wilcoxon p=1
+   gtm -> polishft                                         n= 1 mean  +1.04 (95% CI +1.04, +1.04)  better/worse/tie 0/1/0  Wilcoxon p=1
+   polishft -> blendft                                     n= 1 mean  -1.64 (95% CI -1.64, -1.64)  better/worse/tie 1/0/0  Wilcoxon p=1
+   full_ft -> blendft                                      n= 1 mean  -4.68 (95% CI -4.68, -4.68)  better/worse/tie 1/0/0  Wilcoxon p=1
+   full_iq -> blendft                                      n= 1 mean  +5.08 (95% CI +5.08, +5.08)  better/worse/tie 0/1/0  Wilcoxon p=1
+   full_ft -> gtm                                          n= 1 mean  -4.08 (95% CI -4.08, -4.08)  better/worse/tie 1/0/0  Wilcoxon p=1
 
 == published conditions (published guide + IQ-TREE subset trees + published GTM tree)
 == 1000M1-HF, guide FT (5 reps): GTM 42.45 BlendFT 41.82 polishFT 37.31
@@ -34,3 +61,13 @@ Differences in FN points (B - A); negative = B more accurate. Two-sided Wilcoxon
    gtm -> blendft                                          n=10 mean  -0.05 (95% CI -0.18, +0.04)  better/worse/tie 5/4/1  Wilcoxon p=0.891
    gtm -> polishft                                         n=10 mean  +3.62 (95% CI +2.91, +4.26)  better/worse/tie 0/10/0  Wilcoxon p=0.00195
    polishft -> blendft                                     n=10 mean  -3.67 (95% CI -4.25, -3.05)  better/worse/tie 10/0/0  Wilcoxon p=0.00195
+
+== POOLED (each replicate x guide x condition is one pair)
+   simulated, first round (ftfast + kmer guides): gtm -> blendft n=14 mean  -0.96 (95% CI -1.45, -0.58)  better/worse/tie 13/0/1  Wilcoxon p=0.000244
+   simulated, first round (ftfast + kmer guides): gtm -> polishft n=14 mean  +0.47 (95% CI -1.90, +2.41)  better/worse/tie 4/10/0  Wilcoxon p=0.391
+   simulated, first round (ftfast + kmer guides): polishft -> blendft n=14 mean  -1.43 (95% CI -3.17, +0.57)  better/worse/tie 11/3/0  Wilcoxon p=0.217
+   simulated, iteration round: gtm -> blendft              n= 1 mean  -0.20 (95% CI -0.20, -0.20)  better/worse/tie 1/0/0  Wilcoxon p=1
+   published (1000M1-HF, Cox1-HET; FT + IQ guides): gtm -> blendft n=30 mean  -0.19 (95% CI -0.33, -0.08)  better/worse/tie 17/7/6  Wilcoxon p=0.00576
+   published (1000M1-HF, Cox1-HET; FT + IQ guides): gtm -> polishft n=30 mean  +1.68 (95% CI +0.32, +2.90)  better/worse/tie 8/22/0  Wilcoxon p=0.0111
+   published (1000M1-HF, Cox1-HET; FT + IQ guides): polishft -> blendft n=30 mean  -1.88 (95% CI -3.02, -0.62)  better/worse/tie 22/8/0  Wilcoxon p=0.00499
+   ALL first-round + published: gtm -> blendft             n=44 mean  -0.44 (95% CI -0.66, -0.26)  better/worse/tie 30/7/7  Wilcoxon p=7.37e-06

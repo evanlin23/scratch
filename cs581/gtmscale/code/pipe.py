@@ -145,6 +145,8 @@ def main():
     d, guide, maxsub = sys.argv[1], sys.argv[2], int(sys.argv[3])
     arms = (sys.argv[4] if len(sys.argv) > 4 else "full_ft,full_iq,gtm,blendft,polishft,cft").split(",")
     aln = f"{d}/aln.fa"
+    if os.path.exists(f"{d}/SKIP"):  # budget: drop a replicate without editing running drivers
+        return
     import fcntl
     lockf = open(f"{d}/.lock", "w")
     try:
