@@ -1,0 +1,31 @@
+python3 code/frag.py Park1000M1HF 0 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py Park1000M1HF 1 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py Park1000M1HF 2 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py Park1000M1HF 3 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py Park1000M1HF 4 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHF 0 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHF 1 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHF 2 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHF 3 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHF 4 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHFamp 0 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHFamp 1 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHFamp 2 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHFamp 3 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 16SMHFamp 4 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 1000M2HF 0 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 1000M2HF 1 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py 1000M2HF 2 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py RNASimHF 0 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py RNASimHF 1 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py RNASimHF 2 --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/frag.py Park1000M1HF 0 --aln upp --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/runtrees.py results/test.jsonl --datasets Park1000M1HF --reps 0 --alns upp --methods fasttree raxmlng_fastmode raxmlng --workers 1
+python3 code/frag.py Park1000M1HF 1 --aln upp --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/runtrees.py results/test.jsonl --datasets Park1000M1HF --reps 1 --alns upp --methods fasttree raxmlng_fastmode raxmlng --workers 1
+python3 code/frag.py 16SMHF 0 --aln upp --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 0 --alns upp --methods fasttree raxmlng_fastmode raxmlng --workers 1
+python3 code/frag.py 16SMHF 1 --aln upp --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 1 --alns upp --methods fasttree raxmlng_fastmode raxmlng --workers 1
+python3 code/frag.py 16SMHF 2 --aln upp --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 2 --alns upp --methods fasttree raxmlng_fastmode raxmlng --workers 1
