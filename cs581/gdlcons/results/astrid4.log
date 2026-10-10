@@ -1,0 +1,12 @@
+== cand1
+AC|BD - AB|CD four-point sum: -0.0238 +- 0.0161 (blocks=100)
+AD|BC - AB|CD four-point sum: 0.0221 +- 0.0108 (blocks=100)
+overall sums AB|CD, AC|BD, AD|BC: [np.float64(19.7425), np.float64(19.7186), np.float64(19.7646)]
+== cand2
+AC|BD - AB|CD four-point sum: -0.0125 +- 0.0141 (blocks=100)
+AD|BC - AB|CD four-point sum: 0.0018 +- 0.0124 (blocks=100)
+overall sums AB|CD, AC|BD, AD|BC: [np.float64(10.6315), np.float64(10.619), np.float64(10.6333)]
+== cand4
+AC|BD - AB|CD four-point sum: 0.1529 +- 0.0168 (blocks=100)
+AD|BC - AB|CD four-point sum: 0.1431 +- 0.0142 (blocks=100)
+overall sums AB|CD, AC|BD, AD|BC: [np.float64(14.033), np.float64(14.1859), np.float64(14.1762)]
