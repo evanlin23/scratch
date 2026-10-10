@@ -14,8 +14,8 @@ one() {
   ln -sf $R/variants/linsi_i_fftns2-op3/out.fasta $T/fftint.fasta
   ln -sf $R/variants/linsi_p_clustalo_m_cons0.7/out.fasta $T/lccons.fasta
   r=${n#SIM*_}; lvl=${n%_R*}
-  /opt/mm/root/envs/pasta183/bin/python $P/../protbench/code/trees.py $T /opt/data/sim/$lvl/$r/tree.nwk $R/trees.jsonl \
+  nice -n 19 /opt/mm/root/envs/pasta183/bin/python $P/../protbench/code/trees.py $T /opt/data/sim/$lvl/$r/tree.nwk $R/trees.jsonl \
     true magus cons fftint lccons
 }
 export -f one; export P W
-ls $W/reps | grep '^SIM' | xargs -P 4 -I{} bash -c 'one {}'
+ls $W/reps | grep '^SIM' | xargs -P 2 -I{} bash -c 'one {}'
