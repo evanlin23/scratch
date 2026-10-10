@@ -1,12 +1,12 @@
-rows: 182 (variant x replicate pairs, unmasked variants)
+rows: 193 (variant x replicate pairs, unmasked variants)
 
 | predictor (variant - control) | Spearman with ΔSPFP | with ΔSPFN | with Δerror |
 |---|---|---|---|
-| dPrec | -0.66 (p=1e-24) | +0.20 (p=0.007) | -0.54 (p=3e-15) |
-| dFalseW | +0.53 (p=2e-14) | -0.44 (p=7e-10) | +0.31 (p=3e-05) |
-| dTrueW | +0.19 (p=0.01) | -0.49 (p=3e-12) | -0.02 (p=0.8) |
-| dKeepFalse | +0.30 (p=3e-05) | -0.51 (p=1e-13) | +0.03 (p=0.7) |
-| dFalseSurv | -0.38 (p=9e-08) | +0.21 (p=0.005) | -0.34 (p=3e-06) |
+| dPrec | -0.66 (p=1e-25) | +0.21 (p=0.004) | -0.54 (p=5e-16) |
+| dFalseW | +0.51 (p=5e-14) | -0.42 (p=2e-09) | +0.30 (p=2e-05) |
+| dTrueW | +0.14 (p=0.05) | -0.47 (p=3e-12) | -0.05 (p=0.5) |
+| dKeepFalse | +0.27 (p=0.0002) | -0.50 (p=1e-13) | +0.01 (p=0.8) |
+| dFalseSurv | -0.38 (p=5e-08) | +0.20 (p=0.004) | -0.34 (p=1e-06) |
 
 | rep | variant | Δprec (pts) | Δfalse weight % | Δtrue weight % | ΔSPFP | ΔSPFN | Δerr |
 |---|---|---|---|---|---|---|---|
@@ -15,6 +15,8 @@ rows: 182 (variant x replicate pairs, unmasked variants)
 | 1000M2 | clustalo | -59.62 | +192.6 | -81.4 | +7.65 | +31.89 | +19.77 |
 | 1000M2 | linsi&fftns2 | +6.51 | -99.7 | -99.5 | -1.69 | +52.85 | +25.58 |
 | 1000M2 | clustalo&fftns2 | -41.90 | -99.4 | -99.9 | +1.19 | +83.40 | +42.30 |
+| 1000S1 | linsi+clustalo | -26.63 | +310.9 | +25.5 | -0.07 | -0.08 | -0.08 |
+| 1000S1 | clustalo | -57.16 | +210.9 | -74.5 | +6.86 | +19.15 | +13.01 |
 | 16S.M | linsi&fftns2 | +7.24 | -56.1 | -4.5 | -2.06 | +0.75 | -0.66 |
 | 16S.M | linsi+clustalo | -5.98 | +175.8 | +84.0 | +0.42 | +0.69 | +0.55 |
 | 16S.M | clustalo&fftns2 | +9.33 | -73.7 | -19.5 | -3.73 | +5.90 | +1.09 |
