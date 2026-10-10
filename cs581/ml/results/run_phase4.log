@@ -1,0 +1,4 @@
+1 jobs
+1 jobs
+{"dataset": "Park1000M1HF", "rep": "3", "aln": "true_align", "method": "raxmlng", "seconds": 1805.8, "cpu_seconds": 1787.8, "lnl_tool": -637625.699549, "fn_rate": 0.23162134944612287, "fp_rate": 0.23470411233701102, "rf_rate": 0.23269809428284854, "tree": "/opt/data/mlcache/Park1000M1HF/R3/trees/true_align.raxmlng.tre"}
+1 jobs
