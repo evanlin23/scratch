@@ -46,8 +46,8 @@ the classical tree identity L·D + 2I = (2·1 − deg)·1ᵀ (Graham–Lovász f
 version e.g. Bapat, Kirkland & Neumann 2005, LAA 401; Goubko & Veremyev 2021 use it as a constraint).
 Its application to PDD appears new. **Conclusion: the open problem is still open as of today.**
 (The authors' repository contains `check_identifiability`, which flags placements within 2 edges of each
-other, and their simulator never draws such placements — so they are aware adjacency matters, but the
-paper treats it as a corner case.)
+other, and their simulator avoids drawing a query whose parent or grandparent is already taken. So they
+are aware adjacency matters, but the paper treats it as a corner case.)
 
 ## 3. Main theoretical results
 
@@ -126,7 +126,37 @@ every case we enumerated.
 a sign pattern on g = −Lα (zero off V(S)∪V(S'), > 0 on V(S')∖V(S), < 0 on V(S)∖V(S')), an LP; checked
 for unit and random branch lengths. Full table: `results/config_enum.md`.
 
-RESULTS_CONFIG
+Aggregated over all unlabeled shapes (`results/config_enum.md`, `results/config_enum_k2_n10-12.md`):
+
+| n | k | shapes | matchings S | S with continuum | S with exact alternative (unit / random lengths) | alternative but no closed claw | closed claw | (A)⇔(B) violations |
+|---|---|---|---|---|---|---|---|---|
+| 4–12 | 1 | all 82 | 1,500 | 0 | 0 / 0 | 0 | 0 | 0 |
+| 4–12 | 2 | all 82 | 11,372 | 0 | 0 / 0 | 0 | 0 | 0 |
+| 5 | 3 | 1 | 4 | 4 | 4 / 4 | 0 | 4 | 0 |
+| 6 | 3 | 2 | 40 | 20 | 20 / 20 | 0 | 20 | 0 |
+| 7 | 3 | 2 | 112 | 28 | 28 / 28 | 0 | 28 | 0 |
+| 8 | 3 | 4 | 480 | 80 | 80 / 80 | 0 | 80 | 0 |
+| 9 | 3 | 6 | 1,320 | 148 | 148 / 148 | 0 | 148 | 0 |
+| 6 | 4 | 2 | 4 | 4 | 4 / 4 | 0 | 4 | 0 |
+| 7 | 4 | 2 | 52 | 52 | 52 / 52 | 4 | 40 | 0 |
+| 8 | 4 | 4 | 400 | 292 | 292 / 292 | 20 | 216 | 0 |
+
+Read-out:
+* **k ≤ 2, non-adjacent placements: never an alternative and never a continuum**, for every shape up to
+  n = 12 (supports Theorem 2(b) beyond the hand proof).
+* **k = 3: alternative ⇔ continuum ⇔ closed claw**, with zero exceptions over all shapes n ≤ 9
+  (Theorem 3 + its converse at k = 3).
+* **k = 4: alternative ⇔ continuum still holds with zero exceptions**, but closed claws no longer
+  explain all cases: the extra ones are *split claws* (two nodes v, w ∈ V(S) at distance 2 through a
+  node u ∉ V(S), with the other four neighbours of v and w in V(S); the move α = aδ_v + bδ_w is chosen
+  to cancel at u). Since (B) ⇔ (C) is immediate from Theorem 1, the open statement is (A) ⇔ (B).
+* Results are identical for unit and random branch lengths: these are combinatorial, not
+  "special-length", phenomena.
+
+Explicit generic counterexample (`results/counterexample_k3.txt`, n = 5, lengths 0.7, 0.4, 0.9, 0.5,
+0.3, 0.8, 0.6): truth = edges {(2,5),(6,0),(7,1)} with p = (0.2, 0.4, 0.4); the exact LP search finds
+{(5,6),(6,0),(7,1)} with p = (0.43, 0.27, 0.31) and {(6,0),(5,7),(7,1)} with p = (0.33, 0.42, 0.25), all
+reproducing d exactly. Abundances differ by up to 0.23, not a negligible ambiguity.
 
 ### 4b. Parameter level (random parameters; LP over all edge sets)
 
@@ -137,7 +167,40 @@ with random rational p, x). For each noise-free d we search *all* edge sets with
 an exact, strictly valid solution (p > 0, 0 < x < 1, ȳ ≥ 0) by least-squares residual + LP. Full table:
 `results/enum_summary.md`.
 
-RESULTS_ENUM
+Instances: 1,279 (k=1), 4,495 (k=2), 5,125 (k=3) per regime; 5 regimes ≈ 54k LP-certified instances
+(table: `results/enum_summary.md`). Selected rows (generic regime; the other regimes agree except as noted):
+
+| k | true placements | N | continuum on true edges | alternative with k' < k | k' = k | k' = k+1 |
+|---|---|---|---|---|---|---|
+| 1 | — | 1279 | 0 | 0 | 0 | 0 |
+| 2 | non-adjacent | 2997 | 0 | 0 | 0 | 1506 |
+| 2 | adjacent | 1498 | **1498 (100%)** | 0 | 0 | 1498 |
+| 3 | non-adjacent, no claw | 598 | 0 | 0 | 0 | 583 |
+| 3 | non-adjacent, claw (open or closed) | 591 | 530 | 0 | **167 (28%)** | 591 |
+| 3 | adjacent | 3936 | 3936 | 1569 | 2749 | 3936 |
+
+* Adjacent placements (allowed by the paper's Assumption 1) always give a continuum, for every
+  parameter value (C1). An adjacent triple can even be explained by **fewer** queries (k' = 2 in 1,569
+  instances).
+* Exact fits with **k+1** placements exist in about half the k = 2 cases and almost all k = 3 cases (C2 and
+  "add the edge joining two placements one edge apart"); with ȳ > 0 also k+2 (star split, seen at n = 4–5).
+  So "the residual reaches ~0" identifies only the minimal k.
+* **Symmetry is not the culprit, contrary to the paper's guess:** with unit lengths, x = 1/2 and equal p,
+  claws give a continuum but **0** alternative edge sets (whether a different edge set appears depends
+  on which neighbour of the claw centre runs out of mass first, and symmetric values tie). Generic
+  values give alternatives in 28% of claw instances.
+* How common are the bad configurations? For k uniformly random edges on the E1 trees
+  (`results/claw_frequency.md`): an adjacent pair has probability 0.30/0.80/1.00 for k = 5/10/20 on
+  birds-jarvis (n = 48) and 0.07/0.30/0.79 on hemipteroid (n = 193); closed claws 0.04/0.30/0.93 and
+  0.003/0.03/0.17. In the authors' own simulations (their generator bans queries whose parent or
+  grandparent is taken) 63/446 true sets still contain an adjacent pair and 16/446 a closed claw. Their
+  exact search "found the true placements in all cases" for k ≤ 3 because edges stay identifiable for
+  adjacent pairs; only (p, x) do not.
+* Algorithmic by-product: since d determines m up to Laplacian moves and spurious spreading lowers ȳ,
+  the single LP **max ȳ s.t. F m + ȳ 1 = d, 1ᵀm = 1, m ≥ 0** (no search, no k) recovers the true node
+  measure exactly in 121/121 (k=1), 118/118 (k=2), 98/106, 91/108, 73/98 (k = 3, 4, 5 without claws) random
+  instances on trees with n = 6–40 (`results/maxy_lp_noisefree.txt`); it always fails on claws (as it
+  must). On noisy data, though, a convex relaxation does not beat DecoDiPhy (§5b).
 
 ## 5. Choosing k on the paper's simulation protocol (paired)
 
@@ -155,8 +218,91 @@ contains two placements on adjacent edges — by C1/C2 such pairs are unidentifi
 splits look like). Jaccard = |chosen edges ∩ true edges| / |union|; Wilcoxon signed-rank on per-instance
 Jaccard differences vs the paper's rule.
 
-RESULTS_KSEL
+Runs: 1,350 attempted, **1,338 analysed**. 12 were excluded because the authors' hill climbing never
+terminated: it cycles, so a 300 s cap was applied; mammals-song k=7/10 and pancrustacean k=10, all three
+noise levels each. Separately, a failure path in their `optimize.py` references an undefined variable
+when OSQP fails. Runtime per trajectory (k = 1..k+3): 1–60 s. Full tables: `results/ksel_summary.md`.
+
+**Held-out trees (588 runs; parameters tuned on the other 5 trees):**
+
+| rule | exact-k acc | mean abs(k̂−k) | bias | mean Jaccard | ΔJac vs paper (Wilcoxon p; wins/losses) |
+|---|---|---|---|---|---|
+| paper (min_p = 0.01) | 0.323 | 1.38 | +0.81 | 0.560 | — |
+| paper, min_p tuned (0.005) | 0.338 | 1.57 | +1.38 | 0.566 | +0.006 (0.11; 81/76) |
+| BIC (λ tuned = 2) | 0.226 | 2.05 | +2.03 | 0.530 | −0.030 (6e-6; 121/207) |
+| loss-ratio elbow (τ tuned = 0.9) | 0.321 | 2.01 | +1.99 | 0.549 | −0.010 (0.07; 116/178) |
+| **adjacency stop** (parameter-free) | 0.323 | 1.36 | +0.69 | 0.567 | +0.007 (0.001; 29/10) |
+| adjacency stop + tuned min_p | 0.342 | 1.51 | +1.21 | 0.576 | +0.016 (1e-4; 110/78) |
+| **learned** (logistic on log min p, relative ȳ drop, log loss ratio, adjacency) | **0.425** | **1.06** | **+0.36** | **0.582** | **+0.022 (2e-6; 131/61)** |
+| oracle (true k) | 1 | 0 | 0 | 0.572 | +0.012 (0.89) |
+
+By noise level (held-out trees): noise-free, the paper's rule under-estimates k (true p can be as small
+as 0.1/k² < 0.01). Here the loss-ratio rule, i.e. "the first k with ~zero residual", the rule Theorem 1 /
+C2 justify, gets 0.964 exact (Jaccard 0.962 vs 0.918). With noise the paper's rule *over*-estimates by about
+1.4 (our noise reproduction differs from the paper's Fig. S5, which reports under-estimation). The learned
+rule improves noise1 (exact-k 0.153 → 0.270, Jaccard +0.035, p = 7e-4) and is neutral at noise2.
+
+**Leave-one-tree-out over all 9 trees (1,338 runs), learned rule vs paper:** exact-k 0.326 → 0.428
+(sign test on runs where exactly one rule is right: 196 vs 60, p = 5e-18), mean abs(k̂−k) 1.38 → 1.11, mean
+Jaccard 0.590 → 0.599 (+0.009, Wilcoxon p = 0.003). The gain is driven by noise1 (+0.042, p = 3e-7);
+**noise2 is slightly worse (−0.016, p = 0.01)**.
+
+Diagnostics behind the rule, AUC for "this added placement is spurious": min p 0.91/0.92/0.86
+(noise 0/1/2); ȳ barely changes for spurious additions while true additions cut it (AUC of −Δȳ
+0.93/0.89/0.83); adjacency to an existing placement 0.87/0.63/0.57. Beyond the true k, 42% of newly
+added placements (4,412, noisy runs) are adjacent to an existing placement, vs 16% expected for a
+random edge: these are C2's star splits.
+
+**Honest caveat: choosing k is not the accuracy bottleneck.** Even the oracle k improves Jaccard by only
++0.018 over the paper's rule on all runs, and is *worse* at noise2 (−0.042): with heavy noise the greedy
+search places the extra components wrongly anyway. The k-selection gains are real and significant
+but small in placement accuracy (+1–2 Jaccard points).
+
+### 5b. A convex relaxation suggested by Theorem 1 (negative on noisy data)
+
+CONVEX_RESULTS
 
 ## 6. Verdict
 
-VERDICT
+**Verdict: promising** for a 4-week CS581 project, on the strength of the theory. The k-selection
+part is a *measurable but modest* improvement and should be pitched as secondary.
+
+What the pilot established (numbers first):
+* A complete algebraic characterization (Theorem 1, fully proved): d determines exactly the node
+  measure modulo weighted-Laplacian moves at internal nodes. Proof uses only tree additivity: the
+  distance is linear along edges, plus the identity L D + 2I = (2·1 − deg)1ᵀ.
+* Exhaustive, parameter-free verification over **all unlabeled shapes up to n = 12** (k ≤ 2) and n ≤ 9
+  (k = 3), n ≤ 8 (k = 4); plus about 54k LP-certified random-parameter instances (n = 4–8, k ≤ 3, 5
+  regimes). Zero exceptions to: k ≤ 2 non-adjacent ⇒ identifiable; adjacency ⇒ continuum (100%, not a
+  corner case); k = 3 alternative ⇔ continuum ⇔ closed claw; alternative ⇔ continuum through k = 4.
+* The authors' conjecture that non-identifiability needs "extreme symmetry" is **false**: generic
+  lengths give alternatives in 28% of claw instances at k = 3, symmetric parameters in 0%. A concrete
+  n = 5 counterexample has abundances differing by 0.23.
+* Choosing k on the authors' own simulation protocol (1,338 paired runs, 9 trees): BIC and elbow rules
+  are worse than the paper's rule. A theory-motivated adjacency stop is parameter-free, small, and
+  significant (+0.007 Jaccard, p = 0.001). A learned 4-feature rule raises exact-k from 0.33 to 0.43
+  (leave-one-tree-out, p = 5e-18) and halves the bias, but Jaccard gains are only +0.01–0.02, and even
+  the oracle k gives only +0.018. **k is not the main accuracy bottleneck.**
+* Negative: a convex node-measure relaxation (Theorem 1) is exact for noise-free k ≤ 2 by LP, but
+  slightly *worse* than DecoDiPhy on noisy inputs.
+
+**Weeks 1–4.**
+1. Close the proofs: Theorem 2(b) (last case: two T_U-leaves with opposite signs) and the k = 3
+   converse (closed claw is necessary), ideally (A) ⇔ (B) in general. Obtain and read the paper's
+   supplement SB.3 / Fig. 1d (bioRxiv was behind a captcha from this container), to make sure the
+   overlap is only Claims 1–3.
+2. Consequences: which functionals of (p, x) are always identifiable? E.g. the mass on any split not
+   separating a claw. A noise-tolerance bound for d̂ via the grounded Laplacian L[I, I], analogous to the
+   near-additivity results the paper cites. Short algorithmic corollaries: the max-ȳ LP for noise-free
+   inputs, and an "identifiability flag" (rank test) on every output.
+3. Stopping rule: package the adjacency/learned rule. Re-validate on a second noise model so it is
+   not tuned to the authors' simulator (E2-style reads + krepp distances if feasible on 4 cores;
+   otherwise a Gaussian-on-d̂ model). Report k accuracy, Jaccard and wUniFrac.
+4. Write-up: theorem + proofs + exhaustive tables + k-selection experiment.
+
+**Main risks.** (i) The authors' unread supplement may already contain part of the adjacency analysis
+(their code's `check_identifiability` shows awareness). Theorem 1 and the claw results still look new.
+(ii) The general (A) ⇔ (B) statement may resist a short proof; the fallback is k ≤ 3 plus exhaustive
+evidence. (iii) The k-selection gains are small and tied to the authors' synthetic noise model. Do not
+oversell them as an accuracy win: the deliverable is a theory paper with a modest practical corollary.
+(iv) Hill-climbing non-termination in DecoDiPhy (12/1350 runs) must be handled with timeouts.
