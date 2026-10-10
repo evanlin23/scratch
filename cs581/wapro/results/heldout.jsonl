@@ -1,0 +1,5 @@
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "04", "sqln": 25, "method": "astrid-pro", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.261, "cpu": 0.098}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "04", "sqln": 25, "method": "disco-wastrid", "threads": 1, "FN": 10, "FP": 10, "nI": 97, "FNrate": 0.10309278350515463, "wall": 0.525, "cpu": 0.362}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "04", "sqln": 25, "method": "astrid-disco", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 0.559, "cpu": 0.364}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "04", "sqln": 25, "method": "asteroid", "threads": 1, "FN": 11, "FP": 11, "nI": 97, "FNrate": 0.1134020618556701, "wall": 2.279, "cpu": 1.523}
+{"data": "fmrfs", "cond": "dl1e-10_ps1e7", "rep": "04", "sqln": 25, "method": "asteroid-bl", "threads": 1, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278350515463918, "wall": 1.916, "cpu": 1.434}
