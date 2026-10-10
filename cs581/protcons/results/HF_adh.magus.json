@@ -1,0 +1,1 @@
+{"magus": {"wall": 331.7, "cpu": 651.3, "SPFN": 0.010469798657718132, "SPFP": 0.010204081632653073, "avgErr": 0.010336940145185602, "TC": 0.9706666666666667, "LenEst": 376, "LenRef": 375, "bb_SPFN": null, "bb_SPFP": null, "bb_pairs": 2178072, "bb_scored": 0}, "nseq": 2000, "nref": 5}
