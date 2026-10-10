@@ -40,13 +40,21 @@ def parse(s):
             i = j
     return nodes
 
+import random as _r
+_r.seed(12345)
+LEAFHASH = collections.defaultdict(lambda: _r.getrandbits(64))
 def leafsets(nodes):
-    ls = [None] * len(nodes)
+    """xor-hash of the leaf set below each node (bipartition id without storing sets)"""
+    ls = [0] * len(nodes)
     order = []; st = [0]
     while st:
         x = st.pop(); order.append(x); st.extend(nodes[x]['kids'])
     for x in reversed(order):
-        ls[x] = frozenset([nodes[x]['label']]) if not nodes[x]['kids'] else frozenset().union(*(ls[k] for k in nodes[x]['kids']))
+        if not nodes[x]['kids']: ls[x] = LEAFHASH[nodes[x]['label']]
+        else:
+            h = 0
+            for k in nodes[x]['kids']: h ^= ls[k]
+            ls[x] = h
     return ls
 
 held = [l.strip() for l in open(f'{S}/heldout.txt') if l.strip()]
@@ -55,12 +63,24 @@ full = parse(open(f'{B}/bac_ref/bac_ref.tre').read().strip())
 fls = leafsets(full)
 lab2node = {nd['label']: i for i, nd in enumerate(full) if not nd['kids']}
 # sibling clade of each held-out leaf in the full tree, minus held-out leaves; climb if empty
+leafof = {}
+def heldbelow(n):
+    h = 0; st = [n]
+    while st:
+        y = st.pop()
+        if not full[y]['kids']:
+            if full[y]['label'] in hs: h ^= LEAFHASH[full[y]['label']]
+        else: st.extend(full[y]['kids'])
+    return h
 true_clade = {}
 for g in held:
     x = lab2node[g]
     while True:
         p = full[x]['par']
-        sib = frozenset().union(*(fls[k] for k in full[p]['kids'] if k != x)) - hs
+        sib = 0
+        for k in full[p]['kids']:
+            if k != x: sib ^= fls[k]
+        sib ^= heldbelow(p) ^ heldbelow(x)  # remove held-out leaves (xor out)
         if sib: break
         x = p
     true_clade[g] = sib
@@ -69,12 +89,12 @@ res = {}
 for v in ('stock', 'fix'):
     jp = json.load(open(f'{S}/int_{v}/epa_out/epa_result.jplace'))
     T = parse(jp['tree'].strip()); tls = leafsets(T)
-    allleaves = tls[0]
+    allleaves = tls[0]  # xor of all leaves
     edge2node = {nd['edge']: i for i, nd in enumerate(T) if nd['edge'] is not None}
     # map clade (or its complement, unrooted) -> node
     clade2node = {}
     for i, l in enumerate(tls):
-        clade2node[l] = i; clade2node[allleaves - l] = i
+        clade2node[l] = i; clade2node[allleaves ^ l] = i
     depth = [0] * len(T)
     for i in range(1, len(T)): depth[i] = depth[T[i]['par']] + 1  # parents always precede kids
     def dist(a, b):
@@ -98,8 +118,7 @@ for v in ('stock', 'fix'):
     res[v] = out
 
 # KO predictions
-true = pd.read_csv(f'{B}/ko.txt.gz', sep='\t', index_col=0)
-true = true.loc[[g for g in held if g in true.index]]
+true = pd.concat(c[c.index.isin(hs)] for c in pd.read_csv(f'{B}/ko.txt.gz', sep='\t', index_col=0, chunksize=500))
 rows = []
 for v in ('stock', 'fix'):
     pr = pd.read_csv(f'{S}/ko_{v}.tsv.gz', sep='\t', index_col=0)
