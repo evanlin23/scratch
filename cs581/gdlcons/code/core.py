@@ -156,7 +156,7 @@ def write_mapping(path, trees_rt):
                     f.write("%s %s\n" % (lab, sp_of(lab)))
 
 
-def run_apro(newicks, rts, fixed, threads=1, extra=(), workdir=None):
+def run_apro(newicks, rts, fixed, threads=1, extra=(), workdir=None, binary=None):
     with tempfile.TemporaryDirectory(dir=workdir) as td:
         gi, mp, out = (os.path.join(td, x) for x in ("g.nwk", "map.txt", "s.nwk"))
         with open(gi, "w") as f:
@@ -167,13 +167,13 @@ def run_apro(newicks, rts, fixed, threads=1, extra=(), workdir=None):
             env["APRO_FIXED"] = "1"
         else:
             env.pop("APRO_FIXED", None)
-        cmd = [APRO_FIXED if fixed else APRO, "-a", mp, "-t", str(threads), "-o", out] + list(extra) + [gi]
+        cmd = [binary or (APRO_FIXED if fixed else APRO), "-a", mp, "-t", str(threads), "-o", out] + list(extra) + [gi]
         subprocess.run(cmd, check=True, cwd=td, env=env, stdout=subprocess.DEVNULL,
                        stderr=subprocess.DEVNULL)
         return parse_newick(open(out).read())
 
 
-def quartet_scores(newicks, rts, fixed, species_nwk, workdir=None):
+def quartet_scores(newicks, rts, fixed, species_nwk, workdir=None, binary=None):
     """Scores of the three topologies around each branch of species_nwk (freqQuad.csv)."""
     with tempfile.TemporaryDirectory(dir=workdir) as td:
         gi, mp, st, out = (os.path.join(td, x) for x in ("g.nwk", "map.txt", "sp.nwk", "s.nwk"))
@@ -187,10 +187,17 @@ def quartet_scores(newicks, rts, fixed, species_nwk, workdir=None):
             env["APRO_FIXED"] = "1"
         else:
             env.pop("APRO_FIXED", None)
-        subprocess.run([APRO_FIXED if fixed else APRO, "-a", mp, "-c", st, "-C", "-u", "3", "-o", out, gi],
+        subprocess.run([binary or (APRO_FIXED if fixed else APRO), "-a", mp, "-c", st, "-C", "-u", "3", "-o", out, gi],
                        check=True, cwd=td, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         rows = [l.rstrip("\n").split("\t") for l in open(os.path.join(td, "freqQuad.csv"))]
         return [(r[0], r[1], r[2], float(r[4])) for r in rows]
+
+
+def split_of(label):
+    """'{C}|{D}#{B}|{A}' -> 'AB|CD' (sides sorted); labels t2/t3 are NOT stable across runs."""
+    a, b = label.split("#")
+    side = lambda x: "".join(sorted(y.strip("{}") for y in x.split("|")))
+    return "|".join(sorted([side(a), side(b)]))
 
 
 def fn(est, true_nwk):

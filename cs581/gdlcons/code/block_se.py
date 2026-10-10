@@ -20,12 +20,14 @@ def job(arg):
     blk = [core.true_rt(f, spi) for f in fams[b * B:(b + 1) * B]]
     if model == "own":
         sc = core.quartet_scores([core.plain(r) for r, _ in blk], [r for r, _ in blk], False, TOPO)
+    elif model == "multi":  # ASTRAL-multi (ASTER astral4 with a gene->species map), proven consistent
+        sc = core.quartet_scores([core.plain(r) for r, _ in blk], [r for r, _ in blk], False, TOPO, binary=core.ASTRAL)
     else:
         rng = random.Random(b * 7919 + len(m))
         err = [core.apply_error(model, float(par), rt, tg, spi, rng) for rt, tg in blk]
         sc = core.quartet_scores([core.encode(r, t) for r, t in err], [r for r, _ in err], True, TOPO)
-    d = {t: s for _, t, _, s in sc}
-    return m, b, [d["t1"], d["t2"], d["t3"]]
+    d = {core.split_of(lab): s for _, _, lab, s in sc}
+    return m, b, [d.get("AB|CD", 0.0), d.get("AD|BC", 0.0), d.get("AC|BD", 0.0)]
 
 
 if __name__ == "__main__":

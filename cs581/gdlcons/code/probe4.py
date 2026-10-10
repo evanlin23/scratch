@@ -11,6 +11,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from core import apply_error, encode, plain, quartet_scores, simulate, true_rt  # noqa: E402
+from core import split_of as core_split  # noqa: E402
 from phylo import parse_newick  # noqa: E402
 
 DEFAULT_MODELS = "true:0,ovl:0,d2s:0.1,d2s:0.25,d2s:0.5,d2s:0.75,d2s:1,flip:0.1,flip:0.25,flip:0.5,rovl:0.3,rovl:1,own:0"
@@ -42,8 +43,8 @@ def main():
         else:
             err = [apply_error(model, float(par), rt, tg, spi, rng) for rt, tg in base]
             sc = quartet_scores([encode(r, t) for r, t in err], [r for r, _ in err], True, st.newick())
-        d = {t: s for _, t, _, s in sc}
-        res[m] = [d["t1"], d["t2"], d["t3"]]
+        d = {core_split(lab): s for _, _, lab, s in sc}
+        res[m] = [d.get("AB|CD", 0.0), d.get("AD|BC", 0.0), d.get("AC|BD", 0.0)]  # correct, AD|BC, AC|BD
     rec = {"spec": spec, "nfam": nfam, "seed": seed, "tries": tries, "over": over,
            "mean_leaves": sum(len(r.leaves()) for r in [b[0] for b in base]) / len(base), "scores": res}
     with open(out, "a") as f:
