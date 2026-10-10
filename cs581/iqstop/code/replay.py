@@ -46,8 +46,8 @@ def wall(ds, tag):
     if not os.path.exists(p): return None
     f = open(p).read().split(); return float(f[3]) if f[2] == '0' else None
 
-def evaluate(ds, trees):
-    d = f'{W}/{ds}/eval'; os.makedirs(d, exist_ok=True)
+def evaluate(ds, trees, sub='eval'):
+    d = f'{W}/{ds}/{sub}'; os.makedirs(d, exist_ok=True)
     content = ''.join(t.strip() + '\n' for t in trees)
     same = os.path.exists(f'{d}/all.nwk') and open(f'{d}/all.nwk').read() == content
     open(f'{d}/all.nwk', 'w').write(content)
@@ -57,7 +57,7 @@ def evaluate(ds, trees):
     L = []
     for l in open(f'{d}/ev.sitelh').read().split('\n')[1:]:
         if l.strip(): L.append([float(x) for x in l.split()[1:]])
-    L = np.array(L)
+    L = np.array(L).T   # sites x trees
     # AU p-values from .iqtree table
     au = {}
     txt = open(f'{d}/ev.iqtree').read()
@@ -132,15 +132,27 @@ def main(ds):
         if t not in tid: tid[t] = len(trees); trees.append(t)
         return tid[t]
     idx_of_it, cur = {}, None
+    comps_late = {}
     for it, t, sc, best, tr in rows:
         if tr is not None: cur = add(tr)
         idx_of_it[it] = cur
     comps = {}
-    for tag, fn in [('iqdef1_final', 'iqdef1.treefile'), ('iqdef2', 'iqdef2.treefile'), ('iqfast', 'iqfast.treefile'),
+    for tag, fn in [('iqdef1_final', 'iqdef1.treefile'), ('iqfast', 'iqfast.treefile'),
                     ('rxfast', 'rxfast.raxml.bestTree')]:
         p = f'{W}/{ds}/{fn}'
         if os.path.exists(p): comps[tag] = add(prune(open(p).read().strip(), keep))
     L, au = evaluate(ds, trees)
+    # late comparators (seed-2 replicate): anchored run [first trace tree, default tree, extra...] -> same model fit
+    late = {}
+    for tag, fn in [('iqdef2', 'iqdef2.treefile'), ('iqnstop20', 'iqnstop20.treefile'),
+                    ('rxclassic1', 'rxclassic1.raxml.bestTree')]:
+        p = f'{W}/{ds}/{fn}'
+        if os.path.exists(p): late[tag] = prune(open(p).read().strip(), keep)
+    if late:
+        d0k = idx_of_it[rows[-1][0]]
+        Lb, _ = evaluate(ds, [trees[0], trees[d0k]] + list(late.values()), sub='eval2')
+        for j, (tag, t) in enumerate(late.items()):
+            comps_late[tag] = dict(lnl_rel=float(Lb[:, 2 + j].sum() - Lb[:, 1].sum()), tree_str=t)
     lnl = L.sum(0)
     res = dict(ds=ds, ntaxa=None, nsites=L.shape[0], wall_default=T, post=post, last_it=rows[-1][0],
                n_impr=sum(1 for r in rows if r[4] is not None), rules={}, comps={}, trees=trees)
@@ -151,6 +163,9 @@ def main(ds):
         res['rules'][name] = dict(stop_it=s, time=t_s + post, tree=k, lnl=float(lnl[k]), au=au.get(k))
     for tag, k in comps.items():
         res['comps'][tag] = dict(tree=k, lnl=float(lnl[k]), au=au.get(k), time=wall(ds, tag.replace('_final', '')))
+    for tag, v in comps_late.items():
+        res['comps'][tag] = dict(tree=None, tree_str=v['tree_str'], lnl=res['rules']['default(nstop100)']['lnl'] + v['lnl_rel'],
+                                 au=None, time=wall(ds, tag))
     os.makedirs(OUT, exist_ok=True)
     json.dump(res, open(f'{OUT}/{ds}.json', 'w'))
     print(ds, 'done', {n: (r['stop_it'], round(r['time'], 1), round(r['lnl'] - res['rules']['default(nstop100)']['lnl'], 2)) for n, r in res['rules'].items()})
