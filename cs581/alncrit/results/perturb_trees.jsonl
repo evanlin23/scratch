@@ -1,0 +1,2 @@
+{"key": "1000L1_R0/split_0.1", "method": "ft", "seconds": 143.6, "aln": "/opt/runs/perturb/1000L1_R0.split_0.1.fa", "n": 1000, "fn": 96, "fp": 100, "true_int": 993, "est_int": 997, "fn_rate": 0.09667673716012085, "fp_rate": 0.10030090270812438, "rf_rate": 0.09829488465396188}
+{"key": "1000L1_R0/split_0.2", "method": "ft", "seconds": 147.8, "aln": "/opt/runs/perturb/1000L1_R0.split_0.2.fa", "n": 1000, "fn": 115, "fp": 119, "true_int": 993, "est_int": 997, "fn_rate": 0.11581067472306143, "fp_rate": 0.119358074222668, "rf_rate": 0.11735205616850551}
