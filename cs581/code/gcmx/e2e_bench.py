@@ -21,6 +21,7 @@ nothing is estimated. Accuracy is FastSP SPFN/SPFP against the reference.
 """
 
 import argparse
+import collections
 import glob
 import json
 import os
@@ -57,9 +58,18 @@ def timed(cmd, log, env=None):
     return round(time.time() - start, 1), round(cpu, 1)
 
 
+def seq_type(seqs):
+    """dna / rna / protein by composition: nucleotide data may carry a few IUPAC ambiguity codes
+    (16S.M has N, Y, R, W, ...), so a residue set check misclassifies it as protein."""
+    counts = collections.Counter("".join(seqs.values()).upper())
+    total = sum(v for k, v in counts.items() if k not in "-.") or 1
+    if sum(counts[c] for c in "ACGTUN") / total < 0.9:
+        return "protein"
+    return "rna" if counts["U"] > counts["T"] else "dna"
+
+
 def is_protein(seqs):
-    letters = set("".join(seqs.values()).upper()) - set("-.")
-    return len(letters - set("ACGTUN")) > 2
+    return seq_type(seqs) == "protein"
 
 
 def acc(true, path):
@@ -67,12 +77,12 @@ def acc(true, path):
     return {k: s[k] for k in ("SPFN", "SPFP", "avgErr", "LenEst", "LenRef")}
 
 
-def run_pasta(w, unaligned, protein, threads):
+def run_pasta(w, unaligned, datatype, threads):
     out = os.path.join(w, "pasta")
     shutil.rmtree(out, ignore_errors=True)
     os.makedirs(out)
     cmd = [PASTA_PY, PASTA,
-           "-i", unaligned, "-o", out, "-d", "protein" if protein else "dna", "--num-cpus", str(threads),
+           "-i", unaligned, "-o", out, "-d", datatype, "--num-cpus", str(threads),
            "--iter-limit", "3", "--temporaries", os.path.join(w, "pasta_tmp"), "-j", "pastajob"]
     wall, cpu = timed(cmd, os.path.join(w, "pasta.log"))
     alns = [p for p in glob.glob(os.path.join(out, "pastajob.marker001.*.aln")) if "masked" not in p]
@@ -114,8 +124,9 @@ def main():
         true, unaligned = os.path.join(w, "true.fasta"), os.path.join(w, "unaligned.fasta")
         fasta.write(ref, true)
         fasta.write(fasta.ungap(ref), unaligned)
-        protein = is_protein(ref)
-        row.update({"dataset": name, "threads": args.threads, "nproc": os.cpu_count(), "nseq": len(ref), "protein": protein})
+        datatype = seq_type(ref)
+        row.update({"dataset": name, "threads": args.threads, "nproc": os.cpu_count(), "nseq": len(ref),
+                    "protein": datatype == "protein", "datatype": datatype})
 
         def log_row(method, data):
             row[method] = data
@@ -131,7 +142,7 @@ def main():
         if "pasta" in only and "pasta" not in row:
             fresh("pasta", "pasta_tmp")
             try:
-                wall, cpu = run_pasta(w, unaligned, protein, args.threads)
+                wall, cpu = run_pasta(w, unaligned, datatype, args.threads)
                 log_row("pasta", {"wall": wall, "cpu": cpu, **acc(true, os.path.join(w, "pasta.fasta"))})
             except RuntimeError as e:
                 log_row("pasta", {"error": str(e)})
