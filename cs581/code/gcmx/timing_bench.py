@@ -10,8 +10,9 @@ same thread count:
   slow-soft  MAGUS(Fast)'s decomposition, subset alignments and backbones, then
              HMM extension + similarity split + soft-constraint merge (this project)
 Wall-clock and CPU seconds (children's user+sys) are recorded per stage, plus
-accuracy (SPFN/SPFP via FastSP). slow-soft total = fast total - fast merge
-time + extension + split + soft merge. fast/slow run MAGUS's original code
+accuracy (SPFN/SPFP via FastSP). slow-soft total = fast total - fast GCM work
+(graph feeding, clustering, trace; not the wait for backbones) + extension +
+split + soft merge. fast/slow run MAGUS's original code
 (--gcmx-fastgraph false); slow-soft needs gcmx.fastgraph's compact graph
 (MAGUS's dict graph runs out of memory for soft constraints), which also makes
 graph construction faster -- state this when comparing runtimes.
@@ -50,9 +51,35 @@ def timed(cmd, log):
 
 
 def merge_seconds(magus_log):
+    """MAGUS's 'Merged ... in X sec'. In a full MAGUS run this INCLUDES waiting for the
+    backbone alignments (graph building waits on them), so it is not the GCM cost."""
     text = open(magus_log).read()
     found = re.findall(r"Merged \d+ subalignments into .* in ([0-9.]+) sec", text)
     return float(found[-1]) if found else 0.0
+
+
+def gcm_seconds(magus_log):
+    """GCM work only: feeding each backbone into the graph (Feeding -> Fed), graph finishing
+    after the last backbone (last Fed -> Built), clustering and trace; no waiting on MAFFT."""
+    import datetime
+    stamp = lambda line: datetime.datetime.strptime(line[:19], "%Y-%m-%d %H:%M:%S")
+    feed, last_fed, built, total = {}, None, None, 0.0
+    for line in open(magus_log, errors="replace"):
+        m = re.search(r"Feeding backbone (\S+) to the graph", line)
+        if m:
+            feed[m.group(1)] = stamp(line)
+        m = re.search(r"Fed backbone (\S+) to the graph", line)
+        if m and m.group(1) in feed:
+            last_fed = stamp(line)
+            total += (last_fed - feed[m.group(1)]).total_seconds()
+        if "Built the alignment graph" in line:
+            built = stamp(line)
+        m = re.search(r"(?:Clustered the graph|Found alignment graph trace) in ([0-9.]+) sec", line)
+        if m:
+            total += float(m.group(1))
+    if built and last_fed:
+        total += max(0.0, (built - last_fed).total_seconds())
+    return round(total, 1)
 
 
 def main():
@@ -91,7 +118,8 @@ def main():
             wall, cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d", os.path.join(w, mode), "-i",
                                     os.path.join(w, "unaligned.fasta"), "-o", out] + flags(k) + extra,
                               os.path.join(w, mode + ".log"))
-            row[mode] = {"wall": wall, "cpu": cpu, "merge_wall": merge_seconds(os.path.join(w, mode, "log.txt")),
+            row[mode] = {"wall": wall, "cpu": cpu, "merge_incl_wait": merge_seconds(os.path.join(w, mode, "log.txt")),
+                         "gcm_wall": gcm_seconds(os.path.join(w, mode, "log.txt")),
                          **{key: score.fastsp(os.path.join(w, "true.fasta"), out)[key] for key in ("SPFN", "SPFP", "avgErr")}}
             print(json.dumps({name: row[mode]}), flush=True)
 
@@ -110,7 +138,7 @@ def main():
         out = os.path.join(w, "slow-soft.fasta")
         m_wall, m_cpu = timed(py + ["gcmx.run_magus", "-np", T, "-d", os.path.join(w, "softmerge"),
                                     "-s", split, "-b", ext, "-o", out], os.path.join(w, "softmerge.log"))
-        shared_wall = row["fast"]["wall"] - row["fast"]["merge_wall"]
+        shared_wall = row["fast"]["wall"] - row["fast"]["gcm_wall"]
         row["slow-soft"] = {"wall": round(shared_wall + e_wall + s_wall + m_wall, 1),
                             "extend_wall": e_wall, "split_wall": s_wall, "merge_wall": m_wall,
                             "extra_cpu": round(e_cpu + s_cpu + m_cpu, 1),
