@@ -23,9 +23,13 @@ the ten L-INS-i backbones disagree on (no new alignment at all) gives −1.73 (7
 MAGUS's own gain over PASTA on the paper's 1,000-sequence data is 2.7 points. (3) *Held-out test (pre-registered,
 interim).* On simulated proteins with true alignments (AliSim LG+G4 with indels, 1,000 sequences, two divergence
 levels, 8 replicates) the MAFFT-only intersection lowers error on 8/8 replicates (mean −2.27 points, range −0.89
-to −4.17; p = 0.008); the masking variant is weaker (−0.84, 5/8). (4) *Limits.* Filtering hurts on nucleotide
-data (ROSE, RNASim: +7 to +42), where pairs found by only one alignment are mostly correct, and adding Clustal
-Omega backbones hurts simulated proteins; a pre-registered reference-free gate did not transfer.
+to −4.17; p = 0.008); the masking variant is weaker (−0.84, 5/8). On HomFam (10 families, Homstrad-seed scoring)
+it is flat (−0.15, 6/1/3, n.s.; −1.60 to +2.09), where MAGUS is limited by recall rather than precision; over all 20
+held-out sets −0.97 (15/1/4, p = 0.007). (4) *Limits.* Hard filtering hurts on nucleotide data (ROSE, RNASim: +7 to
++31), where pairs found by only one alignment are mostly correct. Down-weighting those pairs (weight 0.03) instead
+of deleting them is neutral on 8 DNA/RNA sets (−0.08 mean) and keeps the BAliBASE gain (−1.05, 6/0/0), but gives up
+the simulated-protein gain on the one replicate tested (+1.12). Adding Clustal Omega backbones hurts simulated
+proteins, and a pre-registered reference-free gate did not transfer.
 
 **Research questions.** (1) Does consensus evidence improve MAGUS across protein benchmarks (BAliBASE with
 fresh draws, HomFam, 10AA, simulated proteins), and on which data does it hurt? (2) What explains when it helps:
@@ -47,8 +51,9 @@ threshold, TCS-filtered backbones, M-Coffee and MAFFT L-INS-i on the full data w
 Week 2: the when-does-it-help analysis and a reference-free switch (protein vs nucleotide, or agreement-based).
 Week 3: alternatives and baselines (edge-support threshold, TCS, more backbones, M-Coffee). Week 4: write-up.
 
-**Risks.** (a) The effect may be protein- or benchmark-specific; a held-out loss on HomFam would narrow the claim
-to "simulated and BAliBASE proteins". (b) Novelty is partial: consistency scores (GUIDANCE, trimAl, TCS) and
+**Risks.** (a) The effect is data-dependent: large on simulated and BAliBASE proteins, flat on HomFam, harmful on
+DNA when filtering is hard. Unless a weighting or switch works across all of them, the claim is "precision-limited
+protein data", and the when-does-it-help analysis (RQ2) becomes the core of the project. (b) Novelty is partial: consistency scores (GUIDANCE, trimAl, TCS) and
 multi-aligner consensus (M-Coffee) are known; what is new is using them to clean GCM's alignment-graph evidence,
 and the precision mechanism, which we will state only for the data where we measure it. (c) MCL already exploits
 transitive consistency, so gains could shrink with tuned MCL; we test that directly.
