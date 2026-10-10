@@ -2,7 +2,7 @@
 """TIPP3-fast style BLAST alignment: map each query through the HSP of its top BLASTN hit
 (default task = megablast, as TIPP3 calls blastn) onto that backbone sequence's columns.
 
-usage: blast_aln.py INST OUTDIR THREADS
+usage: blast_aln.py INST OUTDIR THREADS [TASK]   (TASK: megablast = TIPP3 default, or blastn = sensitive)
 writes OUTDIR/blast_map.json (query -> per-residue backbone column or -1), OUTDIR/tophit.json
 (query -> (backbone name, bitscore)) and OUTDIR/blast_time.txt
 """
@@ -20,6 +20,7 @@ def rc(s):
 
 def main():
     inst, out, th = sys.argv[1], sys.argv[2], sys.argv[3]
+    task = sys.argv[4] if len(sys.argv) > 4 else 'megablast'
     os.makedirs(out, exist_ok=True)
     t0 = time.time()
     db = f'{out}/bbdb'
@@ -28,7 +29,7 @@ def main():
     t1 = time.time()
     res = subprocess.run([f'{BIN}/blastn', '-db', db, '-query', f'{inst}/queries.fasta',
                           '-outfmt', '6 qseqid sseqid qstart qend sstart send qseq sseq bitscore',
-                          '-max_target_seqs', '5', '-num_threads', th],
+                          '-max_target_seqs', '5', '-num_threads', th, '-task', task],
                          check=True, capture_output=True, text=True).stdout
     t2 = time.time()
     bb = read_fasta(f'{inst}/backbone.fasta')

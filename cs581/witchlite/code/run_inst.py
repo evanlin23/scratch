@@ -53,12 +53,17 @@ if not os.path.exists(f'{inst}/blast/blast_map.json'):
     sh(f'python3 {HERE}/blast_aln.py {inst} {inst}/blast 4')
 bt = float(open(f'{inst}/blast/blast_time.txt').read().split('total')[1])
 record('BLAST', json.load(open(f'{inst}/blast/blast_map.json')), dict(time=bt, time_nodecomp=bt))
+# sensitive BLASTN (word size 11); also the guide for the blastpath selectors
+if not os.path.exists(f'{inst}/blast_sens/blast_map.json'):
+    sh(f'python3 {HERE}/blast_aln.py {inst} {inst}/blast_sens 4 blastn')
+bt = float(open(f'{inst}/blast_sens/blast_time.txt').read().split('total')[1])
+record('BLAST-sens', json.load(open(f'{inst}/blast_sens/blast_map.json')), dict(time=bt, time_nodecomp=bt))
 
 # 3) selectors
 for strat in ['all', 'hier', 'hier_es', 'beam', 'blastpath', 'blastpath_sib']:
     od = f'{inst}/lite_{strat}'
     if not os.path.exists(f'{od}/scoring.json'):
-        extra = f'--blastdir {inst}/blast' if strat.startswith('blastpath') else ''
+        extra = f'--blastdir {inst}/blast_sens' if strat.startswith('blastpath') else ''
         sh(f'python3 {HERE}/lite.py {inst} {H} {od} {strat} {extra} > /dev/null')
 
 # 4) WITCH alignment stage on each selection
