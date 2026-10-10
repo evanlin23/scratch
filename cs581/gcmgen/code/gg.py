@@ -41,6 +41,7 @@ T = str(bbe.THREADS)
 bbe.TOOLS.update({
     "einsi": ["MAFFT", "--genafpair", "--maxiterate", "1000", "--ep", "0", "--quiet", "--thread", T, "--anysymbol"],
     "linsi-sh": ["MAFFT"] + bbe.LINSI,
+    "fftns2-nuc": ["MAFFT", "--retree", "2", "--maxiterate", "0", "--nuc", "--quiet", "--thread", T],
     "linsi-rt": ["MAFFT"] + bbe.LINSI,
 })
 CUSTOM = {"linsi-sh", "linsi-rt"}
@@ -212,13 +213,13 @@ def agree(rep, tools):
         gid[t] = np.arange(off, off + len(rc), dtype=np.int64)
         off += len(rc)
     A, _, _ = bbe.parse_variant(rep, "linsi")
-    PA = [pairdiff.pairs_of(R, a, gid) for _, a in A]
     for tool in tools:
         if tool in done:
             continue
         B, bw, bs = bbe.parse_variant(rep, tool)
         ov, acc = [], dict(a=0, a_tp=0, sh=0, sh_tp=0, ao=0, ao_tp=0, b=0, b_tp=0)
-        for (ka, ta, _), (_, b) in zip(PA, B):
+        for (_, a), (_, b) in zip(A, B):  # one backbone at a time (memory: ~30M pairs per DNA backbone)
+            ka, ta, _ = pairdiff.pairs_of(R, a, gid)
             kb, tb, _ = pairdiff.pairs_of(R, b, gid)
             inb = np.isin(ka, kb, assume_unique=True)
             ov.append(inb.mean())
