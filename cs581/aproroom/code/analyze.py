@@ -184,14 +184,14 @@ def main():
     d = load("disco_q1.jsonl")
     if len(d):
         prior = load("prior/disco_runs.jsonl")
-        prior = prior[prior.method == "astral-pro3"].copy()
+        prior = prior[prior.method.isin(["astral-pro3", "astrid-pro", "astrid-disco", "astrid-multi", "asteroid"])].copy()
         prior["level"] = "est100"
         prior["ngen"] = "1000"
-        d = pd.concat([d, prior[prior.cond.isin(d.cond.unique()) & prior.rep.isin(d.rep.unique())]])
+        d = pd.concat([prior[prior.cond.isin(d.cond.unique()) & prior.rep.isin(d.rep.unique())], d])
         w = wide(d)
         out.write("## Q1. Error decomposition: DISCO data (100 taxa, 1000 genes)\n\n")
-        out.write("ASTRAL-Pro3 on estimated trees is from the previous pilot (same ASTER v1.25.3.8, same input; "
-                  "deterministic seed).\n\n")
+        out.write("Estimated-tree (est100) results not rerun here are taken from the previous pilot (same software "
+                  "versions, same inputs; ASTRAL-Pro3 deterministic seed).\n\n")
         out.write(means(w, ["cond", "level"], ["astrid-pro-tt", "astrid-pro", "astrid-disco-tt", "astrid-disco",
                                                "astrid-multi", "asteroid", "astral-pro3", "wqfm-gdl"]) + "\n")
         for lev in ["true", "est100"]:
@@ -201,6 +201,32 @@ def main():
             if o:
                 out.write(f"Oracle over 5 methods ({lev}, n={o['n']}): best single {o['best']} {o['best_single']:.4f}, "
                           f"oracle {o['oracle']:.4f}.\n\n")
+    d = load("disco_true.jsonl", "disco_q1.jsonl")
+    if len(d):
+        d = d[d.level == "true"]
+        prior = load("prior/disco_runs.jsonl")
+        prior["level"] = "est100"
+        prior["ngen"] = "1000"
+        d["ngen"] = "1000"
+        d = pd.concat([prior, d])
+        w = wide(d)
+        cols = ["astrid-pro", "astrid-disco", "astrid-multi", "asteroid"]
+        rows = []
+        lv = w.reset_index()
+        for c, g in lv.groupby("cond"):
+            x = g.pivot_table(index="rep", columns="level", values=cols)
+            r = [c]
+            for m in cols:
+                if (m, "true") in x and (m, "est100") in x:
+                    y = x[m][["true", "est100"]].dropna()
+                    r += [f"{y['true'].mean():.3f} → {y['est100'].mean():.3f} ({len(y)})"]
+                else:
+                    r += ["–"]
+            rows.append(r)
+        out.write("## Q1. DISCO: true-tree (L1) → estimated-tree (L2, 100 bp) FN rate per condition, fast methods, "
+                  "reps 01-07 (n in parentheses)\n\n" + table(["cond"] + cols, rows) + "\n")
+        sub = w.xs("true", level="level")
+        out.write(comparisons(sub, "astrid-pro", ["astrid-disco", "asteroid", "astrid-multi"], "DISCO true trees, all conditions") + "\n")
     # ---------------- tag accuracy
     for f in ["tagacc_fmrfs.jsonl", "tagacc_disco.jsonl"]:
         p = os.path.join(R, f)
@@ -245,9 +271,9 @@ def main():
     if len(d):
         w = wide(d)
         out.write("## Q2. Few vs many genes (DISCO gtrees_10000_l1, 100 taxa, 100 bp)\n\n")
-        out.write(means(w, ["ngen"], ["astrid-pro", "astrid-multi", "astrid-disco", "asteroid", "astral-pro3", "wqfm-gdl"]) + "\n")
+        out.write(means(w, ["level", "ngen"], ["astrid-pro", "astrid-multi", "astrid-disco", "asteroid", "astral-pro3", "wqfm-gdl"]) + "\n")
         rows = []
-        for g, sub in w.groupby(level="ngen"):
+        for g, sub in w.xs("est100", level="level").groupby(level="ngen"):
             for o in ["astrid-disco", "asteroid", "astral-pro3", "wqfm-gdl"]:
                 p = pair(sub, "astrid-pro", o)
                 if p:

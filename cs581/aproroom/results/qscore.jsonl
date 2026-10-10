@@ -44,3 +44,17 @@
 {"cond": "dl2e-10_ps5e7", "rep": "04", "level": "est100", "astral-pro3_FN": 5, "astral-pro3_score": 125255342.0, "astrid-pro_FN": 3, "astrid-pro_score": 124485385.0, "true_score": 125219877.0}
 {"cond": "dl5e-10_ps1e7", "rep": "04", "level": "est25", "astral-pro3_FN": 14, "astral-pro3_score": 12293356.0, "astrid-pro_FN": 13, "astrid-pro_score": 12274854.0, "true_score": 12259752.0}
 {"cond": "dl5e-10_ps1e7", "rep": "04", "level": "est100", "astral-pro3_FN": 4, "astral-pro3_score": 39160921.0, "astrid-pro_FN": 3, "astrid-pro_score": 39157553.0, "true_score": 39154712.0}
+{"cond": "dl5e-10_ps5e7", "rep": "04", "level": "est25", "astral-pro3_FN": 19, "astral-pro3_score": 9106775.0, "astrid-pro_FN": 11, "astrid-pro_score": 8923020.0, "true_score": 9036795.0}
+{"cond": "dl5e-10_ps5e7", "rep": "04", "level": "est100", "astral-pro3_FN": 6, "astral-pro3_score": 38440604.0, "astrid-pro_FN": 5, "astrid-pro_score": 38421298.0, "true_score": 38419673.0}
+{"cond": "dl1e-10_ps1e7", "rep": "05", "level": "est25", "astral-pro3_FN": 3, "astral-pro3_score": 90387358.0, "astrid-pro_FN": 7, "astrid-pro_score": 90066216.0, "true_score": 90375652.0}
+{"cond": "dl1e-10_ps1e7", "rep": "05", "level": "est100", "astral-pro3_FN": 2, "astral-pro3_score": 192211902.0, "astrid-pro_FN": 2, "astrid-pro_score": 192204295.0, "true_score": 192210996.0}
+{"cond": "dl1e-10_ps5e7", "rep": "05", "level": "est25", "astral-pro3_FN": 3, "astral-pro3_score": 107463408.0, "astrid-pro_FN": 8, "astrid-pro_score": 107160907.0, "true_score": 107455474.0}
+{"cond": "dl1e-10_ps5e7", "rep": "05", "level": "est100", "astral-pro3_FN": 3, "astral-pro3_score": 171913780.0, "astrid-pro_FN": 2, "astrid-pro_score": 171913567.0, "true_score": 171876751.0}
+{"cond": "dl2e-10_ps1e7", "rep": "05", "level": "est25", "astral-pro3_FN": 12, "astral-pro3_score": 52915050.0, "astrid-pro_FN": 10, "astrid-pro_score": 52834626.0, "true_score": 52452770.0}
+{"cond": "dl2e-10_ps1e7", "rep": "05", "level": "est100", "astral-pro3_FN": 2, "astral-pro3_score": 109624619.0, "astrid-pro_FN": 1, "astrid-pro_score": 109605701.0, "true_score": 109568416.0}
+{"cond": "dl2e-10_ps5e7", "rep": "05", "level": "est25", "astral-pro3_FN": 14, "astral-pro3_score": 56211512.0, "astrid-pro_FN": 13, "astrid-pro_score": 56017036.0, "true_score": 55829947.0}
+{"cond": "dl2e-10_ps5e7", "rep": "05", "level": "est100", "astral-pro3_FN": 8, "astral-pro3_score": 107876232.0, "astrid-pro_FN": 6, "astrid-pro_score": 107128126.0, "true_score": 107151050.0}
+{"cond": "dl5e-10_ps1e7", "rep": "05", "level": "est25", "astral-pro3_FN": 19, "astral-pro3_score": 14629071.0, "astrid-pro_FN": 9, "astrid-pro_score": 14527373.0, "true_score": 14526649.0}
+{"cond": "dl5e-10_ps1e7", "rep": "05", "level": "est100", "astral-pro3_FN": 3, "astral-pro3_score": 49740703.0, "astrid-pro_FN": 1, "astrid-pro_score": 49738672.0, "true_score": 49733961.0}
+{"cond": "dl5e-10_ps5e7", "rep": "05", "level": "est25", "astral-pro3_FN": 16, "astral-pro3_score": 11266828.0, "astrid-pro_FN": 12, "astrid-pro_score": 11187285.0, "true_score": 11121466.0}
+{"cond": "dl5e-10_ps5e7", "rep": "05", "level": "est100", "astral-pro3_FN": 7, "astral-pro3_score": 30107846.0, "astrid-pro_FN": 2, "astrid-pro_score": 29991029.0, "true_score": 29991255.0}

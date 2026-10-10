@@ -2,3 +2,4 @@
 {"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "est100", "method": "astrid-multi", "threads": 1, "rssMB": 113.0, "sec": 34.137, "FN": 81, "FP": 81, "nI": 998, "FNrate": 0.08116}
 {"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "est100", "method": "astrid-disco", "threads": 1, "rssMB": 622.6, "sec": 595.459, "FN": 72, "FP": 72, "nI": 998, "FNrate": 0.07214}
 {"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-pro", "threads": 1, "rssMB": 113.1, "sec": 12.659, "FN": 6, "FP": 6, "nI": 998, "FNrate": 0.00601}
+{"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-multi", "threads": 1, "rssMB": 113.1, "sec": 1297.022, "FN": 13, "FP": 13, "nI": 998, "FNrate": 0.01303}

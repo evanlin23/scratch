@@ -1,0 +1,7 @@
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-pro", "threads": 1, "rssMB": 13.6, "sec": 1.515, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-disco", "threads": 1, "rssMB": 54.0, "sec": 17.593, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-multi", "threads": 1, "rssMB": 26.7, "sec": 1.92, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "default", "rep": "01", "ngen": 1000, "level": "true", "method": "asteroid", "threads": 1, "rssMB": 1389.4, "sec": 14.224, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-pro", "threads": 1, "rssMB": 13.7, "sec": 1.676, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-disco", "threads": 1, "rssMB": 44.6, "sec": 12.777, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-multi", "threads": 1, "rssMB": 26.1, "sec": 1.261, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}

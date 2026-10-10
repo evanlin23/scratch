@@ -2,3 +2,6 @@
 {"data": "disco", "cond": "default", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 41.6, "sec": 264.724, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
 {"data": "disco", "cond": "ils_2e8", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 49.0, "sec": 376.283, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
 {"data": "disco", "cond": "gdl_1e-9_1", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 66.0, "sec": 444.685, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "missing_1000", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 26.9, "sec": 123.142, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "disco", "cond": "default", "rep": "04", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 45.5, "sec": 421.997, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 46.6, "sec": 580.669, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
