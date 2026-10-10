@@ -26,7 +26,7 @@ The pipeline:
 | BCD (Fleischauer & Böcker 2017) | min-cut + clade deletion | 10k (SCS-DCM) | ~2 h at 10k | not run |
 | FastRFS (2017) | exact RFS in a constrained space | 2,228 | 3,282 s on CPL | not built (needs an old Bazel); published numbers used |
 | Exact-RFS-2 / GreedyRFS (*AMB* 2021) | exact RFS of 2 trees, O(n²\|X\|); greedy pairwise | 500 taxa, 9 replicates (criterion scores only) | not reported | not run |
-| ASTRAL-II/III | max quartet support | 1,000 (FastRFS paper) | **ASTRAL-III here: 21 s and 1.5 GB at 1k, 185 s and 3.7 GB at 2k; killed (exit 137) at 3.9k, 5k and 10k with an 8 GB heap under shared memory; heap-13g runs alone: see §6** | **main baseline** |
+| ASTRAL-II/III | max quartet support | 1,000 (FastRFS paper) | **ASTRAL-III here: 21 s and 1.5 GB at 1k, 185 s and 3.7 GB at 2k; **out of memory at 10k** (13 GB heap, running alone, killed after 33 min); 3.9k and 5k: see §6** | **main baseline** |
 | ASTER astral4 | quartet placement + subsampling | — | 45 s at 1k | **32.1% RF vs ASTRAL-III 17.2% on SMIDGen-1000 d20** (bad on scaffold supertree input; `-R`: 28.9%) |
 | TREE-QMC (2023) | weighted quartet Max-Cut | "promising as supertree" | 340 s at 1k (O(n³k)) | 22.0% RF on one SMIDGen-1000 d20 replicate (ASTRAL-III 17.4%) |
 | wQFM-TREE (2025), Asteroid (2023) | quartet FM / balanced minimum evolution with missing data | species-tree data | — | not run |
@@ -106,7 +106,7 @@ Paired, all 40 replicates:
 | method | 500 | 1k | 2k | 5k | 10k |
 |---|---|---|---|---|---|
 | SCS | **1.83** | **2.80** | **3.20** | **3.39** | **3.84** (3 reps) |
-| ASTRAL-III | 5.71 | 8.08 | 7.23 | see §6 | see §6 |
+| ASTRAL-III | 5.71 | 8.08 | 7.23 | see §6 | **out of memory (15 GB)** |
 | MRL-FT | 6.84 | 8.30 | 7.31 | – | 8.03 (1 rep) |
 | DC-GTM, SCS guide, m = 100 | 5.57 | 8.11 | 7.42 | 7.85 | 8.15 |
 | DC-GTM, SCS guide, m = 500 | 5.71 | 8.05 | 8.01 | 8.12 | 8.47 (2 reps) |
@@ -155,7 +155,7 @@ All jobs ran single-threaded inside ProcessPools, with 3–4 jobs sharing 4 core
 | 2k (bd) | 185 s / 3.7 GB | 15 s / 0.3 GB | 43 s | 43 s / 120 MB | < 1 s |
 | 3.9k (SMIDGenOG) | **killed (exit 137) after 22 min at 7.7 GB RSS, 8 GB heap, memory shared with other runs** | 281 s / 1.9 GB | – | 108 s (m = 200) | 0.5 s |
 | 5k (bd) | killed (exit 137) under shared memory; rerun alone pending (`results/bd5000.jsonl`) | 29 s / 0.7 GB | – | 58 s / 120 MB | < 1 s |
-| 10k (bd) | killed (exit 137) after 32 s at 7.8 GB with an 8 GB heap; 13 GB heap alone: `results/bd10000.jsonl` | 65 s / 1.3 GB | 1,033 s / 1.3 GB | 112 s / 120 MB | < 1 s |
+| 10k (bd) | **fails: killed by the kernel (signal 9, out of memory) after 33 min at 13.8 GB RSS with a 13 GB heap, running alone** (an earlier 8 GB-heap run was killed after 32 s) | 65 s / 1.3 GB | 1,033 s / 1.3 GB | 112 s / 120 MB | < 1 s |
 
 DC-GTM's memory is flat (~120 MB at m = 100, ~500 MB at m = 500) and its time is linear in n: about 18 ms per taxon in total for SCS guide + DC (65 s + 112 s = ~3 min at 10k). Extrapolated linearly, 100k taxa would take ~30 min single-threaded, assuming SCS keeps scaling roughly linearly (29 s at 5k, 65 s at 10k). That part of the idea works.
 
@@ -163,7 +163,7 @@ DC-GTM's memory is flat (~120 MB at m = 100, ~500 MB at m = 500) and its time is
 
 1. **DC-GTM never beat the best method on any dataset.** With realistic guides it lands on the accuracy of its *subset solver* (ASTRAL-III) or of its guide, whichever is worse. It is significantly worse than SCS on the rooted DCM data (+4.4 pp, 0/0/23) and worse than SCS on all 5 SMIDGenOG-5500 replicates (+5.8 pp FN). On SMIDGen it is significantly worse than ASTRAL-III unless ASTRAL-III itself is the guide, in which case it ties (−0.02 pp, 21/5/14, p = 0.65).
 2. **The headroom is small even with a perfect guide.** With the true tree as guide, DC-GTM gets 13.4% / 12.5% on SMIDGen d20/d50 (ASTRAL-III 17.2% / 15.8%) and 6.2% on bd2000 (ASTRAL-III 7.2%). The subset trees, estimated from source trees restricted to the subset, are the bottleneck. Restricting the data loses information that the global analysis uses: on SMIDGen-1000 d20 replicate 0 (MRL-FT guide, m = 200, 7 subsets), the subset trees had 161 within-subset FN, against 147 for the global ASTRAL-III tree restricted to the same subsets.
-3. **What does work:** DC-GTM gives ASTRAL-III-level accuracy at a fraction of the memory: about 120 MB versus 3.7 GB at 2k taxa. ASTRAL-III was killed (exit 137) at 3.9k, 5k and 10k with an 8 GB heap while other jobs shared the 15 GB, and its 13 GB solo runs are pending (§6). DC-GTM's cost is linear, about 3 min at 10k. But a scalable method that is better than ASTRAL-III-level accuracy already exists for rooted inputs (SCS).
+3. **What does work:** DC-GTM gives ASTRAL-III-level accuracy at a fraction of the memory: about 120 MB versus 3.7 GB at 2k taxa. On this 15 GB machine ASTRAL-III **does not run at 10k taxa**: running alone with a 13 GB heap, it was OOM-killed after 33 min at 13.8 GB. DC-GTM's cost is linear, about 3 min at 10k. But a scalable method that is better than ASTRAL-III-level accuracy already exists for rooted inputs (SCS).
 4. Side findings worth a sentence in a proposal:
    - ASTER's astral4 is a poor supertree method on SMIDGen scaffold data: 32% vs 17% RF, and 29% with `-R`.
    - MRL-FT takes 17 min at 10k taxa because the MRP matrix is about 99% missing.
