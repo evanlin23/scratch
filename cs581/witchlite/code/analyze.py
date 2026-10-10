@@ -54,3 +54,28 @@ for f in sorted(glob.glob(f'{sys.argv[1]}/*.json')):
         print(f"| {LABEL[m]} | {100 * d['spfn']:.2f} | {100 * d['spfp']:.2f} | {100 * (d['spfn'] - M['WITCH']['spfn']):+.2f} | "
               f"{w}/{t}/{l} | {p:.2g} | {sp} | {mk} | {tm:.0f} | {100 * tm / wt['wall']:.0f}% | "
               f"{100 * tn / (wt['wall'] - wt['decomposition']):.0f}% |")
+
+# placement delta error (EPA-ng on the FastTree backbone tree, true-tree reference), where computed
+pf = sorted(glob.glob(f'{sys.argv[1]}/placement_*.json'))
+if pf:
+    print('\n### Placement delta error (EPA-ng, best-LWR edge; mean added missing true bipartitions per query)\n')
+    names = ['WITCH', 'k1', 'hier', 'beam3', 'hyb', 'bpsib', 'BLASTsens']
+    lab = {'WITCH': 'WITCH', 'k1': 'all HMMs k=1', 'hier': 'hier (UPP2-style) k=10', 'beam3': 'beam-3 k=10',
+           'hyb': 'hybrid', 'bpsib': 'BLAST path+sib k=10', 'BLASTsens': 'BLASTN -task blastn'}
+    print('| instance | ' + ' | '.join(lab[n] for n in names) + ' |')
+    print('|---|' + '---|' * len(names))
+    for f in pf:
+        P = json.load(open(f))
+        base = np.array(P['WITCH']['delta_q'])
+        cells = []
+        for n in names:
+            d = np.array(P[n]['delta_q'])
+            ok = ~np.isnan(d) & ~np.isnan(base)
+            if n == 'WITCH':
+                cells.append(f"{np.nanmean(d):.3f}")
+            else:
+                diff = d[ok] - base[ok]
+                p = wilcoxon(d[ok], base[ok]).pvalue if np.any(diff != 0) else 1.0
+                un = int(np.isnan(d).sum())
+                cells.append(f"{np.nanmean(d):.3f} ({np.mean(diff):+.3f}, p={p:.2g}{', unplaced ' + str(un) if un else ''})")
+        print(f"| {os.path.basename(f)[10:-5]} | " + ' | '.join(cells) + ' |')

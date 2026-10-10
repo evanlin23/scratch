@@ -1,0 +1,24 @@
+roseM1_R0 beam3 mean cov 0.979 queries cov<0.5: 4
+  fallback if best bits<20: frac fallback 0.283  cov 1.000  low-cov left 0  scores/q 83.3
+  fallback if best bits<40: frac fallback 0.540  cov 1.000  low-cov left 0  scores/q 126.2
+  fallback if best bits<60: frac fallback 0.717  cov 1.000  low-cov left 0  scores/q 155.7
+  fallback if best bits<80: frac fallback 0.877  cov 1.000  low-cov left 0  scores/q 182.4
+  fallback if best bits<100: frac fallback 0.947  cov 1.000  low-cov left 0  scores/q 194.1
+roseM1_R1 beam3 mean cov 0.954 queries cov<0.5: 9
+  fallback if best bits<20: frac fallback 0.250  cov 1.000  low-cov left 0  scores/q 76.8
+  fallback if best bits<40: frac fallback 0.493  cov 1.000  low-cov left 0  scores/q 116.4
+  fallback if best bits<60: frac fallback 0.677  cov 1.000  low-cov left 0  scores/q 146.3
+  fallback if best bits<80: frac fallback 0.857  cov 1.000  low-cov left 0  scores/q 175.6
+  fallback if best bits<100: frac fallback 0.957  cov 1.000  low-cov left 0  scores/q 191.9
+rna_b1000 beam3 mean cov 0.994 queries cov<0.5: 6
+  fallback if best bits<20: frac fallback 0.000  cov 0.994  low-cov left 6  scores/q 36.0
+  fallback if best bits<40: frac fallback 0.000  cov 0.994  low-cov left 6  scores/q 36.0
+  fallback if best bits<60: frac fallback 0.010  cov 0.996  low-cov left 4  scores/q 38.5
+  fallback if best bits<80: frac fallback 0.056  cov 0.997  low-cov left 3  scores/q 49.8
+  fallback if best bits<100: frac fallback 0.223  cov 0.999  low-cov left 1  scores/q 91.1
+16S_b1000 beam3 mean cov 0.978 queries cov<0.5: 17
+  fallback if best bits<20: frac fallback 0.000  cov 0.978  low-cov left 17  scores/q 36.0
+  fallback if best bits<40: frac fallback 0.000  cov 0.978  low-cov left 17  scores/q 36.0
+  fallback if best bits<60: frac fallback 0.000  cov 0.978  low-cov left 17  scores/q 36.0
+  fallback if best bits<80: frac fallback 0.000  cov 0.978  low-cov left 17  scores/q 36.0
+  fallback if best bits<100: frac fallback 0.003  cov 0.978  low-cov left 17  scores/q 36.7

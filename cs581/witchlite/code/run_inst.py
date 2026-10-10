@@ -29,9 +29,12 @@ if not os.path.exists(f'{inst}/witch_default/aln.fasta'):
        f'> {inst}/witch_default.log 2>&1')
     open(f'{inst}/witch_default.wall', 'w').write(f'wall {time.time() - s}\n')
 rb = open(f'{inst}/witch_default/runtime_breakdown.txt').read()
+retimed = os.path.exists(f'{inst}/retime.wall')
+if retimed:  # clean re-run of WITCH default on the idle machine (the first run overlapped another job)
+    rb = open(f'{inst}/witch_retime/runtime_breakdown.txt').read()
 dec = float(re.search(r'decompose the backbone \(s\): ([\d.]+)', rb).group(1))
 srch = float(re.search(r'HMMSearches \(s\): ([\d.]+)', rb).group(1))
-wall = float(open(f'{inst}/witch_default.wall').read().split()[1])
+wall = float(open(f'{inst}/retime.wall').read()) if retimed else float(open(f'{inst}/witch_default.wall').read().split()[1])
 res['witch_default_time'] = dict(wall=wall, decomposition=dec, search=srch, rest=wall - dec - srch)
 
 truth, cc, bb = load_instance(inst)

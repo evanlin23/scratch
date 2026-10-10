@@ -84,7 +84,8 @@ for arg in sys.argv[4:]:
             for r, c in enumerate(est.get(q) or []):
                 if c >= 0:
                     row[c] = seqs[q][r]
-            f.write(f'>{q}\n' + ''.join(row) + '\n')
+            if any(ch != '-' for ch in row):  # EPA-ng aborts on all-gap queries: those count as unplaced
+                f.write(f'>{q}\n' + ''.join(row) + '\n')
     if not os.path.exists(f'{od}/epa_result.jplace'):
         subprocess.run([EPA, '--ref-msa', f'{inst}/backbone.fasta', '--tree', f'{inst}/backbone.tre',
                         '--query', f'{od}/q.fa', '--model', 'GTR+G', '-T', '4', '-w', od, '--redo'],
