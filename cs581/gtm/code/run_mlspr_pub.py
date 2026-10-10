@@ -17,10 +17,10 @@ seqs = read_fasta(x["aln"]); names = sorted(G.label.values())
 t0 = time.time()
 logf = open(f"{od}/mlspr.log", "w")
 bs, h = mlspr.run(G, names, seqs, [[t.label[v] for v in t.leaves()] for t in subs], f"{od}/work", radius=rad,
-                  model_tree=x["guide"], log=lambda s: (logf.write(s + "\n"), logf.flush()))
+                  model_tree=x["guide"], max_rounds=int(os.environ.get("MLSPR_MAX_ROUNDS", "30")), log=lambda s: (logf.write(s + "\n"), logf.flush()))
 B = parse_newick(bs.to_newick())
 open(f"{od}/mlspr.tre", "w").write(bs.to_newick() + "\n")
-res = dict(cond=cond, rep=rep, guide=guide, radius=rad, fn_gtm=fn_fp(G, T)[0], fn_mlspr=fn_fp(B, T)[0],
+res = dict(cond=cond, rep=rep, guide=guide, radius=rad, max_rounds=int(os.environ.get("MLSPR_MAX_ROUNDS", "30")), fn_gtm=fn_fp(G, T)[0], fn_mlspr=fn_fp(B, T)[0],
            moves=len(h) - 1, logL_gtm=h[0], logL_mlspr=h[-1], constraints_ok=all(is_induced(B, s) for s in subs),
            sec=time.time() - t0)
 json.dump(res, open(f"{od}/mlspr.json", "w"), indent=1)
