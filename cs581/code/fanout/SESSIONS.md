@@ -117,3 +117,4 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | Does the EPA-ng bug change PICRUSt2 placements and predictions? | cs581/picrust, claude/cs581-picrust | session_01YN3K4y9shtvUweCRkCx7DK |
 | PASTA rerun on RNASim R0 (-d rna) and 16S.M R0 (-d dna) after the e2e datatype fix | claude/cs581-pastafix | session_01QMhfydVNQZ7wmwthEnGdTM |
 | Held-out test of consistency-filtered GCM evidence (MAFFT-only), pre-registered | cs581/protcons, claude/cs581-protcons | session_01EFnDHNVbHHWbWNFzR63MHi |
+| Generalize consensus GCM evidence to DNA/RNA (reliable second opinions, soft weights, self-consistency, agreement switch) | cs581/gcmgen, claude/cs581-gcmgen | session_01Mde1BAA2LWYXEvQGVhUdyE |
