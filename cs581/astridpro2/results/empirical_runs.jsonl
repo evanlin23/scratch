@@ -6,3 +6,5 @@
 {"data": "empirical", "cond": "fungi16", "method": "asteroid", "sec": 6.023, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
 {"data": "empirical", "cond": "fungi16", "method": "astral-pro3", "sec": 11.551, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
 {"data": "empirical", "cond": "fungi16", "method": "disco-astral", "sec": 23.053, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "1kp_c12", "method": "astrid-multi", "sec": 6.825, "FN": 10, "FP": 10, "nI": 69, "FNrate": 0.14493}
+{"data": "empirical", "cond": "1kp_c12", "method": "astrid-pro", "sec": 6.894, "FN": 5, "FP": 5, "nI": 69, "FNrate": 0.07246}

@@ -202,3 +202,15 @@
 {"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "fastmulrfs", "sec": 6.998, "FN": 4, "FP": 4, "nI": 97, "FNrate": 0.04124}
 {"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 25, "ngen": 100, "method": "astral-pro3", "sec": 9.888, "FN": 14, "FP": 14, "nI": 97, "FNrate": 0.14433}
 {"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 25, "ngen": 100, "method": "disco-astral", "sec": 12.478, "FN": 17, "FP": 17, "nI": 97, "FNrate": 0.17526}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "wqfm-gdl", "sec": 41.877, "FN": 0, "FP": 0, "nI": 97, "FNrate": 0.0}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 25, "ngen": 100, "method": "fastmulrfs", "sec": 22.712, "FN": 13, "FP": 13, "nI": 97, "FNrate": 0.13402}
+{"data": "fmrfs", "cond": "dl2e-10_ps1e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "duploss2", "sec": 2.995, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.06186}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "astrid-multi", "sec": 0.083, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.06186}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "astrid-pro", "sec": 0.083, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "astrid-pro-r0", "sec": 0.075, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "astrid-pro-s", "sec": 0.355, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "astrid-disco", "sec": 0.629, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "asteroid", "sec": 1.809, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "astral-pro3", "sec": 6.883, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "disco-astral", "sec": 8.749, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "fmrfs", "cond": "dl2e-10_ps5e7", "rep": "02", "sqln": 100, "ngen": 100, "method": "fastmulrfs", "sec": 11.93, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278}
