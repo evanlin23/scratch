@@ -287,24 +287,25 @@ Kim et al. style success rates: P(no incorrect split) and P(fully resolved and c
 | UH:2.0:1.0 | 100 | 10000 | 0.04 | 0.11 | 66.2 | 66.3 | 66.6 | 0.35 |
 | UH:2.0:1.0 | 100 | 100000 | 0.05 | 0.10 |  | 63.6 | 63.9 | 0.33 |
 
-### Large trees (n=500; reduced grid; 3 replicates, 0 errors)
+### Large trees (n=500; reduced grid; 20 replicates, 0 errors)
 
 | regime | k | reps | NJ | FastME | FastTree | Forest | Forest+GTM(NJ) | Forest+GTM(FastME) | Centroid dec.+GTM(NJ) | Forest #comp | t_Forest (s) |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| U:0.1:0.4 | 300 | 1 | 0.326 | 0.278 | 0.048 | 1.000 | 0.326 | 0.278 | 0.344 | 433 | 206 |
-| U:0.1:0.4 | 3000 | 1 | 0.262 | 0.024 | 0.034 | 0.976 | 0.254 | 0.024 | 0.109 | 310 | 246 |
-| UH:2.0:1.0 | 300 | 1 | 0.861 | 0.674 | 0.225 | 0.938 | 0.644 | 0.541 | 0.781 | 141 | 276 |
+| U:0.1:0.4 | 300 | 5 | 0.301 | 0.219 | 0.038 | 1.000 | 0.301 | 0.219 | 0.263 | 421 | 130 |
+| U:0.1:0.4 | 3000 | 5 | 0.246 | 0.048 | 0.010 | 0.976 | 0.241 | 0.048 | 0.106 | 294 | 161 |
+| UH:2.0:1.0 | 300 | 5 | 0.887 | 0.745 | 0.277 | 0.940 | 0.672 | 0.617 | 0.810 | 130 | 128 |
+| UH:2.0:1.0 | 3000 | 5 | 0.817 | 0.626 | 0.133 | 0.923 | 0.630 | 0.507 | 0.727 | 200 | 321 |
 
 Paired tests (n=500, all k pooled):
 
 | A | B | mean diff | W/T/L | p | N |
 |---|---|---|---|---|---|
-| Forest+GTM(NJ) | NJ | -0.0751 | 2/1/0 | 0.5 | 3 |
-| Forest+GTM(FastME) | FastME | -0.0443 | 1/2/0 | 1 | 3 |
-| Forest+GTM(NJ) | FastME | +0.0825 | 1/0/2 | 0.5 | 3 |
-| Forest+GTM(NJ) | Forest comps only+GTM(NJ) | +0.0000 | 0/3/0 | 1 | 3 |
-| Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0034 | 2/0/1 | 1 | 3 |
-| Forest+GTM(NJ) | FastTree | +0.3052 | 0/0/3 | 0.25 | 3 |
+| Forest+GTM(NJ) | NJ | -0.1017 | 14/6/0 | 0.00098 | 20 |
+| Forest+GTM(FastME) | FastME | -0.0617 | 9/11/0 | 0.0076 | 20 |
+| Forest+GTM(NJ) | FastME | +0.0515 | 8/0/12 | 0.19 | 20 |
+| Forest+GTM(NJ) | Forest comps only+GTM(NJ) | -0.0016 | 2/18/0 | 0.18 | 20 |
+| Forest+GTM(NJ) | Centroid dec.+GTM(NJ) | -0.0156 | 10/0/10 | 0.62 | 20 |
+| Forest+GTM(NJ) | FastTree | +0.3465 | 0/0/20 | 8.8e-05 | 20 |
 
 ### Follow-up: saturation handling and FastME-guided controls (60 replicates, 0 errors)
 
