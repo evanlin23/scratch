@@ -61,6 +61,11 @@ Updates row 1: the "numerical, not proofs" caveat is now largely removed.
     nucleotide controls are still running.
 - *magusgen (general MAGUS):* hard filters are catastrophic on 1000L1 DNA (consistency mask +9.2, SPFN 29); self-soft
   −0.70 there, as before; soft-weighted consensus variants queued next.
+- *bbtool-5, nucleotide controls (17:12 UTC; 3 MAGUS draws each; Δ vs MAGUS's own merge, same subsets):*
+  - Clustal backbones: RNASim +0.23 to +0.88; 1000M2 +17.9 to +19.9 (e2e +13.8 to +15.5). They are unusable on DNA.
+  - Union of 10 L-INS-i + 10 Clustal backbones: RNASim −0.41 / −0.45 / −0.50 (3/3); 1000M2 +0.01 / +0.38 / +0.22.
+    The RNASim gain may just come from having 20 backbones instead of 10. "20 L-INS-i backbones" is the control
+    that separates the two.
 - *gcmgen:* a soft down-weight (w = 0.03 on pairs without consensus) keeps the BAliBASE gain; it is being run on all datasets.
 
 **Check-in 6 (15:30 UTC): DecoDiPhy identifiability, round 2 final (`claude/cs581-decodiphy2`, proofs in
