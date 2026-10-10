@@ -56,6 +56,8 @@ def main():
     ap.add_argument("rep")
     ap.add_argument("--backbone", default="fasttree")
     ap.add_argument("--polish", action="store_true")
+    ap.add_argument("--fast-polish", action="store_true",
+                    help="polish with RAxML-NG's fast mode (simplified topology search, KH stop rule)")
     ap.add_argument("--tau", type=float, default=0.5)
     ap.add_argument("--contract", type=float, default=None)
     ap.add_argument("--aln", default="true_align", help="alignment name in the replicate dir (e.g. upp)")
@@ -110,14 +112,16 @@ def main():
     e = treeerr.error(true_tree, t1)
     rows.append({**base, "method": "frag_constr_" + tag, "seconds": round(sec, 1), "cpu_seconds": round(cpu, 1),
                  "lnl_tool": lnl1, "fn_rate": e["fn_rate"], "rf_rate": e["rf_rate"], "tree": t1})
-    if a.polish:
-        t2 = os.path.join(d, "trees", "%s.frag_polish_%s.tre" % (a.aln, tag))
+    if a.polish or a.fast_polish:
+        ptag = ("fpolish_" if a.fast_polish else "polish_") + tag
+        t2 = os.path.join(d, "trees", "%s.frag_%s.tre" % (a.aln, ptag))
         w2 = os.path.join(work, "polish")
         os.makedirs(w2)
-        s2, lnl2 = rt.estimate("raxmlng_ft", full, t2, w2, start_tree=t1)
+        fast = ["--opt-topology", "simplified", "--stop-rule", "kh-mult"] if a.fast_polish else []
+        s2, lnl2 = rt.estimate("raxmlng_ft", full, t2, w2, start_tree=t1, extra=fast)
         sec, cpu = sec + s2, cpu + rt.CPU.seconds
         e = treeerr.error(true_tree, t2)
-        rows.append({**base, "method": "frag_polish_" + tag, "seconds": round(sec, 1), "cpu_seconds": round(cpu, 1),
+        rows.append({**base, "method": "frag_" + ptag, "seconds": round(sec, 1), "cpu_seconds": round(cpu, 1),
                      "lnl_tool": lnl2, "fn_rate": e["fn_rate"], "rf_rate": e["rf_rate"], "tree": t2})
     with open(a.out, "a") as f:
         for r in rows:

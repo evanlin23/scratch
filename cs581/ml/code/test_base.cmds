@@ -1,0 +1,22 @@
+python3 code/runtrees.py results/test.jsonl --datasets Park1000M1HF --reps 0 1 2 3 4 --alns true_align --methods raxmlng_fastmode --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 0 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 1 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 2 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 3 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHF --reps 4 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHFamp --reps 0 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHFamp --reps 1 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHFamp --reps 2 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHFamp --reps 3 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 16SMHFamp --reps 4 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 1000M2HF --reps 0 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 1000M2HF --reps 1 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets 1000M2HF --reps 2 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets RNASimHF --reps 0 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets RNASimHF --reps 1 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/runtrees.py results/test.jsonl --datasets RNASimHF --reps 2 --alns true_align --methods fasttree iqtree_fast raxmlng_fastmode raxmlng --workers 1
+python3 code/run_upp.py Park1000M1HF 0 1
+python3 code/run_upp.py Park1000M1HF 1 1
+python3 code/run_upp.py Park1000M1HF 2 1
+python3 code/run_upp.py 16SMHF 1 1
+python3 code/run_upp.py 16SMHF 2 1
