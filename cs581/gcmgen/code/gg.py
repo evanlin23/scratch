@@ -125,11 +125,41 @@ def files_of(rep, name):
         for j in range(m):
             out += [("c{}_{}".format(j, lab), x) for lab, x in I]
         return out, wi, si
+    if name.startswith("wsoft"):  # same as softW, via integer per-file weights (run_wmerge.py)
+        w, expr = name[5:].split(":", 1)
+        m = round(1 / float(w)) - 1
+        A, wa, sa = bbe.parse_variant(rep, expr.split("&", 1)[0])
+        I, wi, si = bbe.parse_variant(rep, expr)
+        return [("u_" + lab, x) for lab, x in A] + [("c_" + lab, x) for lab, x in I], wi, si, \
+            {"c_" + lab + ".txt": m for lab, _ in I}
     if name.startswith("dup"):
         k, expr = name[3:].split(":", 1)
         A, wa, sa = bbe.parse_variant(rep, expr)
         return [("d{}_{}".format(j, lab), x) for j in range(int(k)) for lab, x in A], wa, sa
     return bbe.parse_variant(rep, name)
+
+
+def merge_weighted(rep, name, files, weights):
+    """bbe.merge through run_wmerge.py (per-file integer weights)."""
+    import shutil
+    vd = os.path.join(rep, "variants", bbe.safe(name).replace(":", "_c_"))
+    shutil.rmtree(vd, ignore_errors=True)
+    bb = os.path.join(vd, "bb")
+    os.makedirs(bb)
+    for lab, a in files:
+        fasta.write(a, os.path.join(bb, lab + ".txt"))
+    json.dump(weights, open(os.path.join(vd, "weights.json"), "w"))
+    out = os.path.join(vd, "out.fasta")
+    start = time.time()
+    with open(os.path.join(vd, "magus.log"), "w") as log:
+        subprocess.run([sys.executable, os.path.join(HERE, "run_wmerge.py"), "--gcmx-fastgraph", "false",
+                        "-np", str(bbe.THREADS), "-d", os.path.join(vd, "work"),
+                        "-s", os.path.join(rep, "inputs", "subalignments"), "-b", bb, "-o", out] + bbe.MERGE_FLAGS,
+                       cwd=bbe.CODE, stdout=log, stderr=subprocess.STDOUT, check=True,
+                       env=dict(os.environ, GG_WEIGHTS=os.path.join(vd, "weights.json")))
+    wall = round(time.time() - start, 1)
+    shutil.rmtree(os.path.join(vd, "work"), ignore_errors=True)
+    return out, wall
 
 
 def run(rep, names):
@@ -142,9 +172,12 @@ def run(rep, names):
             continue
         start = time.time()
         base, k = (name.split("#es") + [None])[:2]
-        files, bb_wall, bb_sum = files_of(rep, base)
+        got = files_of(rep, base)
+        files, bb_wall, bb_sum = got[:3]
         prep_wall = round(time.time() - start, 1)
-        if k:
+        if len(got) == 4:
+            out, m_wall = merge_weighted(rep, name, files, got[3])
+        elif k:
             out, m_wall = pc.merge_edgesup(rep, name, files, int(k))
         else:
             out, m_wall = bbe.merge(rep, name.replace(":", "_c_"), files)
