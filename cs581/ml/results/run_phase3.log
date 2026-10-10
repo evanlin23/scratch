@@ -21,3 +21,5 @@
 1 jobs
 {"dataset": "1000L1", "rep": "0", "aln": "gcm", "method": "raxmlng_ft", "seconds": 2334.1, "cpu_seconds": 2296.1, "lnl_tool": -952881.473884, "fn_rate": 0.11278952668680765, "fp_rate": 0.11634904714142427, "rf_rate": 0.11434302908726178, "tree": "/opt/data/mlcache/1000L1/R0/trees/gcm.raxmlng_ft.tre"}
 1 jobs
+{"dataset": "Park1000M1HF", "rep": "2", "aln": "true_align", "method": "raxmlng", "seconds": 2222.6, "cpu_seconds": 2190.2, "lnl_tool": -648453.437595, "fn_rate": 0.256797583081571, "fp_rate": 0.2597793380140421, "rf_rate": 0.2577733199598796, "tree": "/opt/data/mlcache/Park1000M1HF/R2/trees/true_align.raxmlng.tre"}
+1 jobs
