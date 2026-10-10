@@ -80,12 +80,16 @@ def stats(ds):
     return "| {} | {:+.2f} | {}/{}/{} | {:.3g} |".format(len(ds), np.mean(ds), w, t, l, p)
 
 
-def table_groups(data, groups, title):
+POSTHOC = [("linsi#es2", "edge support ≥ 2"), ("linsi#es3", "edge support ≥ 3"), ("linsi#es5", "edge support ≥ 5")]
+
+
+def table_groups(data, groups, title, methods=None):
+    methods = methods or METHODS
     print("### " + title + "\n")
     print("| group | method | n | mean Δ err | W/T/L | p | Δ SPFN | Δ SPFP | Δ TC |")
     print("|---|---|---|---|---|---|---|---|---|")
     for gname, names in groups:
-        for m, lab in METHODS:
+        for m, lab in methods:
             ds = [delta(data[n], m) for n in names]
             fn = [delta(data[n], m, "SPFN") for n in names]
             fp = [delta(data[n], m, "SPFP") for n in names]
@@ -166,6 +170,16 @@ def main():
         if ds:
             s = stats(ds)
             print("| {} {} {} | {:+.2f} |".format(gname, s, nf, np.mean(al)))
+    print()
+
+    print("## POST-HOC (not pre-registered): global edge-support threshold\n")
+    table_groups(data, groups_pooled + groups, "Edge support (GCM edges kept iff >= k backbones contribute)", POSTHOC)
+    print("| dataset | " + " | ".join(lab for _, lab in POSTHOC) + " |")
+    print("|---|" + "---|" * len(POSTHOC))
+    for f, names in groups:
+        for n in names:
+            print("| {} | ".format(n) + " | ".join("" if delta(data[n], m) is None else "{:+.2f}".format(delta(data[n], m))
+                                                for m, _ in POSTHOC) + " |")
     print()
 
     # trees
