@@ -1,0 +1,3 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	ref_path	backbones_path
+1000M4	dna	1000	10	200	yes	2885361	80c9540b1746349ade8652ae84036a61fcf2934886039330ec29889ebc89793c	1000M4/true.fasta	1000M4/inputs/backbones/
+1000S3	dna	1000	10	200	yes	3372035	72c6d0466264c6736e070c0b4e66c46679c62876614f152f754a5b392b2c8983	1000S3/true.fasta	1000S3/inputs/backbones/
