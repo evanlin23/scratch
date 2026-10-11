@@ -760,3 +760,6 @@
 {"data": "disco", "cond": "default", "rep": "01", "sqln": 100, "method": "wapro:-W sup -G msup", "threads": 1, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102040816326531, "wall": 1.29, "cpu": 0.777}
 {"data": "disco", "cond": "default", "rep": "02", "sqln": 100, "method": "wapro:-W sup -G msup", "threads": 1, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0, "wall": 0.928, "cpu": 0.545}
 {"data": "disco", "cond": "gdl_1e-10_05", "rep": "02", "sqln": 100, "method": "wapro:-W sup -G msup", "threads": 1, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0, "wall": 1.052, "cpu": 0.669}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "02", "sqln": 100, "method": "disco-wastral", "threads": 1, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0, "wall": 363.168, "cpu": 300.798}
+{"data": "disco", "cond": "gdl_1e-10_05", "rep": "02", "sqln": 100, "method": "wqfm-gdl", "threads": 1, "error": "CalledProcessError", "wall": 241.0}
+{"data": "disco", "cond": "default", "rep": "02", "sqln": 100, "method": "wqfm-gdl", "threads": 1, "error": "CalledProcessError", "wall": 1138.7}
