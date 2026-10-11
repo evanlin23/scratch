@@ -823,3 +823,7 @@ Overlap guard: n_eff 1.9 / 1.5 on BBA0101 / BBA0067. Gate (M5): filter iff weigh
 - Link to the DNA analysis (hypothesis, not tested): on nucleotides hard-bb trades ΔSPFN +1.74 for ΔSPFP −1.00 (gcmwhy). At
   treecrit's prices that is about −0.10 nRF, so the DNA SP loss need not be a tree loss. The prices come mainly from SIMHIGH; the
   1000M1 check has been requested.
+- p27 done (`claude/cs581-gcmvote-p27`). Vote `magus` reproduces MAGUS exactly.
+  - SIMHIGH_R27, SP % (SPFN/SPFP): magus 24.75 (31.8/17.7), es4 17.93 (17.4/18.5), hard-bb 17.80 (18.3/17.3). nRF %: true 7.52,
+    magus 14.74, es4 13.94, hard-bb 12.44 (−2.30).
+  - SIMHIGH_R28, SP %: magus 18.16, es4 12.74, hard-bb 12.62. nRF %: true 7.62, magus 13.84, es4 13.44, hard-bb 13.34 (−0.50).
