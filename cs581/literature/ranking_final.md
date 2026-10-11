@@ -708,3 +708,8 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
 - RNASim 1000 R0 (h5c): MAGUS 9.77; es4 9.73; hard-bb 9.87 (+0.10).
 - t06 (SIMHIGH_R6): SP magus 19.67, es4 12.46, hard-bb 12.66; nRF true 9.73, magus 12.54, es4 11.74, hard-bb 12.24 (−0.30).
 - RNASim 1000 R0 / R1 hard-bb − MAGUS: +0.10 / +0.27.
+- Backbone-count sensitivity, DNA (h9; SP %, B = 5/10/20): 1000M2 MAGUS 10.09/9.00/8.62, best fixed 10.09/8.94/8.57, hard-bb
+  10.24/9.62/8.68 (vote worse); 1000L1 MAGUS 8.16/7.82/7.52, best fixed 7.87/7.66/7.31, hard-bb 7.72/7.57/7.14 (vote better).
+  More backbones help MAGUS on DNA (both sets improve monotonically with B), unlike BAliBASE.
+  Tally hard-bb vs the best fixed fraction (chosen in hindsight per B): wins on BBA0101 3/3, BBA0067 3/3, 16S.M 3/3, 1000L1 3/3,
+  SIMMOD_R1 2/3; losses on 1000M2 0/3, SIMHIGH_R1 0/3 → 14/21.
