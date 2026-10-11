@@ -1,0 +1,21 @@
+diff --git a/tree/iqtree.cpp b/tree/iqtree.cpp
+index 93817ee..57b2cf1 100644
+--- a/tree/iqtree.cpp
++++ b/tree/iqtree.cpp
+@@ -781,6 +781,16 @@ int IQTree::addTreeToCandidateSet(string treeString, double score, bool updateSt
+ 
+         curScore = score;
+         printIterationInfo(sourceProcID);
++        // CS581 iqstop instrumentation: per-iteration trace for offline replay of stopping rules
++        {
++            static ofstream itrace;
++            if (!itrace.is_open())
++                itrace.open((string(Params::getInstance().out_prefix) + ".itertrace").c_str());
++            itrace.precision(6);
++            itrace << stop_rule.getCurIt() << "\t" << fixed << (getRealTime() - params->start_real_time)
++                   << "\t" << score << "\t" << max(score, curBestScore) << "\t" << ((score > curBestScore && pos != -1) ? 1 : 0) << "\t"
++                   << ((score > curBestScore) ? treeString : string("-")) << endl;
++        }
+     }
+     return pos;
+ }
