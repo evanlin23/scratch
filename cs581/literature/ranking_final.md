@@ -690,3 +690,7 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
 - Final verdicts: gcmtrees (recipe does not detectably improve trees, −0.19, p = 0.63); gcmclust (clustering swap null on raw
   graph); basemeth (no aligner beats L-INS-i; final ~04:15 UTC). fragscale stopped at the student's request.
 - t14 (SIMHIGH_R14): SP magus 24.38, es4 15.83, hard-bb 16.15; nRF true 6.92, magus 6.82, es4 7.32, hard-bb 6.92 (+0.10).
+- RNASim 1000 R1 (h5d, held-out): MAGUS 8.95; es4 8.88; hard-bb 9.22 (+0.27).
+- fragscale STOPPED (03:45, student's call; `claude/cs581-fragscale`, REPORT marked incomplete): pipeline ties full RAxML-NG at
+  ~0.37× CPU on 1000M1-HF (n = 4: 24.2 vs 23.5 % FN) and beats truncated/fast RAxML-NG at equal CPU (4/0/0, p = 0.125); scale and
+  estimated-alignment arms unfinished. Direction rejected as not novel.
