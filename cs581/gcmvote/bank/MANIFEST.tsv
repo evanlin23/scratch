@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R41	protein	1000	10	200	yes	3106770	0702eb94b5829b66f1045130f2f19fe863d8cbdfd0bbdd837c90d1d113451450	SIMHIGH_R41/true.fasta	SIMHIGH_R41/inputs/backbones/backbone_{1..10}_mafft.txt (L-INS-i; also aligned/{fftns2,fftns2-op3}/s0/)
