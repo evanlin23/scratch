@@ -9,7 +9,7 @@ C=/home/user/scratch/cs581/code
 W=/opt/work/h6
 DS="${*:-BBA0101 BBA0067 SIMHIGH_R1 SIMMOD_R1}"
 mkdir -p $W/reps
-cd $C
+cd $C; export PYTHONPATH=$C
 for name in $DS; do
   case $name in
     BBA*) src=$C/../data/balibase_clean/RV100_$name.fasta;;
