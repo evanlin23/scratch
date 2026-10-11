@@ -1,0 +1,3 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+BBA0154	protein	295	10	200	no	1510481	c7a84e83e713f85245f854bae6ab1183549d302ee1106b67385b047464d1ec40	BBA0154/true.fasta	BBA0154/inputs/backbones/backbone_*_mafft.txt
+BBA0190	protein	343	10	200	no	2712169	83d57b6838d8a43b6f94fe80854f7f23feeaae4090d715b4f03c89871f1451b3	BBA0190/true.fasta	BBA0190/inputs/backbones/backbone_*_mafft.txt
