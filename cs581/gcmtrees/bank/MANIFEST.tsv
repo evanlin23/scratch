@@ -1,0 +1,4 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	bytes	sha256	paths
+SIMHIGH_R6	protein (AliSim LG+G4, SIMHIGH)	1000	10	200	yes	3208786	7650ff7d8dee375d3cab7183106e874f47d08b55effa024d98ea1b875a1dfd9c	aligned,aligned/fftns2,aligned/fftns2-op3,aligned/linsi,inputs,inputs/backbones,inputs/subalignments,magus.json,sets,sets/s0,true.fasta,true_tree.nwk,unaligned.fasta
+SIMHIGH_R7	protein (AliSim LG+G4, SIMHIGH)	1000	10	200	yes	3501509	0b4c6246ac20f82ce6f3ff896ff17d5f5b330913f4a2978db27b72e4cdf6a912	aligned,aligned/fftns2,aligned/fftns2-op3,aligned/linsi,inputs,inputs/backbones,inputs/subalignments,magus.json,sets,sets/s0,true.fasta,true_tree.nwk,unaligned.fasta
+SIMHIGH_R8	protein (AliSim LG+G4, SIMHIGH)	1000	10	200	yes	3499142	cbd816bc8bddd0f3752c81abf5f2e18c2b872b599e1eeaa8166dfe5edbe62db3	aligned,aligned/fftns2,aligned/fftns2-op3,aligned/linsi,inputs,inputs/backbones,inputs/subalignments,magus.json,sets,sets/s0,true.fasta,true_tree.nwk,unaligned.fasta
