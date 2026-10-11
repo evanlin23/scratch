@@ -59,4 +59,11 @@ Interpretation fixed in advance: **two-step better at equal time** = mean ΔFN <
 Arms not finished are reported as not run.
 
 ## Amendments
-(none yet)
+1. (2026-10-11 ~01:20 UTC, before any tree was scored; compute only.) UPP (SEPP 4.5.6 from bioconda)
+   crashes in its own backbone step (`KeyError: 'user_options'` in `sepp/jobs.py`), so Q3 uses the
+   pre-declared fallback, WITCH (MAGUS backbone, `code/align_witch.py`). WITCH's default backbone rule
+   (±25% of the median of ALL lengths) is replaced by UPP's `-M 0.75` rule (±25% of the 3rd quartile),
+   because on HF data the overall median falls between fragments and full-length sequences.
+   Budget cuts (4 cores; MAGUS takes ~30 CPU-min per replicate): Q1 n = 6 (R0–R5; R6–R7 only if time);
+   `constr_ft_0.5` and `base_iqfast` on Q1 R0–R2 only; IQ-TREE anytime on R0–R2; Q3 RNASim 1K and
+   Q2 `base_iqfast` / `place_ft_0.5_fix_rxfast` (10K) moved to "if time allows". Nothing else changes.

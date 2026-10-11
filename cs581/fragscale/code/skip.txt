@@ -10,3 +10,9 @@ M1HF 7 base_fasttree
 M1HF 7 base_iqfast
 M1HF 3 base_iqtree
 M1HF 4 base_iqtree
+M1HF 3 constr_ft_0.5
+M1HF 4 constr_ft_0.5
+M1HF 5 constr_ft_0.5
+M1HF 3 base_iqfast
+M1HF 4 base_iqfast
+M1HF 5 base_iqfast
