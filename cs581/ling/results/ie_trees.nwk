@@ -1,0 +1,18 @@
+[screened reference] ((HI,(LU,LY)),((TA,TB),(((LA,(OS,UM)),(OI,WE)),((GO,(ON,(OE,OG))),(AL,((GK,AR),((VE,(AV,PE)),(OC,(PR,(LI,LT))))))))));
+[screened MP] (((LA,(OS,UM)),((GO,(ON,(OE,OG))),((OC,(PR,(LI,LT))),((VE,(AV,PE)),((AR,GK),(AL,((LY,(HI,LU)),(TB,TA)))))))),(OI,WE));
+[screened MC] (((GO,(ON,(OE,OG))),((OI,WE),(LA,(OS,UM)))),((OC,(PR,(LI,LT))),(((VE,(AV,PE)),AL),((AR,GK),((TB,TA),(LY,(HI,LU)))))));
+[screened WMC(!x100)] ((((LA,(OS,UM)),(OI,WE)),((LY,(HI,LU)),(TB,TA))),((AL,(GO,(ON,(OE,OG)))),((AR,GK),((VE,(AV,PE)),(OC,(PR,(LI,LT)))))));
+[screened WMC(M,P x5)] ((((((LA,(OS,UM)),(OI,WE)),((TB,TA),(LY,(HI,LU)))),(AL,(GO,(ON,(OE,OG))))),((OC,(PR,(LI,LT))),(VE,(AV,PE)))),(AR,GK));
+[screened CapPars(2)] ((((GO,(ON,(OE,OG))),((OC,(PR,(LI,LT))),(((VE,(AV,PE)),AL),((AR,GK),((TB,TA),(LY,(HI,LU))))))),(LA,(OS,UM))),(OI,WE));
+[screened NJ] ((((LA,(OS,UM)),((GO,(ON,(OE,OG))),(OI,WE))),((OC,(PR,(LI,LT))),(VE,(AV,PE)))),((AR,GK),((TB,TA),(AL,(LY,(HI,LU))))));
+[screened ML-Mk] ((HI,((((AR,GK),(((VE,(AV,PE)),(OC,((LI,LT),PR))),((((OE,OG),ON),GO),((OI,WE),(LA,(OS,UM)))))),AL),(TB,TA))),(LU,LY));
+[screened ML-binary] ((HI,(((AR,GK),(AL,(TB,TA))),(((VE,(AV,PE)),(OC,((LI,LT),PR))),((((OE,OG),ON),GO),((OI,WE),(LA,(OS,UM))))))),(LU,LY));
+[unscreened reference] ((HI,(LU,LY)),((TA,TB),(((LA,(OS,UM)),(OI,WE)),((GO,(ON,(OE,OG))),(AL,((GK,AR),((VE,(AV,PE)),(OC,(PR,(LI,LT))))))))));
+[unscreened MP] ((((AR,GK),((OC,(PR,(LI,LT))),(((OI,WE),(LA,(OS,UM))),(GO,(ON,(OE,OG)))))),((TB,TA),(AL,(HI,(LU,LY))))),(VE,(AV,PE)));
+[unscreened MC] ((((VE,(AV,PE)),AL),((HI,(LU,LY)),(TB,TA))),((((GO,(ON,(OE,OG))),((OI,WE),(LA,(OS,UM)))),(OC,(PR,(LI,LT)))),(AR,GK)));
+[unscreened WMC(!x100)] ((VE,(AV,PE)),((((AR,GK),((GO,(ON,(OE,OG))),(((OI,WE),(LA,(OS,UM))),((TB,TA),(HI,(LU,LY)))))),AL),(OC,(PR,(LI,LT)))));
+[unscreened WMC(M,P x5)] (((((AR,GK),(((OI,WE),(LA,(OS,UM))),((GO,(ON,(OE,OG))),(OC,(PR,(LI,LT)))))),((TB,TA),(HI,(LU,LY)))),AL),(VE,(AV,PE)));
+[unscreened CapPars(2)] (((AR,GK),(((TB,TA),(HI,(LU,LY))),(AL,(VE,(AV,PE))))),(((GO,(ON,(OE,OG))),((OI,WE),(LA,(OS,UM)))),(OC,(PR,(LI,LT)))));
+[unscreened NJ] (((AR,GK),((TB,TA),(AL,(HI,(LU,LY))))),((VE,(AV,PE)),(((GO,(ON,(OE,OG))),(OC,(PR,(LI,LT)))),((OI,WE),(LA,(OS,UM))))));
+[unscreened ML-Mk] ((HI,(((((AR,GK),((((OE,OG),ON),GO),((OI,WE),(LA,(OS,UM))))),AL),((VE,(AV,PE)),(OC,((LI,LT),PR)))),(TB,TA))),(LU,LY));
+[unscreened ML-binary] ((HI,((((AR,GK),(((VE,(AV,PE)),(OC,((LI,LT),PR))),((((OE,OG),ON),GO),((OI,WE),(LA,(OS,UM)))))),AL),(TB,TA))),(LU,LY));

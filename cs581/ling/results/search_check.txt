@@ -1,0 +1,4 @@
+mp: search worse than true tree in 0/12
+mc: search worse than true tree in 0/12
+cap2: search worse than true tree in 0/12
+mc weighted: search worse than true tree in 0/12
