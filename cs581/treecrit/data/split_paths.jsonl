@@ -1,0 +1,10 @@
+{"key": "SIMHIGH_R1_gt", "method": "split_magus", "path": "/opt/work/treecrit/split/SIMHIGH_R1_gt.split_magus.fasta"}
+{"key": "SIMHIGH_R1_gt", "method": "split_recipe", "path": "/opt/work/treecrit/split/SIMHIGH_R1_gt.split_recipe.fasta"}
+{"key": "SIMHIGH_R2_gt", "method": "split_magus", "path": "/opt/work/treecrit/split/SIMHIGH_R2_gt.split_magus.fasta"}
+{"key": "SIMHIGH_R2_gt", "method": "split_recipe", "path": "/opt/work/treecrit/split/SIMHIGH_R2_gt.split_recipe.fasta"}
+{"key": "SIMHIGH_R3_gt", "method": "split_magus", "path": "/opt/work/treecrit/split/SIMHIGH_R3_gt.split_magus.fasta"}
+{"key": "SIMHIGH_R3_gt", "method": "split_recipe", "path": "/opt/work/treecrit/split/SIMHIGH_R3_gt.split_recipe.fasta"}
+{"key": "SIMHIGH_R4_gt", "method": "split_magus", "path": "/opt/work/treecrit/split/SIMHIGH_R4_gt.split_magus.fasta"}
+{"key": "SIMHIGH_R4_gt", "method": "split_recipe", "path": "/opt/work/treecrit/split/SIMHIGH_R4_gt.split_recipe.fasta"}
+{"key": "SIMHIGH_R5_gt", "method": "split_magus", "path": "/opt/work/treecrit/split/SIMHIGH_R5_gt.split_magus.fasta"}
+{"key": "SIMHIGH_R5_gt", "method": "split_recipe", "path": "/opt/work/treecrit/split/SIMHIGH_R5_gt.split_recipe.fasta"}

@@ -21,6 +21,8 @@ VOTE = {"magus": "magus", "es4": "es4", "vote_hard": "hard+mask", "vote_hard_mas
         "vote_hard-bb": "hard-bb", "vote_soft": "soft", "vote_soft-bb": "soft-bb", "vote_soft2": "soft2",
         "vote_soft4": "soft4"}
 GG = {"recipe": "wsoft0.03:linsi&fftns2#es4", "es3": "linsi#es3", "hardf": "linsi&fftns2-op3"}
+# h8 (SIMHIGH_R17) ran no vote.py es4; its es4 tree is on gg.py's linsi#es4 alignment
+GG_OVERRIDE = {("SIMHIGH_R17_gv", "es4"): "linsi#es4"}
 PRIO = ["magus", "es4", "vote_hard-bb", "recipe", "hardf", "es3", "vote_hard", "vote_soft", "vote_soft-bb",
         "vote_soft2", "vote_soft4"]
 
@@ -34,6 +36,8 @@ def path_of(key, m):
     rep = os.path.join(W, key)
     if m == "true":
         return os.path.join(rep, "true.fasta")
+    if (key, m) in GG_OVERRIDE:
+        return os.path.join(rep, "variants", gg_dir(GG_OVERRIDE[(key, m)]), "out.fasta")
     if m in VOTE:
         v = VOTE[m]
         return os.path.join(rep, "vote", v, "out.masked.fasta" if m == "vote_hard_mask" else "out.fasta")
@@ -48,15 +52,16 @@ def job(arg):
     out = path_of(key, m)
     if os.path.exists(out) and os.path.exists(os.path.join(os.path.dirname(out), "done")):
         return key, m, "skip"
-    if m in VOTE:
+    ggv = GG_OVERRIDE.get((key, m), GG.get(m))
+    if m in VOTE and (key, m) not in GG_OVERRIDE:
         cmd = [sys.executable, os.path.join(CS, "gcmvote", "code", "vote.py"), rep, VOTE[m], "--threads", "1"]
     else:
-        lock = os.path.join(rep, "variants", gg_dir(GG[m]) + ".lock")
+        lock = os.path.join(rep, "variants", gg_dir(ggv) + ".lock")
         if os.path.exists(lock):
             os.remove(lock)  # stale lock from an interrupted run
         cmd = [sys.executable, "-c", "import sys; sys.path.insert(0, %r); import bbe; bbe.THREADS = 1; "
                "sys.argv = ['gg.py', 'run', %r, %r]; sys.path.insert(0, %r); import runpy; "
-               "runpy.run_path(%r, run_name='__main__')" % (os.path.join(CS, "bbevidence", "code"), rep, GG[m],
+               "runpy.run_path(%r, run_name='__main__')" % (os.path.join(CS, "bbevidence", "code"), rep, ggv,
                                                            os.path.join(CS, "gcmgen", "code"),
                                                            os.path.join(CS, "gcmgen", "code", "gg.py"))]
     log = open(os.path.join(rep, "regen_{}.log".format(m)), "w")

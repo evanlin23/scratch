@@ -1,0 +1,4 @@
+{"key": "SIMHIGH_R10_gv", "label": "magus_rerun", "aln": "/opt/work/treecrit/reps/SIMHIGH_R10_gv/vote/magus/out.fasta", "fasttree_wall": 708.2, "FN": 0.0672, "FP": 0.0672, "RF": 0.0672}
+{"key": "SIMHIGH_R10_gv", "label": "magus_drop8", "aln": "/opt/work/treecrit/noise/SIMHIGH_R10_gv.drop8.fasta", "fasttree_wall": 709.6, "FN": 0.0682, "FP": 0.0682, "RF": 0.0682}
+{"key": "SIMHIGH_R11_gv", "label": "magus_drop8", "aln": "/opt/work/treecrit/noise/SIMHIGH_R11_gv.drop8.fasta", "fasttree_wall": 763.8, "FN": 0.1254, "FP": 0.1254, "RF": 0.1254}
+{"key": "SIMHIGH_R11_gv", "label": "magus_rerun", "aln": "/opt/work/treecrit/reps/SIMHIGH_R11_gv/vote/magus/out.fasta", "fasttree_wall": 766.6, "FN": 0.1254, "FP": 0.1254, "RF": 0.1254}

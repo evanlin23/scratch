@@ -65,7 +65,9 @@ def main():
                                                           "vote_" + v.replace("+mask", "_mask"))
                 if m is None:
                     continue
-                aseen.setdefault(m, {"key": key, "method": m, "variant": v, **{k: r[k] for k in
+                if m in aseen and not ("B" in r and m == "es4"):  # trees used vote.py's es4 (vote/es4/out.fasta)
+                    continue
+                aseen[m] = ({"key": key, "method": m, "variant": v, **{k: r[k] for k in
                                      ("SPFN", "SPFP", "avgErr", "TC", "LenEst", "LenRef")},
                                      **({"masked_cols": r["masked_cols"]} if "masked_cols" in r else {})})
         alns += aseen.values()

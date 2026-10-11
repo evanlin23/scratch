@@ -1,0 +1,187 @@
+{
+ "1000M1_R0_gv": {
+  "cherries": 336,
+  "cherry_same_subset": 0.9970238095238095,
+  "random_same_subset": 0.041
+ },
+ "1000M1_R1_gv": {
+  "cherries": 334,
+  "cherry_same_subset": 0.9940119760479041,
+  "random_same_subset": 0.04066666666666666
+ },
+ "1000M1_R2_gv": {
+  "cherries": 321,
+  "cherry_same_subset": 0.9937694704049844,
+  "random_same_subset": 0.04666666666666667
+ },
+ "1000M1_R3_gv": {
+  "cherries": 341,
+  "cherry_same_subset": 1.0,
+  "random_same_subset": 0.03833333333333333
+ },
+ "SIMHIGH_R10_gv": {
+  "cherries": 322,
+  "cherry_same_subset": 0.9968944099378882,
+  "random_same_subset": 0.042333333333333334
+ },
+ "SIMHIGH_R11_gv": {
+  "cherries": 342,
+  "cherry_same_subset": 0.9853801169590644,
+  "random_same_subset": 0.04633333333333333
+ },
+ "SIMHIGH_R12_gv": {
+  "cherries": 336,
+  "cherry_same_subset": 0.9702380952380952,
+  "random_same_subset": 0.042
+ },
+ "SIMHIGH_R14_gv": {
+  "cherries": 337,
+  "cherry_same_subset": 0.9851632047477745,
+  "random_same_subset": 0.04133333333333333
+ },
+ "SIMHIGH_R15_gv": {
+  "cherries": 327,
+  "cherry_same_subset": 0.963302752293578,
+  "random_same_subset": 0.035
+ },
+ "SIMHIGH_R16_gv": {
+  "cherries": 326,
+  "cherry_same_subset": 0.9938650306748467,
+  "random_same_subset": 0.04566666666666667
+ },
+ "SIMHIGH_R17_gv": {
+  "cherries": 323,
+  "cherry_same_subset": 0.9907120743034056,
+  "random_same_subset": 0.03333333333333333
+ },
+ "SIMHIGH_R18_gv": {
+  "cherries": 335,
+  "cherry_same_subset": 0.9970149253731343,
+  "random_same_subset": 0.035
+ },
+ "SIMHIGH_R19_gv": {
+  "cherries": 328,
+  "cherry_same_subset": 0.9939024390243902,
+  "random_same_subset": 0.04566666666666667
+ },
+ "SIMHIGH_R1_gt": {
+  "cherries": 332,
+  "cherry_same_subset": 0.9759036144578314,
+  "random_same_subset": 0.04933333333333333
+ },
+ "SIMHIGH_R20_gv": {
+  "cherries": 329,
+  "cherry_same_subset": 0.9969604863221885,
+  "random_same_subset": 0.04566666666666667
+ },
+ "SIMHIGH_R2_gt": {
+  "cherries": 331,
+  "cherry_same_subset": 0.9848942598187311,
+  "random_same_subset": 0.044333333333333336
+ },
+ "SIMHIGH_R3_gt": {
+  "cherries": 329,
+  "cherry_same_subset": 0.9817629179331308,
+  "random_same_subset": 0.04666666666666667
+ },
+ "SIMHIGH_R3_gv": {
+  "cherries": 329,
+  "cherry_same_subset": 0.9908814589665653,
+  "random_same_subset": 0.044
+ },
+ "SIMHIGH_R4_gt": {
+  "cherries": 335,
+  "cherry_same_subset": 0.9880597014925373,
+  "random_same_subset": 0.041
+ },
+ "SIMHIGH_R4_gv": {
+  "cherries": 335,
+  "cherry_same_subset": 0.982089552238806,
+  "random_same_subset": 0.03833333333333333
+ },
+ "SIMHIGH_R5_gt": {
+  "cherries": 327,
+  "cherry_same_subset": 0.9908256880733946,
+  "random_same_subset": 0.045
+ },
+ "SIMHIGH_R5_gv": {
+  "cherries": 327,
+  "cherry_same_subset": 0.9908256880733946,
+  "random_same_subset": 0.041
+ },
+ "SIMHIGH_R6_gt": {
+  "cherries": 331,
+  "cherry_same_subset": 0.9879154078549849,
+  "random_same_subset": 0.037333333333333336
+ },
+ "SIMHIGH_R6_gv": {
+  "cherries": 331,
+  "cherry_same_subset": 0.9939577039274925,
+  "random_same_subset": 0.03933333333333333
+ },
+ "SIMHIGH_R7_gt": {
+  "cherries": 337,
+  "cherry_same_subset": 0.9940652818991098,
+  "random_same_subset": 0.042333333333333334
+ },
+ "SIMHIGH_R7_gv": {
+  "cherries": 337,
+  "cherry_same_subset": 0.9792284866468842,
+  "random_same_subset": 0.044
+ },
+ "SIMHIGH_R8_gt": {
+  "cherries": 327,
+  "cherry_same_subset": 0.9938837920489296,
+  "random_same_subset": 0.042333333333333334
+ },
+ "SIMHIGH_R8_gv": {
+  "cherries": 327,
+  "cherry_same_subset": 0.9724770642201835,
+  "random_same_subset": 0.03966666666666667
+ },
+ "SIMHIGH_R9_gv": {
+  "cherries": 343,
+  "cherry_same_subset": 0.9795918367346939,
+  "random_same_subset": 0.042
+ },
+ "SIMMOD_R1_gt": {
+  "cherries": 335,
+  "cherry_same_subset": 1.0,
+  "random_same_subset": 0.042333333333333334
+ },
+ "SIMMOD_R2_gt": {
+  "cherries": 331,
+  "cherry_same_subset": 1.0,
+  "random_same_subset": 0.03266666666666666
+ },
+ "SIMMOD_R3_gt": {
+  "cherries": 332,
+  "cherry_same_subset": 1.0,
+  "random_same_subset": 0.048666666666666664
+ },
+ "SIMMOD_R4_gt": {
+  "cherries": 328,
+  "cherry_same_subset": 0.9939024390243902,
+  "random_same_subset": 0.04566666666666667
+ },
+ "SIMMOD_R5_gt": {
+  "cherries": 329,
+  "cherry_same_subset": 0.9969604863221885,
+  "random_same_subset": 0.036
+ },
+ "SIMMOD_R6_gt": {
+  "cherries": 342,
+  "cherry_same_subset": 0.9941520467836257,
+  "random_same_subset": 0.042666666666666665
+ },
+ "SIMMOD_R7_gt": {
+  "cherries": 339,
+  "cherry_same_subset": 1.0,
+  "random_same_subset": 0.043
+ },
+ "SIMMOD_R8_gt": {
+  "cherries": 328,
+  "cherry_same_subset": 0.9908536585365854,
+  "random_same_subset": 0.042666666666666665
+ }
+}
