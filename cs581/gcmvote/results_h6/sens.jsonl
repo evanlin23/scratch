@@ -1,3 +1,35 @@
+{"dataset": "BBA0067", "B": 5, "variant": "magus", "gg_variant": "linsi~5", "SPFN": 0.2866923846182762, "SPFP": 0.24133064928764003, "avgErr": 0.2640115169529581, "merge_wall": 59.0}
+{"dataset": "BBA0067", "B": 20, "variant": "es10 (0.50B)", "gg_variant": "linsi#es10", "SPFN": 0.2773096482743683, "SPFP": 0.2455990863851265, "avgErr": 0.2614543673297474, "merge_wall": 61.3}
+{"dataset": "BBA0067", "B": 5, "variant": "es1 (0.20B)", "gg_variant": "linsi~5#es1", "SPFN": 0.2866923846182762, "SPFP": 0.24133064928764003, "avgErr": 0.2640115169529581, "merge_wall": 60.8}
+{"dataset": "BBA0067", "B": 20, "variant": "es8 (0.40B)", "gg_variant": "linsi#es8", "SPFN": 0.27772628088048656, "SPFP": 0.2501784177441354, "avgErr": 0.263952349312311, "merge_wall": 56.0}
+{"dataset": "BBA0067", "B": 5, "variant": "es2 (0.40B)", "gg_variant": "linsi~5#es2", "SPFN": 0.2820264872724929, "SPFP": 0.24600027696656446, "avgErr": 0.2640133821195287, "merge_wall": 53.1}
+{"dataset": "BBA0067", "B": 20, "variant": "es6 (0.30B)", "gg_variant": "linsi#es6", "SPFN": 0.2777526840209388, "SPFP": 0.24676483573788133, "avgErr": 0.26225875987941005, "merge_wall": 62.9}
+{"dataset": "BBA0067", "B": 5, "variant": "es3 (0.60B)", "gg_variant": "linsi~5#es3", "SPFN": 0.2812332742817898, "SPFP": 0.24757055581260656, "avgErr": 0.2644019150471982, "merge_wall": 51.9}
+{"dataset": "BBA0067", "B": 20, "variant": "es4 (0.20B)", "gg_variant": "linsi#es4", "SPFN": 0.27877188999347824, "SPFP": 0.2460832416977542, "avgErr": 0.2624275658456162, "merge_wall": 67.8}
+{"dataset": "BBA0067", "B": 10, "variant": "magus", "gg_variant": "linsi~10", "SPFN": 0.28021906551379916, "SPFP": 0.2443357244595692, "avgErr": 0.2622773949866842, "merge_wall": 43.5}
+{"dataset": "BBA0067", "B": 20, "variant": "magus", "gg_variant": "linsi", "SPFN": 0.2793914687723942, "SPFP": 0.24773453510318233, "avgErr": 0.26356300193778825, "merge_wall": 34.9}
+{"dataset": "BBA0067", "B": 10, "variant": "es2 (0.20B)", "gg_variant": "linsi~10#es2", "SPFN": 0.27935559331884197, "SPFP": 0.2435075746430535, "avgErr": 0.26143158398094773, "merge_wall": 37.3}
+{"dataset": "BBA0067", "B": 10, "variant": "es5 (0.50B)", "gg_variant": "linsi~10#es5", "SPFN": 0.2783093129395675, "SPFP": 0.24379990029417054, "avgErr": 0.261054606616869, "merge_wall": 32.8}
+{"dataset": "BBA0067", "B": 10, "variant": "es3 (0.30B)", "gg_variant": "linsi~10#es3", "SPFN": 0.2785826674869043, "SPFP": 0.24743461833433944, "avgErr": 0.26300864291062187, "merge_wall": 33.2}
+{"dataset": "BBA0067", "B": 10, "variant": "es4 (0.40B)", "gg_variant": "linsi~10#es4", "SPFN": 0.2791598073197262, "SPFP": 0.24363971887300329, "avgErr": 0.26139976309636476, "merge_wall": 38.3}
+{"dataset": "BBA0067", "B": 20, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.27842066855735026, "SPFP": 0.24486094406470738, "avgErr": 0.2616408063110288, "merge_wall": 40.8}
+{"dataset": "BBA0067", "B": 10, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.27925117411931355, "SPFP": 0.24032390312622098, "avgErr": 0.25978753862276727, "merge_wall": 42.1}
+{"dataset": "BBA0067", "B": 5, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.28756301698691533, "SPFP": 0.22952346022191383, "avgErr": 0.2585432386044146, "merge_wall": 44.3}
+{"dataset": "BBA0067", "B": 20, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.2779521246920379, "SPFP": 0.24406426105093437, "avgErr": 0.26100819287148613, "merge_wall": 47.3}
+{"dataset": "BBA0067", "B": 10, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.28159642934072104, "SPFP": 0.24065774601796364, "avgErr": 0.26112708767934234, "merge_wall": 50.0}
+{"dataset": "BBA0067", "B": 5, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.2860462535286231, "SPFP": 0.23912225797025966, "avgErr": 0.2625842557494414, "merge_wall": 61.2}
+{"dataset": "BBA0067", "B": 20, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.27775700995920494, "SPFP": 0.24528444529033744, "avgErr": 0.2615207276247712, "merge_wall": 39.6}
+{"dataset": "BBA0067", "B": 10, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.2800167906072841, "SPFP": 0.2387588417890213, "avgErr": 0.2593878161981527, "merge_wall": 41.0}
+{"dataset": "BBA0067", "B": 5, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.2894633718331895, "SPFP": 0.2280122662080264, "avgErr": 0.25873781902060794, "merge_wall": 44.6}
+{"dataset": "BBA0067", "B": 20, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.27787455614381684, "SPFP": 0.2453278132483132, "avgErr": 0.261601184696065, "merge_wall": 38.9}
+{"dataset": "BBA0067", "B": 10, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.280349365757782, "SPFP": 0.23792579171510897, "avgErr": 0.2591375787364455, "merge_wall": 43.4}
+{"dataset": "BBA0067", "B": 20, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.28094231764081823, "SPFP": 0.23153310562793683, "avgErr": 0.25623771163437753, "merge_wall": 25.1}
+{"dataset": "BBA0067", "B": 5, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.2872448367689239, "SPFP": 0.22846180930110782, "avgErr": 0.25785332303501585, "merge_wall": 47.8}
+{"dataset": "BBA0067", "B": 10, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.2868925711408007, "SPFP": 0.2241992914326183, "avgErr": 0.2555459312867095, "merge_wall": 26.1}
+{"dataset": "BBA0067", "B": 5, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.2853978848846943, "SPFP": 0.2365226802613778, "avgErr": 0.26096028257303605, "merge_wall": 36.6}
+{"dataset": "BBA0067", "B": 20, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.28012299985023303, "SPFP": 0.2444422943000717, "avgErr": 0.26228264707515236, "merge_wall": 58.0}
+{"dataset": "BBA0067", "B": 10, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.2835778582369146, "SPFP": 0.24247994652406413, "avgErr": 0.26302890238048937, "merge_wall": 54.1}
+{"dataset": "BBA0067", "B": 5, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.2872594554568578, "SPFP": 0.24322210929235422, "avgErr": 0.265240782374606, "merge_wall": 47.7}
 {"dataset": "BBA0101", "B": 20, "variant": "es10 (0.50B)", "gg_variant": "linsi#es10", "SPFN": 0.31099962187745456, "SPFP": 0.26183614658505605, "avgErr": 0.2864178842312553, "merge_wall": 106.0}
 {"dataset": "BBA0101", "B": 5, "variant": "magus", "gg_variant": "linsi~5", "SPFN": 0.31429019321280316, "SPFP": 0.261534923515367, "avgErr": 0.2879125583640851, "merge_wall": 143.5}
 {"dataset": "BBA0101", "B": 20, "variant": "es8 (0.40B)", "gg_variant": "linsi#es8", "SPFN": 0.3111424464569835, "SPFP": 0.2614359042679022, "avgErr": 0.28628917536244286, "merge_wall": 136.2}
