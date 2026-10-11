@@ -139,3 +139,6 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | gcmtrees-h3 helper: SIMMOD_R5-R8 | claude/cs581-gcmtrees-h3 | session_01RvNzN9F7tm6AN2BRzhv4AT |
 | fragscale: two-step ML vs RAxML-NG at equal time, RNASim 10K fragmentary, estimated alignments, stock vs patched EPA-ng | claude/cs581-fragscale | session_01XZ4oCa5kuuTD71UBphf7yY |
 | magusfast: profile MAGUS; fewer/smaller backbones with support pruning; >=2x at equal accuracy | claude/cs581-magusfast | session_01ALcCHpGgfjs3X2Uk2qc2kr |
+| gcmvote: reference-free vote (binomial-mixture) model for GCM edges; threshold x backbone-count sensitivity; trees SIMHIGH R1-R4 | claude/cs581-gcmvote | session_01HVdpQL7fYBwJKGSwChipPv |
+| gcmvote-h1 helper: SIMHIGH R5-R8 MAGUS runs + trees | claude/cs581-gcmvote-h1 | session_01CmMHK7h7WnNYfvGU2r1WB4 |
+| gcmvote-h2 helper: SIMHIGH R9-R12 MAGUS runs + trees | claude/cs581-gcmvote-h2 | session_01GoHVT6GpRSf3DY6H3qTo2H |
