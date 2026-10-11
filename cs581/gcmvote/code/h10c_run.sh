@@ -19,7 +19,7 @@ if [ ! -f $rep/results.jsonl ] || [ $(grep -c '"variant"' $rep/results.jsonl) -l
 fi
 for x in inputs sets true.fasta unaligned.fasta magus.json; do [ -e $vr/$x ] || ln -s $rep/$x $vr/$x; done
 printf '%s\n' $VARIANTS | xargs -P 4 -I{} python3 $V/run.py $vr {}
-args="true=$rep/true.fasta magus=$W/fresh/${name}_d0/magus.fasta es4=$rep/variants/linsi_es_4/out.fasta"
+args="true=$rep/true.fasta magus=$W/fresh/${name}_d0/magus.fasta es4=$rep/variants/linsi_es_es4/out.fasta"
 for v in $TREEV; do args="$args vote_$v=$vr/vote/$v/out.fasta"; done
 args="$args vote_hard_mask_masked=$vr/vote/hard+mask/out.masked.fasta"
 declare -A first; : > $W/dups.txt; uniq=""
