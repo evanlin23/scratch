@@ -1,2 +1,3 @@
 name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
 SIMHIGH_R49	protein	1000	10	200	yes	2950137	885c7668556542dc0a45c7f1c01e6f986755a81b90095dcf52b986f701e1b01d	SIMHIGH_R49/true.fasta	SIMHIGH_R49/inputs/backbones/backbone_{1..10}_mafft.txt (MAGUS L-INS-i; also SIMHIGH_R49/aligned/{linsi,fftns2,fftns2-op3}/s0/backbone_{1..10}.fa)
+SIMHIGH_R50	protein	1000	10	200	yes	3450444	648033bc4a5fce667e61a9cd5df8b34369b00130c25e6ae3eca7816c443d92cd	SIMHIGH_R50/true.fasta	SIMHIGH_R50/inputs/backbones/backbone_{1..10}_mafft.txt (MAGUS L-INS-i; also SIMHIGH_R50/aligned/{linsi,fftns2,fftns2-op3}/s0/backbone_{1..10}.fa)
