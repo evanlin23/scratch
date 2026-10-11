@@ -715,3 +715,8 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   SIMMOD_R1 2/3; losses on 1000M2 0/3, SIMHIGH_R1 0/3 → 14/21.
 - t04 (SIMHIGH_R4): SP magus 23.53, es4 17.30, hard-bb 17.27; nRF true 6.62, magus 12.44, es4 11.13, hard-bb 11.43 (−1.01).
 - t20 (SIMHIGH_R20): SP magus 20.12, es4 14.13, hard-bb 14.10; nRF true 6.52, magus 6.32, es4 6.02, hard-bb 6.92 (+0.60).
+- ROSE (h4b): 1000S1 MAGUS 8.05, es4 8.05, hard-bb 8.03; 1000S2 MAGUS 4.25, es4 4.28, hard-bb 4.71 (+0.46).
+- Rep bank (04:04–04:07 UTC): ~45 merge-only reps pushed as cs581/gcmvote/bank/<rep>.tar.gz (+ MANIFEST.tsv) on the
+  claude/cs581-gcmvote-* branches and cs581/gcmtrees/bank/ (SIMHIGH R1–R5) on claude/cs581-gcmtrees; 1–8 MB each; several
+  verified to reproduce vote.py magus after extraction. Pending: main's training reps, h7 (SIMHIGH_R13: its push was blocked by
+  that session's permission check), h12 (16S.T), h13 (RNASim 10K), gcmtrees SIMHIGH R6–R8 and SIMMOD R1–R8.
