@@ -23,6 +23,10 @@ for ds in sorted(os.listdir(W)):
             B, var = r.get("B", r.get("nbb")), v
         rows.append({"dataset": ds, "B": B, "variant": var, "gg_variant": v, "SPFN": r["SPFN"], "SPFP": r["SPFP"],
                      "avgErr": r["avgErr"], "merge_wall": r["merge_wall"]})
+    p = os.path.join(W, ds, "vote_results.jsonl")
+    for r in (map(json.loads, open(p)) if os.path.exists(p) else []):
+        rows.append({"dataset": ds, "B": r["B"], "variant": "vote:" + r["variant"], "gg_variant": None,
+                     "SPFN": r["SPFN"], "SPFP": r["SPFP"], "avgErr": r["avgErr"], "merge_wall": r["merge_wall"]})
 with open(OUT, "w") as f:
     for r in rows:
         f.write(json.dumps(r) + "\n")
