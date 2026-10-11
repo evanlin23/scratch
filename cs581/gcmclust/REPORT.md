@@ -5,7 +5,7 @@ different clustering method instead of the Markov Clustering algorithm within GC
 25 L-INS-i subset alignments and 10 L-INS-i backbones (one MAGUS draw) are fixed; only GCM's clustering step
 changes, and MAGUS's own violation purge + `minclusters` trace + writer run unchanged on the new clusters.
 Code: `code/` (`gc.py`, `build_graph.py`, `summarize.py`); raw rows: `results/*.results.jsonl`; protocol fixed
-before results: `PREREG.md`; all tables: `results/tables_train.md`, `results/tables_held.md`.
+before results: `PREREG.md`; all tables: `results/tables_train.md`, `results/tables_held.md` (both generated before the exploratory runs), `results/tables_explore.md`.
 
 ## TL;DR (numbers first)
 
@@ -410,9 +410,35 @@ variant and is not included): MAGUS (raw, MCL I=4) 9 s clustering + 18 s trace; 
 5 + 6 s; es4 + LPA 1 + 7 s; raw + Leiden-CPM 19 + 27 s; agglo 0–1 + 18–44 s (A* trace struggles on its many small
 clusters; up to 400 s per protein set on training). The filter, not the clusterer, is what saves time.
 
-__TREES__
+**Trees** (FastTree `-lg -gamma`, normalised RF to the true AliSim tree; 4 simulated protein sets, R1 = training,
+R2 = held-out; `code/trees.py`, `results/trees.jsonl`):
 
-__EXPLORATORY__
+| replicate | `true` | `raw:mcl:4` | `es4:mcl:4` | `es4:leidcpm:0.02` | `es4:lpa` | `raw:agglo:4` |
+|---|---|---|---|---|---|---|
+| SIMMOD_R1 | 0.0652 | 0.0642 | 0.0632 | 0.0612 | 0.0642 | 0.0632 |
+| SIMHIGH_R1 | 0.0612 | 0.1254 | 0.1224 | 0.1254 | 0.1214 | 0.1204 |
+| SIMMOD_R2 | 0.0652 | 0.0652 | 0.0672 | 0.0722 | 0.0682 | 0.0712 |
+| SIMHIGH_R2 | 0.0522 | 0.1043 | 0.0752 | 0.0772 | 0.0863 | 0.0782 |
+| mean | 0.0609 | 0.0898 | 0.0820 | 0.0840 | 0.0850 | 0.0833 |
+
+The edge-support filter lowers tree error (mean 0.090 → 0.082, almost all from SIMHIGH_R2: 0.104 → 0.075). Swapping
+MCL for Leiden-CPM on top of it does not lower it further (0.084; on SIMMOD_R2 it is the worst of the variants).
+The −0.4 to −0.5 SP-point protein gain of CPM does not show up in trees at n = 4.
+
+**Exploratory (after the held-out evaluation; not used for any claim above): Leiden-CPM resolution beyond the
+grid edge**, es4 graph, all 22 replicates, Δ vs es4 + MCL I=4 (cluster counts and singleton fractions in
+`results/tables_explore.md`):
+
+| γ | proteins (n = 10) | DNA/RNA (n = 12) | singleton nodes |
+|---|---|---|---|
+| 0.01 | −0.05 (5/2/3) | −0.07 (6/4/2) | 0.14 |
+| **0.02** (selected) | **−0.52 (8/1/1, p = 0.01)** | +0.12 (3/2/7) | 0.16 |
+| 0.03 | −0.69 (5/1/4) | +1.62 (1/0/11) | 0.19 |
+| 0.05 | +36.3 (0/0/10) | +41.9 (0/0/12) | 0.87 |
+
+γ = 0.02 sits just below a cliff: by 0.05 CPM leaves most columns as singletons and the alignment falls apart.
+Proteins prefer γ ≈ 0.02–0.03 (precision), DNA/RNA γ ≤ 0.01 (recall). A per-dataset γ would need a
+reference-free signal, and the cliff makes a fixed γ fragile. That is the main technical risk of the CPM variant.
 
 ## 7. Verdict for a 4-week CS581 project: **unclear** (leaning not promising on its own)
 

@@ -12,3 +12,16 @@
 {"rep": "SIMMOD_R2", "variant": "es4:leidcpm:0.02", "nRF": 0.0722}
 {"rep": "SIMHIGH_R1", "variant": "es4:leidcpm:0.02", "nRF": 0.1254}
 {"rep": "SIMHIGH_R1", "variant": "true", "nRF": 0.0612}
+{"rep": "SIMHIGH_R1", "variant": "raw:mcl:4", "nRF": 0.1254}
+{"rep": "SIMMOD_R2", "variant": "raw:agglo:4", "nRF": 0.0712}
+{"rep": "SIMHIGH_R1", "variant": "es4:mcl:4", "nRF": 0.1224}
+{"rep": "SIMHIGH_R2", "variant": "true", "nRF": 0.0522}
+{"rep": "SIMMOD_R2", "variant": "es4:lpa", "nRF": 0.0682}
+{"rep": "SIMHIGH_R1", "variant": "es4:mcl:4", "nRF": 0.1224}
+{"rep": "SIMHIGH_R1", "variant": "raw:mcl:4", "nRF": 0.1254}
+{"rep": "SIMHIGH_R2", "variant": "raw:mcl:4", "nRF": 0.1043}
+{"rep": "SIMHIGH_R1", "variant": "es4:leidcpm:0.02", "nRF": 0.1254}
+{"rep": "SIMHIGH_R2", "variant": "raw:agglo:4", "nRF": 0.0782}
+{"rep": "SIMHIGH_R2", "variant": "es4:leidcpm:0.02", "nRF": 0.0772}
+{"rep": "SIMHIGH_R2", "variant": "es4:mcl:4", "nRF": 0.0752}
+{"rep": "SIMHIGH_R2", "variant": "es4:lpa", "nRF": 0.0863}
