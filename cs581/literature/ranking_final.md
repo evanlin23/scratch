@@ -657,3 +657,5 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
 - BAliBASE held-out (h3b): BBA0081 (very hard) MAGUS 58.84; es4 57.85, es5 56.97; vote hard 57.13, soft4 55.18, **hard-bb 63.06
   (+4.22, a large failure of the selected variant)**. BBA0117 MAGUS 13.35; es4 13.31; hard-bb 12.91.
   Held-out BAliBASE hard-bb vs MAGUS: −2.32, −1.48, +4.22, −0.44.
+- Tree row (h1, SIMHIGH_R5, nRF %): true 6.52, magus 9.73, es4 7.82, recipe 8.43, hard-bb 7.82, soft 10.43.
+  hard-bb vs magus so far: R5 −1.91, R9 −3.92, R13 +0.60, R17 −0.10 (n = 4, mean −1.33).
