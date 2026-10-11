@@ -1,0 +1,2 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+RNASim_R1	rna	1000	10	200	yes	3999555	02fc0ff9458e2ee377ed25ab89757d279ea1b28cc622fb6329c3250ca52fe1d4	RNASim_R1/true.fasta	RNASim_R1/inputs/backbones/backbone_{1..10}_mafft.txt
