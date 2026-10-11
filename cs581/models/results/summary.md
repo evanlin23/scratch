@@ -1,0 +1,9 @@
+| cell | reps | rtt CV | mean p | gap frac | famsa SP err | mafft-auto SP err | mafft-linsi SP err | pasta SP err | magus SP err | magus-k25 SP err | PASTA−MAGUS pts ±SE (rel, ratio of means) | famsa tree FN | mafft-auto tree FN | mafft-linsi tree FN | pasta tree FN | magus tree FN | magus-k25 tree FN | true tree FN | ranking (SP err) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|--|
+| clock0 | 3 | 0.00 | 0.64 | 0.40 | 27.7±2.0 | 47.3±8.2 | – | 19.4±4.8 | 10.3±3.4 | – | +9.1±8.0 (+47%) | 7.0±1.7 | 9.6±3.8 | – | 5.7±1.4 | 6.2±1.7 | – | 5.9±1.2 | magus < pasta < famsa < mafft-auto |
+| base | 3 | 0.10 | 0.63 | 0.40 | 24.5±2.9 | 41.0±3.2 | – | 12.3±6.6 | 12.1±2.3 | 15.5±3.9 | +0.2±8.4 (+2%) | 6.9±1.8 | 11.5±3.7 | – | 6.7±2.0 | 5.4±0.8 | 5.3±2.0 | 5.0±0.9 | magus < pasta < magus-k25 < famsa < mafft-auto |
+| clock1.2 | 3 | 0.49 | 0.61 | 0.43 | 31.8±4.3 | 37.2±4.7 | – | 25.6±7.0 | 19.9±4.1 | – | +5.7±4.6 (+22%) | 21.1±3.9 | 23.9±6.2 | – | 18.5±3.2 | 17.9±2.9 | – | 15.4±2.2 | magus < pasta < famsa < mafft-auto |
+| pow1.7 | 2 | 0.10 | 0.63 | 0.45 | 36.0±12.1 | 36.7±19.2 | – | 13.5±5.7 | 14.9±3.3 | – | -1.4±2.4 (-10%) | 7.3±2.8 | 8.1±3.6 | – | 5.1±0.6 | 4.7±0.2 | – | 3.8±0.2 | pasta < magus < famsa < mafft-auto |
+| balanced | 2 | 0.11 | 0.67 | 0.57 | 18.7±6.2 | 74.2±9.2 | – | 3.8±0.6 | 3.0±0.5 | – | +0.8±1.0 (+22%) | 0.2±0.2 | 25.9±2.4 | – | 0.0±0.0 | 0.0±0.0 | – | 0.0±0.0 | magus < pasta < famsa < mafft-auto |
+| caterpillar | 1 | 0.19 | 0.60 | 0.70 | 44.4±0.0 | 62.1±0.0 | – | 19.0±0.0 | 20.5±0.0 | – | -1.5±0.0 (-8%) | 74.5±0.0 | 80.6±0.0 | – | 72.9±0.0 | 75.7±0.0 | – | 72.1±0.0 | pasta < magus < famsa < mafft-auto |
+| caterpillarbdh | 1 | 0.05 | 0.27 | 0.35 | 3.3±0.0 | 2.2±0.0 | – | – | – | – | – | 64.8±0.0 | 59.5±0.0 | – | – | – | – | 57.9±0.0 | mafft-auto < famsa |
