@@ -696,3 +696,10 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   estimated-alignment arms unfinished. Direction rejected as not novel.
 - t03 (SIMHIGH_R3): SP magus 24.60, es4 18.78, hard-bb 19.16; nRF true 6.42, magus 7.12, es4 6.52, recipe 5.52, hard-bb 6.42 (−0.70).
   hard-bb tree Δ (n = 10): −1.91, +0.71, −3.92, +0.60, +0.10, +0.10, 0.00, −1.70, −0.10, −0.70.
+- Trees, more SIMHIGH rows (nRF %, magus / es4 / hard-bb): R7 10.93 / 10.23 / 10.33; R10 6.72 / 7.42 / 7.12; R12 13.04 / 14.94 /
+  15.25; R16 9.13 / 9.23 / 8.93. SP (magus / es4 / hard-bb): R7 27.66 / 19.49 / 19.63; R10 19.21 / 13.16 / 12.98;
+  R12 27.52 / 23.04 / 22.36; R16 21.46 / 16.58 / 15.04.
+- Backbone-count sensitivity on simulated proteins (h6b; SP %, B = 5/10/20): SIMHIGH_R1 MAGUS 24.57/24.05/24.78, best fixed
+  fraction 18.48/17.88/17.77 (always F = 0.5), hard-bb 18.99/19.21/20.23 (worse than the best fixed fraction by 0.5–2.5).
+  SIMMOD_R1 MAGUS 12.88/13.59/13.33, best fixed 9.40/9.54/9.40, hard-bb 10.84/9.24/9.38. So the "vote beats the best fixed
+  fraction at every B" pattern holds on BAliBASE and 16S.M but not on simulated proteins, where stricter is better.
