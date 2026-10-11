@@ -23,6 +23,8 @@ Checks:
 - SIMHIGH_R39: vote `magus` equals gg.py `linsi` (MAGUS's merge) up to row order (row-sorted md5 equal,
   results_t20 `norm.py`; SPFN/SPFP/TC identical). vote `hard` and `hard-bb` kept the same 88545 edges and give
   the same alignment up to row order; both trees were built and give the same nRF.
+- SIMHIGH_R40: vote `magus` equals gg.py `linsi` up to row order (same checks). vote `hard` and `hard-bb` again
+  kept the same edges (90825) and give the same alignment up to row order; both trees were built.
 
 Note: gcmtrees run.sh calls gcmtrees collect.sh, which overwrites cs581/gcmtrees/results/*.jsonl with only this
 machine's rows; those files were restored from git and are not part of this branch's changes.
