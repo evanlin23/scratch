@@ -45,8 +45,12 @@ def proc_cpu(pid):
 
 
 def rx_snapshot(prefix):
+    seen = {"last": False}
+
     def f():
-        for suf in (".raxml.lastTree.TMP", ".raxml.startTree"):
+        # the parsimony start tree only until the first checkpoint tree exists (RAxML-NG deletes
+        # lastTree.TMP when it finishes; the caller then records the final tree itself)
+        for suf in (".raxml.lastTree.TMP",) + (() if seen["last"] else (".raxml.startTree",)):
             p = prefix + suf
             if os.path.exists(p):
                 try:
@@ -54,6 +58,7 @@ def rx_snapshot(prefix):
                 except OSError:
                     continue
                 if s.endswith(";"):
+                    seen["last"] = seen["last"] or suf == ".raxml.lastTree.TMP"
                     return s
         return None
     return f

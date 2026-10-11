@@ -46,7 +46,7 @@ FT = "/usr/bin/FastTree"
 IQ = "/opt/mm/root/envs/bio/bin/iqtree3"
 RX = "/opt/mm/root/envs/fml/bin/raxml-ng"
 GAPPA = "/opt/mm/root/envs/fml/bin/gappa"
-EPA = {"fix": "/opt/src/epa-ng-fix/bin/epa-ng", "stock": "/opt/src/epa-ng/bin/epa-ng"}
+EPA = {"fix": "/opt/src/epa-ng-fix/bin/epa-ng", "stock": "/opt/mm/root/envs/fml/bin/epa-ng"}
 
 
 class Cost:
@@ -203,6 +203,11 @@ class Rep:
                 c = fasttree(self.full, out, work)
             elif m == "iqfast":
                 c = iqtree(self.full, out, work, ["--fast"])
+            elif m == "rxfastmode":
+                # RAxML-NG's own fast mode (= --fast): 1 parsimony start, simplified topology optimisation,
+                # KH-multiple stopping rule
+                c = raxml(self.full, out, work, ["--tree", "pars{1}", "--opt-topology", "simplified",
+                                                 "--stop-rule", "kh-mult"])
             elif m == "iqtree":
                 # default IQ-TREE 3, anytime (checkpoint every >= 10 s), CPU capped at this rep's RAxML-NG CPU
                 cap = self.rx_cpu()
