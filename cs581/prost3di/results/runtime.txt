@@ -1,0 +1,24 @@
+RV11: residues 143654, ProstT5 wall 2260s cpu 8629s (60.07 cpu-ms/residue)
+   clustalo       cpu      4.7s
+   fm             cpu      5.7s
+   fm_aa          cpu      4.8s
+   fm_true        cpu      5.9s
+   linsi          cpu     27.6s
+   linsi3di       cpu     17.7s
+   linsi3di_true  cpu     18.8s
+   mafft          cpu     14.2s
+   mc2            cpu      4.6s
+   mc3di          cpu      5.6s
+   mcaa           cpu      5.8s
+RV12: residues 273544, ProstT5 wall 5567s cpu 18529s (67.74 cpu-ms/residue)
+   clustalo       cpu     11.8s
+   fm             cpu     11.2s
+   fm_aa          cpu      9.4s
+   fm_true        cpu      0.1s
+   linsi          cpu     40.6s
+   linsi3di       cpu     27.5s
+   linsi3di_true  cpu      0.5s
+   mafft          cpu     18.9s
+   mc2            cpu      7.0s
+   mc3di          cpu      8.7s
+   mcaa           cpu      8.4s
