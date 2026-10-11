@@ -1,0 +1,10 @@
+{"i": 2, "size": 400, "nseq": 310, "seed": 140002, "wall": 765.5, "cpu": 537.7, "maxrss_mb": 129, "jobs": 4, "load1": 5.3}
+{"i": 3, "size": 400, "nseq": 310, "seed": 140003, "wall": 801.8, "cpu": 561.3, "maxrss_mb": 128, "jobs": 4, "load1": 5.39}
+{"i": 1, "size": 400, "nseq": 310, "seed": 140001, "wall": 822.9, "cpu": 582.4, "maxrss_mb": 129, "jobs": 4, "load1": 5.25}
+{"i": 4, "size": 400, "nseq": 310, "seed": 140004, "wall": 840.3, "cpu": 601.8, "maxrss_mb": 139, "jobs": 4, "load1": 5.47}
+{"i": 6, "size": 400, "nseq": 310, "seed": 140006, "wall": 700.7, "cpu": 493.4, "maxrss_mb": 130, "jobs": 4, "load1": 5.6}
+{"i": 5, "size": 400, "nseq": 310, "seed": 140005, "wall": 813.6, "cpu": 581.5, "maxrss_mb": 131, "jobs": 4, "load1": 5.3}
+{"i": 7, "size": 400, "nseq": 310, "seed": 140007, "wall": 843.0, "cpu": 599.2, "maxrss_mb": 130, "jobs": 4, "load1": 5.46}
+{"i": 8, "size": 400, "nseq": 310, "seed": 140008, "wall": 837.7, "cpu": 597.4, "maxrss_mb": 134, "jobs": 4, "load1": 5.49}
+{"i": 9, "size": 400, "nseq": 310, "seed": 140009, "wall": 617.5, "cpu": 558.4, "maxrss_mb": 129, "jobs": 4, "load1": 4.0}
+{"i": 10, "size": 400, "nseq": 310, "seed": 140010, "wall": 548.8, "cpu": 512.9, "maxrss_mb": 133, "jobs": 4, "load1": 4.02}
