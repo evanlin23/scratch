@@ -669,3 +669,7 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   hard-bb tree Δ vs magus: R5 −1.91, R8 +0.71, R9 −3.92, R13 +0.60, R15 +0.10, R17 −0.10 (n = 6, mean −0.75).
 - t19 (SIMHIGH_R19): SP magus 19.79, es4 14.81, hard-bb 14.90; nRF true 6.82, magus 10.53, es4 10.73, hard-bb 8.83 (−1.70).
   hard-bb tree Δ (n = 7): −1.91, +0.71, −3.92, +0.60, +0.10, −1.70, −0.10 → mean −0.89.
+- t18 (SIMHIGH_R18): SP magus 26.72, es4 18.09, hard-bb 17.72; nRF true 8.73, magus 10.93, es4 10.63, hard-bb 10.93 (0.00).
+  16S.3 (h11): MAGUS draw 4,763 s, avgErr 10.17 %; merges ~540 s. RNASim 10K (h13): recursive MAGUS projected ~25 h on 4 cores;
+  restarted with --recurse false (deviation from the paper, labelled).
+  hard-bb tree Δ (n = 8): −1.91, +0.71, −3.92, +0.60, +0.10, 0.00, −1.70, −0.10 → mean −0.78.
