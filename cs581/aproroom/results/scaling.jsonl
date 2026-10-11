@@ -1,0 +1,9 @@
+{"data": "scaling", "cond": "taxa_100", "rep": "01", "ngen": 1000, "level": "est100", "thr": 1, "method": "astrid-pro", "threads": 1, "rssMB": 13.4, "sec": 0.708, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "scaling", "cond": "taxa_100", "rep": "01", "ngen": 1000, "level": "est100", "thr": 1, "method": "astrid-disco", "threads": 1, "rssMB": 49.2, "sec": 7.601, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "scaling", "cond": "taxa_100", "rep": "01", "ngen": 1000, "level": "est100", "thr": 4, "method": "astrid-pro", "threads": 4, "rssMB": 13.6, "sec": 0.252, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "scaling", "cond": "taxa_100", "rep": "01", "ngen": 1000, "level": "est100", "thr": 1, "method": "asteroid", "threads": 1, "sec": 0.183, "rssMB": 18.3, "error": "CalledProcessError"}
+{"data": "scaling", "cond": "taxa_100", "rep": "01", "ngen": 1000, "level": "est100", "thr": 4, "method": "astral-pro3", "threads": 4, "rssMB": 57.5, "sec": 34.122, "FN": 6, "FP": 6, "nI": 97, "FNrate": 0.06186}
+{"data": "scaling", "cond": "taxa_200", "rep": "01", "ngen": 1000, "level": "est100", "thr": 1, "method": "astrid-pro", "threads": 1, "rssMB": 13.7, "sec": 2.01, "FN": 14, "FP": 14, "nI": 197, "FNrate": 0.07107}
+{"data": "scaling", "cond": "taxa_200", "rep": "01", "ngen": 1000, "level": "est100", "thr": 1, "method": "astrid-disco", "threads": 1, "rssMB": 90.7, "sec": 17.649, "FN": 12, "FP": 12, "nI": 197, "FNrate": 0.06091}
+{"data": "scaling", "cond": "taxa_200", "rep": "01", "ngen": 1000, "level": "est100", "thr": 4, "method": "astrid-pro", "threads": 4, "rssMB": 21.5, "sec": 1.108, "FN": 14, "FP": 14, "nI": 197, "FNrate": 0.07107}
+{"data": "scaling", "cond": "taxa_200", "rep": "01", "ngen": 1000, "level": "est100", "thr": 1, "method": "asteroid", "threads": 1, "rssMB": 5930.2, "sec": 46.469, "FN": 17, "FP": 17, "nI": 197, "FNrate": 0.08629}

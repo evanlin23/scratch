@@ -266,6 +266,12 @@ def main():
                 p = pair(sub, "astrid-pro", o)
                 if p:
                     rows.append([c, o, p["n"], f"{p['diff']:+.4f}", f"{p['W']}/{p['T']}/{p['L']}", f"{p['p']:.2g}"])
+        grp = {"high GDL (dup >= 5e-10, excl. default)": [c for c in w.index.get_level_values("cond").unique() if c.startswith("gdl_1e-9") or c.startswith("gdl_5e-10")],
+               "low GDL (dup 1e-10)": [c for c in w.index.get_level_values("cond").unique() if c.startswith("gdl_1e-10")],
+               "ILS (ils_1e4, ils_2e8)": ["ils_1e4", "ils_2e8"], "all 12 conditions": list(w.index.get_level_values("cond").unique())}
+        for g, cs in grp.items():
+            sub = w[w.index.get_level_values("cond").isin(cs)]
+            out.write(comparisons(sub, "astrid-pro", ["astrid-disco", "asteroid", "astral-pro3", "astrid-multi"], f"DISCO est100, {g}") + "\n")
         out.write("**ASTRID-Pro minus method, per condition**\n\n" + table(["cond", "vs", "n", "mean diff", "W/T/L", "p"], rows) + "\n")
     d = load("genes_q2.jsonl")
     if len(d):

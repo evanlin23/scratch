@@ -21,3 +21,8 @@ done
 # hardest DISCO regime, where ASTRAL-Pro3 timed out at 1 thread in the previous pilot: retry with 4 threads
 D=/opt/data/disco/trees/gdl_1e-9_0/01
 BENCH_TIMEOUT=1800 $B --genes $D/g_100.trees --true $D/s_tree.trees --out $H/../results/disco_q2.jsonl --key '{"data": "disco", "cond": "gdl_1e-9_0", "rep": "01", "ngen": 1000, "level": "est100"}' --methods astral-pro3 --threads 4
+# Asteroid rerun on the [&R]-stripped scaling inputs (first pass failed on the [&R] prefix)
+for k in 100 200 500 1000; do
+  D=/opt/data/scaling/taxa_$k; K="{\"data\":\"scaling\",\"cond\":\"taxa_$k\",\"rep\":\"01\",\"ngen\":1000,\"level\":\"est100\",\"thr\":1,\"fix\":1}"
+  (ulimit -v 14000000; BENCH_TIMEOUT=1200 $B --genes $D/genes.trees --true $D/s_tree.trees --out $O --key "$K" --methods asteroid --threads 1)
+done
