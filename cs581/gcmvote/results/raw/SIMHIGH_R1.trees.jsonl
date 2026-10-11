@@ -1,1 +1,3 @@
 {"dataset": "SIMHIGH_R1", "method": "true", "FN": 0.0612, "FP": 0.0612, "RF": 0.0612, "true_internal": 997, "est_internal": 997, "fasttree_wall": 815.9}
+{"dataset": "SIMHIGH_R1", "method": "magus", "FN": 0.1153, "FP": 0.1153, "RF": 0.1153, "true_internal": 997, "est_internal": 997, "fasttree_wall": 686.2}
+{"dataset": "SIMHIGH_R1", "method": "es4", "FN": 0.1063, "FP": 0.1063, "RF": 0.1063, "true_internal": 997, "est_internal": 997, "fasttree_wall": 664.8}
