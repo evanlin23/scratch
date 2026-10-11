@@ -235,3 +235,9 @@ ideas → cs581/literature/novelty_gcmvote.md.
 | repro: clean reproduction package (filter_gcm.py, fetch_bank.sh, run_all.sh, REPRODUCE.md), verified on 3 reps | claude/cs581-repro | session_01NGcLeBRCC7tFsaPqfaZTDQ |
 
 Check-ins: 05:00, 07:00, 10:00, 13:00 UTC (send_later). The 13:00 one re-schedules itself if work is still running.
+
+### Round 6 (05:45 UTC, Oct 11): black-box edge transforms (student's framing)
+
+| session | branch | session id |
+|---|---|---|
+| gcmxform: transforms between graph build and MCL (power, competitive ratio / mutual best partner, protect-best, combos), pre-registered on gcmvote2's split | claude/cs581-gcmxform | session_01BJSyUNy4ZTZqvQujjbeQXE |
