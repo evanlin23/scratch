@@ -1,0 +1,4 @@
+SIMMOD_R1 /opt/data/sim/SIMMOD/R1/sim.fa 25
+SIMHIGH_R1 /opt/data/sim/SIMHIGH/R1/sim.fa 25
+SIMMOD_R2 /opt/data/sim/SIMMOD/R2/sim.fa 25
+SIMHIGH_R2 /opt/data/sim/SIMHIGH/R2/sim.fa 25
