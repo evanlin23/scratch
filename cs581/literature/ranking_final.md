@@ -624,3 +624,10 @@ unaffected and soft-MAGUS times above are, if anything, overstated.
 - HomFam (h3c): Acetyltransf MAGUS 32.67; es4 30.21; vote hard 30.42, hard-bb 30.86, soft 32.73, soft4 31.01. PDZ MAGUS 12.96;
   es4 13.38; vote hard 13.71, soft 13.20. HomFam 4 families, Δ vs MAGUS: es4 −1.36/+0.29/−2.46/+0.42 (mean −0.78);
   vote hard −1.22/−2.03/−2.25/+0.75 (mean −1.19).
+
+**gcmvote training selection (03:07 UTC, main @cf0673b).** Pre-registered pick: **hard-bb** (beta-binomial mixture, keep edges with
+posterior > 0.5). Training Δ vs MAGUS (10 sets): hard-bb −1.29 (6/1/3; proteins −2.35, 5/1/0, p = 0.031; DNA/RNA +0.30, 1/0/3),
+hard −1.20, es4 −1.11 (proteins −1.87, DNA +0.04), soft4 −0.69, soft −0.17. BAliBASE: vote beats es4 on 4/4. The fitted cutoff is
+k ≥ 6 of 10 at full exposure (5–8 for BB), k ≥ 4 at n = 5–6; at B = 5 it is 4 of 5, i.e. stricter than es4. Calibration: BB wins
+BIC on every set; extreme posterior bins are right (<0.1 → 3% precise, >0.9 → 85–90%), middle bins overconfident (~0.3 precision);
+ECE best on DNA, yet DNA is where cutting at 6 costs recall.
