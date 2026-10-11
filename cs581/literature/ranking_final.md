@@ -68,6 +68,9 @@ so a project would be the characterisation, re-tuning and downstream impact, plu
     swap itself (CPM vs MCL on the filtered graph) is −0.08 (n.s.); over all 10 protein sets −0.52 (p = 0.01).
   - The es4 filter makes the trace 2–5× faster (27 s → 7 s).
   - Session verdict: "unclear, leaning not promising" stand-alone. It confirms the damage is in the graph.
+  - FINAL (02:02 UTC, `claude/cs581-gcmclust`) confirms the draft. MCL clusters break the one-column-per-subset
+    rule in 48–73% of clusters (CPM 2–20%). CPM has a cliff on DNA (γ = 0.03 → +1.6, γ = 0.05 → +39). FastTree nRF
+    on 4 AliSim sets: MAGUS 0.090, es4 + MCL 0.082, es4 + CPM 0.084 (n = 4, not tested).
 - Combined MAGUS picture: the support filter is the active ingredient (alignments better and the merge faster); the
   clustering and subset-aligner swaps add nothing; there is no tree gain.
 
