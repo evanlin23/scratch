@@ -40,6 +40,8 @@ for f in glob.glob(os.path.join(W, "*", "vote", "*", "model.json")):
 
 def err(rep, v, B=10):
     d = rows.get((rep, v, B))
+    if d is None and v == "frac0.4" and B == 10:
+        d = rows.get((rep, "es4", 10))  # identical rule: k >= ceil(0.4 * 10)
     return None if d is None else 100 * d["avgErr"]
 
 

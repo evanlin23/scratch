@@ -60,3 +60,11 @@ pre-declared variants but are never used to choose.
   negative mean.
 - Verdict rule: "the vote model is a principled replacement for es4" if the selected variant is not worse than
   es4 on held-out (mean Δ vs es4 ≤ +0.1 and no data type worse by > 0.25) while needing no hand-picked k.
+
+## Selection outcome (2026-10-11 03:07 UTC, training only; no held-out variant row looked at)
+
+Mean Δ error over the 10 training replicates: `hard-bb` −1.29, `hard` −1.20, `soft4` −0.69, `soft2` −0.33,
+`soft` −0.17, `soft-bb` +0.16 (es4, not a candidate: −1.11). **Selected: `hard-bb`** (beats `hard` by 0.09,
+outside the 0.05 tie band). γ for soft^γ on training: 4 (−0.69 vs −0.33 for γ = 2).
+Added after this point as **exploratory** (not part of any primary test): `hard0.05` (keep unless the binomial
+posterior is < 0.05), `magus+mask` (mask applied to MAGUS's own alignment).
