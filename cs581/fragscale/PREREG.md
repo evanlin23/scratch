@@ -74,3 +74,6 @@ Arms not finished are reported as not run.
    `base_rxfastmode` = RAxML-NG's own fast mode (1 parsimony start, `--opt-topology simplified
    --stop-rule kh-mult`), compared with the pipeline on FN and CPU (paired, Wilcoxon). The primary
    test and its interpretation are unchanged; the report states the result of both comparators.
+3. (2026-10-11 ~02:55 UTC, before any Q3 alignment existed; compute only.) MAGUS needs > 75 min per replicate
+   at the CPU share it gets here, so the WITCH backbone is aligned with MAFFT `--auto` (FFT-NS-i, 1 thread)
+   instead of MAGUS. Fragments are still added with WITCH. Everything else in Q3 is unchanged.

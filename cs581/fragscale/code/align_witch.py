@@ -1,10 +1,10 @@
-"""Estimated alignment for Q3: WITCH (witch-msa 1.0.10) with a MAGUS backbone, 1 CPU.
+"""Estimated alignment for Q3: WITCH (witch-msa 1.0.10) with a MAFFT --auto backbone (MAGUS optional), 1 CPU.
 
     python align_witch.py DATASET REP
 
 Backbone = sequences within +-25% of the 3rd quartile of ungapped lengths (UPP's -M 0.75 rule; WITCH's
 own default uses the median of ALL lengths, which on HF data falls between fragments and full-length
-sequences), at most 1000 (random, seed 0). Backbone aligned with MAGUS (bundled with WITCH); the other
+sequences), at most 1000 (random, seed 0). Backbone aligned with MAFFT --auto (WITCH_BACKBONE=magus: MAGUS); the other
 sequences are added with WITCH (default: 10 HMMs, weighted). Insertion columns (lower-case in WITCH's
 output) are removed, as in UPP's masked alignment.
 Writes $MLDATA/DS/R<rep>/witch.fasta and witch.cost.json (cpu, wall, peak RSS of all steps).
@@ -22,6 +22,7 @@ import runtrees as rt  # noqa: E402
 
 E = "/opt/mm/root/envs/aln"
 PY = E + "/bin/python"
+BACKBONE = os.environ.get("WITCH_BACKBONE", "mafft")  # amendment 3: MAGUS too slow on this VM
 MAGUS = E + "/lib/python3.11/site-packages/witch_msa/tools/magus/magus.py"
 
 
@@ -57,8 +58,17 @@ def main(ds, rep):
                    [seqs[i] for i in range(len(names)) if i not in fs])
     cost = {"cpu": 0.0, "wall": 0.0, "rss": 0.0}
     r0 = os.times()
-    run([PY, MAGUS, "-i", os.path.join(w, "bb.fa"), "-o", os.path.join(w, "bb.aln"), "-d", os.path.join(w, "magus"),
-         "-np", "1"], os.path.join(w, "magus.log"), cost)
+    if BACKBONE == "magus":
+        run([PY, MAGUS, "-i", os.path.join(w, "bb.fa"), "-o", os.path.join(w, "bb.aln"), "-d",
+             os.path.join(w, "magus"), "-np", "1"], os.path.join(w, "magus.log"), cost)
+    else:  # MAFFT --auto (FFT-NS-i on ~500 sequences), 1 thread
+        t = time.time()
+        with open(os.path.join(w, "bb.aln"), "w") as o, open(os.path.join(w, "mafft.log"), "w") as lf:
+            p = subprocess.Popen(["/usr/bin/mafft", "--auto", "--thread", "1", "--quiet", os.path.join(w, "bb.fa")],
+                                 stdout=o, stderr=lf)
+            _, st, ru = os.wait4(p.pid, 0)
+        assert os.waitstatus_to_exitcode(st) == 0
+        cost["wall"] += time.time() - t
     run([PY, E + "/bin/witch.py", "-b", os.path.join(w, "bb.aln"), "-q", os.path.join(w, "q.fa"), "-d",
          os.path.join(w, "witch"), "-o", "aln.fasta", "-t", "1"], os.path.join(w, "witch.log"), cost)
     r1 = os.times()
