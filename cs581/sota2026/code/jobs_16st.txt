@@ -1,0 +1,1 @@
+16S.T_R0 /opt/data/Datasets/Gutell/16S.T/R0/true_align_clean.txt 100
