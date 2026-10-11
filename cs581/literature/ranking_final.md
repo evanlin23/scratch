@@ -28,6 +28,14 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**basemeth INTERIM 2 (00:58 UTC): other subset aligners lose on simulated proteins.**
+- *Δ SP error vs L-INS-i subsets:*
+  - SIMMOD_R1: ProbCons +0.95, MUSCLE5 +1.03, FAMSA +3.6, Clustal +7.6.
+  - SIMHIGH_R1: G-INS-i −0.8, ProbCons +3.1, MUSCLE5 +3.5, FAMSA +5.2, Clustal +9.5.
+- The BAliBASE gain (−0.3 to −0.5) reverses on simulated data and HomFam.
+- Primary over 10 sets (Holm): no aligner beats L-INS-i. The instructor's "MAGUS with other base methods" item is not
+  promising with current aligners.
+
 **gcmtrees INTERIM (00:43 UTC; SIMHIGH R1–R4, FastTree nRF %).**
 - Recipe minus MAGUS: +0.40, −1.81, −0.80, +0.90. Mean −0.33, 2 better / 2 worse, despite about −5 SP points of
   alignment gain (R1: SPFN 31.2 → 21.5).
