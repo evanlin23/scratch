@@ -706,3 +706,5 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
 - 1000M1 R3 (h10c): MAGUS 8.04; es4 8.18; hard-bb 9.18 (+1.14). FastTree nRF: true 9.53, MAGUS 10.53, es4 11.23, hard-bb 10.73.
   1000M1 R0–R3 hard-bb − MAGUS: +0.59, +1.34, +0.78, +1.14 (the MAGUS-tuned DNA condition is consistently hurt).
 - RNASim 1000 R0 (h5c): MAGUS 9.77; es4 9.73; hard-bb 9.87 (+0.10).
+- t06 (SIMHIGH_R6): SP magus 19.67, es4 12.46, hard-bb 12.66; nRF true 9.73, magus 12.54, es4 11.74, hard-bb 12.24 (−0.30).
+- RNASim 1000 R0 / R1 hard-bb − MAGUS: +0.10 / +0.27.
