@@ -1,0 +1,3 @@
+name	type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R1	protein	1000	20	200	yes	5773773	8df4d1d38d4e88d73d794fc5fb913bb35d1776e91b0654f4422b8d839a9f9d85	SIMHIGH_R1/true.fasta	SIMHIGH_R1/inputs/backbones/backbone_{1..20}_mafft.txt (B-subsets: SIMHIGH_R1/bb{5,10,20}/)
+SIMMOD_R1	protein	1000	20	200	yes	4853369	cbc820ac7efa689d5f6b95a2c80e4361199e17036878b13dba84d61865058ae1	SIMMOD_R1/true.fasta	SIMMOD_R1/inputs/backbones/backbone_{1..20}_mafft.txt (B-subsets: SIMMOD_R1/bb{5,10,20}/)
