@@ -1,0 +1,4 @@
+k10000 frag stock=bug1only:100% stock=bug2only:6% stock=fix:6% stock=stock_rsoff:6% bug1only=bug2only:6% bug1only=fix:6% bug1only=stock_rsoff:6% bug2only=fix:100% bug2only=stock_rsoff:100% fix=stock_rsoff:100%
+k10000 full stock=bug1only:100% stock=bug2only:100% stock=fix:100% stock=stock_rsoff:100% bug1only=bug2only:100% bug1only=fix:100% bug1only=stock_rsoff:100% bug2only=fix:100% bug2only=stock_rsoff:100% fix=stock_rsoff:100%
+k5000 frag stock=bug1only:100% stock=bug2only:0% stock=fix:0% stock=stock_rsoff:0% bug1only=bug2only:0% bug1only=fix:0% bug1only=stock_rsoff:0% bug2only=fix:100% bug2only=stock_rsoff:100% fix=stock_rsoff:100%
+k5000 full stock=bug1only:100% stock=bug2only:100% stock=fix:100% stock=stock_rsoff:100% bug1only=bug2only:100% bug1only=fix:100% bug1only=stock_rsoff:100% bug2only=fix:100% bug2only=stock_rsoff:100% fix=stock_rsoff:100%
