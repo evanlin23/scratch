@@ -593,3 +593,25 @@ unaffected and soft-MAGUS times above are, if anything, overstated.
   hurts, more/cheaper/mixed backbones, MAFFT-only recipes (gap penalties, `--unalignlevel`, column masking).
 - `claude/cs581-protbench`: does it generalize (10AA, HomFam, simulated proteins with tree accuracy).
 - A literature scout for ideas beyond the slides; pilots for the best of those will follow.
+
+**gcmvote fan-out and first held-out rows (02:55 UTC, Oct 11).**
+- Split across 26 more machines (one dataset/replicate each); see SESSIONS.md. 8 of the 14 new tree helpers stalled on a self-matching
+  `pgrep -f` wait and were restarted at ~02:45.
+- Training, proteins (main, n = 5, Δ SP error vs magus): es4 −1.20 (3/1/1, p = 0.19), vote hard −1.73 (4/1/0, p = 0.06), soft −0.33,
+  soft2 −0.56. SIMHIGH_R1: magus 23.48, es4 −5.16, hard −5.48, soft +1.01.
+- Held-out so far (SP error %):
+  - SIMMOD_R2 (h5): MAGUS 11.12; es4 6.02, es5 5.63; vote hard 6.24, hard-bb 6.07, soft 11.29, soft4 9.56.
+  - SIMHIGH_R2 (h5): MAGUS 24.03; es4 14.86, es5 14.54; vote hard 16.75, hard-bb 16.69, soft 25.39, soft4 19.68.
+  - 1000L3 (h4, DNA): MAGUS 11.86; es4 11.55; vote hard 12.38.
+  - 1000M1 R0 (h10, DNA): MAGUS 9.81; es4 9.70; vote hard 10.40, hard-bb 10.40, soft 10.40 (three distinct alignments).
+  - BBA0154 (h3): MAGUS 21.23; es3 21.16, es4 20.86, es5 20.43 (vote rows pending).
+- Early read: soft weighting does not work; the hard vote cutoff is close to es4 on proteins but worse on DNA (it keeps too
+  little evidence there?). Checks: vote `magus` reproduces MAGUS exactly (h2 R9, h5, h10).
+
+**gcmtrees FINAL (02:50 UTC; `claude/cs581-gcmtrees`, 16/16 datasets).**
+- Recipe vs MAGUS, FastTree nRF: −0.19 (8/2/6, p = 0.63) although SP error drops on 16/16 (−5.7; ΔSPFN −10.8, ΔSPFP −0.6).
+  SIMHIGH −0.49 (p = 0.46; true alignment −3.51, p = 0.008, so ~14% of the room). IQ-TREE SIMHIGH R1–R3 −0.47 (p = 0.25).
+- Why: noise (needs ~50 SIMHIGH sets to resolve −0.5 RF; ΔRF tracks ΔSPFN only weakly, ρ = 0.32); recovered pairs are in
+  informative columns; oracle split shows MAGUS's tree loss is mostly over-splitting, and the recipe's remaining wrong pairs cost
+  more RF (+1.85 vs +1.10) than MAGUS's, so gains and losses nearly cancel. Route to tree gains: FP control on merged clusters + power.
+- basemeth (02:51 interim, 14 protein sets): no aligner beats L-INS-i; FAMSA worse (Holm p = 0.003). Final ~04:15 UTC.
