@@ -1,0 +1,2 @@
+python3 code/frag.py Park1000M1HF 2 --aln upp --backbone fasttree --contract 0.8 --fast-polish --out results/test.jsonl
+python3 code/runtrees.py results/test.jsonl --datasets Park1000M1HF --reps 2 --alns upp --methods fasttree raxmlng_fastmode raxmlng --workers 1

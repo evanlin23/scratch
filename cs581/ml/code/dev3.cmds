@@ -1,0 +1,10 @@
+python3 code/frag.py 1000M1HF 5 --backbone fasttree --contract 0.8 --fast-polish --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 6 --backbone fasttree --contract 0.8 --fast-polish --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 7 --backbone fasttree --contract 0.8 --fast-polish --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 8 --backbone fasttree --contract 0.8 --fast-polish --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 9 --backbone fasttree --contract 0.8 --fast-polish --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 5 --backbone fasttree --contract 0.8 --tau 0.9 --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 6 --backbone fasttree --contract 0.8 --tau 0.9 --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 7 --backbone fasttree --contract 0.8 --tau 0.9 --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 8 --backbone fasttree --contract 0.8 --tau 0.9 --out results/dev.jsonl
+python3 code/frag.py 1000M1HF 9 --backbone fasttree --contract 0.8 --tau 0.9 --out results/dev.jsonl

@@ -1,0 +1,15 @@
+python3 code/runtrees.py results/hf.jsonl --datasets Park1000M1HF --reps 0 --alns true_align --methods raxmlng --workers 1
+python3 code/frag.py Park1000M1HF 0
+python3 code/runtrees.py results/hf.jsonl --datasets Park1000M1HF --reps 0 --alns true_align --methods raxmlng_from_iqtree_fast --workers 1
+python3 code/runtrees.py results/hf.jsonl --datasets Park1000M1HF --reps 1 --alns true_align --methods raxmlng --workers 1
+python3 code/frag.py Park1000M1HF 1
+python3 code/runtrees.py results/hf.jsonl --datasets Park1000M1HF --reps 1 --alns true_align --methods raxmlng_from_iqtree_fast --workers 1
+python3 code/runtrees.py results/starttree.jsonl --datasets 1000M2 --reps 0 --alns gcm --methods raxmlng --workers 1
+python3 code/runtrees.py results/starttree.jsonl --datasets 1000M2 --reps 0 --alns gcm --methods raxmlng_ft --workers 1
+python3 code/runtrees.py results/starttree.jsonl --datasets 1000L1 --reps 0 --alns gcm --methods raxmlng --workers 1
+python3 code/runtrees.py results/starttree.jsonl --datasets 1000L1 --reps 0 --alns gcm --methods raxmlng_ft --workers 1
+python3 code/runtrees.py results/hf.jsonl --datasets Park1000M1HF --reps 2 --alns true_align --methods raxmlng --workers 1
+python3 code/frag.py Park1000M1HF 2
+python3 code/runtrees.py results/hf.jsonl --datasets Park1000M1HF --reps 2 --alns true_align --methods raxmlng_from_iqtree_fast --workers 1
+python3 code/runtrees.py results/starttree.jsonl --datasets RNASim --reps 0 --alns gcm --methods raxmlng --workers 1
+python3 code/runtrees.py results/starttree.jsonl --datasets RNASim --reps 0 --alns gcm --methods raxmlng_ft --workers 1
