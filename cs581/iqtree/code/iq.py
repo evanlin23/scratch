@@ -1,5 +1,6 @@
 # AI-assisted (Claude), exploration code for CS581 project
-"""IQ-TREE (-m LG+G4 --fast -T 2 -seed 1) on true / magus / es4 / hard-bb of SIMHIGH replicates, 2 runs at once;
+"""IQ-TREE (-m LG+G4 --fast -T 2 -seed 1) on true / magus / es4 / hard-bb of SIMHIGH replicates, NPAR runs at once (env NPAR, default 1:
+two concurrent runs of ~5.5 GB each were OOM-killed by the sandbox memory cgroup);
 nRF vs the true tree (as cs581/protbench/code/trees.py: (FN + FP) / (2 (n - 3))) -> OUT.jsonl.
 
     python iq.py WORK OUT.jsonl REP [REP ...]
@@ -52,10 +53,15 @@ def job(rep, m):
 
 jobs = [(rep, m) for rep in reps for m in METHODS if (rep, m) not in done]
 left = {rep: sum(1 for j in jobs if j[0] == rep) for rep in reps}
-with ThreadPoolExecutor(2) as ex:
+with ThreadPoolExecutor(int(os.environ.get("NPAR", "1"))) as ex:
     futs = [(j, ex.submit(job, *j)) for j in jobs]
     for (rep, m), fu in futs:
-        row = fu.result()
+        try:
+            row = fu.result()
+        except Exception as exc:  # e.g. OOM kill: report and continue; a rerun resumes from the checkpoint
+            print("FAILED", rep, m, exc, flush=True)
+            left[rep] -= 1
+            continue
         with open(out, "a") as f:
             f.write(json.dumps(row) + "\n")
         print(json.dumps(row), flush=True)
