@@ -9,3 +9,13 @@ MAGUS paper's Datasets.zip, Illinois Data Bank doi:10.13012/B2IDB-2643961_V1, fe
                pre-declared vote variant from claude/cs581-gcmvote (run.py, B = 10)
 - memwatch.py  wall time, peak summed RSS of the process tree, 4 h limit per step
 Rows: ../results_h12/aln.jsonl (in progress).
+
+## What happened (2026-10-11, 4 cores, 15 GB)
+
+- MAGUS draw: 4,386 s wall (15,189 s CPU), peak RSS 3.5 GB (whole bench incl. its merge-mafft control, 494 s).
+- Graph check: gg.py `linsi` (MAGUS's original builder) gives the same alignment as the draw up to column order
+  (identical column multiset and FastSP); vote.py `magus` also reproduces it.
+- Merges: `linsi` alone; the other 15 three at a time on the shared 4 cores (`concurrent_jobs` in each row), so
+  those walls are not single-job walls. Peak RSS ≤ 3.9 GB per merge. Nothing hit the 4 h limit.
+- `hard+mask` not run (its scored alignment equals `hard`; skipped per the orchestrator). B = 5/20 not run.
+- Rows: ../results_h12/aln.jsonl (err_pct = (SPFN+SPFP)/2 × 100). Rep bank: ../bank/16S.T_R0.tar.gz.

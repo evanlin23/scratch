@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+16S.T_R0	rna	5548	10	200	no	8456251	e8bfb49c417d1d9a94e2e773db208fb8872469428f7c6259cd9836ca5c3b890c	16S.T_R0/true.fasta	16S.T_R0/inputs/backbones/backbone_*_mafft.txt
