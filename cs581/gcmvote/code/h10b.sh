@@ -25,7 +25,7 @@ python3 $G/gg.py run $rep linsi 'linsi#es3' 'linsi#es4' 'linsi#es5' > $W/gg.log 
 printf '%s\n' $VARIANTS | xargs -P 3 -I{} python3 $V/run.py $vr {} > $W/vote.log 2>&1
 wait
 T=$W/trees/$name; mkdir -p $T
-args="true=$rep/true.fasta magus=$W/fresh/${name}_d0/magus.fasta es4=$rep/variants/linsi_es_4/out.fasta"
+args="true=$rep/true.fasta magus=$W/fresh/${name}_d0/magus.fasta es4=$rep/variants/linsi_es_es4/out.fasta"
 for v in $TREEV; do args="$args vote_$v=$vr/vote/$v/out.fasta"; done
 args="$args vote_hard_mask_masked=$vr/vote/hard+mask/out.masked.fasta"
 # one tree per distinct alignment: first method with a given md5 is the representative
