@@ -28,6 +28,20 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**fragml2 INTERIM (00:34 UTC, `claude/cs581-fragml2`; 1000M1-HF, true alignment, paired vs RAxML-NG, n = 5).**
+- RAxML-NG: 23.5% FN, 34.6 CPU-min.
+- *Primary pipeline (FastTree backbone → patched EPA-ng → graft → RAxML-NG fast polish):* 24.8%; ΔFN +0.44
+  (1/1/3, p = 0.31); about 1/3 of the CPU.
+- *Constrained RAxML-NG:* ΔFN +0.02 (3/0/2); 0.36× CPU.
+- *Graft only, no polish (Smirnov–Warnow style):* +9.0 (0/0/5). uDance ≈ graft-only quality on the leaves it keeps.
+- **EPA-ng fix inside the pipeline:** placements are identical at ~500 tips, as expected. On RNASim10K-HF (5,040
+  tips), graft-only FN is 48.8% with stock EPA-ng vs 35.9% with the patched one (−12.9 points); after a FastTree
+  polish, 32.2% vs 30.6%.
+- So the bug silently costs a placement-based tree pipeline ~13 points at a realistic size, and polishing recovers
+  most but not all of it.
+- Possible combined project: fast ML trees for fragmentary data (ties RAxML-NG at 1/3 CPU, beats uDance), with the
+  EPA-ng bug as the new finding.
+
 **basemeth INTERIM (00:25 UTC, `claude/cs581-basemeth`).** Other subset aligners inside MAGUS (merge-only, same
 subsets and backbones), Δ SP error vs L-INS-i subsets:
 - *BAliBASE (n = 5):* MUSCLE5 −0.47 (4/0/1), ProbCons −0.37, Clustal −0.31, FAMSA2 +0.26, G-INS-i +0.05. Gains are
