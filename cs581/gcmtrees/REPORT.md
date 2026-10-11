@@ -199,13 +199,15 @@ columns by construction (C(n, 2)), which is why the residue-level columns are gi
 | SIMHIGH_R1 | 6.02 | 13.34 | 12.84 | −0.50 |
 | SIMHIGH_R2 | 5.12 | 9.83 | 9.03 | −0.80 |
 | SIMHIGH_R3 | — | 10.13 | 10.03 | −0.10 |
+| SIMHIGH_R6 (h1) | 7.82 | 10.53 | not run | — |
+| SIMHIGH_R7 (h1) | 6.82 | 10.23 | not run | — |
 
 IQ-TREE agrees with FastTree on the true-alignment trees: 6.02 vs 6.12 and 5.12 vs 5.22. It puts MAGUS somewhat
 higher (R1 13.34 vs 11.94). n = 3 cannot support a test (mean −0.47, 2/1/0, p = 0.25). On the same three datasets FastTree gave
 +0.40, −1.81 and −0.80 (mean −0.74). The per-dataset signs disagree between the two tree methods on R1, another sign
 of tree-estimation noise at this effect size. Each IQ-TREE run took about
 30 min and needed ~4.7 GB of RAM. Four concurrent runs were killed by the OOM killer, which is why only R1-R3 were
-done.
+done. Helper h1's IQ-TREE lane (SIMHIGH R6-R8) hit its time cap after 4 rows: true and MAGUS for R6 and R7, no recipe trees, nothing for R8. Those rows are shown but **excluded from every paired IQ-TREE comparison**, since they have no recipe partner. SIMHIGH R4, R5 and R8 have no IQ-TREE trees.
 
 ## 5. Runtime
 
@@ -222,7 +224,8 @@ done.
 ## 6. Deviations from the pre-registration
 
 - **Split across four machines** at the orchestrator's request; same code. All 16 planned datasets were completed.
-- **IQ-TREE** only on SIMHIGH R1-R3 (time and memory). No second MAGUS draw, no harder level.
+- **IQ-TREE** paired only on SIMHIGH R1-R3 (time and memory). h1's 4 unpaired rows (R6, R7: true, MAGUS) are
+  reported but excluded from the paired comparison. No second MAGUS draw, no harder level.
 - **Diagnostics added after the first trees were seen,** so they are exploratory:
   - the oracle split(X) refinements;
   - the residue-level split/misplaced counts;
