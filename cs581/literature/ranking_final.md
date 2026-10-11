@@ -744,3 +744,18 @@ baselines hard-bb −1.15 [+0.30], es4 −1.05 [+0.04]. Selected m1-dm: ties es4
 Overlap guard: n_eff 1.9 / 1.5 on BBA0101 / BBA0067. Gate (M5): filter iff weight share on k < 4 edges ≤ 0.170, LOO −1.15 vs
 −1.09 ungated; it only switches off ROSE 1000M2/1000L2, so it is weak. Held-out: 26 reps × 15 variants running (incl. 16S.3,
 16S.T, BBA0081, CPM combos).
+
+**Check-in 13 (05:05 UTC).**
+- Main gcmvote REPORT draft (`claude/cs581-gcmvote` 08d10ad), PRE-REGISTERED held-out set (14 reps, main's own/cached
+  draws): hard-bb vs MAGUS −1.33 (8/2/4, p = 0.091); proteins −4.63 (4/0/0); DNA/RNA −0.01; vs es4 −0.30 (p = 0.72) →
+  the pre-registered verdict ("principled replacement for es4") is MET on the primary set. Chosen cutoff: k ≥ 6–8 of 10 at
+  full exposure, k ≥ 4 at n = 5; the fraction rises as B falls. Trees (20 SIMHIGH): hard-bb −0.37 (p = 0.20), es4 −0.23
+  (p = 0.18), true alignment −3.14.
+- EXTENDED held-out (helpers' fresh MAGUS draws + extra sets: BBA0081/0117, HomFam ×4, 1000M1 R0–R3, ROSE re-draws, RNASim
+  R0/R1, 16S.T, 16S.3; n = 26, not pre-registered): proteins hard-bb −1.66 (8/0/2) vs es4 −1.89; simulated DNA/RNA
+  hard-bb +0.38 (1/5/8, p = 0.009) vs es4 −0.03; real rRNA hard-bb −0.63 (2/0/0), es4 +0.09. Overall hard-bb − es4 +0.25
+  (p = 0.38). The primary and extended sets disagree on simulated DNA (−0.01 vs +0.38); part of this is MAGUS draw-to-draw
+  variation (different draws of the same ROSE sets), part is the extra hard sets (1000M1). Both must be reported.
+- gcmvote2's graded-vote model m1-dm (DNA ≈ 0 on training) is the candidate fix; its held-out run (26 reps) is in progress.
+- Still owed by main: weight-matched controls, diagnostics (weight vs count, overlap vs gain, BBA0081), es4 gg/vote.py
+  mismatch. Status requested 04:48.
