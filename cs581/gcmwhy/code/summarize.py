@@ -97,6 +97,48 @@ def main():
                          if ep else "–")
         out.append("| {} | ".format(t) + " | ".join(cells) + " |")
     out.append("")
+    out += ["### Where the TRUE and the FALSE residue-pair units sit on the support axis (% of each, mean over reps)", "",
+            "| type | units | " + " | ".join("k={}".format(x) for x in ["1", "2", "3", "4-5", "6-8", "9-99"]) + " |",
+            "|---|---|" + "---|" * 6]
+    for t in ("protein", "nucleotide"):
+        for lab in ("true", "false"):
+            cells = []
+            for kb in ["1", "2", "3", "4-5", "6-8", "9-99"]:
+                v = []
+                for r, tt, s in R:
+                    if tt != t or r not in E:
+                        continue
+                    e = E[r]
+                    tot_t = e["units"] * e["unit_prec"]
+                    tot_f = e["units"] * (1 - e["unit_prec"])
+                    for x in e["by_k"]:
+                        if x["k"] == kb:
+                            u = x["unit_share"] * e["units"]
+                            v.append(u * x["unit_prec"] / tot_t if lab == "true" else u * (1 - x["unit_prec"]) / tot_f)
+                cells.append(fmt(100 * np.mean(v), 1) if v else "–")
+            out.append("| {} | {} | ".format(t, lab) + " | ".join(cells) + " |")
+    out.append("")
+    out += ["### Vote splitting: edges hard-bb deletes / keeps (mean over reps; k = own support, kp = pooled over b±1, a±1)", "",
+            "| type | group | edges (mean) | mean k | mean kp | mean n |", "|---|---|---|---|---|---|"]
+    for t in ("protein", "nucleotide"):
+        for g in ("true_deleted", "false_deleted", "true_kept", "false_kept"):
+            v = [E[r]["h2_split"][g] for r, tt, s in R if tt == t and r in E and "h2_split" in E[r]]
+            if v:
+                out.append("| {} | {} | {:,.0f} | {} | {} | {} |".format(t, g, np.mean([x["edges"] for x in v]),
+                           *(fmt(np.mean([x[c] for x in v if x[c] is not None])) for c in ("mean_k", "mean_kp", "mean_n"))))
+    out.append("")
+    out += ["### Which true edges the filters delete, by the smaller node's size (residues; mean over reps)", "",
+            "| type | min node size | share of true units | es4: true edges deleted % | hard-bb: true edges deleted % | "
+            "hard-bb: true units deleted % | mean k | mean n |", "|---|---|---|---|---|---|---|---|"]
+    for t in ("protein", "nucleotide"):
+        for i, lab in enumerate(["1-1", "2-3", "4-10", "11-"]):
+            v = [E[r]["h6_sizebins"][i] for r, tt, s in R if tt == t and r in E and "h6_sizebins" in E[r]]
+            v = [x for x in v if x["true_edges"] > 0]
+            if v:
+                out.append("| {} | {} | {} | {} | {} | {} | {} | {} |".format(t, lab, *(fmt(100 * np.mean([x[c] for x in v]), 1) for c in
+                           ("true_units_share", "es4_true_edges_removed", "hard-bb_true_edges_removed", "hard-bb_true_units_removed")),
+                           fmt(np.mean([x["mean_k"] for x in v])), fmt(np.mean([x["mean_n"] for x in v]))))
+    out.append("")
     # ---------------- H2
     out += ["## H2: near-miss false edges (offset to the nearest true partner column, share of FALSE units)", "",
             "| type | k | off 0 (partly true) | 1 | 2 | 3–5 | ≥ 6 | none |", "|---|---|---|---|---|---|---|---|"]

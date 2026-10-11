@@ -256,6 +256,15 @@ def summarize(name, dtype, R, bbs, cover, B, ref, rep, bbdir):
             res["h2_pool"][rule] = {"true_units_kept": float(wt[keep].sum() / wt.sum()),
                                     "false_units_kept": float(wf[keep].sum() / wf.sum()),
                                     "prec_kept": float(wt[keep].sum() / w[keep].sum())}
+    # vote splitting: edges hard-bb deletes, true vs false: own support k vs pooled support kp (d = 1)
+    dh = post <= 0.5
+    res["h2_split"] = {}
+    for lab, sel in (("true_deleted", dh & true), ("false_deleted", dh & ~true), ("true_kept", ~dh & true),
+                     ("false_kept", ~dh & ~true)):
+        res["h2_split"][lab] = {"edges": int(sel.sum()), "mean_k": float(k[sel].mean()) if sel.any() else None,
+                                "mean_kp": float(kp[sel].mean()) if sel.any() else None,
+                                "mean_n": float(n[sel].mean()) if sel.any() else None,
+                                "share_kp_ge_n_minus_1": float((kp[sel] >= n[sel] - 1).mean()) if sel.any() else None}
     # rescued by pooling: low-k true edges
     lt = low & true
     res["h2_pool"]["lowk_true_edges"] = int(lt.sum())
