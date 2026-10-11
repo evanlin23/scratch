@@ -67,13 +67,13 @@ Arms not finished are reported as not run.
    Budget cuts (4 cores; MAGUS takes ~30 CPU-min per replicate): Q1 n = 6 (R0–R5; R6–R7 only if time);
    `constr_ft_0.5` and `base_iqfast` on Q1 R0–R2 only; IQ-TREE anytime on R0–R2; Q3 RNASim 1K and
    Q2 `base_iqfast` / `place_ft_0.5_fix_rxfast` (10K) moved to "if time allows". Nothing else changes.
-2. (2026-10-11 ~02:45 UTC, AFTER seeing Q1 R0–R2 primary numbers; **post hoc, secondary only**.) RAxML-NG's
+2. (2026-10-11 ~02:05 UTC, AFTER seeing Q1 R0–R2 primary numbers; **post hoc, secondary only**.) RAxML-NG's
    anytime trajectory is very coarse: the first checkpoint after the parsimony start tree comes only after
    the first FAST SPR round (~11–15 CPU-min on M1HF), so "RAxML-NG@T_pipe" is often the parsimony tree.
    A user with a 1/3 budget would rather pick a faster RAxML-NG setting, so a second comparator is added:
    `base_rxfastmode` = RAxML-NG's own fast mode (1 parsimony start, `--opt-topology simplified
    --stop-rule kh-mult`), compared with the pipeline on FN and CPU (paired, Wilcoxon). The primary
    test and its interpretation are unchanged; the report states the result of both comparators.
-3. (2026-10-11 ~02:55 UTC, before any Q3 alignment existed; compute only.) MAGUS needs > 75 min per replicate
+3. (2026-10-11 ~02:15 UTC, before any Q3 alignment existed; compute only.) MAGUS needs > 75 min per replicate
    at the CPU share it gets here, so the WITCH backbone is aligned with MAFFT `--auto` (FFT-NS-i, 1 thread)
    instead of MAGUS. Fragments are still added with WITCH. Everything else in Q3 is unchanged.
