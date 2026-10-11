@@ -1,0 +1,1 @@
+{"rep": "RNASim", "tool": "fftns2", "overlap": 0.7951, "overlap_min": 0.7858, "overlap_pooled": 0.7951, "support_unconf": 0.7628, "support_conf": 0.9635, "prec_linsi": 0.8885, "prec_conf": 0.95, "prec_unconf": 0.6501, "prec_tool": 0.8415, "pairs_tool_over_linsi": 0.934, "bb_wall": 231.3, "bb_sum": 828.5, "bb_mean_s": 82.8}

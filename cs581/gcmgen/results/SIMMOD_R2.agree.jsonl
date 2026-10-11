@@ -1,0 +1,1 @@
+{"rep": "SIMMOD_R2", "tool": "fftns2", "overlap": 0.8564, "overlap_min": 0.8433, "overlap_pooled": 0.8564, "support_unconf": 0.7275, "support_conf": 0.9684, "prec_linsi": 0.9023, "prec_conf": 0.9573, "prec_unconf": 0.5744, "prec_tool": 0.8878, "pairs_tool_over_linsi": 0.9497, "bb_wall": 20.6, "bb_sum": 72.5, "bb_mean_s": 7.2}
