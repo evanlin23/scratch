@@ -1,0 +1,40 @@
+# Tuning runs, ROSE 1000M2 R0 (n=500, 50 long queries, true backbone), one replicate.
+# Fields: method, seconds (4 threads), part=SPFN/SPFP; *_ml = lower-case insertions masked.
+# test_ctl: no flank; test_rand: random flank +1x; test_dom: second-domain (1000M2 R1) appended.
+# t4_ctl / t4_dom: same design on ROSE 1000M4 R0 (second domain from 1000M4 R10), trim with MINCUT=50, 2 threads.
+# Trim variants here used PAD=10 and no MINCUT (later fixed); mafft = --auto (FFT-NS-2).
+test_ctl emma 22 all=0.001/0.001 long=0.007/0.007 rest=0.000/0.000
+test_ctl emma-tfa 44 all=0.004/0.001 all_ml=0.004/0.001 long=0.036/0.009 long_ml=0.036/0.009 rest=0.000/0.000 rest_ml=0.000/0.000
+test_ctl emma-trim 44 all=0.004/0.001 all_ml=0.004/0.001 long=0.036/0.009 long_ml=0.036/0.009 rest=0.000/0.000 rest_ml=0.000/0.000
+test_ctl mafft 14 all=0.993/0.985 long=0.995/0.988 rest=0.993/0.984
+test_ctl mafft-add 2 all=0.087/0.067 long=0.688/0.615 rest=0.000/0.000
+test_ctl mafft-addlong 47 all=0.037/0.031 long=0.338/0.300 rest=0.000/0.000
+test_ctl upp 19 all=0.009/0.002 all_ml=0.009/0.002 long=0.077/0.019 long_ml=0.082/0.016 rest=0.000/0.000 rest_ml=0.000/0.000
+test_ctl upp-tfa 42 all=0.010/0.002 all_ml=0.010/0.002 long=0.090/0.022 long_ml=0.092/0.016 rest=0.000/0.000 rest_ml=0.000/0.000
+test_ctl upp-trim 41 all=0.010/0.002 all_ml=0.010/0.002 long=0.090/0.022 long_ml=0.092/0.016 rest=0.000/0.000 rest_ml=0.000/0.000
+test_ctl witch 45 all=0.008/0.002 all_ml=0.008/0.002 long=0.066/0.021 long_ml=0.071/0.018 rest=0.000/0.000 rest_ml=0.000/0.000
+test_rand emma 34 all=0.001/0.001 long=0.013/0.027 rest=0.000/0.000
+test_rand emma-tfa 51 all=0.007/0.002 all_ml=0.007/0.002 long=0.064/0.018 long_ml=0.064/0.018 rest=0.000/0.000 rest_ml=0.000/0.000
+test_rand emma-trim 46 all=0.007/0.002 all_ml=0.007/0.002 long=0.064/0.018 long_ml=0.064/0.018 rest=0.000/0.000 rest_ml=0.000/0.000
+test_rand mafft-add 9 all=0.154/0.110 long=0.960/0.961 rest=0.000/0.000
+test_rand mafft-addlong 96 all=0.063/0.063 long=0.541/0.620 rest=0.000/0.000
+test_rand upp 27 all=0.009/0.009 all_ml=0.009/0.002 long=0.082/0.443 long_ml=0.082/0.016 rest=0.000/0.000 rest_ml=0.000/0.000
+test_rand upp-tfa 47 all=0.010/0.002 all_ml=0.010/0.002 long=0.088/0.036 long_ml=0.089/0.015 rest=0.000/0.000 rest_ml=0.000/0.000
+test_rand upp-trim 42 all=0.010/0.002 all_ml=0.010/0.002 long=0.088/0.036 long_ml=0.089/0.015 rest=0.000/0.000 rest_ml=0.000/0.000
+test_rand witch 76 all=0.008/0.009 all_ml=0.008/0.002 long=0.071/0.440 long_ml=0.071/0.018 rest=0.000/0.000 rest_ml=0.000/0.000
+test_dom emma 33 all=0.011/0.001 long=0.502/0.028 rest=0.000/0.000
+test_dom emma-tfa 54 all=0.016/0.002 all_ml=0.016/0.002 long=0.527/0.035 long_ml=0.527/0.035 rest=0.000/0.000 rest_ml=0.000/0.000
+test_dom emma-trim 45 all=0.016/0.002 all_ml=0.016/0.002 long=0.531/0.017 long_ml=0.531/0.017 rest=0.000/0.000 rest_ml=0.000/0.000
+test_dom mafft 29 all=0.995/0.989 long=0.997/0.993 rest=0.995/0.986
+test_dom mafft-add 10 all=0.158/0.109 long=0.973/0.948 rest=0.000/0.000
+test_dom mafft-addlong 94 all=0.076/0.068 long=0.779/0.644 rest=0.000/0.000
+test_dom upp 27 all=0.018/0.011 all_ml=0.019/0.002 long=0.523/0.514 long_ml=0.540/0.016 rest=0.000/0.000 rest_ml=0.000/0.000
+test_dom upp-tfa 51 all=0.020/0.002 all_ml=0.020/0.002 long=0.539/0.047 long_ml=0.540/0.035 rest=0.000/0.000 rest_ml=0.000/0.000
+test_dom upp-trim 42 all=0.020/0.002 all_ml=0.020/0.002 long=0.543/0.028 long_ml=0.544/0.015 rest=0.000/0.000 rest_ml=0.000/0.000
+test_dom witch 77 all=0.017/0.011 all_ml=0.017/0.002 long=0.516/0.510 long_ml=0.534/0.018 rest=0.000/0.000 rest_ml=0.000/0.000
+t4_ctl upp 70 all=0.000/0.000 all_ml=0.000/0.000 long=0.002/0.001 long_ml=0.002/0.001 rest=0.000/0.000 rest_ml=0.000/0.000
+t4_ctl upp-tfa 69 all=0.000/0.000 all_ml=0.000/0.000 long=0.002/0.001 long_ml=0.002/0.001 rest=0.000/0.000 rest_ml=0.000/0.000
+t4_ctl upp-trim 69 all=0.000/0.000 all_ml=0.000/0.000 long=0.002/0.001 long_ml=0.002/0.001 rest=0.000/0.000 rest_ml=0.000/0.000
+t4_dom upp 78 all=0.009/0.009 all_ml=0.010/0.000 long=0.432/0.434 long_ml=0.502/0.001 rest=0.000/0.000 rest_ml=0.000/0.000
+t4_dom upp-tfa 131 all=0.001/0.000 all_ml=0.001/0.000 long=0.021/0.010 long_ml=0.024/0.008 rest=0.000/0.000 rest_ml=0.000/0.000
+t4_dom upp-trim 70 all=0.010/0.000 all_ml=0.010/0.000 long=0.499/0.005 long_ml=0.502/0.001 rest=0.000/0.000 rest_ml=0.000/0.000
