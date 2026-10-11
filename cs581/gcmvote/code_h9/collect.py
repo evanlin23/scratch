@@ -15,8 +15,12 @@ for res in sorted(glob.glob(os.path.join(W, "reps", "*_B*", "results.jsonl"))):
         rows.append({"dataset": ds, "B": int(b), "variant": r["variant"], "nbb": r["nbb"], "SPFN": r["SPFN"],
                      "SPFP": r["SPFP"], "avgErr": r["avgErr"], "merge_wall": r["merge_wall"]})
 if os.path.exists(os.path.join(W, "magus.jsonl")):
+    seen = set()
     for line in open(os.path.join(W, "magus.jsonl")):
         r = json.loads(line)
+        if r["dataset"] in seen:  # a resumed bbtool_bench run appends its row again
+            continue
+        seen.add(r["dataset"])
         m = r["magus"]
         rows.append({"dataset": r["dataset"], "B": 20, "variant": "magus-e2e", "nbb": 20, "SPFN": m["SPFN"],
                      "SPFP": m["SPFP"], "avgErr": m["avgErr"], "wall": m["wall"]})
