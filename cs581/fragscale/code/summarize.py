@@ -1,177 +1,239 @@
-"""Tables for REPORT.md from results/runs.jsonl (+ results/lnl.jsonl, + published Park et al. trees).
+"""Tables and anytime curves for the fragscale pilot (implements PREREG.md).
 
-    python summarize.py > ../results/tables.md
+    MLDATA=/opt/data/fscache python summarize.py [--plot]
 
-Paired comparisons vs base_raxmlng on the replicates both arms finished: mean ΔFN (points), W/T/L with
-a 0.5-point tie band (W = arm better by > 0.5), two-sided Wilcoxon signed-rank p (exact; zero
-differences dropped), Holm-adjusted p across the pipeline arms of a dataset, CPU ratio (median [min-max]).
+Reads results/runs.jsonl and the anytime snapshot indexes under $MLDATA/<ds>/R<rep>/trees/anytime/.
+Writes results/tables.md, results/anytime.tsv (and results/anytime.png with --plot).
 """
+import collections
 import json
 import os
+import statistics
 import sys
-from collections import defaultdict
 
-import numpy as np
 from scipy.stats import wilcoxon
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import anytime  # noqa: E402
+import runtrees as rt  # noqa: E402
 import treeerr  # noqa: E402
 
-R = os.path.join(HERE, "..", "results")
-PARK = "/opt/data/park2021/1000M1_HF"
-ROSE = "/opt/data/Datasets/ROSE/1000M1"
-PUB = {"pub_raxmlng_24h": "RAxML-ng/R{r}/raxmlng-result.raxml.lastTree.TMP",
-       "pub_iqtree2": "IQTree/R{r}/iqtree-result.treefile",
-       "pub_gtm_iqtree": "GTM/500/iqtree/R{r}/branch_length."}
-LABEL = {
-    "base_fasttree": "FastTree 2", "base_iqfast": "IQ-TREE 3 --fast", "base_iqtree": "IQ-TREE 3 default",
-    "base_raxmlng": "RAxML-NG (1 pars start)",
-    "pub_raxmlng_24h": "published RAxML-NG (20 starts, 24 h cap)", "pub_iqtree2": "published IQ-TREE 2",
-    "pub_gtm_iqtree": "published GTM (IQ-TREE start)",
-}
-BASE = "base_raxmlng"
+HERE = os.path.dirname(os.path.abspath(__file__))
+RES = os.path.join(HERE, "..", "results")
 PRIMARY = "place_ft_0.5_fix_rxfast"
+FRACS = [0.05, 0.1, 0.15, 0.2, 0.25, 1 / 3, 0.4, 0.5, 0.6, 0.75, 0.9, 1.0]
+_cache = {}
 
 
-def label(a):
-    if a in LABEL:
-        return LABEL[a]
-    p = a.split("_")
-    bb = {"ft": "FastTree", "iqf": "IQ-TREE--fast"}[p[1]]
-    if p[0] == "constr":
-        return "(A) constrained RAxML-NG, %s backbone, τ=%s" % (bb, p[2])
-    pol = {"graft": "graft only", "rxfast": "+ RAxML-NG fast polish", "rxfull": "+ RAxML-NG full polish",
-           "iqfast": "+ IQ-TREE --fast polish", "ft": "+ FastTree polish"}[p[4]]
-    s = "(%s) %s backbone, τ=%s, %s EPA-ng, %s" % ("B" if p[3] == "fix" else "C", bb, p[2],
-                                                  "patched" if p[3] == "fix" else "stock", pol)
-    return ("**%s** (primary)" % s) if a == PRIMARY else s
-
-
-def holm(ps):
-    idx = sorted(range(len(ps)), key=lambda i: ps[i])
-    adj, run = [None] * len(ps), 0.0
-    for k, i in enumerate(idx):
-        run = max(run, min(1.0, (len(ps) - k) * ps[i]))
-        adj[i] = run
-    return adj
+def fn_of(true, tree):
+    if tree is None:
+        return None
+    k = (true, tree)
+    if k not in _cache:
+        _cache[k] = 100 * treeerr.error(true, tree)["fn_rate"]
+    return _cache[k]
 
 
 def load():
-    rows = [json.loads(l) for l in open(os.path.join(R, "runs.jsonl"))]
-    lnl = {}
-    if os.path.exists(os.path.join(R, "lnl.jsonl")):
-        for l in open(os.path.join(R, "lnl.jsonl")):
-            r = json.loads(l)
-            lnl[(r["dataset"], r["rep"], r["arm"])] = r["lnl"]
-    by = defaultdict(dict)  # (dataset, aln) -> arm -> rep -> row
-    for r in rows:
-        r["lnl"] = lnl.get((r["dataset"], r["rep"], r["arm"]))
-        by[(r["dataset"], r["aln"])].setdefault(r["arm"], {})[r["rep"]] = r
-    pubs = by[("M1HF", "true_align")]
-    for a, pat in PUB.items():
-        for rep in range(5):
-            p = os.path.join(PARK, pat.format(r=rep))
-            if os.path.exists(p):
-                e = treeerr.error(os.path.join(ROSE, "R%d" % rep, "rose.tt"), p)
-                pubs.setdefault(a, {})[rep] = {"fn": e["fn_rate"], "fp": e["fp_rate"], "cpu_s": None,
-                                               "wall_s": None, "peak_rss_mb": None, "lnl": None}
-    return by
+    rows = {}
+    for line in open(os.path.join(RES, "runs.jsonl")):
+        r = json.loads(line)
+        rows[(r["dataset"], r["rep"], r["aln"], r["arm"])] = r
+    return rows
 
 
-def fmt_p(p):
-    return "–" if p is None else ("%.3f" % p if p >= 0.001 else "%.1e" % p)
+def snapdir(ds, rep, aln, m):
+    return os.path.join(rt.MLDATA, ds, "R%d" % rep, "trees", "anytime", "%s.%s" % (aln, m))
 
 
-def table(arms, base_rows):
-    out = ["| method | n | mean FN | mean FP | ΔFN vs RAxML-NG (W/T/L) | Wilcoxon p | Holm p | mean CPU min |"
-           " CPU ratio vs RAxML-NG, median [range] | mean wall min | max peak RSS MB | mean ΔlnL vs RAxML-NG |",
-           "|---|---|---|---|---|---|---|---|---|---|---|---|"]
-    stats = {}
-    for a, reps in arms.items():
-        common = sorted(set(reps) & set(base_rows))
-        d = [100 * (reps[r]["fn"] - base_rows[r]["fn"]) for r in common]
-        p = None
-        if a != BASE and len(d) >= 2 and any(abs(x) > 1e-12 for x in d):
-            try:
-                p = wilcoxon(d).pvalue
-            except ValueError:
-                p = None
-        ratio = [reps[r]["cpu_s"] / base_rows[r]["cpu_s"] for r in common if reps[r].get("cpu_s") is not None]
-        dl = [reps[r]["lnl"] - base_rows[r]["lnl"] for r in common
-              if reps[r].get("lnl") is not None and base_rows[r].get("lnl") is not None]
-        stats[a] = (d, p, ratio, dl)
-    pipe = [a for a in arms if a.startswith(("constr", "place")) and stats[a][1] is not None]
-    hp = dict(zip(pipe, holm([stats[a][1] for a in pipe]))) if pipe else {}
-    for a, reps in arms.items():
-        d, p, ratio, dl = stats[a]
-        v = list(reps.values())
-        cpu = [x["cpu_s"] for x in v if x.get("cpu_s") is not None]
-        wall = [x["wall_s"] for x in v if x.get("wall_s") is not None]
-        rss = [x["peak_rss_mb"] for x in v if x.get("peak_rss_mb") is not None]
-        w = sum(x < -0.5 for x in d)
-        l_ = sum(x > 0.5 for x in d)
-        out.append("| %s | %d | %.1f%% | %.1f%% | %s | %s | %s | %s | %s | %s | %s | %s |" % (
-            label(a), len(v), 100 * np.mean([x["fn"] for x in v]), 100 * np.mean([x["fp"] for x in v]),
-            "–" if a == BASE else ("%+.2f (%d/%d/%d)" % (np.mean(d), w, len(d) - w - l_, l_) if d else "–"),
-            fmt_p(p), fmt_p(hp.get(a)), "%.1f" % (np.mean(cpu) / 60) if cpu else "–",
-            "%.2f [%.2f–%.2f]" % (np.median(ratio), min(ratio), max(ratio)) if ratio and a != BASE else "–",
-            "%.1f" % (np.mean(wall) / 60) if wall else "–", "%.0f" % max(rss) if rss else "–",
-            "%+.1f (n=%d)" % (np.mean(dl), len(dl)) if dl and a != BASE else "–"))
-    return out
+def anytime_fn(ds, rep, aln, m, T):
+    d = snapdir(ds, rep, aln, m)
+    return fn_of(os.path.join(rt.MLDATA, ds, "R%d" % rep, "true_tree.tre"), anytime.at(d, T))
 
 
-ORDER = ["base_fasttree", "base_iqfast", "base_iqtree", "base_raxmlng", "pub_raxmlng_24h", "pub_iqtree2",
-         "pub_gtm_iqtree"]
+def paired(a, b, band=0.5):
+    """a, b: dict rep -> FN (pp). Returns n, mean diff (a-b), W/T/L (a better = W), p."""
+    reps = sorted(set(a) & set(b))
+    reps = [r for r in reps if a[r] is not None and b[r] is not None]
+    d = [a[r] - b[r] for r in reps]
+    if not d:
+        return None
+    w = sum(x < -band for x in d)
+    l_ = sum(x > band for x in d)
+    t = len(d) - w - l_
+    p = None
+    if len(d) >= 2 and any(x != 0 for x in d):
+        p = wilcoxon(d, zero_method="wilcox", alternative="two-sided", method="exact").pvalue
+    return {"n": len(d), "mean": statistics.mean(d), "W": w, "T": t, "L": l_, "p": p, "d": dict(zip(reps, d))}
 
 
-def key(a):
-    return (ORDER.index(a) if a in ORDER else 100, a != PRIMARY, a)
+def fmt(pr):
+    if pr is None:
+        return "– | – | –"
+    p = "–" if pr["p"] is None else "%.3f" % pr["p"]
+    return "%+.2f | %d/%d/%d | %s" % (pr["mean"], pr["W"], pr["T"], pr["L"], p)
+
+
+def section_equal_time(rows, ds, aln, out, curves):
+    reps = sorted(r for (d, r, a, m) in rows if d == ds and a == aln and m == "base_raxmlng")
+    if not reps:
+        return
+    full = {r: rows[(ds, r, aln, "base_raxmlng")]["cpu_s"] for r in reps}
+    truef = lambda r: os.path.join(rt.MLDATA, ds, "R%d" % r, "true_tree.tre")  # noqa: E731
+    out.append("\n### %s (%s): equal-CPU comparisons\n" % (ds, aln))
+    out.append("RAxML-NG full search: mean FN %.2f%%, mean CPU %.1f min (n = %d).\n" % (
+        statistics.mean(rows[(ds, r, aln, "base_raxmlng")]["fn"] * 100 for r in reps),
+        statistics.mean(full.values()) / 60, len(reps)))
+    out.append("| pipeline / method | n | mean FN | mean CPU min (fraction of RAxML-NG) | comparator | "
+               "comparator mean FN | ΔFN (method − comparator) | W/T/L | Wilcoxon p |")
+    out.append("|---|---|---|---|---|---|---|---|---|")
+    arms = [PRIMARY, "constr_ft_0.5", "base_iqfast", "base_fasttree", "place_ft_0.5_fix_ft", "place_ft_0.5_fix_graft"]
+    for arm in arms:
+        a, b, b_iq, fr = {}, {}, {}, []
+        for r in reps:
+            row = rows.get((ds, r, aln, arm))
+            if not row:
+                continue
+            a[r] = row["fn"] * 100
+            b[r] = anytime_fn(ds, r, aln, "raxmlng", row["cpu_s"])
+            if (ds, r, aln, "base_iqtree") in rows:
+                b_iq[r] = anytime_fn(ds, r, aln, "iqtree", row["cpu_s"])
+            fr.append(row["cpu_s"] / full[r])
+        if not a:
+            continue
+        cpu = statistics.mean(rows[(ds, r, aln, arm)]["cpu_s"] for r in a) / 60
+        for lab, comp in (("RAxML-NG@same CPU", b), ("IQ-TREE@same CPU", b_iq)):
+            pr = paired(a, comp)
+            if pr is None:
+                continue
+            cm = statistics.mean(comp[r] for r in pr["d"])
+            bold = "**" if arm == PRIMARY and lab.startswith("RAxML") else ""
+            out.append("| %s%s%s | %d | %.2f%% | %.1f (%.2f) | %s | %.2f%% | %s |" % (
+                bold, arm, bold, pr["n"], statistics.mean(a[r] for r in pr["d"]), cpu, statistics.mean(fr), lab, cm,
+                fmt(pr)))
+            if arm == PRIMARY and lab.startswith("RAxML"):
+                out.append("")
+                out.append("<!-- primary -->")
+                per = ", ".join("R%d %.1f vs %.1f" % (r, a[r], comp[r]) for r in pr["d"])
+                out.append("")
+                out.append("Primary per replicate (pipeline vs RAxML-NG@T_pipe, FN %%): %s\n" % per)
+                out.append("| pipeline / method | n | mean FN | mean CPU min (fraction of RAxML-NG) | comparator | "
+                           "comparator mean FN | ΔFN (method − comparator) | W/T/L | Wilcoxon p |")
+                out.append("|---|---|---|---|---|---|---|---|---|")
+    # fixed fractions
+    out.append("\nAnytime FN at fixed fractions of each replicate's full RAxML-NG CPU (paired vs RAxML-NG full):\n")
+    out.append("| method @ budget | n | mean FN | ΔFN vs RAxML-NG full | W/T/L | p |")
+    out.append("|---|---|---|---|---|---|")
+    ref = {r: rows[(ds, r, aln, "base_raxmlng")]["fn"] * 100 for r in reps}
+    for m in ("raxmlng", "iqtree"):
+        for f in (1 / 3, 0.5, 1.0):
+            v = {}
+            for r in reps:
+                if m == "iqtree" and (ds, r, aln, "base_iqtree") not in rows:
+                    continue
+                v[r] = anytime_fn(ds, r, aln, m, f * full[r] + (1e-6 if f < 1 else 1e9 if m == "raxmlng" else 0))
+            pr = paired(v, ref)
+            if pr is None:
+                continue
+            out.append("| %s @ %.2f× | %d | %.2f%% | %s |" % (m, f, pr["n"], statistics.mean(v[r] for r in pr["d"]),
+                                                             fmt(pr)))
+    # curves
+    for m in ("raxmlng", "iqtree"):
+        for f in FRACS:
+            for r in reps:
+                if m == "iqtree" and (ds, r, aln, "base_iqtree") not in rows:
+                    continue
+                T = f * full[r] if f < 1 else (1e9 if m == "raxmlng" else full[r])
+                curves.append((ds, aln, m, round(f, 3), r, anytime_fn(ds, r, aln, m, T)))
+    for arm in arms:
+        for r in reps:
+            row = rows.get((ds, r, aln, arm))
+            if row:
+                curves.append((ds, aln, arm, round(row["cpu_s"] / full[r], 3), r, row["fn"] * 100))
+
+
+def section_all(rows, ds, aln, out):
+    arms = sorted({m for (d, r, a, m) in rows if d == ds and a == aln})
+    if not arms:
+        return
+    out.append("\n### %s (%s): all arms\n" % (ds, aln))
+    out.append("| arm | n | mean FN | mean FP | per-rep FN | mean CPU min | mean wall min | max peak RSS MB | backbone FN | graft FN |")
+    out.append("|---|---|---|---|---|---|---|---|---|---|")
+    for m in arms:
+        rs = [rows[k] for k in sorted(rows) if k[0] == ds and k[2] == aln and k[3] == m]
+        g = lambda k: ("%.1f" % (100 * statistics.mean(x[k] for x in rs))) if all(k in x for x in rs) else "–"  # noqa
+        out.append("| %s | %d | %.2f%% | %.2f%% | %s | %.1f | %.1f | %.0f | %s | %s |" % (
+            m, len(rs), 100 * statistics.mean(x["fn"] for x in rs), 100 * statistics.mean(x["fp"] for x in rs),
+            " ".join("R%d:%.1f" % (x["rep"], 100 * x["fn"]) for x in rs),
+            statistics.mean(x["cpu_s"] for x in rs) / 60, statistics.mean(x["wall_s"] for x in rs) / 60,
+            max(x["peak_rss_mb"] for x in rs), g("backbone_fn"), g("graft_fn")))
+
+
+def section_10k(rows, out):
+    ds, aln = "RNASim10KHF", "true_mask"
+    for (d, r, a, m) in sorted(rows):
+        if d == ds and a == aln and m.startswith("base_raxmlngcap"):
+            sd = snapdir(d, r, a, m[5:])
+            true = os.path.join(rt.MLDATA, d, "R%d" % r, "true_tree.tre")
+            out.append("\nRAxML-NG anytime on %s R%d (cap %s CPU-s):\n" % (d, r, m[len("base_raxmlngcap"):]))
+            out.append("| CPU h | FN |")
+            out.append("|---|---|")
+            for T in (600, 1800, 3600, 5400, 7200, 10800, 14400):
+                t = anytime.at(sd, T)
+                if t:
+                    out.append("| %.2f | %.2f%% |" % (T / 3600, fn_of(true, t)))
 
 
 def main():
-    by = load()
-    print("<!-- generated by code/summarize.py -->")
-    for (ds, aln), arms in sorted(by.items()):
-        arms = {a: arms[a] for a in sorted(arms, key=key)}
-        print("\n### %s (%s)\n" % (ds, aln))
-        if BASE in arms:
-            print("\n".join(table(arms, arms[BASE])))
-        else:
-            print("| method | n | mean FN | mean FP | per-rep FN | backbone FN | mean CPU min | mean wall min | max peak RSS MB |")
-            print("|---|---|---|---|---|---|---|---|---|")
-            for a, reps in arms.items():
-                v = [reps[r] for r in sorted(reps)]
-                print("| %s | %d | %.1f%% | %.1f%% | %s | %s | %.1f | %.1f | %.0f |" % (
-                    label(a), len(v), 100 * np.mean([x["fn"] for x in v]), 100 * np.mean([x["fp"] for x in v]),
-                    " ".join("%.1f" % (100 * x["fn"]) for x in v),
-                    " ".join("%.1f" % (100 * x["backbone_fn"]) for x in v if "backbone_fn" in x) or "–",
-                    np.mean([x["cpu_s"] for x in v]) / 60, np.mean([x["wall_s"] for x in v]) / 60,
-                    max(x["peak_rss_mb"] for x in v)))
-        # per-replicate FN of the main arms
-        main_arms = [a for a in (BASE, PRIMARY, "constr_ft_0.5", "place_ft_0.5_fix_graft", "base_fasttree")
-                     if a in arms]
-        reps = sorted(set().union(*[arms[a].keys() for a in main_arms])) if main_arms else []
-        if reps and BASE in arms:
-            print("\nPer-replicate FN, % (backbone FN of the FastTree τ=0.5 backbone in the last row)\n")
-            print("| method | " + " | ".join("R%d" % r for r in reps) + " |")
-            print("|---|" + "---|" * len(reps))
-            for a in main_arms:
-                print("| %s | %s |" % (label(a), " | ".join(
-                    "%.1f" % (100 * arms[a][r]["fn"]) if r in arms[a] else "–" for r in reps)))
-            src = arms.get(PRIMARY) or arms.get("place_ft_0.5_fix_graft") or {}
-            print("| backbone (FastTree, τ=0.5) | %s |" % " | ".join(
-                "%.1f" % (100 * src[r]["backbone_fn"]) if r in src else "–" for r in reps))
-        # placement identity, patched vs stock
-        for pol in ("graft", "ft"):
-            f, s = arms.get("place_ft_0.5_fix_" + pol, {}), arms.get("place_ft_0.5_stock_" + pol, {})
-            c = sorted(set(f) & set(s))
-            if c:
-                print("\nPatched vs stock EPA-ng, FastTree backbone τ=0.5, %s: identical FN on %d/%d reps; "
-                      "mean FN patched %.2f%% vs stock %.2f%%; per rep (patched/stock): %s" % (
-                          pol, sum(abs(f[r]["fn"] - s[r]["fn"]) < 1e-12 for r in c), len(c),
-                          100 * np.mean([f[r]["fn"] for r in c]), 100 * np.mean([s[r]["fn"] for r in c]),
-                          ", ".join("R%d %.1f/%.1f" % (r, 100 * f[r]["fn"], 100 * s[r]["fn"]) for r in c)))
+    rows = load()
+    out = ["<!-- generated by code/summarize.py -->"]
+    curves = []
+    section_equal_time(rows, "M1HF", "true_align", out, curves)
+    for ds, aln in (("M1HF", "witch"), ("RNASimHF", "witch"), ("RNASimHF", "true_align")):
+        section_equal_time(rows, ds, aln, out, curves)
+    for ds, aln in sorted({(k[0], k[2]) for k in rows}):
+        section_all(rows, ds, aln, out)
+    section_10k(rows, out)
+    open(os.path.join(RES, "tables.md"), "w").write("\n".join(out) + "\n")
+    with open(os.path.join(RES, "anytime.tsv"), "w") as f:
+        f.write("dataset\taln\tmethod\tcpu_frac\trep\tfn\n")
+        for c in curves:
+            f.write("\t".join("" if x is None else str(x) for x in c) + "\n")
+    print("\n".join(out))
+    if "--plot" in sys.argv:
+        plot(curves)
+
+
+def plot(curves):
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    groups = sorted({(c[0], c[1]) for c in curves})
+    fig, axes = plt.subplots(1, len(groups), figsize=(5.2 * len(groups), 4), squeeze=False)
+    for ax, (ds, aln) in zip(axes[0], groups):
+        for m, col in (("raxmlng", "#1f5fa8"), ("iqtree", "#c2571a")):
+            pts = collections.defaultdict(list)
+            for c in curves:
+                if c[:3] == (ds, aln, m) and c[5] is not None:
+                    pts[c[3]].append(c[5])
+            if pts:
+                xs = sorted(pts)
+                ax.plot(xs, [statistics.mean(pts[x]) for x in xs], "-o", ms=3, color=col,
+                        label={"raxmlng": "RAxML-NG (anytime)", "iqtree": "IQ-TREE 3 (anytime)"}[m])
+        for arm, mk, lab in ((PRIMARY, "*", "place+graft+RAxML-NG fast polish"), ("constr_ft_0.5", "s", "constrained RAxML-NG"),
+                             ("base_iqfast", "^", "IQ-TREE --fast"), ("base_fasttree", "v", "FastTree")):
+            xs = [c[3] for c in curves if c[:3] == (ds, aln, arm)]
+            ys = [c[5] for c in curves if c[:3] == (ds, aln, arm)]
+            if xs:
+                ax.plot([statistics.mean(xs)], [statistics.mean(ys)], mk, ms=10, color="#333", label=lab)
+        ax.set_xlabel("CPU time / full RAxML-NG CPU (same replicate)")
+        ax.set_ylabel("mean FN (%)")
+        ax.set_title("%s, %s alignment" % (ds, aln))
+        ax.set_ylim(15, 55)
+        ax.grid(alpha=0.3)
+        ax.legend(fontsize=7)
+    fig.tight_layout()
+    fig.savefig(os.path.join(RES, "anytime.png"), dpi=120)
 
 
 if __name__ == "__main__":

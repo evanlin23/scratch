@@ -36,10 +36,12 @@ import tempfile
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import anytime  # noqa: E402
 import runtrees as rt  # noqa: E402
 import treeerr  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(HERE, "..", "results", "runs.jsonl")
 FT = "/usr/bin/FastTree"
 IQ = "/opt/mm/root/envs/bio/bin/iqtree3"
 RX = "/opt/mm/root/envs/fml/bin/raxml-ng"
@@ -104,6 +106,16 @@ class Rep:
         self.names, self.seqs = rt.read_fasta(self.full)
         self.lens = [len(s.replace("-", "")) for s in self.seqs]
         self.med = statistics.median(self.lens)
+
+    def rx_cpu(self):
+        """CPU seconds of this replicate's full base_raxmlng run (None if not yet run)."""
+        for path in (OUT,):
+            if os.path.exists(path):
+                for line in open(path):
+                    r = json.loads(line)
+                    if (r["dataset"], r["rep"], r["aln"], r["arm"]) == (self.ds, int(self.rep), self.aln, "base_raxmlng"):
+                        return r["cpu_s"]
+        return None
 
     def lock(self, key):
         class L:
@@ -192,10 +204,62 @@ class Rep:
             elif m == "iqfast":
                 c = iqtree(self.full, out, work, ["--fast"])
             elif m == "iqtree":
-                c = iqtree(self.full, out, work)
-            elif m == "raxmlng":
-                c = raxml(self.full, out, work, ["--tree", "pars{1}"],
-                          model_out=os.path.join(self.d, "trees", self.aln + ".base_raxmlng.model"))
+                # default IQ-TREE 3, anytime (checkpoint every >= 10 s), CPU capped at this rep's RAxML-NG CPU
+                cap = self.rx_cpu()
+                if cap is None:
+                    raise RuntimeError("base_raxmlng not done yet for this replicate (needed for the IQ-TREE cap)")
+                snap = os.path.join(self.d, "trees", "anytime", self.aln + ".iqtree")
+                shutil.rmtree(snap, ignore_errors=True)
+                c, killed, rc = anytime.run_anytime(
+                    [IQ, "-s", self.full, "-m", "GTR+G", "-T", "1", "--seed", "1", "--prefix",
+                     os.path.join(work, "iq"), "-redo", "--quiet", "-cptime", "10"],
+                    os.path.join(work, "iq.out"), anytime.iq_snapshot(os.path.join(work, "iq")), snap, cap_cpu=cap)
+                c = Cost(c.cpu, c.wall, c.rss)
+                info["killed"] = killed
+                if not killed:
+                    shutil.copy(os.path.join(work, "iq.treefile"), out)
+                else:
+                    shutil.copy(anytime.at(snap, 1e18), out)
+                with open(os.path.join(snap, "index.tsv"), "a") as f:
+                    f.write("%.1f\t%.1f\tfinal.tre\n" % (c.cpu, c.wall))
+                shutil.copy(out, os.path.join(snap, "final.tre"))
+            elif m.startswith("raxmlng"):
+                # default RAxML-NG search (1 parsimony start), anytime; restartable from its checkpoint;
+                # base_raxmlngcap<S>: stop once CPU > S seconds (best tree so far is the result)
+                cap = float(m[len("raxmlngcap"):]) if m.startswith("raxmlngcap") else None
+                snap = os.path.join(self.d, "trees", "anytime", self.aln + "." + m)
+                rw = os.path.join(self.d, "trees", "rxwork_" + self.aln + "_" + m)
+                os.makedirs(rw, exist_ok=True)
+                pre = os.path.join(rw, "rx")
+                idx = os.path.join(snap, "index.tsv")
+                off = 0.0
+                prev = os.path.join(rw, "spent.json")  # CPU/wall of earlier (interrupted) launches
+                spent = json.load(open(prev)) if os.path.exists(prev) else {"cpu": 0.0, "wall": 0.0, "rss": 0.0}
+                off = spent["cpu"]
+                if os.path.exists(idx):  # launch killed from outside: its CPU is only in the snapshot index
+                    off = max([off] + [float(l.split()[0]) for l in open(idx) if "final" not in l])
+                    spent["cpu"] = off
+                resume = os.path.exists(pre + ".raxml.ckp")
+                cmd = [RX, "--search", "--msa", self.full, "--model", "GTR+G", "--threads", "1", "--seed", "1",
+                       "--prefix", pre, "--tree", "pars{1}"] + ([] if resume else ["--redo"])
+                spent_cost = Cost(spent["cpu"], spent["wall"], spent["rss"])
+                # record progress of this launch if it gets killed from outside
+                c, killed, rc = anytime.run_anytime(cmd, os.path.join(rw, "rx.out"), anytime.rx_snapshot(pre),
+                                                    snap, cap_cpu=cap, cpu_offset=off)
+                c = spent_cost.add(Cost(c.cpu, c.wall, c.rss))
+                json.dump(c.d(), open(prev, "w"))
+                info["killed"] = killed
+                if not killed and rc == 0:
+                    shutil.copy(pre + ".raxml.bestTree", out)
+                    shutil.copy(pre + ".raxml.bestModel",
+                                os.path.join(self.d, "trees", self.aln + ".base_raxmlng.model"))
+                elif killed:
+                    shutil.copy(anytime.at(snap, 1e18), out)
+                else:
+                    raise RuntimeError("raxml-ng failed, see %s" % rw)
+                with open(idx, "a") as f:
+                    f.write("%.1f\t%.1f\tfinal.tre\n" % (c.cpu, c.wall))
+                shutil.copy(out, os.path.join(snap, "final.tre"))
             else:
                 raise ValueError(name)
         elif p[0] == "constr":
@@ -249,9 +313,16 @@ def main():
     ap.add_argument("--aln", default="true_align")
     ap.add_argument("--out", default=os.path.join(HERE, "..", "results", "runs.jsonl"))
     a = ap.parse_args()
+    global OUT
+    OUT = a.out
     R = Rep(a.dataset, a.rep, a.aln)
+    skip = os.path.join(HERE, "skip.txt")  # "DATASET REP ARM" lines deprioritised mid-queue (compute budget)
+    skip = {tuple(l.split()) for l in open(skip)} if os.path.exists(skip) else set()
     for arm in a.arms:
         if (a.dataset, int(a.rep), a.aln, arm) in done(a.out):
+            continue
+        if (a.dataset, str(a.rep), arm) in skip:
+            print("SKIPPED (skip.txt)", a.dataset, a.rep, arm, flush=True)
             continue
         try:
             row = R.arm(arm)

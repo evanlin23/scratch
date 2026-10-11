@@ -23,7 +23,7 @@ from concurrent.futures import ThreadPoolExecutor
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import treeerr  # noqa: E402
 
-MLDATA = os.environ.get("MLDATA", "/opt/data/mlcache")
+MLDATA = os.environ.get("MLDATA", "/opt/data/fscache")
 BIO = "/opt/mm/root/envs/bio/bin"
 FASTTREE = shutil.which("FastTree") or BIO + "/fasttree"
 IQTREE = BIO + "/iqtree3"

@@ -1,0 +1,12 @@
+M1HF 6 base_raxmlng
+M1HF 6 place_ft_0.5_fix_rxfast
+M1HF 6 constr_ft_0.5
+M1HF 6 base_fasttree
+M1HF 6 base_iqfast
+M1HF 7 base_raxmlng
+M1HF 7 place_ft_0.5_fix_rxfast
+M1HF 7 constr_ft_0.5
+M1HF 7 base_fasttree
+M1HF 7 base_iqfast
+M1HF 3 base_iqtree
+M1HF 4 base_iqtree
