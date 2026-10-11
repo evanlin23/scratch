@@ -80,6 +80,6 @@ GCM merge wall time (4 threads), L-INS-i subsets: median 27 s, range 1-32 s.
 
 ## Whole-dataset baselines and PASTA variants (SP error %, wall s, 4 threads)
 
-| dataset | MAGUS (L-INS-i subsets) | best MAGUS variant | pasta-mafft-it1 |
-|---|---|---|---|
-| BBA0039 | 4.66 | 4.45 (clustalo) | 4.48 (542 s) |
+| dataset | MAGUS (L-INS-i subsets) | best MAGUS variant | pasta-mafft-it1 | pasta-probcons-it1 |
+|---|---|---|---|---|
+| BBA0039 | 4.66 | 4.45 (clustalo) | 4.48 (542 s) | 4.56 (1752 s) |
