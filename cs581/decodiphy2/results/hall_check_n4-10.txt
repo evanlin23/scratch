@@ -1,0 +1,3 @@
+S: 145543
+deficient: 81892
+agree_all: 145543
