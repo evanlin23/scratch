@@ -3,3 +3,8 @@
 {"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "est100", "method": "astrid-disco", "threads": 1, "rssMB": 622.6, "sec": 595.459, "FN": 72, "FP": 72, "nI": 998, "FNrate": 0.07214}
 {"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-pro", "threads": 1, "rssMB": 113.1, "sec": 12.659, "FN": 6, "FP": 6, "nI": 998, "FNrate": 0.00601}
 {"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-multi", "threads": 1, "rssMB": 113.1, "sec": 1297.022, "FN": 13, "FP": 13, "nI": 998, "FNrate": 0.01303}
+{"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-disco", "threads": 1, "rssMB": 595.9, "sec": 311.172, "FN": 3, "FP": 3, "nI": 998, "FNrate": 0.00301}
+{"data": "disco", "cond": "species_1000", "rep": "01", "ngen": 1000, "level": "true", "method": "astrid-pro-tt", "threads": 1, "rssMB": 140.3, "sec": 14.409, "FN": 7, "FP": 7, "nI": 998, "FNrate": 0.00701}
+{"data": "disco", "cond": "species_1000", "rep": "02", "ngen": 1000, "level": "est100", "method": "astrid-pro", "threads": 1, "rssMB": 113.2, "sec": 29.675, "FN": 131, "FP": 131, "nI": 998, "FNrate": 0.13126}
+{"data": "disco", "cond": "species_1000", "rep": "02", "ngen": 1000, "level": "est100", "method": "astrid-multi", "threads": 1, "rssMB": 112.9, "sec": 1499.758, "FN": 133, "FP": 133, "nI": 998, "FNrate": 0.13327}
+{"data": "disco", "cond": "species_1000", "rep": "02", "ngen": 1000, "level": "est100", "method": "astrid-disco", "threads": 1, "rssMB": 478.6, "sec": 208.37, "FN": 127, "FP": 127, "nI": 998, "FNrate": 0.12725}
