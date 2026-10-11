@@ -621,3 +621,6 @@ unaffected and soft-MAGUS times above are, if anything, overstated.
 - ROSE DNA (h4 done): 1000L3 MAGUS 11.86; es4 11.55, es5 11.45; vote hard 12.38, soft 12.31, soft4 12.55. 1000M3 MAGUS 3.68;
   es4 3.71 (gg) / 3.74 (vote.py es4: small mismatch with gg's es4 here, matched on 1000L3); vote hard 3.94, hard-bb 3.71, soft 3.80.
   On DNA every vote variant is worse than MAGUS (+0.1 to +0.7); fixed fractions are neutral.
+- HomFam (h3c): Acetyltransf MAGUS 32.67; es4 30.21; vote hard 30.42, hard-bb 30.86, soft 32.73, soft4 31.01. PDZ MAGUS 12.96;
+  es4 13.38; vote hard 13.71, soft 13.20. HomFam 4 families, Δ vs MAGUS: es4 −1.36/+0.29/−2.46/+0.42 (mean −0.78);
+  vote hard −1.22/−2.03/−2.25/+0.75 (mean −1.19).
