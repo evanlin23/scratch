@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R5	protein	1000	10	200	yes	3513547	a238fbff78a7e47c42a47a8bf09aaf79979fed21f0c86cf617df7e9e55cffca4	SIMHIGH_R5/true.fasta	SIMHIGH_R5/inputs/backbones/ (L-INS-i, MAGUS's; also SIMHIGH_R5/aligned/{linsi,fftns2,fftns2-op3}/s0/)
