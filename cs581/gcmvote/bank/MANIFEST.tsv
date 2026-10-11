@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R18	protein	1000	10	200	yes	3225257	37070cddfb1f6051826a9af101b3063e4e693648a98e12169773c2eaab2bde29	SIMHIGH_R18/true.fasta	SIMHIGH_R18/inputs/backbones/backbone_*_mafft.txt (MAGUS L-INS-i, used by vote.py/gg.py); gg.py per-tool: SIMHIGH_R18/aligned/{linsi,fftns2,fftns2-op3}/s0/; unaligned backbone sets: SIMHIGH_R18/sets/s0/; true tree: SIMHIGH_R18/true_tree.nwk
