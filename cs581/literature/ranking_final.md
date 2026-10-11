@@ -650,3 +650,6 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
     vote hard-bb 26.10 / 25.55 / 25.62.
   - The vote model beats MAGUS and the best fixed fraction at every B on both sets; the best fixed fraction moves with B
     (no single F works), which is the case for a data-driven cutoff. More backbones alone do not help MAGUS here.
+- ROSE (h4c): 1000M4 MAGUS 1.130, es4 1.051, hard-bb 1.144; 1000S3 MAGUS 4.473, es4 4.472, hard-bb 4.384 (easy DNA: ±0.1).
+- Tree row (h7, SIMHIGH_R13, FastTree nRF %): true 7.32, magus 8.83, es4 9.23, recipe 9.43, hard-bb 9.43, soft 9.03.
+  hard-bb vs magus so far: R9 −3.92, R13 +0.60, R17 −0.10 (n = 3).
