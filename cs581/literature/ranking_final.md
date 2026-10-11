@@ -694,3 +694,5 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
 - fragscale STOPPED (03:45, student's call; `claude/cs581-fragscale`, REPORT marked incomplete): pipeline ties full RAxML-NG at
   ~0.37× CPU on 1000M1-HF (n = 4: 24.2 vs 23.5 % FN) and beats truncated/fast RAxML-NG at equal CPU (4/0/0, p = 0.125); scale and
   estimated-alignment arms unfinished. Direction rejected as not novel.
+- t03 (SIMHIGH_R3): SP magus 24.60, es4 18.78, hard-bb 19.16; nRF true 6.42, magus 7.12, es4 6.52, recipe 5.52, hard-bb 6.42 (−0.70).
+  hard-bb tree Δ (n = 10): −1.91, +0.71, −3.92, +0.60, +0.10, +0.10, 0.00, −1.70, −0.10, −0.70.
