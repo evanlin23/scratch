@@ -1,0 +1,3 @@
+# AI-assisted (Claude), exploration code for CS581 project
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R15	protein	1000	10	200	yes	3174685	b40e85cd1289fdec17882197a7e69b9b4dc5c46943b3993ad4f849be75864f11	SIMHIGH_R15/true.fasta	SIMHIGH_R15/inputs/backbones/ (MAGUS L-INS-i, backbone_N_mafft.txt; extra: SIMHIGH_R15/aligned/{linsi,fftns2,fftns2-op3}/s0 on sets/s0)
