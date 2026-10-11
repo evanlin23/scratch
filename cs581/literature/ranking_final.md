@@ -28,6 +28,24 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 10 (00:10 UTC), interim.**
+- *gcmtrees (FastTree nRF %, only 2 SIMHIGH datasets complete; the helper sessions h1–h3 are still running):*
+  - SIMHIGH_R1: true 6.12, MAGUS 11.94, recipe 12.34, es3 11.63, hard 12.34.
+  - SIMHIGH_R2: true 5.22, MAGUS 9.33, recipe 7.52, es3 8.73, hard 7.82.
+  - So far mixed: recipe +0.40 and −1.81.
+  - Oracle diagnostic: removing only the false-positive pairs (using the true alignment) gives the recipe 8.32 vs
+    12.34 on R1. Wrong pairings, not missed ones, drive tree error. Not usable directly.
+- *fragml2 (1000M1-HF, true alignment, 4–6 reps), mean FN and CPU:*
+  - FastTree 48.1% (107 s); IQ-TREE `--fast` 37.5% (424 s); RAxML-NG 23.5% (2,081 s, n = 4);
+  - constrained ML from a FastTree backbone 25.2% (743 s);
+  - EPA-ng placement + graft, no polish: fixed 34.6% / stock 36.7% (about 150 s);
+  - placement + RAxML-NG fast polish 24.6% (752 s);
+  - uDance (on the leaves it keeps) 27.2% vs constrained ML 21.9% on the same leaves.
+  - Two-step ≈ RAxML-NG at about a third of the CPU, better than uDance, IQ-TREE and FastTree, but not better than
+    RAxML-NG.
+  - The stock vs fixed EPA-ng gap (2.1 points) at under 2,000 tips is unexpected; it awaits the session's
+    explanation.
+
 **aproroom INTERIM (23:45 UTC, `claude/cs581-aproroom`): almost no headroom between GDL summary methods.**
 - *Data:* FastMulRFS, 100 taxa, 100 genes, 60 reps.
 - *FN rate by input:* true trees + true tags / true trees / RAxML 100 bp / 25 bp:
