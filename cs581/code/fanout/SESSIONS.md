@@ -222,3 +222,16 @@ merge-step variants can be tested without re-running MAGUS.
 
 Also: gcmvote2 asked to add M5 (reference-free dataset gate) and M6 (CPM clustering combo); local novelty audit of the voting
 ideas → cs581/literature/novelty_gcmvote.md.
+
+### Round 5 (04:47 UTC, Oct 11): gap-fillers
+
+| session | branch | session id |
+|---|---|---|
+| iqtree-a: IQ-TREE on SIMHIGH R1, R2 (true / magus / es4 / hard-bb) | claude/cs581-iqtree-a | session_01FaHjffmUHLMKWcivaxeiC6 |
+| iqtree-b: R3, R4 | claude/cs581-iqtree-b | session_01KcfGkEhjFimgsJkWRynSGZ |
+| iqtree-c: R5, R6 | claude/cs581-iqtree-c | session_01C8Sc1W9QmSxNtDAs8bGokF |
+| iqtree-d: R7, R8 | claude/cs581-iqtree-d | session_01RCDqEKtMYKp9yEK8CfwzeY |
+| iqtree-e: R9, R10 | claude/cs581-iqtree-e | session_01EXpBiQzn4KUYDcMeEycExR |
+| repro: clean reproduction package (filter_gcm.py, fetch_bank.sh, run_all.sh, REPRODUCE.md), verified on 3 reps | claude/cs581-repro | session_01NGcLeBRCC7tFsaPqfaZTDQ |
+
+Check-ins: 05:00, 07:00, 10:00, 13:00 UTC (send_later). The 13:00 one re-schedules itself if work is still running.
