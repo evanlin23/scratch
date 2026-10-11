@@ -32,10 +32,11 @@ for f in glob.glob(os.path.join(W, "*", "results.jsonl")):
         rows[(d["rep"], d["variant"], d["B"])] = d
 # held-out replicates this branch did not draw: helper rows (same vote.py, their own MAGUS draw)
 HELPER_ALN = {}
+OWN = {k[0] for k in rows}
 for f in glob.glob(os.path.join(OUT, "helpers", "*.vote.results.jsonl")):
     for l in open(f):
         d = json.loads(l)
-        if not any(k[0] == d["rep"] for k in rows):
+        if d["rep"] not in OWN:
             HELPER_ALN.setdefault(d["rep"], os.path.basename(f).split(".")[0])
             rows[(d["rep"], d["variant"], d["B"])] = d
 os.makedirs(os.path.join(OUT, "raw"), exist_ok=True)
