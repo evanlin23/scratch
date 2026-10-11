@@ -11,8 +11,8 @@ from collections import defaultdict
 from scipy.stats import wilcoxon
 
 rows = [json.loads(l) for l in open(sys.argv[1])]
-base = [json.loads(l) for l in open(sys.argv[2])] if len(sys.argv) > 2 else []
-trees = [json.loads(l) for l in open(sys.argv[3])] if len(sys.argv) > 3 else []
+base = [json.loads(l) for l in open(sys.argv[2])] if len(sys.argv) > 2 and sys.argv[2] else []
+trees = [json.loads(l) for l in open(sys.argv[3])] if len(sys.argv) > 3 and sys.argv[3] else []
 cat = lambda n: n.split("_")[0]
 pt = lambda x: 100 * x
 
@@ -80,14 +80,15 @@ if trees:
     td = defaultdict(dict)
     for t in trees:
         td[t["dataset"]][t["method"]] = t
-    ms = ["true", "magus", "e2e-clustalo", "merge-mafft", "merge-clustalo"]
+    ms = ["true", "magus", "e2e-clustalo", "merge-clustalo"]
     print("| dataset | " + " | ".join(ms) + " | d RF e2e | d RF merge |")
     print("|---|" + "---|" * (len(ms) + 2))
     de, dm = defaultdict(list), defaultdict(list)
     for n, t in sorted(td.items()):
         g = lambda m: "{:.2f}".format(pt(t[m]["RF"])) if m in t else "-"
         x = pt(t["e2e-clustalo"]["RF"] - t["magus"]["RF"]) if "e2e-clustalo" in t and "magus" in t else None
-        y = pt(t["merge-clustalo"]["RF"] - t["merge-mafft"]["RF"]) if "merge-clustalo" in t and "merge-mafft" in t else None
+        # merge-mafft has exactly magus's SP scores and length (columns only reordered), so magus's tree stands in
+        y = pt(t["merge-clustalo"]["RF"] - t["magus"]["RF"]) if "merge-clustalo" in t and "magus" in t else None
         if x is not None: de[cat(n)].append(x)
         if y is not None: dm[cat(n)].append(y)
         print("| {} | {} | {} | {} |".format(n, " | ".join(g(m) for m in ms), "{:+.2f}".format(x) if x is not None else "-", "{:+.2f}".format(y) if y is not None else "-"))
