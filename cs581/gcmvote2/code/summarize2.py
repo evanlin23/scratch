@@ -20,20 +20,30 @@ HELD_P = [(n, "bank/" + n) for n in ("SIMMOD_R2", "SIMHIGH_R2", "BBA0154", "BBA0
                                      "HF_aat", "HF_Acetyltransf", "HF_PDZ")]
 HELD_D = [(n.replace("_R0", ""), "bank/" + n) for n in (
     "1000L3_R0", "1000M3_R0", "1000S1", "1000S2", "1000M4", "1000S3", "1000M2_R1", "1000L1_R1", "RNASim",
-    "RNASim_R1", "1000M1_R0", "1000M1_R1", "1000M1_R2", "1000M1_R3", "16S.3")]
+    "RNASim_R1", "1000M1_R0", "1000M1_R1", "1000M1_R2", "1000M1_R3", "16S.3", "16S.T_R0")]
 B81 = [("BBA0081", "bank/BBA0081")]
 SIMB = [("SIMHIGH_R%d" % i, "bank/SIMHIGH_R%d" % i) for i in list(range(3, 13)) + list(range(14, 21))]
 PROT = {"BBA", "SIM", "HF_"}
 CANDS = ["m1-gbb", "m1-dm", "m1-dm-soft", "m2-ds", "m2-ds-soft", "m2-dsg", "m3-ovbb", "m23-ovds", "m4-gmm",
          "m4-gmm-soft"]
 BASE = ["es4", "hard-bb"]
+SEL = ["m1-dm", "gate", "m1-dm+cpm", "es4+cpm"]
+OTHER = [c for c in CANDS if c != "m1-dm"]
+
+
+GATE_T = 0.16969174159460332  # PREREG selection: filter with m1-dm iff lowk_wshare <= GATE_T
 
 
 def load(path):
     p = os.path.join(R, path, "results2.jsonl")
     if not os.path.exists(p):
         return {}
-    return {json.loads(l)["variant"]: json.loads(l) for l in open(p)}
+    d = {json.loads(l)["variant"]: json.loads(l) for l in open(p)}
+    g = os.path.join(R, path, "vote2", "gate.json")
+    if os.path.exists(g) and "m1-dm" in d and "magus" in d:
+        on = json.load(open(g))["lowk_wshare"] <= GATE_T
+        d["gate"] = dict(d["m1-dm" if on else "magus"], gate_on=on)
+    return d
 
 
 def err(row):
@@ -91,17 +101,23 @@ def main():
            "## Training, Δ vs es4", "", table(TRAIN, ["hard-bb"] + CANDS, "es4", GROUPS), ""]
     if held:
         HP = HELD_P + HELD_D
-        md += ["## Held-out primary (proteins n = 9, DNA/RNA n = 15), Δ vs magus", "",
-               table(HP, BASE + CANDS, "magus", GROUPS), "",
-               "## Held-out primary, Δ vs es4", "", table(HP, ["hard-bb"] + CANDS, "es4", GROUPS), "",
-               "## Held-out primary, Δ vs hard-bb", "", table(HP, CANDS, "hard-bb", GROUPS), "",
+        md += ["## PRIMARY: held-out, selected m1-dm and gate, Δ vs es4", "",
+               table(HP, ["m1-dm", "gate", "hard-bb"], "es4", GROUPS), "",
+               "## Held-out, Δ vs magus (selected, gate, baselines, M6)", "",
+               table(HP, ["es4", "hard-bb"] + SEL, "magus", GROUPS), "",
+               "## Held-out, selected vs hard-bb (v1)", "", table(HP, ["m1-dm", "gate"], "hard-bb", GROUPS), "",
+               "## M6: CPM vs MCL on the same graph (Δ = +cpm − MCL)", "",
+               table(HP, ["m1-dm+cpm"], "m1-dm", GROUPS), "", table(HP, ["es4+cpm"], "es4", GROUPS), "",
+               "## Exploratory: every candidate on held-out, Δ vs magus", "",
+               table(HP, CANDS, "magus", GROUPS), "",
+               "## Exploratory: every candidate on held-out, Δ vs es4", "", table(HP, CANDS, "es4", GROUPS), "",
                "## BBA0081 (195 sequences; every backbone holds all sequences)", "",
-               table(B81, BASE + CANDS, "magus"), "",
+               table(B81, BASE + SEL + OTHER, "magus"), "",
                "## Proteins incl. BBA0081, Δ vs es4", "",
-               table(HELD_P + B81, ["hard-bb"] + CANDS, "es4", [("proteins + BBA0081", lambda n: True)]), "",
+               table(HELD_P + B81, ["hard-bb", "m1-dm", "gate"], "es4", [("proteins + BBA0081", lambda n: True)]), "",
                "## Secondary: SIMHIGH bank (R3–R12, R14–R20), Δ vs magus", "",
-               table(SIMB, BASE + CANDS, "magus"), "",
-               "## Secondary: SIMHIGH bank, Δ vs es4", "", table(SIMB, ["hard-bb"] + CANDS, "es4"), ""]
+               table(SIMB, BASE + ["m1-dm", "gate"], "magus"), "",
+               "## Secondary: SIMHIGH bank, Δ vs es4", "", table(SIMB, ["hard-bb", "m1-dm", "gate"], "es4"), ""]
     open(out, "w").write("\n".join(md) + "\n")
     print("\n".join(md))
 
