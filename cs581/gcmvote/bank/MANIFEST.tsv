@@ -1,0 +1,3 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	ref_path	backbones_path
+HF_Acetyltransf	protein	2000	10	200	no	590776	a651f917385af0ab79e32ece03178eca49ef91c4433d8a3a7af45cf527d1d4e7	HF_Acetyltransf/true.fasta	HF_Acetyltransf/inputs/backbones/
+HF_PDZ	protein	2000	10	200	no	479691	7de0bcd4ded072fa9e6824f8843e79b990f77376795966998d3fcd3716672d83	HF_PDZ/true.fasta	HF_PDZ/inputs/backbones/
