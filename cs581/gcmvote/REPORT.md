@@ -48,12 +48,12 @@ Where to find things:
 5. **Soft weighting does not work.** Multiplying edge weights by the posterior keeps the junk edges' topology:
    - `soft`: held-out −0.37; `soft4`: −0.78; on SIMHIGH_R1 `soft` is +1.01.
    - MCL needs edges *gone*, not down-weighted.
-6. **Trees.** Pooled FastTree nRF over 22 SIMHIGH datasets (this branch + helpers): none of the variants
-   improves trees significantly.
-   - `hard-bb`: −0.23 (10/3/9, p = 0.61).
-   - `es4`: −0.13 (p = 0.36).
-   - The masked tree variant (`vote_hard+mask`): +0.00 (n = 15).
-   - Details are in §6.
+6. **Trees.** Pooled FastTree nRF on 20 SIMHIGH datasets (R1–R2 from this branch, R3–R20 from the helpers):
+   none of the variants improves trees significantly.
+   - `hard-bb`: −0.37 (11/3/6, p = 0.20).
+   - `es4`: −0.23 (p = 0.18).
+   - The tree variant `hard+mask`: −0.05 (n = 17).
+   - The true alignment: −3.14. The vote recovers about a tenth of the gap to the true alignment.
 7. **Verdict.** The vote model is a *principled, reference-free* replacement for the hand-picked k = 4. On
    held-out data it is at least as good as es4 (better on BAliBASE by ~2.3 points, equal on DNA/RNA). It is also
    more aggressive than es4, which costs some DNA recall on the hard ROSE training sets. It does not help trees.
@@ -206,7 +206,37 @@ B = 5 uses MAGUS's backbones 1–5. B = 20 adds 10 new L-INS-i backbones on fres
 
 ## 6. Trees (FastTree 2 `-lg -gamma`, nRF % vs the true tree)
 
-TREES_PLACEHOLDER
+Sources:
+- SIMHIGH R1 and R2 come from this branch.
+- R3–R20 come from helper sessions (branches `claude/cs581-gcmvote-<x>`, the same `vote.py`, one MAGUS draw
+  each).
+- 1000M1 R0–R3 (ROSE DNA) come from helper h10.
+
+Per-dataset rows are in `results/trees.md`; raw helper rows are in `results/helpers/`. Δ nRF vs MAGUS
+(W/T/L at 0.1, Wilcoxon):
+
+| method | SIMHIGH, all (n = 20) | SIMHIGH R1–R4 (n = 4) | ROSE 1000M1 (n = 4) |
+|---|---|---|---|
+| true alignment | −3.14 (17/1/2, p < 0.001) | −3.58 (4/0/0) | −1.78 (4/0/0) |
+| `es4` | −0.23 (12/1/7, p = 0.18) | −0.60 (3/0/1) | +0.28 (1/0/3) |
+| **`hard-bb` (selected)** | **−0.37 (11/3/6, p = 0.20)** | −0.60 (4/0/0) | +0.23 (1/0/3) |
+| `hard` | −0.14 (12/3/5, p = 0.18) | −0.47 (4/0/0) | +0.10 (2/0/2) |
+| `hard+mask` (tree variant, n = 17) | −0.05 (10/2/5, p = 0.50) | −0.47 (4/0/0) | – |
+| `magus+mask` (n = 2) | −0.10 (1/0/1) | −0.10 | – |
+| `soft` (n = 18) | +0.32 (7/1/10) | | +0.25 |
+| gcmgen recipe `wsoft0.03:linsi&fftns2#es4` (n = 18, helpers) | −0.46 (10/0/8, p = 0.047) | | |
+
+- **No vote variant improves FastTree trees significantly.** The pre-registered verdict rule (p < 0.05 with a
+  negative mean) fails for `hard-bb` (p = 0.20).
+  - The gap between MAGUS and the true alignment is about 3 RF points; the vote recovers about a tenth of it.
+  - The same ~5–9 SP points that `hard-bb` gains on SIMHIGH alignments buy only 0.4 RF points.
+- **The tree-oriented column mask does nothing.**
+  - On the `hard` output it removes almost no columns (2 of 8,739 on SIMHIGH_R1): once the low-posterior edges
+    are deleted, their nodes rarely share a final column.
+  - On MAGUS's own output it removes ~5 % of the columns (401 of 8,401 on SIMHIGH_R1), with a mixed effect:
+    R1 −0.70, R2 +0.50.
+- The only significant tree result in the pool is gcmgen's recipe (FFT-NS-2 soft weighting + es4, helper rows):
+  −0.46, p = 0.047, n = 18. It is not a pre-registered endpoint here, and it is borderline.
 
 ## 7. Verdict
 

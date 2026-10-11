@@ -65,12 +65,13 @@ def main():
            "| dataset | source | " + " | ".join(ms) + " |", "|---|---|" + "---|" * len(ms)]
     for d in ds:
         out.append("| {} | {} | {} |".format(d, src[d], " | ".join("{:.2f}".format(T[(d, m)]) if (d, m) in T else "–" for m in ms)))
-    out += ["", "| method | Δ nRF vs magus: mean (W/T/L at 0.1, two-sided Wilcoxon p), n | SIMHIGH R1–R4 only |", "|---|---|---|"]
+    out += ["", "| method | Δ nRF vs magus, SIMHIGH (all): mean (W/T/L at 0.1, two-sided Wilcoxon p), n | SIMHIGH R1–R4 only | other datasets (DNA, helpers) |", "|---|---|---|---|"]
     for m in ms:
         if m == "magus":
             continue
         cells = []
-        for sel in (lambda d: True, lambda d: d.startswith("SIMHIGH_R") and int(d.split("_R")[1]) <= 4):
+        for sel in (lambda d: d.startswith("SIMHIGH_R"), lambda d: d.startswith("SIMHIGH_R") and int(d.split("_R")[1]) <= 4,
+                    lambda d: not d.startswith("SIMHIGH_R")):
             dd = [T[(d, m)] - T[(d, "magus")] for d in ds if sel(d) and (d, m) in T and (d, "magus") in T]
             if not dd:
                 cells.append("–")
@@ -78,7 +79,7 @@ def main():
             w = sum(x < -0.1 for x in dd); l = sum(x > 0.1 for x in dd)
             p = wilcoxon(dd).pvalue if len(dd) > 1 and any(dd) else float("nan")
             cells.append("{:+.2f} ({}/{}/{}, p = {:.3f}), n = {}".format(np.mean(dd), w, len(dd) - w - l, l, p, len(dd)))
-        out.append("| {} | {} | {} |".format(m, *cells))
+        out.append("| {} | {} | {} | {} |".format(m, *cells))
     open(os.path.join(OUT, "trees.md"), "w").write("\n".join(out) + "\n")
     print("\n".join(out))
 

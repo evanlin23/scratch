@@ -1,0 +1,7 @@
+{"dataset": "SIMHIGH_R2", "method": "hard", "FN": 0.0722, "FP": 0.0722, "RF": 0.0722, "true_internal": 997, "est_internal": 997, "fasttree_wall": 662.2}
+{"dataset": "SIMHIGH_R2", "method": "true", "FN": 0.0522, "FP": 0.0522, "RF": 0.0522, "true_internal": 997, "est_internal": 997, "fasttree_wall": 858.4}
+{"dataset": "SIMHIGH_R2", "method": "hard_mask_masked", "FN": 0.0722, "FP": 0.0722, "RF": 0.0722, "true_internal": 997, "est_internal": 997, "fasttree_wall": 661.6}
+{"dataset": "SIMHIGH_R2", "method": "magus", "FN": 0.0762, "FP": 0.0762, "RF": 0.0762, "true_internal": 997, "est_internal": 997, "fasttree_wall": 638.2}
+{"dataset": "SIMHIGH_R2", "method": "magus_mask_masked", "FN": 0.0812, "FP": 0.0812, "RF": 0.0812, "true_internal": 997, "est_internal": 997, "fasttree_wall": 592.8}
+{"dataset": "SIMHIGH_R2", "method": "es4", "FN": 0.0802, "FP": 0.0802, "RF": 0.0802, "true_internal": 997, "est_internal": 997, "fasttree_wall": 670.5}
+{"dataset": "SIMHIGH_R2", "method": "hard-bb", "FN": 0.0722, "FP": 0.0722, "RF": 0.0722, "true_internal": 997, "est_internal": 997, "fasttree_wall": 658.9}
