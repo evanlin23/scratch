@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+16S.3	RNA (16S rRNA, CRW; MAGUS paper, outlier-length seqs removed; 100 subsets)	5489	10	200	no	8438761	66a85825d2e00972c5eda7fa05783f5c284d9d450ab21f674a388033e06f33d3	16S.3/true.fasta	16S.3/inputs/backbones/backbone_*_mafft.txt
