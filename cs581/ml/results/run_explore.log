@@ -52,3 +52,6 @@ moved 8 UPP rows
 {"dataset": "1000M4", "rep": "1", "aln": "true_align", "method": "raxmlng", "seconds": 3119.2, "cpu_seconds": 1879.9, "lnl_tool": -447842.819813, "fn_rate": 0.04405737704918033, "fp_rate": 0.0641925777331996, "rf_rate": 0.05366098294884654, "tree": "/opt/data/mlcache/1000M4/R1/trees/true_align.raxmlng.tre"}
 3 jobs
 {"dataset": "1000M2", "rep": "2", "aln": "gcm", "method": "fasttree", "seconds": 256.4, "cpu_seconds": 114.2, "lnl_tool": -931009.865, "fn_rate": 0.09557344064386318, "fp_rate": 0.09829488465396188, "rf_rate": 0.09679037111334002, "tree": "/opt/data/mlcache/1000M2/R2/trees/gcm.fasttree.tre"}
+{"dataset": "1000M2", "rep": "1", "aln": "true_align", "method": "raxmlng", "seconds": 6466.4, "cpu_seconds": 3180.8, "lnl_tool": -943632.888367, "fn_rate": 0.09365558912386707, "fp_rate": 0.09729187562688064, "rf_rate": 0.09528585757271815, "tree": "/opt/data/mlcache/1000M2/R1/trees/true_align.raxmlng.tre"}
+3 jobs
+{"dataset": "1000M3", "rep": "1", "aln": "gcm", "method": "fasttree", "seconds": 164.4, "cpu_seconds": 73.9, "lnl_tool": -764346.497, "fn_rate": 0.0613682092555332, "fp_rate": 0.0641925777331996, "rf_rate": 0.06268806419257773, "tree": "/opt/data/mlcache/1000M3/R1/trees/gcm.fasttree.tre"}

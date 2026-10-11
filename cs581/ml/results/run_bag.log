@@ -26,3 +26,159 @@
 {"dataset": "1000M2s500", "rep": "1", "aln": "true_align", "method": "bag10_fasttree", "cpu_seconds": 182.4, "fn_rate": 0.4551863041289023, "fp_rate": 0.3716608594657375, "rf_rate": 0.38716148445336007, "est_internal": 861, "lnl_eval": -119444.285946, "tree": "/opt/data/mlcache/1000M2s500/R1/trees/true_align.bag10_fasttree.tre"}
 {"dataset": "1000M2s500", "rep": "0", "aln": "true_align", "method": "bag20_fasttree", "cpu_seconds": 365.4, "fn_rate": 0.3538306451612903, "fp_rate": 0.29171270718232045, "rf_rate": 0.30842527582748247, "est_internal": 905, "lnl_eval": -113840.925089, "tree": "/opt/data/mlcache/1000M2s500/R0/trees/true_align.bag20_fasttree.tre"}
 {"dataset": "1000M2s500", "rep": "1", "aln": "true_align", "method": "bag20_fasttree", "cpu_seconds": 365.2, "fn_rate": 0.4038267875125881, "fp_rate": 0.3340832395950506, "rf_rate": 0.35005015045135407, "est_internal": 889, "lnl_eval": -118577.751875, "tree": "/opt/data/mlcache/1000M2s500/R1/trees/true_align.bag20_fasttree.tre"}
+{"dataset": "1000M2s250", "rep": "0", "aln": "true_align", "method": "bag20_raxmlng_fastmode", "cpu_seconds": 570.0, "fn_rate": 0.5997983870967742, "fp_rate": 0.4748677248677249, "rf_rate": 0.47843530591775324, "est_internal": 756, "lnl_eval": -59049.100149, "tree": "/opt/data/mlcache/1000M2s250/R0/trees/true_align.bag20_raxmlng_fastmode.tre"}
+{"dataset": "1000M2s100", "rep": "0", "aln": "true_align", "method": "bag20_raxmlng_fastmode", "cpu_seconds": 181.7, "fn_rate": 0.7530241935483871, "fp_rate": 0.6265243902439024, "rf_rate": 0.5807422266800402, "est_internal": 656, "lnl_eval": -20861.667185, "tree": "/opt/data/mlcache/1000M2s100/R0/trees/true_align.bag20_raxmlng_fastmode.tre"}
+{"dataset": "1000M2s250", "rep": "1", "aln": "true_align", "method": "bag20_raxmlng_fastmode", "cpu_seconds": 637.6, "fn_rate": 0.526686807653575, "fp_rate": 0.4132334581772784, "rf_rate": 0.4282848545636911, "est_internal": 801, "lnl_eval": -49574.192005, "tree": "/opt/data/mlcache/1000M2s250/R1/trees/true_align.bag20_raxmlng_fastmode.tre"}
+3 jobs
+Traceback (most recent call last):
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 180, in main
+    f.result()
+    ~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 460, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 129, in job
+    clean_alignment(os.path.join(d, aln + ".fasta"), clean + ".tmp")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 57, in clean_alignment
+    names, seqs = read_fasta(src)
+                  ~~~~~~~~~~^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 35, in read_fasta
+    with open(path) as f:
+         ~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/data/mlcache/1000M2s500/R2/true_align.fasta'
+Traceback (most recent call last):
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 180, in main
+    f.result()
+    ~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 129, in job
+    clean_alignment(os.path.join(d, aln + ".fasta"), clean + ".tmp")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 57, in clean_alignment
+    names, seqs = read_fasta(src)
+                  ~~~~~~~~~~^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 35, in read_fasta
+    with open(path) as f:
+         ~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/data/mlcache/1000M2s500/R2/true_align.fasta'
+Traceback (most recent call last):
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 180, in main
+    f.result()
+    ~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 129, in job
+    clean_alignment(os.path.join(d, aln + ".fasta"), clean + ".tmp")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 57, in clean_alignment
+    names, seqs = read_fasta(src)
+                  ~~~~~~~~~~^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 35, in read_fasta
+    with open(path) as f:
+         ~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/data/mlcache/1000M2s500/R2/true_align.fasta'
+3 jobs
+Traceback (most recent call last):
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 180, in main
+    f.result()
+    ~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 460, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 129, in job
+    clean_alignment(os.path.join(d, aln + ".fasta"), clean + ".tmp")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 57, in clean_alignment
+    names, seqs = read_fasta(src)
+                  ~~~~~~~~~~^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 35, in read_fasta
+    with open(path) as f:
+         ~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/data/mlcache/1000M2s500/R3/true_align.fasta'
+Traceback (most recent call last):
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 180, in main
+    f.result()
+    ~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 129, in job
+    clean_alignment(os.path.join(d, aln + ".fasta"), clean + ".tmp")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 57, in clean_alignment
+    names, seqs = read_fasta(src)
+                  ~~~~~~~~~~^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 35, in read_fasta
+    with open(path) as f:
+         ~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/data/mlcache/1000M2s500/R3/true_align.fasta'
+Traceback (most recent call last):
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 180, in main
+    f.result()
+    ~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 453, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/concurrent/futures/_base.py", line 402, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 129, in job
+    clean_alignment(os.path.join(d, aln + ".fasta"), clean + ".tmp")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 57, in clean_alignment
+    names, seqs = read_fasta(src)
+                  ~~~~~~~~~~^^^^^
+  File "/home/user/scratch/cs581/ml/code/runtrees.py", line 35, in read_fasta
+    with open(path) as f:
+         ~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/opt/data/mlcache/1000M2s500/R3/true_align.fasta'
+3 jobs
+{"dataset": "1000M2s250", "rep": "2", "aln": "true_align", "method": "fasttree", "seconds": 15.2, "cpu_seconds": 9.9, "lnl_tool": -62270.4, "fn_rate": 0.5080482897384306, "fp_rate": 0.5095285857572718, "rf_rate": 0.5080240722166499, "tree": "/opt/data/mlcache/1000M2s250/R2/trees/true_align.fasttree.tre"}
+{"dataset": "1000M2s250", "rep": "2", "aln": "true_align", "method": "iqtree_fast", "seconds": 55.9, "cpu_seconds": 36.5, "lnl_tool": -62314.848, "fn_rate": 0.49899396378269617, "fp_rate": 0.5005015045135406, "rf_rate": 0.4989969909729188, "tree": "/opt/data/mlcache/1000M2s250/R2/trees/true_align.iqtree_fast.tre"}
+{"dataset": "1000M2s100", "rep": "1", "aln": "true_align", "method": "bag20_raxmlng_fastmode", "cpu_seconds": 193.7, "fn_rate": 0.8006042296072508, "fp_rate": 0.6837060702875399, "rf_rate": 0.6133400200601805, "est_internal": 626, "lnl_eval": -20764.691166, "tree": "/opt/data/mlcache/1000M2s100/R1/trees/true_align.bag20_raxmlng_fastmode.tre"}
+3 jobs
+{"dataset": "1000M2s250", "rep": "3", "aln": "true_align", "method": "fasttree", "seconds": 14.4, "cpu_seconds": 9.2, "lnl_tool": -54359.863, "fn_rate": 0.5131048387096774, "fp_rate": 0.5155466399197592, "rf_rate": 0.5130391173520562, "tree": "/opt/data/mlcache/1000M2s250/R3/trees/true_align.fasttree.tre"}
+{"dataset": "1000M2s250", "rep": "3", "aln": "true_align", "method": "iqtree_fast", "seconds": 57.8, "cpu_seconds": 39.0, "lnl_tool": -54274.638, "fn_rate": 0.5060483870967742, "fp_rate": 0.5085255767301906, "rf_rate": 0.5060180541624875, "tree": "/opt/data/mlcache/1000M2s250/R3/trees/true_align.iqtree_fast.tre"}
+{"dataset": "1000M2s250", "rep": "2", "aln": "true_align", "method": "raxmlng", "seconds": 233.2, "cpu_seconds": 151.4, "lnl_tool": -61917.68374, "fn_rate": 0.5543259557344065, "fp_rate": 0.555667001003009, "rf_rate": 0.5541624874623872, "tree": "/opt/data/mlcache/1000M2s250/R2/trees/true_align.raxmlng.tre"}
+3 jobs
+{"dataset": "1000M2s100", "rep": "2", "aln": "true_align", "method": "fasttree", "seconds": 6.2, "cpu_seconds": 4.4, "lnl_tool": -23804.303, "fn_rate": 0.8048289738430584, "fp_rate": 0.8054162487462387, "rf_rate": 0.8039117352056169, "tree": "/opt/data/mlcache/1000M2s100/R2/trees/true_align.fasttree.tre"}
+{"dataset": "1000M2s100", "rep": "2", "aln": "true_align", "method": "iqtree_fast", "seconds": 24.3, "cpu_seconds": 15.8, "lnl_tool": -23911.322, "fn_rate": 0.8048289738430584, "fp_rate": 0.8054162487462387, "rf_rate": 0.8039117352056169, "tree": "/opt/data/mlcache/1000M2s100/R2/trees/true_align.iqtree_fast.tre"}
+{"dataset": "1000M2s250", "rep": "3", "aln": "true_align", "method": "raxmlng", "seconds": 225.1, "cpu_seconds": 148.4, "lnl_tool": -54151.588943, "fn_rate": 0.5594758064516129, "fp_rate": 0.5616850551654965, "rf_rate": 0.5591775325977933, "tree": "/opt/data/mlcache/1000M2s250/R3/trees/true_align.raxmlng.tre"}
+3 jobs
+{"dataset": "1000M2s100", "rep": "3", "aln": "true_align", "method": "fasttree", "seconds": 6.4, "cpu_seconds": 4.0, "lnl_tool": -19576.685, "fn_rate": 0.7237903225806451, "fp_rate": 0.7243460764587525, "rf_rate": 0.7211634904714143, "tree": "/opt/data/mlcache/1000M2s100/R3/trees/true_align.fasttree.tre"}
+{"dataset": "1000M2s100", "rep": "2", "aln": "true_align", "method": "raxmlng", "seconds": 81.7, "cpu_seconds": 53.6, "lnl_tool": -23679.905909, "fn_rate": 0.8571428571428571, "fp_rate": 0.8575727181544633, "rf_rate": 0.8560682046138415, "tree": "/opt/data/mlcache/1000M2s100/R2/trees/true_align.raxmlng.tre"}
+3 jobs
+{"dataset": "1000M2s100", "rep": "3", "aln": "true_align", "method": "iqtree_fast", "seconds": 27.4, "cpu_seconds": 17.7, "lnl_tool": -19724.801, "fn_rate": 0.7580645161290323, "fp_rate": 0.7592778335005015, "rf_rate": 0.7567703109327983, "tree": "/opt/data/mlcache/1000M2s100/R3/trees/true_align.iqtree_fast.tre"}
+{"dataset": "1000M2s500", "rep": "0", "aln": "true_align", "method": "fasttree", "seconds": 27.4, "cpu_seconds": 17.8, "lnl_tool": -112063.588, "fn_rate": 0.35685483870967744, "fp_rate": 0.3600802407221665, "rf_rate": 0.3575727181544634, "tree": "/opt/data/mlcache/1000M2s500/R0/trees/true_align.fasttree.tre"}
+{"dataset": "1000M2s500", "rep": "0", "aln": "true_align", "method": "iqtree_fast", "seconds": 78.6, "cpu_seconds": 52.0, "lnl_tool": -112133.084, "fn_rate": 0.3649193548387097, "fp_rate": 0.36810431293881646, "rf_rate": 0.36559679037111337, "tree": "/opt/data/mlcache/1000M2s500/R0/trees/true_align.iqtree_fast.tre"}
+{"dataset": "1000M2s100", "rep": "3", "aln": "true_align", "method": "raxmlng", "seconds": 108.9, "cpu_seconds": 71.7, "lnl_tool": -19178.660528, "fn_rate": 0.7610887096774194, "fp_rate": 0.7622868605817452, "rf_rate": 0.7597793380140421, "tree": "/opt/data/mlcache/1000M2s100/R3/trees/true_align.raxmlng.tre"}
+3 jobs
+{"dataset": "1000M2s500", "rep": "1", "aln": "true_align", "method": "fasttree", "seconds": 30.3, "cpu_seconds": 19.6, "lnl_tool": -116864.824, "fn_rate": 0.4259818731117825, "fp_rate": 0.4282848545636911, "rf_rate": 0.4262788365095286, "tree": "/opt/data/mlcache/1000M2s500/R1/trees/true_align.fasttree.tre"}
+{"dataset": "1000M2s500", "rep": "1", "aln": "true_align", "method": "iqtree_fast", "seconds": 105.3, "cpu_seconds": 71.0, "lnl_tool": -116954.935, "fn_rate": 0.41289023162134947, "fp_rate": 0.4152457372116349, "rf_rate": 0.41323971915747243, "tree": "/opt/data/mlcache/1000M2s500/R1/trees/true_align.iqtree_fast.tre"}
+{"dataset": "1000M2s500", "rep": "0", "aln": "true_align", "method": "raxmlng", "seconds": 461.7, "cpu_seconds": 303.8, "lnl_tool": -111900.459128, "fn_rate": 0.3870967741935484, "fp_rate": 0.3901705115346038, "rf_rate": 0.3876629889669007, "tree": "/opt/data/mlcache/1000M2s500/R0/trees/true_align.raxmlng.tre"}
+{"dataset": "1000M2s500", "rep": "1", "aln": "true_align", "method": "raxmlng", "seconds": 424.7, "cpu_seconds": 278.4, "lnl_tool": -116774.439413, "fn_rate": 0.500503524672709, "fp_rate": 0.5025075225677031, "rf_rate": 0.5005015045135406, "tree": "/opt/data/mlcache/1000M2s500/R1/trees/true_align.raxmlng.tre"}

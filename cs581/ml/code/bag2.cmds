@@ -1,0 +1,16 @@
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 2 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 2 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 3 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 3 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 4 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 4 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 5 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 5 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 6 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 6 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 7 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 7 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 8 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 8 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s250 --reps 9 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s250 9 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 2 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 2 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 3 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 3 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 4 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 4 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 5 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 5 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 6 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 6 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 7 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 7 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 8 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 8 --method fasttree --B 20
+python3 code/runtrees.py results/headroom.jsonl --datasets 1000M2s500 --reps 9 --alns true_align --methods fasttree iqtree_fast raxmlng --workers 1 && python3 code/bag.py 1000M2s500 9 --method fasttree --B 20
