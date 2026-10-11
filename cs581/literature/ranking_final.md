@@ -735,3 +735,12 @@ negative result for the instructor's "MAGUS with different base methods" suggest
   **vote hard (binomial) 8.81 [8.57/9.05] (−1.36), soft4 8.82**. Same picture as 16S.T: on the three real rRNA sets (16S.M, 16S.T,
   16S.3) the vote model helps (−0.4 to −1.5) and MAGUS's errors are FP-dominated (SPFP > SPFN); the fixed es4 cutoff does not help
   there. The binomial variant beats the selected beta-binomial on both large sets.
+
+**gcmvote2 training selection (05:00 UTC, `claude/cs581-gcmvote2`, pre-registered 04:16).** Training Δ vs MAGUS over 10 reps
+[DNA/RNA mean]: **m1-dm (Dirichlet-multinomial mixture on graded votes none/weak/strong, s = pairs/(res_a·res_b)) −1.09 [+0.01]**;
+m1-gbb −0.97 [−0.01]; m3-ovbb (overlap-aware) −0.91 [+0.27]; m2-ds (Dawid–Skene) −0.88 [+0.39]; m4-gmm +0.52 (16S.M +3.8);
+baselines hard-bb −1.15 [+0.30], es4 −1.05 [+0.04]. Selected m1-dm: ties es4 on training (−0.04) and removes v1's DNA penalty
+(+0.30 → +0.01). Dawid–Skene reliabilities are near uniform (sd 0.002–0.018): exchangeable backbones, as M-Coffee found.
+Overlap guard: n_eff 1.9 / 1.5 on BBA0101 / BBA0067. Gate (M5): filter iff weight share on k < 4 edges ≤ 0.170, LOO −1.15 vs
+−1.09 ungated; it only switches off ROSE 1000M2/1000L2, so it is weak. Held-out: 26 reps × 15 variants running (incl. 16S.3,
+16S.T, BBA0081, CPM combos).
