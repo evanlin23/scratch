@@ -16,3 +16,4 @@
 {"data": "disco", "cond": "missing_1000", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 32.4, "sec": 161.55, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
 {"data": "disco", "cond": "gdl_1e-9_1", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 90.3, "sec": 605.619, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
 {"data": "disco", "cond": "gdl_1e-10_0", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 42.6, "sec": 381.699, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "disco", "cond": "gdl_1e-9_0", "rep": "01", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 4, "sec": 1806.684, "rssMB": 0.0, "error": "TimeoutExpired"}

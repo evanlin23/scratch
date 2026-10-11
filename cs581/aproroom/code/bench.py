@@ -248,7 +248,7 @@ def main():
     if os.path.exists(a.out):
         for l in open(a.out):
             r = json.loads(l)
-            done.add((json.dumps({k: r[k] for k in key}, sort_keys=True), r["method"]))
+            done.add((json.dumps({k: r.get(k) for k in key}, sort_keys=True), r["method"]))
     ks = json.dumps(key, sort_keys=True)
     todo = [m for m in a.methods.split(",") if (ks, m) not in done]
     if not todo:

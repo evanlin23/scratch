@@ -23,6 +23,6 @@ for (m, t), (lab, c, ls) in style.items():
         ax[1].plot(xs, [ok[("genes", n, m, t)] for n in xs], ls, color=c, marker="o", label=lab)
 for a, xl in zip(ax, ["#species (1000 genes, DISCO species_1000 subsets)", "#genes (100 species, gtrees_10000_l1)"]):
     a.set_xscale("log"); a.set_yscale("log"); a.set_xlabel(xl); a.set_ylabel("wall time (s)"); a.grid(alpha=.3)
-ax[0].legend(fontsize=8)
+ax[0].legend(fontsize=8); ax[1].legend(fontsize=8)
 fig.tight_layout()
 fig.savefig(os.path.join(R, "scaling.png"), dpi=120)
