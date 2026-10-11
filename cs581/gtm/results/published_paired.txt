@@ -1,0 +1,14 @@
+RNASim1000 FT  A=GTM B=TreeMerge n=5  A 14.70%  B 14.70%  diff(B-A) mean +0.00 median +0.00 [95% CI +0.00, +0.00]  B better/worse/tie 0/0/5  Wilcoxon p=1  sign p=1
+RNASim1000 FT  A=GTM B=CINC      n=5  A 14.70%  B 15.09%  diff(B-A) mean +0.38 median +0.20 [95% CI +0.04, +0.82]  B better/worse/tie 0/3/2  Wilcoxon p=0.25  sign p=0.25
+RNASim1000 IQ  A=GTM B=TreeMerge n=5  A 14.36%  B 14.36%  diff(B-A) mean +0.00 median +0.00 [95% CI +0.00, +0.00]  B better/worse/tie 0/0/5  Wilcoxon p=1  sign p=1
+RNASim1000 IQ  A=GTM B=CINC      n=5  A 14.36%  B 14.46%  diff(B-A) mean +0.10 median +0.00 [95% CI +0.00, +0.26]  B better/worse/tie 0/2/3  Wilcoxon p=0.5  sign p=0.5
+Cox1-HET   FT  A=GTM B=TreeMerge n=10  A 18.85%  B 18.89%  diff(B-A) mean +0.04 median +0.04 [95% CI -0.02, +0.09]  B better/worse/tie 2/6/2  Wilcoxon p=0.25  sign p=0.289
+Cox1-HET   FT  A=GTM B=CINC      n=10  A 18.85%  B 18.87%  diff(B-A) mean +0.01 median -0.09 [95% CI -0.18, +0.26]  B better/worse/tie 7/3/0  Wilcoxon p=0.646  sign p=0.344
+Cox1-HET   IQ  A=GTM B=TreeMerge n=10  A 18.71%  B 18.72%  diff(B-A) mean +0.01 median +0.00 [95% CI +0.00, +0.04]  B better/worse/tie 0/1/9  Wilcoxon p=1  sign p=1
+Cox1-HET   IQ  A=GTM B=CINC      n=10  A 18.71%  B 19.67%  diff(B-A) mean +0.96 median +0.13 [95% CI +0.05, +2.38]  B better/worse/tie 2/8/0  Wilcoxon p=0.111  sign p=0.109
+1000M1-HF  FT  A=GTM B=TreeMerge n=5  A 42.45%  B 42.55%  diff(B-A) mean +0.10 median +0.00 [95% CI -0.12, +0.34]  B better/worse/tie 2/2/1  Wilcoxon p=0.625  sign p=1
+1000M1-HF  FT  A=GTM B=CINC      n=5  A 42.45%  B 42.39%  diff(B-A) mean -0.06 median -0.10 [95% CI -0.22, +0.14]  B better/worse/tie 3/1/1  Wilcoxon p=0.625  sign p=0.625
+1000M1-HF  IQ  A=GTM B=TreeMerge n=5  A 28.37%  B 28.51%  diff(B-A) mean +0.14 median +0.10 [95% CI +0.02, +0.28]  B better/worse/tie 0/3/2  Wilcoxon p=0.25  sign p=0.25
+1000M1-HF  IQ  A=GTM B=CINC      n=5  A 28.37%  B 28.61%  diff(B-A) mean +0.24 median +0.20 [95% CI +0.10, +0.38]  B better/worse/tie 0/4/1  Wilcoxon p=0.125  sign p=0.125
+POOLED     A=GTM B=TreeMerge n=40  A 21.88%  B 21.92%  diff(B-A) mean +0.04 median +0.00 [95% CI +0.01, +0.09]  B better/worse/tie 4/12/24  Wilcoxon p=0.0461  sign p=0.0768
+POOLED     A=GTM B=CINC      n=40  A 21.88%  B 22.20%  diff(B-A) mean +0.33 median +0.04 [95% CI +0.07, +0.72]  B better/worse/tie 12/21/7  Wilcoxon p=0.0313  sign p=0.163
