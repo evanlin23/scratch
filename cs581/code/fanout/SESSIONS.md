@@ -198,3 +198,27 @@ h5 SIMMOD_R2/SIMHIGH_R2, h6 BBA0101/0067, h9 1000M2/1000L1, h10 1000M1 R0/R1. Ma
 
 All gcmvote helpers were asked (03:58–04:05 UTC) to push a "rep bank" (cs581/gcmvote/bank/<rep>.tar.gz + MANIFEST.tsv) so new
 merge-step variants can be tested without re-running MAGUS.
+
+### Round 4 (04:14–04:18 UTC, Oct 11): "explore everything"
+
+| session | branch | session id |
+|---|---|---|
+| gcmvote-p21: tree power SIMHIGH_R21+R22 | claude/cs581-gcmvote-p21 | session_01Qr2UcPghiNLnqRbRxPSPzJ |
+| gcmvote-p23: R23+R24 | claude/cs581-gcmvote-p23 | session_01GE7ZUFGcGMPpe3Wgjv7B5r |
+| gcmvote-p25: R25+R26 | claude/cs581-gcmvote-p25 | session_015jpoNBBfrrDwyZoMCGmH75 |
+| gcmvote-p27: R27+R28 | claude/cs581-gcmvote-p27 | session_01GhawMA68QavRQKdYN99EUg |
+| gcmvote-p29: R29+R30 | claude/cs581-gcmvote-p29 | session_011xHKkFnFr4KVNw9ZCcnXuD |
+| gcmvote-p31: R31+R32 | claude/cs581-gcmvote-p31 | session_01JpHuMWw7NzUfcnuUEVNLUy |
+| gcmvote-p33: R33+R34 | claude/cs581-gcmvote-p33 | session_014RRLjAjqtFpcPRscdSxZV6 |
+| gcmvote-p35: R35+R36 | claude/cs581-gcmvote-p35 | session_01McQ9xFQ4VboVvMuGTK9ub3 |
+| gcmvote-p37: R37+R38 | claude/cs581-gcmvote-p37 | session_01VPw5GucbxB3mwZCgcovxT4 |
+| gcmvote-p39: R39+R40 | claude/cs581-gcmvote-p39 | session_01TLcyu34FPWXn6wX3w6o7tn |
+| gcmvote-p41: R41+R42 | claude/cs581-gcmvote-p41 | session_01PZxSskpymjxgAohzZKAVZD |
+| gcmvote-p43: R43+R44 | claude/cs581-gcmvote-p43 | session_018hFbZBoC2CGFoX9TRs6Yfz |
+| gcmvote-p45: R45+R46 | claude/cs581-gcmvote-p45 | session_01FmXx5t1KNYq7Gvc9tR8HXC |
+| gcmvote-p47: R47+R48 | claude/cs581-gcmvote-p47 | session_01RdobQvx2BtrKWbkDRPjdBe |
+| gcmvote-p49: R49+R50 | claude/cs581-gcmvote-p49 | session_01U51E5YWrT9m5dVhR1SyZoR |
+| treecrit: which alignment errors predict tree error + one tree-targeted fix | claude/cs581-treecrit | session_01L2ecceKe8XyMBbwKuYDjWe |
+
+Also: gcmvote2 asked to add M5 (reference-free dataset gate) and M6 (CPM clustering combo); local novelty audit of the voting
+ideas → cs581/literature/novelty_gcmvote.md.
