@@ -759,3 +759,35 @@ Overlap guard: n_eff 1.9 / 1.5 on BBA0101 / BBA0067. Gate (M5): filter iff weigh
 - gcmvote2's graded-vote model m1-dm (DNA ≈ 0 on training) is the candidate fix; its held-out run (26 reps) is in progress.
 - Still owed by main: weight-matched controls, diagnostics (weight vs count, overlap vs gain, BBA0081), es4 gg/vote.py
   mismatch. Status requested 04:48.
+
+**Why hard-bb is +0.38 on simulated DNA/RNA (05:15 UTC; helper + main result rows, gcmwhy edge truth `claude/cs581-gcmwhy` 977b060).**
+- Where the +0.38 comes from (n = 14 helper draws): the four 1000M1 replicates contribute +0.275 (mean +0.96); the other 10
+  contribute +0.107 (mean +0.15). On the same 10 datasets, main's MAGUS draws give −0.01; helper − main per dataset +0.16
+  (sd 0.22, Wilcoxon p = 0.037), so draw-to-draw variation is as large as the effect. Recount with a strict ±0.1 band: 0/6/8
+  (p = 0.007); 1000M2_R1 sits exactly at −0.10, which explains the earlier 1/5/8.
+- Direction: in all 14 the loss is recall. ΔSPFN +0.07 to +4.42, ΔSPFP −0.09 to −2.24, and the alignment gets longer
+  (1000M1_R1 LenEst/LenRef 0.97 → 1.14). BAliBASE/HomFam and real rRNA: SPFP −1 to −6 for SPFN +0.2 to +1.5. Simulated
+  proteins: SPFN itself −10 to −17.
+- Dose-response on the same 14: es3 −0.02, es4 −0.03, es5 +0.03, hard-bb +0.38, hard (binomial) +0.29, soft4 +0.37. A fixed
+  k ≥ 5 cutoff (frac0.5) on 1000M1 R0/R1, 1000L3_R0, 1000M3_R0 gives +0.01/+0.17/−0.41/−0.07, against hard-bb (k ≥ 6–7)
+  +0.59/+1.34/+0.52/+0.03. The damage comes from deleting edges with about 5–7 of 10 votes.
+- What those edges are (gcmwhy, truth from the reference):
+  - Edges with k = 6–8 are mostly true on ROSE DNA (edge precision 0.49–0.73, unit precision 0.57–0.85) but mostly false on
+    proteins (0.18–0.48 / 0.24–0.51).
+  - The whole band that hard-bb deletes beyond es4 is 22–49 % true units on DNA vs 16–29 % on proteins.
+  - Share of true units at k = 6–8: nucleotide group 8.6 % vs protein 2.2 %.
+  - This is vote splitting. True edges deleted on nucleotides have own k 2.76 but pooled k (b ± 1) 6.04, and 45 % of the false
+    units at k = 6–8 are offset by one column from a true partner.
+- Asymmetric payoff (gcmwhy oracle merges, nucleotide vs protein):
+  - Deleting only hard-bb's false edges gives −1.26 vs −3.55. Deleting only its true edges gives +2.26 vs +0.60.
+  - es4 deletes 57 % of nucleotide false units for −0.03. Low-support false edges on DNA are mostly near-misses that MCL and the
+    trace already resolve.
+  - The deleted true edges are not recovered: xSPFN misses with the edge dropped go 0 → 7.82 points; misses with the edge kept
+    but split go 8.24 → 2.22.
+- The model does not see either difference:
+  - The cutoff is similar on both data types (k ≥ 5–9 on proteins, 5–8 on simulated DNA, at n = 10).
+  - On the worst reps (1000M1 R1/R2), π = 0.07–0.08 (4.2–4.5 M edges, mostly k = 1), and P(true | k = 6) = 0.27–0.36 although
+    the k = 6–8 bin is 54–61 % true per edge.
+  - Edge-level posterior > 0.5 is not the same as "deleting this edge lowers error".
+- Possible confound (gcmwhy H3 OLS): with subset-alignment gap fraction as a covariate, the protein dummy goes to −0.03 (p = 0.98,
+  R² 0.62). The data-type split may track gappiness rather than alphabet; the current reps cannot separate the two.
