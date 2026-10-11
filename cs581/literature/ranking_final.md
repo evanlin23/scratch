@@ -661,3 +661,6 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   hard-bb vs magus so far: R5 −1.91, R9 −3.92, R13 +0.60, R17 −0.10 (n = 4, mean −1.33).
 - t15 (SIMHIGH_R15): SP magus 25.67, es4 20.13, hard-bb 20.37; nRF true 6.62, magus 15.55, es4 14.84, hard-bb 15.65 (+0.10).
   hard-bb tree Δ vs magus: R5 −1.91, R9 −3.92, R13 +0.60, R15 +0.10, R17 −0.10 (n = 5, mean −1.05).
+- Backbone-count sensitivity, 16S.M (h9b, real rRNA): MAGUS 13.12 / 13.03 / 13.04 (B = 5/10/20); best fixed fraction
+  13.04 / 12.91 / 12.95; vote hard-bb 12.25 / 12.37 / 12.25 (−0.87 / −0.66 / −0.79 vs MAGUS). Vote beats MAGUS and the best fixed
+  fraction at every B on real RNA too (unlike simulated ROSE DNA).
