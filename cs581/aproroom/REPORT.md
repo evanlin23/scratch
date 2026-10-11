@@ -211,7 +211,40 @@ missing-data correction is the one thing ASTRID-Pro lacks.
 
 ## 4. Q3 — Speed and memory (idle machine, one job at a time)
 
-SCALING_TABLES
+Wall time in seconds, with peak RSS in parentheses (MB). ASTRAL-Pro3 and wQFM-GDL ran with 4 threads; ASTRID-Pro
+with 1 and 4 threads (OpenMP over genes); Asteroid and ASTRID-DISCO are single-threaded. Inputs:
+- species: DISCO species_1000 rep 01, 1000 estimated genes, induced on nested random species subsets;
+- genes: gtrees_10000_l1 rep 01, 100 species.
+
+Plot: `results/scaling.png`.
+
+| input | ASTRID-Pro 1t | ASTRID-Pro 4t | ASTRID-DISCO | Asteroid | ASTRAL-Pro3 4t | wQFM-GDL |
+|---|---|---|---|---|---|---|
+| 100 sp, 100 genes | 0.15 (14) | 0.10 (14) | 1.0 (46) | 0.8 (141) | 4.2 (14) | 63 (2,056) |
+| 100 sp, 1,000 genes | 0.71 (14) | 0.25 (14) | 8.0 (51) | 8.0 (1,392) | 42 (52) | ~1,750 (1,297)† |
+| 100 sp, 10,000 genes | 6.8 (14) | 2.1 (14) | 78 (118) | not run (memory ∝ genes) | – | – |
+| 100 sp (subset), 1,000 genes | 0.71 (13) | 0.25 (14) | 7.6 (49) | ASTEROID100 | 34 (58) | – |
+| 200 sp, 1,000 genes | 2.0 (14) | 1.1 (22) | 18 (91) | 46 (**5,930**) | 165 (108) | – |
+| 500 sp, 1,000 genes | 4.4 (31) | 1.7 (67) | 58 (215) | **out of memory** (> 11.7 GB) | **> 1,500 (timeout)** | – |
+| 1,000 sp, 1,000 genes | 14 (113) | 7.6 (212) | 536 (605) | **out of memory** | not attempted | – |
+
+† 1 thread, from the DISCO true-tree run (shared machine).
+
+- **ASTRID-Pro**
+  - Scales linearly in genes (0.15 → 0.7 → 6.8 s for 100 → 10,000 genes) with constant memory.
+  - About quadratic in species, dominated by FastME at 1000 species.
+  - The OpenMP build gives 2.8–3.2× on 4 threads for the distance pass; less at 1000 species, where FastME, single-threaded, dominates.
+- **ASTRAL-Pro3 with 4 threads**
+  - 28× (100 sp × 100 genes), 60× (100 × 1000) and 80× (200 sp) slower than single-thread ASTRID-Pro.
+  - Does not finish 500 species × 1000 genes in 25 min.
+- **Asteroid**
+  - Fast, but its memory grows with #genes × #species² (1.4 GB at 100 × 1000, 5.9 GB at 200 sp).
+  - Fails above ~300 species on this 15 GB machine.
+- **wQFM-GDL** is the slowest: 63 s at 100 genes, ~29 min at 1000 genes.
+- **Accuracy at equal input.**
+  - On the 200-species subset ASTRID-DISCO 0.061 < ASTRAL-Pro3 0.066 < ASTRID-Pro 0.071 < Asteroid 0.086.
+  - At 500 species ASTRID-DISCO 0.058 vs ASTRID-Pro 0.062. At 1000 species ASTRID-Pro 0.070 vs ASTRID-DISCO 0.072.
+  - These are single replicates; differences of 1–4 edges.
 
 Accuracy-run timings (1 thread, shared machine), from the runs above:
 - **100 taxa, 1000 genes (DISCO default rep 01, true trees).** ASTRID-Pro 0.9 s / 14 MB; ASTRID-DISCO 9.9 s / 53 MB; Asteroid 8.9 s / **1.4 GB**; ASTRAL-Pro3 275 s / 54 MB; wQFM-GDL **1751 s** / 1.3 GB.
