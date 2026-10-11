@@ -1,1 +1,2 @@
 {"rep": "SIMHIGH_R3", "method": "true", "nRF": 0.0652, "FN": 0.0652, "FP": 0.0652, "lnL": -270115.3247, "wall": 776.6, "over_90min": false, "iqtree": "IQ-TREE version 3.1.4 for Linux x86 64-bit built Sep 29 2026"}
+{"rep": "SIMHIGH_R3", "method": "magus", "nRF": 0.1053, "FN": 0.1053, "FP": 0.1053, "lnL": -288011.3537, "wall": 885.6, "over_90min": false, "iqtree": "IQ-TREE version 3.1.4 for Linux x86 64-bit built Sep 29 2026"}
