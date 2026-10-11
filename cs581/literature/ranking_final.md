@@ -28,6 +28,20 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**aproroom FINAL (01:40 UTC, `claude/cs581-aproroom`).**
+- *Error decomposition:* confirms the interim. Gene-tree estimation error is 80–95% of all error, including at 1000
+  species. It does not shrink with more genes (0.026 at both 1k and 10k estimated genes vs 0.000 on true trees).
+- *Where methods separate:*
+  - high duplication: ASTRID-Pro beats Asteroid (−0.011) and ASTRID-multi (−0.013); on gdl_1e-9_0 it is 0.058 vs
+    ASTRID-DISCO 0.077;
+  - high ILS: ASTRAL-Pro3 is best;
+  - 100 genes: wQFM-GDL is best.
+- *Scaling:* ASTRID-Pro takes 14 s at 1000 species with constant memory. ASTRAL-Pro3 (4 threads) takes more than 25 min
+  at 500 species; Asteroid runs out of memory at 500; wQFM-GDL takes about 29 min at 1000 genes.
+- *Hybrid:* an ASTRID-Pro guide makes ASTRAL-Pro3 5–10× faster at equal accuracy.
+- *Headroom:* a better objective can gain at most about 0.01 FN. The lever is robustness to gene-tree error (up to
+  0.03–0.09 FN), but wapro's weighting, the standard approach to that, did not help.
+
 **Check-in 11 (01:40 UTC): the MAGUS fix does NOT improve trees; GCM clustering swap is not useful on its own.**
 - *gcmtrees, pooled from the main session + h1–h3:* 12 complete simulated protein sets, FastTree nRF.
   - Pre-registered primary, recipe minus MAGUS: −0.15 (6/2/4 at a 0.1 band, Wilcoxon p = 0.64). SIMHIGH (n = 5):
