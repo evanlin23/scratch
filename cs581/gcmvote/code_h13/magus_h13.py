@@ -26,6 +26,10 @@ from memrun import run  # noqa: E402
 
 CODE = os.path.join(REPO, "code")
 T = "4"
+# Restart of 2026-10-11 (orchestrator's option a): the paper's flags plus --recurse false, reusing the killed
+# recursive run's top-level decomposition and finished backbones (H13_REUSE=1 keeps WORK/d0/magus).
+EXTRA = os.environ.get("H13_EXTRA", "").split()
+REUSE = os.environ.get("H13_REUSE") == "1"
 
 
 def main(work, src, k):
@@ -50,13 +54,13 @@ def main(work, src, k):
     py = [sys.executable, "-m", "gcmx.run_magus"]
     inputs = os.path.join(w, "inputs")
     if "magus" not in row:
-        for d in ("magus", "inputs"):
+        for d in (("inputs",) if REUSE else ("magus", "inputs")):
             shutil.rmtree(os.path.join(w, d), ignore_errors=True)
         out = os.path.join(w, "magus.fasta")
         if os.path.exists(out):
             os.remove(out)
         m = run(py + ["--gcmx-fastgraph", "true", "-np", T, "-d", os.path.join(w, "magus"), "-i", unaligned,
-                      "-o", out] + magus_flags(k), os.path.join(w, "magus.log"), cwd=CODE)
+                      "-o", out] + magus_flags(k) + EXTRA, os.path.join(w, "magus.log"), cwd=CODE)
         shutil.copytree(os.path.join(w, "magus", "subalignments"), os.path.join(inputs, "subalignments"))
         os.makedirs(os.path.join(inputs, "backbones"))
         os.makedirs(os.path.join(w, "graph_fast"), exist_ok=True)
@@ -67,7 +71,7 @@ def main(work, src, k):
             elif os.path.isfile(p) and not f.startswith("backbone_"):
                 shutil.copy(p, os.path.join(w, "graph_fast"))
         shutil.rmtree(os.path.join(w, "magus"), ignore_errors=True)
-        log_row("magus", {**m, "fastgraph": True, **acc_ref(true, out),
+        log_row("magus", {**m, "fastgraph": True, "extra_flags": EXTRA, "reused_partial_run": REUSE, **acc_ref(true, out),
                           **backbone_stats(ref, os.path.join(inputs, "backbones"))})
 
     rep = os.path.join(work, "rep")
