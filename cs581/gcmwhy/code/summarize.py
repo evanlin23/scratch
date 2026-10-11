@@ -168,12 +168,13 @@ def main():
             "a gain from removing false edges and a loss from removing true edges.", "",
             "| rep | type | magus | " + " | ".join(var) + " |", "|---|---|---|" + "---|" * len(var)]
     D = {v: [] for v in var}
-    types = []
+    types, RR = [], []
     for r, t, s in R:
         if r not in M or "magus" not in M[r]:
             continue
         base = err(M[r]["magus"])
         types.append(t)
+        RR.append(r)
         cells = []
         for v in var:
             x = err(M[r][v]) - base if v in M[r] else np.nan
@@ -186,6 +187,15 @@ def main():
             m, n = mean_by(D[v], types, t)
             cells.append("{} (n={})".format(fmt(m), n))
         out.append("| **mean {}** | | | ".format(t) + " | ".join(cells) + " |")
+    out.append("")
+    out += ["Robust summary (BBA0081 excluded: its beta-binomial fit labels the wrong component and deletes 97 % of true "
+            "units). Median Δ; Mann–Whitney p for protein vs nucleotide:", "",
+            "| variant | protein median (n) | nucleotide median (n) | MW p |", "|---|---|---|---|"]
+    for v in ("es4", "hard-bb", "or-es4-false", "or-es4-true", "or-hbb-false", "or-hbb-true", "or-allfalse"):
+        pv = [x for x, tt, r in zip(D[v], types, RR) if tt == "protein" and r != "BBA0081" and not np.isnan(x)]
+        nv = [x for x, tt, r in zip(D[v], types, RR) if tt == "nucleotide" and not np.isnan(x)]
+        p = stats.mannwhitneyu(pv, nv).pvalue if pv and nv else np.nan
+        out.append("| {} | {} ({}) | {} ({}) | {} |".format(v, fmt(np.median(pv)), len(pv), fmt(np.median(nv)), len(nv), fmt(p, 4)))
     out.append("")
     # SPFN / SPFP split
     out += ["### ΔSPFN / ΔSPFP (points) by type", "", "| type | variant | ΔSPFN | ΔSPFP |", "|---|---|---|---|"]
@@ -213,10 +223,25 @@ def main():
                 fmt(100 * np.mean([x["clusters"]["true_pairs_split_between_clusters"] for x in rs])),
                 fmt(100 * np.mean([x["trace"]["nodes_unclustered_frac"] for x in rs]))))
     out.append("")
+    # ---------------- H5 paired table
+    h5 = [r for r, t, s in R if r in M and "magus@f2" in M[r]]
+    if h5:
+        out += ["## H5: MCL inflation (MAGUS default 4) — Δ vs magus at the SAME inflation", "",
+                "| rep | type | inflation | magus error | Δ es4 | Δ hard-bb | Δ or-hbb-true |", "|---|---|---|---|---|---|---|"]
+        for r in h5:
+            t = [tt for rr, tt, s in R if rr == r][0]
+            for f in ("2", "4", "6"):
+                sfx = "" if f == "4" else "@f" + f
+                if "magus" + sfx not in M[r]:
+                    continue
+                b = err(M[r]["magus" + sfx])
+                cells = [fmt(err(M[r][v + sfx]) - b) if v + sfx in M[r] else "–" for v in ("es4", "hard-bb", "or-hbb-true")]
+                out.append("| {} | {} | {} | {} | ".format(r, t[:3], f, fmt(b)) + " | ".join(cells) + " |")
+        out.append("")
     # ---------------- H3 regression
     feats = []
     for r, t, s in R:
-        if r not in E or r not in M or "magus" not in M[r]:
+        if r not in E or r not in M or "magus" not in M[r] or r == "BBA0081":
             continue
         e = E[r]
         f = {"rep": r, "protein": 1.0 if t == "protein" else 0.0, "magus_err": err(M[r]["magus"]),
@@ -232,7 +257,7 @@ def main():
     json.dump(feats, open(os.path.join(RES, "h3_features.json"), "w"), indent=1)
     names = ["protein", "magus_err", "pdist", "ref_gapfrac", "sub_gapfrac", "bb_jaccard", "low_share_units", "graph_prec",
              "lowk_true_edges", "hbb_true_units_removed", "hbb_false_units_removed", "ntaxa"]
-    out += ["## H3: what the filter gain tracks (Spearman ρ across reps, p in parentheses)", "",
+    out += ["## H3: what the filter gain tracks (Spearman ρ across reps, BBA0081 excluded; p in parentheses)", "",
             "| feature | Δ es4 | Δ hard-bb | Δ or-hbb-false (gain part) | Δ or-hbb-true (loss part) |", "|---|---|---|---|---|"]
     for nm in names:
         cells = []

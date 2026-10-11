@@ -6,6 +6,7 @@
 VARIANT: anything vote.py accepts (magus, es4, hard-bb, ...) or
   or-<F>-false   apply filter F (es4 | hbb) but delete ONLY the edges it removes that are false (oracle)
   or-<F>-true    apply filter F but delete ONLY the edges it removes that are true (oracle)
+  or-<F>-falsenear / -falsefar   only the false edges F deletes whose nearest true partner column is <= 2 / > 2 away
   or-allfalse    delete every false cross-subset edge (oracle upper bound of graph cleaning)
   <V>@f<X>       variant V with MCL inflation factor X instead of MAGUS's default 4 (H5)
   pool<K>[-d<D>] exploratory near-miss pooling: keep edge (a, b) if the number of backbones that align a with
@@ -32,6 +33,7 @@ ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "gcmvote", "code"))
 sys.path.insert(0, os.path.join(ROOT, "bbevidence", "code"))
 sys.path.insert(0, os.path.join(ROOT, "code"))
+sys.path.insert(0, HERE)
 import vote  # noqa: E402
 
 ORACLE = ("or-", "pool")
@@ -64,6 +66,24 @@ def truth(rep, bbdir):
     keys, w, wt, _ = bbe.graph_edges(R, files)
     np.savez(cache, keys=keys, w=w, wt=wt, N=R.nnodes)
     return keys, w, wt, R.nnodes
+
+
+def false_offsets(rep, a, b):
+    """bbe node pairs -> distance to the nearest truly paired column (min over both directions), as why.py."""
+    import bbe
+    import why
+    R = bbe.Rep(rep)
+    N = R.nnodes
+    R.node_sub = np.empty(N, dtype=np.int64)
+    lo, hi, o = [], [], 0
+    for i, s_ in enumerate(R.subsets):
+        L = len(next(iter(s_.values())))
+        R.node_sub[o:o + L] = i
+        lo.append(o); hi.append(o + L)
+        o += L
+    R.sub_lo, R.sub_hi = np.array(lo), np.array(hi)
+    tk = why.true_pair_keys(R)
+    return np.minimum(why.nearest_offset(R, tk, a, b), why.nearest_offset(R, tk, b, a))
 
 
 def pooled(total_per_bb, r, c, sub, d):
@@ -128,7 +148,14 @@ def install(variant, vd, rep, bbdir):
             else:
                 _, f, which = var.split("-")
                 fdrop = (k < 4) if f == "es4" else (post <= 0.5)
-                drop = fdrop & (~istrue if which == "false" else istrue)
+                drop = fdrop & (istrue if which == "true" else ~istrue)
+                if which in ("falsenear", "falsefar"):  # split the false deletions by offset to the true partner
+                    off = np.full(len(drop), np.inf)
+                    sel = np.flatnonzero(drop)
+                    off[sel] = false_offsets(rep, a[sel], b[sel])
+                    near = off <= 2
+                    drop &= near if which == "falsenear" else ~near
+                    info["offset_le2_share_of_false_drops"] = float(near[sel].mean())
         else:  # pooling
             name = var
             d = 1
@@ -322,8 +349,8 @@ def main():
         m = os.path.join(vd, "model.json")
         if os.path.exists(m):
             mj = json.load(open(m))
-            row["model"] = {kk: mj[kk] for kk in ("dropped_edges", "dropped_weight_frac", "kept_edges",
-                                                   "kept_weight_frac", "mean_kp_minus_k") if kk in mj}
+            row["model"] = {kk: mj[kk] for kk in ("dropped_edges", "dropped_weight_frac", "kept_edges", "kept_weight_frac",
+                                                   "mean_kp_minus_k", "offset_le2_share_of_false_drops") if kk in mj}
         with open(res, "a") as f:
             f.write(json.dumps(row) + "\n")
         print(json.dumps({kk: row[kk] for kk in ("rep", "variant", "SPFN", "SPFP") if kk in row}), flush=True)

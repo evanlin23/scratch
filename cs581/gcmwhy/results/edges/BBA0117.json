@@ -277,6 +277,36 @@
   "mean_kp_minus_k_true_low": 1.089807555238774,
   "mean_kp_minus_k_false_low": 2.4428717598908594
  },
+ "h2_split": {
+  "true_deleted": {
+   "edges": 1943,
+   "mean_k": 3.0931549150797735,
+   "mean_kp": 4.756562017498713,
+   "mean_n": 9.686567164179104,
+   "share_kp_ge_n_minus_1": 0.2501286670097787
+  },
+  "false_deleted": {
+   "edges": 8067,
+   "mean_k": 2.6644353539109953,
+   "mean_kp": 5.2154456427420355,
+   "mean_n": 9.459774389488038,
+   "share_kp_ge_n_minus_1": 0.3065575802652783
+  },
+  "true_kept": {
+   "edges": 16023,
+   "mean_k": 9.70224052923922,
+   "mean_kp": 9.726518130187856,
+   "mean_n": 9.743493727766335,
+   "share_kp_ge_n_minus_1": 1.0
+  },
+  "false_kept": {
+   "edges": 1729,
+   "mean_k": 9.079814921920185,
+   "mean_kp": 9.23770965876229,
+   "mean_n": 9.207634470792366,
+   "share_kp_ge_n_minus_1": 1.0
+  }
+ },
  "feat": {
   "pdist": 0.7499144050963704,
   "ref_gapfrac": 0.48833010960670536,
