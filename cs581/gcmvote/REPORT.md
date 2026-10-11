@@ -202,7 +202,36 @@ k = 4 cut keeps them.
 ## 5. Sensitivity to the number of backbones B (merge-only, identical subsets)
 
 B = 5 uses MAGUS's backbones 1–5. B = 20 adds 10 new L-INS-i backbones on fresh random 200-sequence sets
-(8 per subset, as MAGUS draws them). Δ is measured against `magus` with the same B. SENS_PLACEHOLDER
+(8 per subset, as MAGUS draws them). Δ is measured against `magus` with the same B. Full tables are in `results/tables.md` ("Sensitivity"). Training replicates only: 6 proteins
+(BBA0101, 0134, 0067, 0039, SIMMOD_R1, SIMHIGH_R1) and 2 DNA/RNA (1000M2, 16S.M); B = 20 is SENS20_N.
+Backbone size is 200 throughout; size 100 was not run (no time).
+
+Mean Δ vs `magus` at the same B (proteins / DNA-RNA):
+
+| B | frac0.2 | frac0.3 | frac0.4 | frac0.5 | `hard` | `hard-bb` | cutoff chosen by the binomial model at n = B |
+|---|---|---|---|---|---|---|---|
+| 5 | 0.00 / 0.00 (no-op: k ≥ 1) | −1.39 / −0.01 | −1.39 / −0.01 (k ≥ 2) | −1.78 / −0.07 (k ≥ 3) | −1.87 / +0.81 | −1.89 / +0.57 | 4 of 5 on every set (0.8) |
+| 10 | −0.92 / −0.01 | −1.63 / +0.01 | −1.87 / +0.15 (= es4) | −2.17 / +0.43 | −2.29 / +0.45 | −2.35 / +0.16 | 6–8 of 10 (0.6–0.8) |
+| 20 | SENS20_ROW |
+
+MAGUS itself with B backbones vs MAGUS with 10:
+- B = 5 is noisy (−2.5 to +2.7, e.g. 1000M2 +2.68, SIMHIGH_R1 +2.60, SIMMOD_R1 −2.51).
+- B = 20 is slightly *worse* than 10 on every set but one (+0.1 to +0.2): more backbones add more junk edges as
+  well as more true ones.
+
+Reading:
+- **The model's fraction falls with B**: 0.8 at B = 5, 0.6–0.8 at B = 10, ~0.5 at B = 20 (10–11 of 20 on
+  BAliBASE). The absolute number of votes it wants (4 → 6–7 → 10–11) grows more slowly than B.
+  - This is what a two-component binomial predicts: as n grows, the false component's tail
+    (p0 ≈ 0.1–0.2) and the true component's (p1 ≈ 0.9) separate, so the posterior boundary moves towards
+    (log-odds) halfway between p0 and p1.
+  - A fixed fraction does not transfer: k/B = 0.4 is es4 at B = 10 but deletes almost nothing useful at B = 5
+    (k ≥ 2).
+- **Filtering pays off most with fewer backbones, and least with more.** Proteins, best rule per B:
+  −1.9 (B = 5), −2.35 (B = 10), SENS20_BEST (B = 20). With 20 backbones the junk is diluted and MCL copes
+  better, so there is less to gain.
+- **DNA's recall cost of a strict cutoff is stable** (1000M2: +2.0 at B = 5, +1.0–1.4 at B = 10, +0.8–1.2 at
+  B = 20). The 1000M2 cost is the consistent failure case of the vote model at every B.
 
 ## 6. Trees (FastTree 2 `-lg -gamma`, nRF % vs the true tree)
 
