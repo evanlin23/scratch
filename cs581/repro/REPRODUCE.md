@@ -199,13 +199,14 @@ A paired experiment needs one MAGUS draw shared by all variants:
    mkdir -p $R/inputs/subalignments $R/inputs/backbones
    cp $W/subalignments/*.txt $R/inputs/subalignments/
    cp $W/graph/backbone_*_mafft.txt $R/inputs/backbones/
-   python3 -c "import json; json.dump([l.split('/')[-1] for l in json.load(open('run/magus.fasta.subsets.json'))], open('$R/subsets.json','w'))"
-   sed -i 's|"subalignment|"inputs/subalignments/subalignment|g' $R/subsets.json
+   cp run/magus.fasta.subsets.json $R/subsets.json     # MAGUS's subset order (only the file names are used)
    cp true.fasta $R/
    ```
 
-3. Run every variant merge-only on it (section 3 commands). The `magus` merge of such a replicate reproduces the
-   end-to-end MAGUS alignment.
+3. Run every variant merge-only on it (section 3 commands). A merge-only run on such a replicate reproduces the
+   end-to-end run exactly. Checked on BBA0154: `--from-scratch ... vote-hard-bb` gave avgErr 0.19289341027677787
+   (a new draw, 26 min at `-np 2`), and the merge-only rerun on the replicate built this way gave the same value
+   in 11 s.
 
 The original pipeline is still available: `gcmx.bbtool_bench` → `protcons/code/pc.py rep` →
 `gcmvote/code/run.py`, as described in `gcmgen/code/fresh.sh`.
