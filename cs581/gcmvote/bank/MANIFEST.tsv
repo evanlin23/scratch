@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R3	protein	1000	10	200	yes	3466389	e715df7a11ffffa4c39144acf5781af775f8f4bf7ee02c9527fc74844ce16ecd	SIMHIGH_R3/true.fasta	SIMHIGH_R3/inputs/backbones/backbone_N_mafft.txt (L-INS-i, MAGUS); extra fftns2/fftns2-op3/linsi backbones in SIMHIGH_R3/aligned/<tool>/s0/ (sets in SIMHIGH_R3/sets/s0)
