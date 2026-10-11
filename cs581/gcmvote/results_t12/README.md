@@ -11,3 +11,4 @@ SIMHIGH_R12 (helper t12). One MAGUS draw (paper flags) via cs581/gcmtrees/code/r
 - Check: vote.py magus gives the same alignment (every sequence's row identical) as gg.py linsi and bbtool_bench
   merge-mafft; MAGUS's own end-to-end magus.fasta differs from those in 3 of 9417 columns with identical FastSP scores.
 - hard+mask removed 5 of 9683 columns.
+- Trees: no alignment was byte-identical to an already-treed one, so no tree was reused (13 FastTree runs).
