@@ -1,0 +1,2 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	ref_path	backbones_path
+SIMHIGH_R11	protein	1000	10	200	yes	3463130	683dc2d5a020b0f16e8f86747fb03d5eaea59638a31af5f85303a7b7f4bce2b5	SIMHIGH_R11/true.fasta	SIMHIGH_R11/inputs/backbones/backbone_N_mafft.txt (L-INS-i, MAGUS; extra FFT-NS-2 backbones in SIMHIGH_R11/aligned/{linsi,fftns2,fftns2-op3}/s0/ (gg.py new-set backbones); true tree SIMHIGH_R11/true_tree.nwk; subalignments SIMHIGH_R11/inputs/subalignments)
