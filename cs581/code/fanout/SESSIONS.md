@@ -187,3 +187,14 @@ h5 SIMMOD_R2/SIMHIGH_R2, h6 BBA0101/0067, h9 1000M2/1000L1, h10 1000M1 R0/R1. Ma
 | gcmvote-h9b: B=5/10/20, 16S.M | claude/cs581-gcmvote-h9b | session_01HmXDzVoAJo7yo2KqBqR9dQ |
 | gcmvote-h10b: 1000M1 R2 (aln + trees) | claude/cs581-gcmvote-h10b | session_01RAcTHCaeXkpEmGH4u7ehmm |
 | gcmvote-h10c: 1000M1 R3 (aln + trees) | claude/cs581-gcmvote-h10c | session_01WzqN86jpzzUL1Y9hYdqhNs |
+
+### Round 3 (04:07 UTC, Oct 11): open questions the student raised
+
+| session | branch | session id |
+|---|---|---|
+| gcmwhy: why filtering helps proteins but not DNA/RNA (headroom, near-miss votes, difficulty, MCL/trace) | claude/cs581-gcmwhy | session_016o1oVimWEtaon5tqZPMKHy |
+| gcmvote2: better voting models (strength-weighted, Dawid–Skene, overlap-aware, combined), pre-registered | claude/cs581-gcmvote2 | session_01UrxbGvxw26RRQwfdbbwTT7 |
+| bbsize: backbone size (100/200/400) and count (5–40) × filtering | claude/cs581-bbsize | session_01HKPtCJnVFneBWA5FthQfxZ |
+
+All gcmvote helpers were asked (03:58–04:05 UTC) to push a "rep bank" (cs581/gcmvote/bank/<rep>.tar.gz + MANIFEST.tsv) so new
+merge-step variants can be tested without re-running MAGUS.
