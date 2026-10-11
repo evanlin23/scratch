@@ -1,0 +1,1 @@
+{"dataset": "SIMMOD_R1", "method": "true", "FN": 0.0652, "FP": 0.0652, "RF": 0.0652, "true_internal": 997, "est_internal": 997, "fasttree_wall": 547.4}
