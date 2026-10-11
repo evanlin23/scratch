@@ -1,0 +1,13 @@
+diff --git a/src/io/file_io.cpp b/src/io/file_io.cpp
+index 079ffc5..163a7a2 100644
+--- a/src/io/file_io.cpp
++++ b/src/io/file_io.cpp
+@@ -235,7 +235,7 @@ pll_partition_t *  make_partition(const raxml::Model& model,
+ 
+   if ( (options.scaling == Options::NumericalScaling::kOn) or
+      ( (options.scaling == Options::NumericalScaling::kAuto) and nums.large_tree() ) ) {
+-    attributes = PLL_ATTRIB_RATE_SCALERS;
++    attributes |= PLL_ATTRIB_RATE_SCALERS;
+   }
+ 
+   if ( options.repeats ) {

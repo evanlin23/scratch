@@ -1,0 +1,12 @@
+stock	frag	0:49.76	13842656	INFO Elapsed Time: 49s
+simd	frag	0:35.01	13794320	INFO Elapsed Time: 34s
+shift	frag	0:44.49	13829160	INFO Elapsed Time: 43s
+fix	frag	0:36.10	13796284	INFO Elapsed Time: 35s
+stock_nopremask	frag	1:17.05	12474332	INFO Elapsed Time: 76s
+stock_rsoff	frag	0:05.04	5764428	  what():  Tree Log-Likelihood -INF!
+stock	full	0:51.51	13867348	INFO Elapsed Time: 51s
+simd	full	0:37.22	13826016	INFO Elapsed Time: 36s
+shift	full	0:46.74	13867268	INFO Elapsed Time: 46s
+fix	full	0:36.76	13836192	INFO Elapsed Time: 36s
+stock_nopremask	full	0:41.19	12468192	INFO Elapsed Time: 40s
+stock_rsoff	full	0:04.68	5774872	  what():  Tree Log-Likelihood -INF!
