@@ -1,0 +1,4 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	ref_path	backbones_path
+16S.M_R0_B5	rna	740	5	200	false	1064376	a450fcd8cfe86d22a4e774830224b8e0deb48d5ba806c8800955d234151a0a19	16S.M_R0_B5/true.fasta	16S.M_R0_B5/inputs/backbones/
+16S.M_R0_B10	rna	740	10	200	false	1600154	966f0959083cdd0b2bc4dbb605a60bd9f8948f51a90332cbe7d60aa12b864f74	16S.M_R0_B10/true.fasta	16S.M_R0_B10/inputs/backbones/
+16S.M_R0_B20	rna	740	20	200	false	2685030	c6cfd557b899d5be13e89335d14a00673455ab3d0ff143626df6a3ed4eafd12e	16S.M_R0_B20/true.fasta	16S.M_R0_B20/inputs/backbones/
