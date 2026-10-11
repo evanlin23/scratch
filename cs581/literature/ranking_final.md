@@ -631,3 +631,5 @@ hard −1.20, es4 −1.11 (proteins −1.87, DNA +0.04), soft4 −0.69, soft −
 k ≥ 6 of 10 at full exposure (5–8 for BB), k ≥ 4 at n = 5–6; at B = 5 it is 4 of 5, i.e. stricter than es4. Calibration: BB wins
 BIC on every set; extreme posterior bins are right (<0.1 → 3% precise, >0.9 → 85–90%), middle bins overconfident (~0.3 precision);
 ECE best on DNA, yet DNA is where cutting at 6 costs recall.
+- First gcmvote tree row (h8, SIMHIGH_R17, FastTree nRF %): true 7.32, magus 10.83, es4 9.73, recipe 9.73, vote hard 10.73,
+  hard-bb 10.73, soft 9.93, hard+mask 10.73 (3 of 7,937 columns masked).
