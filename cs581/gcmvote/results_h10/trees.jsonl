@@ -7,3 +7,12 @@
 {"dataset": "1000M1_R0", "method": "vote_soft4", "FN": 0.1054, "FP": 0.1063, "RF": 0.1058, "true_internal": 996, "est_internal": 997, "fasttree_wall": 984.6}
 {"dataset": "1000M1_R0", "method": "vote_soft-bb", "FN": 0.1054, "FP": 0.1063, "RF": 0.1058, "true_internal": 996, "est_internal": 997, "fasttree_wall": 957.4}
 {"dataset": "1000M1_R0", "method": "es4", "FN": 0.1014, "FP": 0.1023, "RF": 0.1018, "true_internal": 996, "est_internal": 997, "fasttree_wall": 100.9}
+{"dataset": "1000M1_R1", "method": "magus", "FN": 0.1302, "FP": 0.1354, "RF": 0.1324, "true_internal": 991, "est_internal": 997, "fasttree_wall": 99.4}
+{"dataset": "1000M1_R1", "method": "true", "FN": 0.0979, "FP": 0.1033, "RF": 0.1003, "true_internal": 991, "est_internal": 997, "fasttree_wall": 99.8}
+{"dataset": "1000M1_R1", "method": "es4", "FN": 0.1271, "FP": 0.1324, "RF": 0.1294, "true_internal": 991, "est_internal": 997, "fasttree_wall": 101.4}
+{"dataset": "1000M1_R1", "method": "vote_hard", "FN": 0.1251, "FP": 0.1304, "RF": 0.1274, "true_internal": 991, "est_internal": 997, "fasttree_wall": 107.8}
+{"dataset": "1000M1_R1", "method": "vote_soft", "FN": 0.1322, "FP": 0.1374, "RF": 0.1344, "true_internal": 991, "est_internal": 997, "fasttree_wall": 104.3}
+{"dataset": "1000M1_R1", "method": "vote_soft2", "FN": 0.1352, "FP": 0.1404, "RF": 0.1374, "true_internal": 991, "est_internal": 997, "fasttree_wall": 105.7}
+{"dataset": "1000M1_R1", "method": "vote_soft4", "FN": 0.1302, "FP": 0.1354, "RF": 0.1324, "true_internal": 991, "est_internal": 997, "fasttree_wall": 106.5}
+{"dataset": "1000M1_R1", "method": "vote_hard-bb", "FN": 0.1282, "FP": 0.1334, "RF": 0.1304, "true_internal": 991, "est_internal": 997, "fasttree_wall": 112.3}
+{"dataset": "1000M1_R1", "method": "vote_soft-bb", "FN": 0.1372, "FP": 0.1424, "RF": 0.1394, "true_internal": 991, "est_internal": 997, "fasttree_wall": 100.9}
