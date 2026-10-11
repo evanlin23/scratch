@@ -803,3 +803,23 @@ Overlap guard: n_eff 1.9 / 1.5 on BBA0101 / BBA0067. Gate (M5): filter iff weigh
 - p43 done (`claude/cs581-gcmvote-p43`). Vote `magus` reproduces MAGUS exactly (same SP, same md5).
   - SIMHIGH_R43, SP %: magus 22.52, es4 15.07, hard-bb 14.93. nRF %: true 8.83, magus 10.83, es4 12.34, hard-bb 9.93 (−0.90).
   - SIMHIGH_R44, SP %: magus 21.09, es4 16.21, hard-bb 16.12. nRF %: true 6.72, magus 13.14, es4 12.64, hard-bb 10.13 (−3.01).
+
+**treecrit Part A (05:39 UTC, `claude/cs581-treecrit` 827f849, REPORT.md): why ~6.5 SP points buy only ~0.3 nRF.**
+- Data: 302 estimated alignments regenerated from the rep banks (37 draws: SIMHIGH 25, SIMMOD 8, 1000M1 4). All 283 with a logged
+  FastSP row reproduce it exactly.
+- Error prices (within-draw OLS, SIMHIGH draw fixed effects): 1 SPFP point ≈ +0.15–0.18 nRF (CI 0.03–0.32); 1 SPFN point ≈ +0.03
+  (CI 0.006–0.05). False positives cost about 5× more for trees.
+- es4 / recipe / hard-bb remove ~13 SPFN points but only ~1 SPFP point. The prices predict −0.33 / −0.53 / −0.48 nRF; observed
+  −0.27 / −0.51 / −0.43.
+- Where the false pairs come from (MAGUS and hard-bb merges, R3, R10): 35–60 % are impure subset-alignment columns joined by
+  correct edges; 11–17 % ride on wrong edges with posterior > 0.99; only 4–15 % sit on low-posterior edges. With true subset
+  alignments, merged SPFP falls from 13–19 % to 4–9 %.
+- Across draws, the best predictor of absolute nRF is misalignment between true-tree cherries (R² 0.24 → 0.60). 99 % of cherries
+  fall inside one subset, so no merge variant changes it.
+- Within a draw, no alignment measure explains more than 6 % of tree-error variance (leave-one-draw-out CV R² ≤ 0.04).
+  Spread of nRF between trees: SD 1.1 for equal-SP alignments, 2.3 for two MAGUS draws of the same data.
+- Part B (pre-registered in PREREG.md): posterior-guided column splitting of the hard-bb merge, TAU = 0.99 tuned on R3–R10.
+  Held-out: R11–R20 plus 16 p-branch draws (25 total).
+- Link to the DNA analysis (hypothesis, not tested): on nucleotides hard-bb trades ΔSPFN +1.74 for ΔSPFP −1.00 (gcmwhy). At
+  treecrit's prices that is about −0.10 nRF, so the DNA SP loss need not be a tree loss. The prices come mainly from SIMHIGH; the
+  1000M1 check has been requested.
