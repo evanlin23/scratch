@@ -142,3 +142,10 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | gcmvote: reference-free vote (binomial-mixture) model for GCM edges; threshold x backbone-count sensitivity; trees SIMHIGH R1-R4 | claude/cs581-gcmvote | session_01HVdpQL7fYBwJKGSwChipPv |
 | gcmvote-h1 helper: SIMHIGH R5-R8 MAGUS runs + trees | claude/cs581-gcmvote-h1 | session_01CmMHK7h7WnNYfvGU2r1WB4 |
 | gcmvote-h2 helper: SIMHIGH R9-R12 MAGUS runs + trees | claude/cs581-gcmvote-h2 | session_01GoHVT6GpRSf3DY6H3qTo2H |
+| gcmvote-h3: held-out BAliBASE BBA0154/0190/0081/0117 + HomFam 4 | claude/cs581-gcmvote-h3 | session_01SrCc4mFPMZLbGNWLqfWBw7 |
+| gcmvote-h4: held-out ROSE 1000L3/M3/S1/S2/M4/S3 | claude/cs581-gcmvote-h4 | session_01UKXEnuJh7YdekbkauWYR2B |
+| gcmvote-h5: held-out SIMMOD_R2, SIMHIGH_R2, 1000M2_R1, 1000L1_R1, RNASim R0/R1 | claude/cs581-gcmvote-h5 | session_01KKVjwN8B5Zvb1erTmsSVPA |
+| gcmvote-h6: B=5/10/20 sensitivity, proteins | claude/cs581-gcmvote-h6 | session_017cEpz8mp13zBM3tp1rkXBS |
+| gcmvote-h9: B=5/10/20 sensitivity, DNA/RNA | claude/cs581-gcmvote-h9 | session_01VDyiALio6XXjAwodF381Vu |
+| gcmvote-h7: trees SIMHIGH R13-R16 | claude/cs581-gcmvote-h7 | session_017NndPrbeyffzkvavo85KHn |
+| gcmvote-h8: trees SIMHIGH R17-R20 | claude/cs581-gcmvote-h8 | session_01KnTMhP5zb9H1gTX9otMqa2 |
