@@ -1,0 +1,85 @@
+== 16S_b1000
+16S_b1000: 277 HMMs, 1000 queries
+rule             scores/q  top1-recall  top10-weight-covered
+beam1                15.4        0.771       0.767
+beam2                27.8        0.935       0.933
+beam3                38.1        0.982       0.981
+beam4                48.3        0.995       0.994
+beam6                64.7        1.000       0.999
+bp1                   8.2        0.856       0.813
+bp1sib               15.4        0.930       0.906
+bp3                   9.7        0.941       0.912
+bp3sib               17.0        0.971       0.952
+bp5sib               18.2        0.980       0.969
+beam2+bp1sib         28.6        0.989       0.986
+beam3+bp3sib         38.7        0.997       0.997
+hyb_b3_100           17.0        0.971       0.952
+hyb_b4_150           17.2        0.971       0.953
+== rna_b1000
+rna_b1000: 283 HMMs, 1000 queries
+rule             scores/q  top1-recall  top10-weight-covered
+beam1                15.5        0.927       0.923
+beam2                27.9        0.987       0.987
+beam3                38.3        0.994       0.994
+beam4                48.8        0.997       0.997
+beam6                65.7        0.999       0.999
+bp1                   8.2        0.958       0.955
+bp1sib               15.3        0.978       0.977
+bp3                  11.6        0.987       0.987
+bp3sib               20.1        0.991       0.992
+bp5sib               24.5        0.993       0.994
+beam2+bp1sib         28.7        0.998       0.998
+beam3+bp3sib         40.7        0.999       0.999
+hyb_b3_100           23.8        0.995       0.995
+hyb_b4_150           39.4        0.996       0.996
+== roseM1_R0
+roseM1_R0: 203 HMMs, 300 queries
+rule             scores/q  top1-recall  top10-weight-covered
+beam1                14.4        0.887       0.883
+beam2                26.1        0.977       0.974
+beam3                35.7        0.990       0.988
+beam4                45.5        0.993       0.993
+beam6                60.9        0.997       0.996
+bp1                  20.0        0.507       0.500
+bp1sib               26.2        0.527       0.532
+bp3                  26.3        0.537       0.538
+bp3sib               36.5        0.560       0.571
+bp5sib               40.4        0.560       0.572
+beam2+bp1sib         30.4        0.983       0.981
+beam3+bp3sib         46.3        0.990       0.988
+hyb_b3_100           33.0        0.990       0.988
+hyb_b4_150           42.4        0.993       0.993
+== roseM1_R1
+roseM1_R1: 199 HMMs, 300 queries
+rule             scores/q  top1-recall  top10-weight-covered
+beam1                14.5        0.857       0.857
+beam2                25.9        0.960       0.957
+beam3                35.6        0.970       0.968
+beam4                45.3        0.973       0.974
+beam6                60.4        0.980       0.982
+bp1                  17.2        0.597       0.589
+bp1sib               23.5        0.640       0.633
+bp3                  23.1        0.650       0.644
+bp3sib               33.1        0.700       0.694
+bp5sib               36.8        0.703       0.698
+beam2+bp1sib         29.5        0.967       0.964
+beam3+bp3sib         45.0        0.977       0.975
+hyb_b3_100           32.1        0.970       0.968
+hyb_b4_150           41.0        0.973       0.974
+== 16S_b5000
+16S_b5000: 1387 HMMs, 1000 queries
+rule             scores/q  top1-recall  top10-weight-covered
+beam1                19.9        0.873       0.861
+beam2                37.0        0.958       0.959
+beam3                52.1        0.977       0.978
+beam4                66.9        0.983       0.985
+beam6                92.7        0.991       0.992
+bp1                  10.4        0.914       0.893
+bp1sib               19.9        0.952       0.938
+bp3                  13.8        0.966       0.950
+bp3sib               24.4        0.980       0.971
+bp5sib               27.1        0.984       0.981
+beam2+bp1sib         40.9        0.983       0.984
+beam3+bp3sib         56.0        0.998       0.997
+hyb_b3_100           24.4        0.980       0.971
+hyb_b4_150           24.5        0.980       0.971
