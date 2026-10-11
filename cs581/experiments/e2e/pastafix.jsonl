@@ -1,0 +1,2 @@
+{"dataset": "RNASim_R0", "threads": 4, "nproc": 4, "nseq": 1000, "protein": false, "datatype": "rna", "pasta": {"wall": 4332.2, "cpu": 12428.4, "SPFN": 0.10036705192040696, "SPFP": 0.10165794283443541, "avgErr": 0.10101249737742118, "LenEst": 4980, "LenRef": 4903}}
+{"dataset": "16S.M_R0", "threads": 4, "nproc": 4, "nseq": 740, "protein": false, "datatype": "dna", "pasta": {"wall": 1101.1, "cpu": 2802.1, "SPFN": 0.13407036682671192, "SPFP": 0.1472296293934059, "avgErr": 0.1406499981100589, "LenEst": 2068, "LenRef": 4722}}
