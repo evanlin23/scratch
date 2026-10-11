@@ -731,3 +731,7 @@ sets): MUSCLE5 +0.93 (5/0/10, Holm p = 0.055), ProbCons +2.23 (p = 0.043), Clust
 all worse than L-INS-i. BAliBASE alone favours MUSCLE5/ProbCons/Clustal slightly (−0.3 to −0.5, within L-INS-i rerun noise
 0.03–0.31), reversed on AliSim and HomFam. G-INS-i exploratory −0.42 on AliSim. Verdict: not promising as a method; a clean
 negative result for the instructor's "MAGUS with different base methods" suggestion.
+- **16S.3 (h11, real rRNA, 5,489 seqs; SP % [SPFN/SPFP])**: MAGUS 10.17 [7.65/12.69]; es4 10.29; es5 10.09; vote hard-bb 9.30 (−0.87);
+  **vote hard (binomial) 8.81 [8.57/9.05] (−1.36), soft4 8.82**. Same picture as 16S.T: on the three real rRNA sets (16S.M, 16S.T,
+  16S.3) the vote model helps (−0.4 to −1.5) and MAGUS's errors are FP-dominated (SPFP > SPFN); the fixed es4 cutoff does not help
+  there. The binomial variant beats the selected beta-binomial on both large sets.
