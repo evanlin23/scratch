@@ -3,3 +3,4 @@
 {"rep": "SIMHIGH_R3", "method": "es4", "nRF": 0.1013, "FN": 0.1013, "FP": 0.1013, "lnL": -286253.3018, "wall": 722.6, "over_90min": false, "iqtree": "IQ-TREE version 3.1.4 for Linux x86 64-bit built Sep 29 2026"}
 {"rep": "SIMHIGH_R3", "method": "hard-bb", "nRF": 0.1053, "FN": 0.1053, "FP": 0.1053, "lnL": -285689.6058, "wall": 1006.2, "over_90min": false, "iqtree": "IQ-TREE version 3.1.4 for Linux x86 64-bit built Sep 29 2026"}
 {"rep": "SIMHIGH_R4", "method": "magus", "nRF": 0.1194, "FN": 0.1194, "FP": 0.1194, "lnL": -293074.1984, "wall": 808.7, "over_90min": false, "iqtree": "IQ-TREE version 3.1.4 for Linux x86 64-bit built Sep 29 2026"}
+{"rep": "SIMHIGH_R4", "method": "true", "nRF": 0.0662, "FN": 0.0662, "FP": 0.0662, "lnL": -275809.4311, "wall": 842.2, "over_90min": false, "iqtree": "IQ-TREE version 3.1.4 for Linux x86 64-bit built Sep 29 2026"}
