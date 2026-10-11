@@ -9,7 +9,7 @@ VARIANTS="hard+mask magus es4 hard hard-bb soft soft-bb soft2 soft4"
 TREEV="hard soft soft2 soft4 hard-bb soft-bb"
 PY=/opt/mm/root/envs/pasta183/bin/python
 r=R3; name=1000M1_$r; rep=$W/reps/$name; vr=$W/vreps/$name; T=$W/trees/$name
-mkdir -p $W/reps $W/fresh $W/vreps $T $O
+mkdir -p $W/reps $W/fresh $vr $T $O
 cd $S/cs581/code
 if [ ! -f $rep/results.jsonl ] || [ $(grep -c '"variant"' $rep/results.jsonl) -lt 4 ]; then
   echo "$name /opt/data/Datasets/ROSE/1000M1/$r/rose.aln.true.fasta 25" > $W/job_$name.txt
