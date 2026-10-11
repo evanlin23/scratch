@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R6	protein	1000	10	200	yes	3191292	4813921c461a6d6826a1783763715a9ba4259acc718c93ceb1e6315f40658224	SIMHIGH_R6/true.fasta	SIMHIGH_R6/inputs/backbones/ (MAGUS L-INS-i, backbone_N_mafft.txt; also SIMHIGH_R6/aligned/{linsi,fftns2,fftns2-op3}/s0/backbone_N.fa on sets SIMHIGH_R6/sets/s0; true tree SIMHIGH_R6/true_tree.nwk; subsets.json lists MAGUS subset order with absolute paths from /opt/work/gcmvote/reps/SIMHIGH_R6)
