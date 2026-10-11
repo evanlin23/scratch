@@ -149,3 +149,7 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | gcmvote-h9: B=5/10/20 sensitivity, DNA/RNA | claude/cs581-gcmvote-h9 | session_01VDyiALio6XXjAwodF381Vu |
 | gcmvote-h7: trees SIMHIGH R13-R16 | claude/cs581-gcmvote-h7 | session_017NndPrbeyffzkvavo85KHn |
 | gcmvote-h8: trees SIMHIGH R17-R20 | claude/cs581-gcmvote-h8 | session_01KnTMhP5zb9H1gTX9otMqa2 |
+| gcmvote-h10: MAGUS-paper ROSE 1000M1 R0-R3 (aln + trees) | claude/cs581-gcmvote-h10 | session_0183UYDvTv7komXdMwUC7GQ6 |
+| gcmvote-h11: MAGUS-paper 16S.3 | claude/cs581-gcmvote-h11 | session_01VTnVnxuXg4odXiiianLbP1 |
+| gcmvote-h12: MAGUS-paper 16S.T | claude/cs581-gcmvote-h12 | session_012UsuJKCUwQfEwd4ZNw1RsK |
+| gcmvote-h13: MAGUS-paper RNASim 10K (aln + trees) | claude/cs581-gcmvote-h13 | session_01XNEer5rT7xkcSZPzDWcfPG |
