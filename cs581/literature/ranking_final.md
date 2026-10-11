@@ -28,6 +28,18 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**fragml2 FINAL (01:51 UTC, stopped early; `claude/cs581-fragml2`).**
+- *1000M1-HF, true alignment:* primary pipeline 23.7% FN vs RAxML-NG 24.4%. ΔFN +0.11 (3/1/4, p = 0.84, n = 8) at
+  0.34× CPU. Constrained ML +0.40. Graft-only +9.1 (Holm p = 0.03). uDance 27.2% vs 22.1% for the primary on the
+  same leaves.
+- *EPA-ng fix:* identical at 1K; on RNASim10K-HF (n = 2), graft-only 47.7% stock vs 35.6% patched.
+- Session verdict: "unclear, leaning not promising at 1K; promising only if reframed to 10K+".
+- **Student's decision (02:00 UTC): the project is the MAGUS support filter.** Next steps:
+  - threshold × backbone-count sensitivity;
+  - a reference-free vote-mixture model (two-component binomial with per-edge exposure) to pick the cutoff.
+- The student will reproduce the results and write the proposal themselves. The course policy (CS581-Fall2026.txt):
+  AI-written code is allowed with disclosure; AI-written text is not.
+
 **aproroom FINAL (01:40 UTC, `claude/cs581-aproroom`).**
 - *Error decomposition:* confirms the interim. Gene-tree estimation error is 80–95% of all error, including at 1000
   species. It does not shrink with more genes (0.026 at both 1k and 10k estimated genes vs 0.000 on true trees).
