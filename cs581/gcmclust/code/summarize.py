@@ -20,6 +20,9 @@ for line in open(os.path.join(HERE, "reps.txt")):
         SPLIT[n] = s
 PROT = lambda r: r.startswith("BBA") or r.startswith("SIM")  # noqa: E731
 BASE = "raw:mcl:4"
+for _i, _a in enumerate(sys.argv):
+    if _a == "--base":
+        BASE = sys.argv[_i + 1]
 
 
 def load():
@@ -38,7 +41,7 @@ def family(v):
 
 def table(rows, reps, variants, title):
     out = ["#### " + title, "",
-           "| variant | n | mean Δ err | W/T/L | p | ΔSPFN / ΔSPFP | merge s (MAGUS s) | clusters / singleton frac |",
+           "| variant | n | mean Δ err vs `{}` | W/T/L | p | ΔSPFN / ΔSPFP | cluster s + trace s (base total s) | clusters / singleton frac |".format(BASE),
            "|---|---|---|---|---|---|---|---|"]
     for v in variants:
         d, fn, fp, mw, bw, nc, sg, fail = [], [], [], [], [], [], [], 0
@@ -52,7 +55,7 @@ def table(rows, reps, variants, title):
             d.append(x["err"] - b["err"])
             fn.append(100 * (x["SPFN"] - b["SPFN"]))
             fp.append(100 * (x["SPFP"] - b["SPFP"]))
-            mw.append(x["merge_wall"] + x.get("cluster_s", 0))
+            mw.append((x.get("cluster_s", 0), x["merge_wall"]))
             bw.append(b["merge_wall"] + b.get("cluster_s", 0))
             nc.append(x["n_clusters"])
             sg.append(x["frac_singleton"])
@@ -65,9 +68,9 @@ def table(rows, reps, variants, title):
         except ValueError:
             p = "–"
         f = " ({} failed)".format(fail) if fail else ""
-        out.append("| `{}` | {}{} | {:+.2f} | {}/{}/{} | {} | {:+.2f} / {:+.2f} | {:.0f} ({:.0f}) | {:.0f} / {:.3f} |".format(
+        out.append("| `{}` | {}{} | {:+.2f} | {}/{}/{} | {} | {:+.2f} / {:+.2f} | {} ({:.0f}) | {:.0f} / {:.3f} |".format(
             v, len(d), f, d.mean() if len(d) else float("nan"), w, t, l, p, np.mean(fn) if fn else 0,
-            np.mean(fp) if fp else 0, np.mean(mw) if mw else 0, np.mean(bw) if bw else 0,
+            np.mean(fp) if fp else 0, "{:.0f} + {:.0f}".format(*np.mean(mw, axis=0)) if mw else "–", np.mean(bw) if bw else 0,
             np.mean(nc) if nc else 0, np.mean(sg) if sg else 0))
     return "\n".join(out) + "\n"
 
