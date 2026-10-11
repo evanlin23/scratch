@@ -659,3 +659,5 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   Held-out BAliBASE hard-bb vs MAGUS: −2.32, −1.48, +4.22, −0.44.
 - Tree row (h1, SIMHIGH_R5, nRF %): true 6.52, magus 9.73, es4 7.82, recipe 8.43, hard-bb 7.82, soft 10.43.
   hard-bb vs magus so far: R5 −1.91, R9 −3.92, R13 +0.60, R17 −0.10 (n = 4, mean −1.33).
+- t15 (SIMHIGH_R15): SP magus 25.67, es4 20.13, hard-bb 20.37; nRF true 6.62, magus 15.55, es4 14.84, hard-bb 15.65 (+0.10).
+  hard-bb tree Δ vs magus: R5 −1.91, R9 −3.92, R13 +0.60, R15 +0.10, R17 −0.10 (n = 5, mean −1.05).
