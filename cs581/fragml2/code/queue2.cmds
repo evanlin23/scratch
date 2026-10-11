@@ -1,0 +1,23 @@
+python3 pipe.py M1HF 8 base_raxmlng
+python3 pipe.py M1HF 9 base_raxmlng
+python3 pipe.py M1HF 9 constr_ft_0.5 place_ft_0.5_fix_graft place_ft_0.5_stock_graft base_iqfast
+python3 pipe.py M1HF 0 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 1 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 2 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 3 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 4 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 5 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 6 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 7 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 8 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 9 place_ft_0.5_fix_ft place_iqf_0.5_fix_graft
+python3 pipe.py M1HF 0 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 1 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 2 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 3 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 4 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 5 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 6 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 7 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 8 place_ft_0.5_fix_iqfast
+python3 pipe.py M1HF 9 place_ft_0.5_fix_iqfast
