@@ -721,3 +721,7 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   verified to reproduce vote.py magus after extraction. Pending: main's training reps, h7 (SIMHIGH_R13: its push was blocked by
   that session's permission check), h12 (16S.T), h13 (RNASim 10K), gcmtrees SIMHIGH R6–R8 and SIMMOD R1–R8.
 - t11 (SIMHIGH_R11): SP magus 23.43, es4 16.79, hard-bb 16.97; nRF true 6.72, magus 12.54, es4 11.43, hard-bb 11.63 (−0.91).
+- **16S.T (h12, real rRNA, 5,548 seqs, K = 100; SP % [SPFN/SPFP])**: MAGUS 9.70 [7.47/11.94]; es4 9.76; es5 9.55; vote hard-bb 9.31
+  (−0.39); **vote hard (binomial) 8.23 [8.55/7.91] (−1.47), soft 8.00 (−1.70)**. On the two large real rRNA sets (16S.M, 16S.T) the
+  vote model helps; on simulated ROSE DNA it hurts. Real vs simulated nucleotides behave differently (MAGUS's errors on 16S.T
+  are mostly false positives, 11.9 % SPFP vs 7.5 % SPFN). Merges ~4–10 min each; ≤ 3.9 GB RAM.
