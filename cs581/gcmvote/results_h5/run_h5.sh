@@ -5,6 +5,7 @@
 #   bash run_h5.sh NAME TRUE_ALIGNMENT
 W=/opt/work/h5; G=/home/user/scratch/cs581/gcmgen/code
 name=$1; src=$2
+[ -e /opt/work/h5/skip_$name ] && exit 0
 mkdir -p $W/reps
 cd /home/user/scratch/cs581/code
 echo "$name $src 25" > $W/job_$name.txt
