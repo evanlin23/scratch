@@ -153,3 +153,37 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | gcmvote-h11: MAGUS-paper 16S.3 | claude/cs581-gcmvote-h11 | session_01VTnVnxuXg4odXiiianLbP1 |
 | gcmvote-h12: MAGUS-paper 16S.T | claude/cs581-gcmvote-h12 | session_012UsuJKCUwQfEwd4ZNw1RsK |
 | gcmvote-h13: MAGUS-paper RNASim 10K (aln + trees) | claude/cs581-gcmvote-h13 | session_01XNEer5rT7xkcSZPzDWcfPG |
+
+### gcmvote fan-out (02:27–02:33 UTC, Oct 11): one dataset or replicate per machine
+
+Existing helpers were cut down to the unit already running: h1 SIMHIGH_R5, h2 R9, h7 R13, h8 R17, h3 BBA0154/0190, h4 1000L3/M3,
+h5 SIMMOD_R2/SIMHIGH_R2, h6 BBA0101/0067, h9 1000M2/1000L1, h10 1000M1 R0/R1. Main dropped the SIMMOD_R2 and SIMHIGH_R3/R4 draws.
+
+| session | branch | session id |
+|---|---|---|
+| gcmvote-t03: SIMHIGH_R3 trees | claude/cs581-gcmvote-t03 | session_01UdLszXi3YRBJB5MsHefVQ6 |
+| gcmvote-t04: SIMHIGH_R4 trees | claude/cs581-gcmvote-t04 | session_01AvPG43SGyEiChAUUej5ehA |
+| gcmvote-t06: SIMHIGH_R6 trees | claude/cs581-gcmvote-t06 | session_019ZwJtiLC2S7rUetoD9XStz |
+| gcmvote-t07: SIMHIGH_R7 trees | claude/cs581-gcmvote-t07 | session_01RAHZdFFx8yVj3XwYhD6Xa3 |
+| gcmvote-t08: SIMHIGH_R8 trees | claude/cs581-gcmvote-t08 | session_01XhSC4usqEwJVQx86TFraMP |
+| gcmvote-t10: SIMHIGH_R10 trees | claude/cs581-gcmvote-t10 | session_01MiwjsURTu5gX3EQYDGvWCC |
+| gcmvote-t11: SIMHIGH_R11 trees | claude/cs581-gcmvote-t11 | session_01PWmPsqizmpvkd5nETirMEh |
+| gcmvote-t12: SIMHIGH_R12 trees | claude/cs581-gcmvote-t12 | session_017Jwkz9heH9WUPFbFoUZNUV |
+| gcmvote-t14: SIMHIGH_R14 trees | claude/cs581-gcmvote-t14 | session_01VbuGGfY4igvE3DjEcRECC6 |
+| gcmvote-t15: SIMHIGH_R15 trees | claude/cs581-gcmvote-t15 | session_01GdEV8KfY1cs2MQ66xMojpb |
+| gcmvote-t16: SIMHIGH_R16 trees | claude/cs581-gcmvote-t16 | session_015kjcJVfCE4D8LTLeS51mn6 |
+| gcmvote-t18: SIMHIGH_R18 trees | claude/cs581-gcmvote-t18 | session_011sDrsbPqFgwo4fXGbr7rK9 |
+| gcmvote-t19: SIMHIGH_R19 trees | claude/cs581-gcmvote-t19 | session_0142FFeMDqHi17MRNZFEqBHP |
+| gcmvote-t20: SIMHIGH_R20 trees | claude/cs581-gcmvote-t20 | session_01Vu6yW4PFqYYxozZN1zwbnM |
+| gcmvote-h3b: BBA0081 + BBA0117 | claude/cs581-gcmvote-h3b | session_01XxU57Ta4e6gMVwVa4ELGdP |
+| gcmvote-h3c: HomFam Acetyltransf + PDZ | claude/cs581-gcmvote-h3c | session_01EUax5HQBk5gemvbDF8zivF |
+| gcmvote-h3d: HomFam blmb + aat | claude/cs581-gcmvote-h3d | session_01Pd4qkoCN5ekJuPFR7GtrW2 |
+| gcmvote-h4b: ROSE 1000S1 + 1000S2 | claude/cs581-gcmvote-h4b | session_01X79TL2RNLbxqWSAqBRsFFX |
+| gcmvote-h4c: ROSE 1000M4 + 1000S3 | claude/cs581-gcmvote-h4c | session_01Kus3fzHct4cBXL9LDQbS7N |
+| gcmvote-h5b: 1000M2_R1 + 1000L1_R1 | claude/cs581-gcmvote-h5b | session_016CZioNZLM2aK8TNKi2pVJE |
+| gcmvote-h5c: RNASim 1000 R0 | claude/cs581-gcmvote-h5c | session_01DewgomzXpRiVTssysJJTAB |
+| gcmvote-h5d: RNASim 1000 R1 | claude/cs581-gcmvote-h5d | session_01WzUVeaJp2iiBBzBq7Lko3R |
+| gcmvote-h6b: B=5/10/20, SIMHIGH_R1 + SIMMOD_R1 | claude/cs581-gcmvote-h6b | session_019WaEjgwQKzC1XMbVVAGCM5 |
+| gcmvote-h9b: B=5/10/20, 16S.M | claude/cs581-gcmvote-h9b | session_01HmXDzVoAJo7yo2KqBqR9dQ |
+| gcmvote-h10b: 1000M1 R2 (aln + trees) | claude/cs581-gcmvote-h10b | session_01RAcTHCaeXkpEmGH4u7ehmm |
+| gcmvote-h10c: 1000M1 R3 (aln + trees) | claude/cs581-gcmvote-h10c | session_01WzqN86jpzzUL1Y9hYdqhNs |
