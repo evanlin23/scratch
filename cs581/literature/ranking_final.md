@@ -689,3 +689,4 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   p = 0.38). No detectable tree effect yet; 12 replicates pending.
 - Final verdicts: gcmtrees (recipe does not detectably improve trees, −0.19, p = 0.63); gcmclust (clustering swap null on raw
   graph); basemeth (no aligner beats L-INS-i; final ~04:15 UTC). fragscale stopped at the student's request.
+- t14 (SIMHIGH_R14): SP magus 24.38, es4 15.83, hard-bb 16.15; nRF true 6.92, magus 6.82, es4 7.32, hard-bb 6.92 (+0.10).
