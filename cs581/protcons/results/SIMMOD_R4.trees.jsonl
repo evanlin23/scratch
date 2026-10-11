@@ -1,0 +1,5 @@
+{"dataset": "SIMMOD_R4", "method": "true", "FN": 0.0552, "FP": 0.0552, "RF": 0.0552, "true_internal": 997, "est_internal": 997, "fasttree_wall": 586.8}
+{"dataset": "SIMMOD_R4", "method": "magus", "FN": 0.0682, "FP": 0.0682, "RF": 0.0682, "true_internal": 997, "est_internal": 997, "fasttree_wall": 461.8}
+{"dataset": "SIMMOD_R4", "method": "cons", "FN": 0.0652, "FP": 0.0652, "RF": 0.0652, "true_internal": 997, "est_internal": 997, "fasttree_wall": 474.2}
+{"dataset": "SIMMOD_R4", "method": "fftint", "FN": 0.0682, "FP": 0.0682, "RF": 0.0682, "true_internal": 997, "est_internal": 997, "fasttree_wall": 502.5}
+{"dataset": "SIMMOD_R4", "method": "lccons", "FN": 0.0712, "FP": 0.0712, "RF": 0.0712, "true_internal": 997, "est_internal": 997, "fasttree_wall": 532.9}

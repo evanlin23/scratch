@@ -1,0 +1,5 @@
+{"dataset": "SIMHIGH_R2", "method": "true", "FN": 0.0522, "FP": 0.0522, "RF": 0.0522, "true_internal": 997, "est_internal": 997, "fasttree_wall": 988.3}
+{"dataset": "SIMHIGH_R2", "method": "magus", "FN": 0.1033, "FP": 0.1033, "RF": 0.1033, "true_internal": 997, "est_internal": 997, "fasttree_wall": 745.0}
+{"dataset": "SIMHIGH_R2", "method": "cons", "FN": 0.1053, "FP": 0.1053, "RF": 0.1053, "true_internal": 997, "est_internal": 997, "fasttree_wall": 757.3}
+{"dataset": "SIMHIGH_R2", "method": "fftint", "FN": 0.0943, "FP": 0.0943, "RF": 0.0943, "true_internal": 997, "est_internal": 997, "fasttree_wall": 727.2}
+{"dataset": "SIMHIGH_R2", "method": "lccons", "FN": 0.0893, "FP": 0.0893, "RF": 0.0893, "true_internal": 997, "est_internal": 997, "fasttree_wall": 985.2}
