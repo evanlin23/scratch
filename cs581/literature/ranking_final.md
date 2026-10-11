@@ -28,6 +28,14 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**basemeth INTERIM (00:25 UTC, `claude/cs581-basemeth`).** Other subset aligners inside MAGUS (merge-only, same
+subsets and backbones), Δ SP error vs L-INS-i subsets:
+- *BAliBASE (n = 5):* MUSCLE5 −0.47 (4/0/1), ProbCons −0.37, Clustal −0.31, FAMSA2 +0.26, G-INS-i +0.05. Gains are
+  mostly SPFP.
+- *HomFam (n = 3):* MUSCLE5 +2.05, ProbCons +2.27, Clustal +1.85, FAMSA2 +0.83 (all worse).
+- *CPU cost relative to L-INS-i:* MUSCLE5 3.9×, ProbCons 7.7×.
+- Early read: small, inconsistent gains; not a strong lead.
+
 **Check-in 10 (00:10 UTC), interim.**
 - *gcmtrees (FastTree nRF %, only 2 SIMHIGH datasets complete; the helper sessions h1–h3 are still running):*
   - SIMHIGH_R1: true 6.12, MAGUS 11.94, recipe 12.34, es3 11.63, hard 12.34.
