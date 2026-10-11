@@ -9,7 +9,8 @@ SIMHIGH_R8, helper t08 (took over from gcmvote-h1). One MAGUS draw (draw 0, pape
   /opt/work/gcmvote/reps/SIMHIGH_R8 that symlinks the gcmtrees rep's inputs/ and true.fasta (run.py and gg.py
   cannot share one results.jsonl: run.py reads a `B` key gg.py rows lack).
 - vote `magus` reproduces MAGUS's merge (same column content as gg `linsi`; only the sequence order in the file differs).
-- vote `hard`, `hard-bb` and the unmasked `hard+mask` outputs are byte-identical; `hard+mask` masked 4 of 9915 columns.
+- vote `hard`, `hard-bb` and the unmasked `hard+mask` outputs have identical content but are not byte-identical
+  (sequence order differs), so `vote_hard-bb` was treed separately; `hard+mask` masked 4 of 9915 columns.
 - `trees.jsonl`: protbench trees.py rows (FastTree -lg -gamma, `RF` = nRF vs the true tree). Methods: true, magus,
   es4 (gg `linsi#es4`), recipe, es3, hard (gcmtrees trees.sh set) and vote_* (vote_hard+mask = out.masked.fasta).
   A row with `reused_from` is a vote alignment byte-identical to one already treed; that tree was reused.
