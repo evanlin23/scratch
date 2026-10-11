@@ -2,37 +2,45 @@
 
 ### M1HF (true_align): equal-CPU comparisons
 
-RAxML-NG full search: mean FN 23.59%, mean CPU 40.0 min (n = 3).
+RAxML-NG full search: mean FN 24.55%, mean CPU 39.0 min (n = 6).
 
 | pipeline / method | n | mean FN | mean CPU min (fraction of RAxML-NG) | comparator | comparator mean FN | ΔFN (method − comparator) | W/T/L | Wilcoxon p |
 |---|---|---|---|---|---|---|---|---|
-| **place_ft_0.5_fix_rxfast** | 3 | 24.23% | 13.7 (0.34) | RAxML-NG@same CPU | 52.84% | -28.61 | 3/0/0 | 0.250 |
+| **place_ft_0.5_fix_rxfast** | 4 | 24.21% | 13.8 (0.37) | RAxML-NG@same CPU | 48.31% | -24.10 | 4/0/0 | 0.125 |
 
 <!-- primary -->
 
-Primary per replicate (pipeline vs RAxML-NG@T_pipe, FN %): R0 22.7 vs 60.1, R1 22.9 vs 38.2, R2 27.1 vs 60.1
+Primary per replicate (pipeline vs RAxML-NG@T_pipe, FN %): R0 22.7 vs 60.1, R1 22.9 vs 38.2, R2 27.1 vs 60.1, R3 24.2 vs 34.7
 
 | pipeline / method | n | mean FN | mean CPU min (fraction of RAxML-NG) | comparator | comparator mean FN | ΔFN (method − comparator) | W/T/L | Wilcoxon p |
 |---|---|---|---|---|---|---|---|---|
+| constr_ft_0.5 | 3 | 23.33% | 13.0 (0.32) | RAxML-NG@same CPU | 40.30% | -16.98 | 3/0/0 | 0.250 |
+| base_iqfast | 3 | 37.32% | 7.1 (0.18) | RAxML-NG@same CPU | 60.37% | -23.05 | 3/0/0 | 0.250 |
+| base_fasttree | 4 | 48.45% | 1.9 (0.05) | RAxML-NG@same CPU | 60.76% | -12.31 | 4/0/0 | 0.125 |
 
 Anytime FN at fixed fractions of each replicate's full RAxML-NG CPU (paired vs RAxML-NG full):
 
 | method @ budget | n | mean FN | ΔFN vs RAxML-NG full | W/T/L | p |
 |---|---|---|---|---|---|
-| raxmlng @ 0.33× | 3 | 40.30% | +16.71 | 0/0/3 | 0.250 |
-| raxmlng @ 0.50× | 3 | 40.30% | +16.71 | 0/0/3 | 0.250 |
-| raxmlng @ 1.00× | 3 | 23.59% | +0.00 | 0/3/0 | – |
+| raxmlng @ 0.33× | 6 | 39.40% | +14.86 | 0/0/6 | 0.031 |
+| raxmlng @ 0.50× | 6 | 39.40% | +14.86 | 0/0/6 | 0.031 |
+| raxmlng @ 1.00× | 6 | 24.55% | +0.00 | 0/6/0 | – |
 
 ### M1HF (true_align): all arms
 
 | arm | n | mean FN | mean FP | per-rep FN | mean CPU min | mean wall min | max peak RSS MB | backbone FN | graft FN |
 |---|---|---|---|---|---|---|---|---|---|
-| base_raxmlng | 3 | 23.59% | 23.87% | R0:21.8 R1:23.3 R2:25.7 | 40.0 | 61.9 | 133 | – | – |
-| place_ft_0.5_fix_rxfast | 3 | 24.23% | 24.51% | R0:22.7 R1:22.9 R2:27.1 | 13.7 | 13.8 | 598 | 12.6 | 32.6 |
+| base_fasttree | 4 | 48.45% | 48.65% | R0:48.9 R1:46.5 R2:48.9 R3:49.4 | 1.9 | 2.4 | 113 | – | – |
+| base_iqfast | 3 | 37.32% | 37.55% | R0:33.7 R1:36.2 R2:42.0 | 7.1 | 7.4 | 444 | – | – |
+| base_raxmlng | 6 | 24.55% | 24.86% | R0:21.8 R1:23.3 R2:25.7 R3:23.2 R4:29.8 R5:23.6 | 39.0 | 57.5 | 137 | – | – |
+| base_rxfastmode | 4 | 28.42% | 28.69% | R0:24.8 R1:27.4 R2:33.6 R3:27.8 | 14.2 | 19.1 | 123 | – | – |
+| constr_ft_0.5 | 3 | 23.33% | 23.60% | R0:20.9 R1:23.9 R2:25.2 | 13.0 | 13.4 | 128 | 12.6 | – |
+| place_ft_0.5_fix_rxfast | 4 | 24.21% | 24.50% | R0:22.7 R1:22.9 R2:27.1 R3:24.2 | 13.8 | 17.0 | 598 | 12.4 | 33.5 |
 
 ### RNASim10KHF (true_mask): all arms
 
 | arm | n | mean FN | mean FP | per-rep FN | mean CPU min | mean wall min | max peak RSS MB | backbone FN | graft FN |
 |---|---|---|---|---|---|---|---|---|---|
 | base_fasttree | 1 | 63.27% | 63.27% | R0:63.3 | 13.5 | 13.8 | 755 | – | – |
+| place_ft_0.5_fix_ft | 1 | 30.60% | 30.60% | R0:30.6 | 21.4 | 85.0 | 7923 | 13.6 | 35.9 |
 | place_ft_0.5_fix_graft | 1 | 35.87% | 35.87% | R0:35.9 | 11.5 | 12.9 | 7923 | 13.6 | 35.9 |

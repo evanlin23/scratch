@@ -29,7 +29,7 @@ MAGUS = E + "/lib/python3.11/site-packages/witch_msa/tools/magus/magus.py"
 def run(cmd, log, cost):
     t = time.time()
     with open(log, "w") as lf:
-        p = subprocess.Popen(cmd, stdout=lf, stderr=lf, env=dict(os.environ, PATH=E + "/bin:" + os.environ["PATH"]))
+        p = subprocess.Popen(cmd, stdout=lf, stderr=lf, env=dict(os.environ, PATH=E + "/bin:" + os.environ["PATH"], OMP_NUM_THREADS="1"))
         _, st, ru = os.wait4(p.pid, 0)
     # RUSAGE of the direct child only covers grandchildren it waited for; take RUSAGE_CHILDREN deltas instead
     if os.waitstatus_to_exitcode(st) != 0:
