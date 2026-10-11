@@ -1,0 +1,7 @@
+{"dataset": "SIMMOD_R5", "method": "true", "FN": 0.0853, "FP": 0.0853, "RF": 0.0853, "true_internal": 997, "est_internal": 997, "fasttree_wall": 1500.0}
+{"dataset": "SIMMOD_R5", "method": "magus", "FN": 0.0802, "FP": 0.0802, "RF": 0.0802, "true_internal": 997, "est_internal": 997, "fasttree_wall": 751.1}
+{"dataset": "SIMMOD_R5", "method": "recipe", "FN": 0.0843, "FP": 0.0843, "RF": 0.0843, "true_internal": 997, "est_internal": 997, "fasttree_wall": 395.0}
+{"dataset": "SIMMOD_R5", "method": "es3", "FN": 0.0792, "FP": 0.0792, "RF": 0.0792, "true_internal": 997, "est_internal": 997, "fasttree_wall": 391.2}
+{"dataset": "SIMMOD_R5", "method": "hard", "FN": 0.0752, "FP": 0.0752, "RF": 0.0752, "true_internal": 997, "est_internal": 997, "fasttree_wall": 363.0}
+{"dataset": "SIMMOD_R6", "method": "es3", "FN": 0.0802, "FP": 0.0802, "RF": 0.0802, "true_internal": 997, "est_internal": 997, "fasttree_wall": 391.2}
+{"dataset": "SIMMOD_R6", "method": "hard", "FN": 0.0863, "FP": 0.0863, "RF": 0.0863, "true_internal": 997, "est_internal": 997, "fasttree_wall": 375.6}
