@@ -1,0 +1,13 @@
+{"dataset": "SIMHIGH_R6", "method": "magus", "FN": 0.1254, "FP": 0.1254, "RF": 0.1254, "true_internal": 997, "est_internal": 997, "fasttree_wall": 706.7}
+{"dataset": "SIMHIGH_R6", "method": "recipe", "FN": 0.1184, "FP": 0.1184, "RF": 0.1184, "true_internal": 997, "est_internal": 997, "fasttree_wall": 730.7}
+{"dataset": "SIMHIGH_R6", "method": "es3", "FN": 0.1194, "FP": 0.1194, "RF": 0.1194, "true_internal": 997, "est_internal": 997, "fasttree_wall": 748.1}
+{"dataset": "SIMHIGH_R6", "method": "true", "FN": 0.0973, "FP": 0.0973, "RF": 0.0973, "true_internal": 997, "est_internal": 997, "fasttree_wall": 876.6}
+{"dataset": "SIMHIGH_R6", "method": "hard", "FN": 0.1264, "FP": 0.1264, "RF": 0.1264, "true_internal": 997, "est_internal": 997, "fasttree_wall": 654.1}
+{"dataset": "SIMHIGH_R6", "method": "vote_hard", "FN": 0.1244, "FP": 0.1244, "RF": 0.1244, "true_internal": 997, "est_internal": 997, "fasttree_wall": 641.1}
+{"dataset": "SIMHIGH_R6", "method": "es4", "FN": 0.1174, "FP": 0.1174, "RF": 0.1174, "true_internal": 997, "est_internal": 997, "fasttree_wall": 670.2}
+{"dataset": "SIMHIGH_R6", "method": "vote_soft", "FN": 0.1344, "FP": 0.1344, "RF": 0.1344, "true_internal": 997, "est_internal": 997, "fasttree_wall": 609.9}
+{"dataset": "SIMHIGH_R6", "method": "vote_soft2", "FN": 0.1404, "FP": 0.1404, "RF": 0.1404, "true_internal": 997, "est_internal": 997, "fasttree_wall": 586.5}
+{"dataset": "SIMHIGH_R6", "method": "vote_soft4", "FN": 0.1304, "FP": 0.1304, "RF": 0.1304, "true_internal": 997, "est_internal": 997, "fasttree_wall": 610.2}
+{"dataset": "SIMHIGH_R6", "method": "vote_soft-bb", "FN": 0.1394, "FP": 0.1394, "RF": 0.1394, "true_internal": 997, "est_internal": 997, "fasttree_wall": 608.8}
+{"dataset": "SIMHIGH_R6", "method": "vote_hard-bb", "FN": 0.1224, "FP": 0.1224, "RF": 0.1224, "true_internal": 997, "est_internal": 997, "fasttree_wall": 647.9}
+{"dataset": "SIMHIGH_R6", "method": "vote_hard_mask", "FN": 0.1244, "FP": 0.1244, "RF": 0.1244, "true_internal": 997, "est_internal": 997, "fasttree_wall": 638.6}
