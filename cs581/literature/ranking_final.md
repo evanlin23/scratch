@@ -643,3 +643,10 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   vote hard 10.43, **hard-bb 7.92**, soft-bb 8.02, hard+mask 11.23. So far hard-bb vs magus: R9 −3.92, R17 −0.10 (n = 2).
 - 1000M1 R2 (h10b): MAGUS 12.03 (SPFN 12.44 / SPFP 11.63); es4 11.90; hard-bb 12.81 (SPFN 16.24 / SPFP 9.38): on DNA the
   selected cutoff trades many missed homologies for fewer false ones. FastTree nRF: true 10.73, MAGUS 13.04, es4 13.44, hard-bb 13.54.
+- Backbone-count sensitivity (h6, same subsets, B = 5/10/20 from one 20-backbone draw; SP error %):
+  - BBA0101: MAGUS 28.79/28.78/28.83; best fixed fraction 27.86 (F=0.5) / 28.62 (F=0.2) / 28.63 (F=0.4);
+    vote hard-bb 27.40 / 27.65 / 28.29.
+  - BBA0067: MAGUS 26.40/26.23/26.36; best fixed fraction 26.40 (none helps) / 26.11 (F=0.5) / 26.15 (F=0.5);
+    vote hard-bb 26.10 / 25.55 / 25.62.
+  - The vote model beats MAGUS and the best fixed fraction at every B on both sets; the best fixed fraction moves with B
+    (no single F works), which is the case for a data-driven cutoff. More backbones alone do not help MAGUS here.
