@@ -1,0 +1,9 @@
+# one variant per line, run in this order (mg.py grammar). Trimmed at 4 h (time budget): ss on hard bases,
+# ss:soft0.2, soft0.2, the soft mask and (at 5 h) ss:soft0.5 were dropped after the first datasets.
+linsi
+linsi&fftns2-op3
+soft0.5:linsi&fftns2-op3
+linsi|cons0.7
+wsoft0.03:linsi&fftns2
+ss:linsi
+ss:wsoft0.03:linsi&fftns2
