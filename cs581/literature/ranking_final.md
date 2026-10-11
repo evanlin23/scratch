@@ -28,6 +28,23 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**Check-in 11 (01:40 UTC): the MAGUS fix does NOT improve trees; GCM clustering swap is not useful on its own.**
+- *gcmtrees, pooled from the main session + h1–h3:* 12 complete simulated protein sets, FastTree nRF.
+  - Pre-registered primary, recipe minus MAGUS: −0.15 (6/2/4 at a 0.1 band, Wilcoxon p = 0.64). SIMHIGH (n = 5):
+    −0.40.
+  - `linsi#es3` −0.03 (p = 0.05, but the mean is ≈ 0); hard filter −0.33 (p = 0.13).
+  - Mean room (MAGUS − true alignment) is 1.6 RF overall, only on SIMHIGH. The ~5-point SP gain does not reach
+    FastTree trees.
+  - IQ-TREE on SIMHIGH and the last 3 datasets are still pending; the conclusion is unlikely to change.
+- *gcmclust (REPORT draft, held-out n = 12):*
+  - On the raw graph no clustering beats MCL.
+  - With the support filter: es4 + Leiden-CPM −1.38 vs MAGUS (proteins −4.24, DNA +0.05) and es4 + MCL −1.30. The
+    swap itself (CPM vs MCL on the filtered graph) is −0.08 (n.s.); over all 10 protein sets −0.52 (p = 0.01).
+  - The es4 filter makes the trace 2–5× faster (27 s → 7 s).
+  - Session verdict: "unclear, leaning not promising" stand-alone. It confirms the damage is in the graph.
+- Combined MAGUS picture: the support filter is the active ingredient (alignments better and the merge faster); the
+  clustering and subset-aligner swaps add nothing; there is no tree gain.
+
 **basemeth INTERIM 2 (00:58 UTC): other subset aligners lose on simulated proteins.**
 - *Δ SP error vs L-INS-i subsets:*
   - SIMMOD_R1: ProbCons +0.95, MUSCLE5 +1.03, FAMSA +3.6, Clustal +7.6.
