@@ -725,3 +725,9 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   (−0.39); **vote hard (binomial) 8.23 [8.55/7.91] (−1.47), soft 8.00 (−1.70)**. On the two large real rRNA sets (16S.M, 16S.T) the
   vote model helps; on simulated ROSE DNA it hurts. Real vs simulated nucleotides behave differently (MAGUS's errors on 16S.T
   are mostly false positives, 11.9 % SPFP vs 7.5 % SPFN). Merges ~4–10 min each; ≤ 3.9 GB RAM.
+
+**basemeth FINAL (04:21 UTC, `claude/cs581-basemeth` c75e565).** MAGUS merge-only with only the subset aligner changed (15 protein
+sets): MUSCLE5 +0.93 (5/0/10, Holm p = 0.055), ProbCons +2.23 (p = 0.043), Clustal +3.27 (p = 0.037), FAMSA2 +2.65 (p = 0.0017),
+all worse than L-INS-i. BAliBASE alone favours MUSCLE5/ProbCons/Clustal slightly (−0.3 to −0.5, within L-INS-i rerun noise
+0.03–0.31), reversed on AliSim and HomFam. G-INS-i exploratory −0.42 on AliSim. Verdict: not promising as a method; a clean
+negative result for the instructor's "MAGUS with different base methods" suggestion.
