@@ -618,3 +618,6 @@ unaffected and soft-MAGUS times above are, if anything, overstated.
 - HomFam (h3d, real proteins, Homstrad-seed scoring, SP error %): blmb MAGUS 22.81; es4 21.45; vote hard 21.59, hard-bb 20.84,
   soft 23.03. aat MAGUS 27.54; es4 27.83 (es3 28.18); vote hard 25.51, hard-bb 26.42, soft 24.65, soft4 24.42. First sign the
   vote model can beat es4 on real proteins (aat −2.0 vs +0.3); vote `magus` reproduces gg `linsi` on both.
+- ROSE DNA (h4 done): 1000L3 MAGUS 11.86; es4 11.55, es5 11.45; vote hard 12.38, soft 12.31, soft4 12.55. 1000M3 MAGUS 3.68;
+  es4 3.71 (gg) / 3.74 (vote.py es4: small mismatch with gg's es4 here, matched on 1000L3); vote hard 3.94, hard-bb 3.71, soft 3.80.
+  On DNA every vote variant is worse than MAGUS (+0.1 to +0.7); fixed fractions are neutral.
