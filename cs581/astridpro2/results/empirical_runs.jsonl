@@ -1,0 +1,26 @@
+{"data": "empirical", "cond": "fungi16", "method": "astrid-multi", "sec": 0.689, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "astrid-pro", "sec": 0.528, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "astrid-pro-r0", "sec": 0.528, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "astrid-pro-s", "sec": 1.215, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "astrid-disco", "sec": 2.877, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "asteroid", "sec": 6.023, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "astral-pro3", "sec": 11.551, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "disco-astral", "sec": 23.053, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "1kp_c12", "method": "astrid-multi", "sec": 6.825, "FN": 10, "FP": 10, "nI": 69, "FNrate": 0.14493}
+{"data": "empirical", "cond": "1kp_c12", "method": "astrid-pro", "sec": 6.894, "FN": 5, "FP": 5, "nI": 69, "FNrate": 0.07246}
+{"data": "empirical", "cond": "1kp_c12", "method": "astrid-pro-r0", "sec": 6.689, "FN": 5, "FP": 5, "nI": 69, "FNrate": 0.07246}
+{"data": "empirical", "cond": "1kp_c12", "method": "astrid-pro-s", "sec": 26.282, "FN": 6, "FP": 6, "nI": 69, "FNrate": 0.08696}
+{"data": "empirical", "cond": "1kp_c12", "method": "astrid-disco", "sec": 46.923, "FN": 6, "FP": 6, "nI": 69, "FNrate": 0.08696}
+{"data": "empirical", "cond": "1kp_c12", "method": "asteroid", "sec": 0.094, "error": "CalledProcessError"}
+{"data": "empirical", "cond": "vertebrates188", "method": "astrid-multi", "sec": 22.976, "FN": 5, "FP": 60, "nI": 130, "FNrate": 0.03846}
+{"data": "empirical", "cond": "vertebrates188", "method": "astrid-pro", "sec": 21.508, "FN": 5, "FP": 60, "nI": 130, "FNrate": 0.03846}
+{"data": "empirical", "cond": "vertebrates188", "method": "astrid-pro-r0", "sec": 22.536, "FN": 5, "FP": 60, "nI": 130, "FNrate": 0.03846}
+{"data": "empirical", "cond": "vertebrates188", "method": "astrid-pro-s", "sec": 79.324, "FN": 5, "FP": 60, "nI": 130, "FNrate": 0.03846}
+{"data": "empirical", "cond": "vertebrates188", "method": "astrid-disco", "sec": 168.53, "FN": 5, "FP": 60, "nI": 130, "FNrate": 0.03846}
+{"data": "empirical", "cond": "vertebrates188", "method": "asteroid", "sec": 357.51, "error": "CalledProcessError"}
+{"data": "empirical", "cond": "fungi16", "method": "fastmulrfs", "sec": 8.937, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "fungi16", "method": "wqfm-gdl", "sec": 17.069, "FN": 1, "FP": 1, "nI": 13, "FNrate": 0.07692}
+{"data": "empirical", "cond": "1kp_c12", "method": "astral-pro3", "sec": 3347.167, "FN": 5, "FP": 5, "nI": 69, "FNrate": 0.07246}
+{"data": "empirical", "cond": "1kp_c12", "method": "disco-astral", "sec": 2962.0, "FN": 5, "FP": 5, "nI": 69, "FNrate": 0.07246}
+{"data": "empirical", "cond": "1kp_c12", "method": "fastmulrfs", "sec": 1759.227, "error": "CalledProcessError"}
+{"data": "empirical", "cond": "1kp_c12", "method": "wqfm-gdl", "sec": 5400.52, "error": "TimeoutExpired"}
