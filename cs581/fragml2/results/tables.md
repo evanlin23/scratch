@@ -4,40 +4,48 @@
 
 | method | n | mean FN | mean FP | ΔFN vs RAxML-NG (W/T/L) | Wilcoxon p | Holm p | mean CPU min | CPU ratio vs RAxML-NG, median [range] | mean wall min | max peak RSS MB | mean ΔlnL vs RAxML-NG |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| FastTree 2 | 6 | 48.1% | 48.3% | +24.02 (0/0/5) | 0.062 | – | 1.8 | 0.05 [0.05–0.06] | 2.4 | 116 | – |
-| IQ-TREE 3 --fast | 6 | 37.5% | 37.7% | +12.63 (0/0/5) | 0.062 | – | 7.0 | 0.18 [0.17–0.22] | 9.7 | 463 | – |
-| RAxML-NG (1 pars start) | 5 | 23.5% | 23.8% | – | – | – | 34.6 | – | 45.1 | 134 | – |
-| published RAxML-NG (20 starts, 24 h cap) | 5 | 24.9% | 25.2% | +0.20 (1/0/3) | 0.875 | – | – | – | – | – | – |
-| published IQ-TREE 2 | 5 | 30.2% | 30.5% | +5.06 (0/0/4) | 0.125 | – | – | – | – | – | – |
-| published GTM (IQ-TREE start) | 5 | 28.4% | 28.7% | +3.52 (0/0/4) | 0.125 | – | – | – | – | – | – |
-| **(B) FastTree backbone, τ=0.5, patched EPA-ng, + RAxML-NG fast polish** (primary) | 7 | 24.8% | 25.1% | +0.44 (1/1/3) | 0.312 | 0.625 | 12.5 | 0.34 [0.32–0.45] | 16.3 | 618 | – |
-| (A) constrained RAxML-NG, FastTree backbone, τ=0.5 | 6 | 24.8% | 25.1% | +0.02 (3/0/2) | 1.000 | 1.000 | 12.4 | 0.36 [0.33–0.37] | 16.8 | 128 | – |
-| (B) FastTree backbone, τ=0.5, patched EPA-ng, graft only | 6 | 33.3% | 33.6% | +8.96 (0/0/5) | 0.062 | 0.250 | 1.0 | 0.03 [0.03–0.03] | 1.3 | 618 | – |
-| (C) FastTree backbone, τ=0.5, stock EPA-ng, graft only | 6 | 33.3% | 33.6% | +8.96 (0/0/5) | 0.062 | 0.250 | 1.0 | 0.03 [0.03–0.03] | 1.2 | 618 | – |
+| FastTree 2 | 10 | 47.2% | 47.4% | +23.23 (0/0/8) | 0.008 | – | 1.7 | 0.05 [0.05–0.06] | 2.4 | 116 | – |
+| IQ-TREE 3 --fast | 9 | 37.4% | 37.7% | +12.99 (0/0/8) | 0.008 | – | 7.0 | 0.19 [0.16–0.25] | 9.6 | 463 | – |
+| RAxML-NG (1 pars start) | 8 | 24.4% | 24.7% | – | – | – | 35.4 | – | 47.5 | 138 | – |
+| published RAxML-NG (20 starts, 24 h cap) | 5 | 24.9% | 25.2% | +0.16 (1/1/3) | 0.875 | – | – | – | – | – | – |
+| published IQ-TREE 2 | 5 | 30.2% | 30.5% | +5.44 (0/0/5) | 0.062 | – | – | – | – | – | – |
+| published GTM (IQ-TREE start) | 5 | 28.4% | 28.7% | +3.63 (0/0/5) | 0.062 | – | – | – | – | – | – |
+| **(B) FastTree backbone, τ=0.5, patched EPA-ng, + RAxML-NG fast polish** (primary) | 10 | 23.7% | 24.1% | +0.11 (3/1/4) | 0.844 | 0.844 | 12.8 | 0.34 [0.30–0.45] | 16.9 | 618 | – |
+| (A) constrained RAxML-NG, FastTree backbone, τ=0.5 | 9 | 24.5% | 24.9% | +0.40 (3/0/5) | 0.312 | 0.625 | 12.3 | 0.36 [0.33–0.37] | 16.6 | 128 | – |
+| (B) FastTree backbone, τ=0.5, patched EPA-ng, graft only | 9 | 33.1% | 33.4% | +9.12 (0/0/8) | 0.008 | 0.031 | 1.0 | 0.03 [0.03–0.03] | 1.3 | 618 | – |
+| (C) FastTree backbone, τ=0.5, stock EPA-ng, graft only | 9 | 33.1% | 33.4% | +9.12 (0/0/8) | 0.008 | 0.031 | 1.0 | 0.03 [0.03–0.03] | 1.3 | 618 | – |
 
-Per-replicate FN %% (backbone FN of the FastTree τ=0.5 backbone in the last row)
+Per-replicate FN, % (backbone FN of the FastTree τ=0.5 backbone in the last row)
 
-| method | R0 | R1 | R2 | R3 | R4 | R5 | R6 |
-|---|---|---|---|---|---|---|---|
-| RAxML-NG (1 pars start) | 21.8 | 23.3 | 25.7 | 23.2 | – | 23.6 | – |
-| **(B) FastTree backbone, τ=0.5, patched EPA-ng, + RAxML-NG fast polish** (primary) | 22.7 | 22.9 | 27.1 | 24.2 | 28.2 | 22.9 | 25.7 |
-| (A) constrained RAxML-NG, FastTree backbone, τ=0.5 | 20.9 | 23.9 | 25.2 | 25.1 | 31.2 | 22.6 | – |
-| (B) FastTree backbone, τ=0.5, patched EPA-ng, graft only | 30.6 | 31.5 | 35.6 | 36.1 | 37.7 | 28.5 | – |
-| FastTree 2 | 48.9 | 46.5 | 48.9 | 49.4 | 50.8 | 43.8 | – |
-| backbone (FastTree, τ=0.5) | 12.4 | 12.5 | 12.9 | 11.7 | 16.9 | 12.1 | 14.2 |
+| method | R0 | R1 | R2 | R3 | R4 | R5 | R6 | R7 | R8 | R9 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| RAxML-NG (1 pars start) | 21.8 | 23.3 | 25.7 | 23.2 | 29.8 | 23.6 | 23.8 | 23.9 | – | – |
+| **(B) FastTree backbone, τ=0.5, patched EPA-ng, + RAxML-NG fast polish** (primary) | 22.7 | 22.9 | 27.1 | 24.2 | 28.2 | 22.9 | 25.7 | 22.3 | 21.3 | 20.2 |
+| (A) constrained RAxML-NG, FastTree backbone, τ=0.5 | 20.9 | 23.9 | 25.2 | 25.1 | 31.2 | 22.6 | 24.5 | 24.9 | 22.7 | – |
+| (B) FastTree backbone, τ=0.5, patched EPA-ng, graft only | 30.6 | 31.5 | 35.6 | 36.1 | 37.7 | 28.5 | 33.9 | 33.9 | 30.1 | – |
+| FastTree 2 | 48.9 | 46.5 | 48.9 | 49.4 | 50.8 | 43.8 | 46.2 | 46.2 | 47.5 | 43.6 |
+| backbone (FastTree, τ=0.5) | 12.4 | 12.5 | 12.9 | 11.7 | 16.9 | 12.1 | 14.2 | 15.5 | 15.3 | 13.0 |
 
-Patched vs stock EPA-ng, FastTree backbone τ=0.5, graft: identical FN on 6/6 reps; mean FN patched 33.34% vs stock 33.34%; per rep (patched/stock): R0 30.6/30.6, R1 31.5/31.5, R2 35.6/35.6, R3 36.1/36.1, R4 37.7/37.7, R5 28.5/28.5
+Patched vs stock EPA-ng, FastTree backbone τ=0.5, graft: identical FN on 9/9 reps; mean FN patched 33.11% vs stock 33.11%; per rep (patched/stock): R0 30.6/30.6, R1 31.5/31.5, R2 35.6/35.6, R3 36.1/36.1, R4 37.7/37.7, R5 28.5/28.5, R6 33.9/33.9, R7 33.9/33.9, R8 30.1/30.1
 
 ### RNASim10KHF (true_mask)
 
 | method | n | mean FN | mean FP | per-rep FN | backbone FN | mean CPU min | mean wall min | max peak RSS MB |
 |---|---|---|---|---|---|---|---|---|
-| FastTree 2 | 1 | 63.3% | 63.3% | 63.3 | – | 11.9 | 11.9 | 755 |
-| (B) FastTree backbone, τ=0.5, patched EPA-ng, + FastTree polish | 1 | 30.6% | 30.6% | 30.6 | 13.6 | 18.9 | 19.1 | 7924 |
-| (B) FastTree backbone, τ=0.5, patched EPA-ng, graft only | 1 | 35.9% | 35.9% | 35.9 | 13.6 | 9.9 | 10.0 | 7924 |
-| (C) FastTree backbone, τ=0.5, stock EPA-ng, + FastTree polish | 1 | 32.2% | 32.2% | 32.2 | 13.6 | 19.6 | 19.7 | 7928 |
-| (C) FastTree backbone, τ=0.5, stock EPA-ng, graft only | 1 | 48.8% | 48.8% | 48.8 | 13.6 | 10.6 | 10.7 | 7928 |
+| FastTree 2 | 2 | 64.3% | 64.3% | 63.3 65.4 | – | 11.7 | 11.8 | 755 |
+| (B) FastTree backbone, τ=0.5, patched EPA-ng, + FastTree polish | 2 | 30.9% | 30.9% | 30.6 31.2 | 13.6 12.4 | 18.7 | 18.9 | 7924 |
+| (B) FastTree backbone, τ=0.5, patched EPA-ng, graft only | 2 | 35.6% | 35.6% | 35.9 35.3 | 13.6 12.4 | 9.9 | 10.0 | 7924 |
+| (C) FastTree backbone, τ=0.5, stock EPA-ng, + FastTree polish | 2 | 32.2% | 32.2% | 32.2 32.2 | 13.6 12.4 | 19.3 | 19.5 | 7928 |
+| (C) FastTree backbone, τ=0.5, stock EPA-ng, graft only | 2 | 47.7% | 47.7% | 48.8 46.6 | 13.6 12.4 | 10.5 | 10.6 | 7928 |
 
-Patched vs stock EPA-ng, FastTree backbone τ=0.5, graft: identical FN on 0/1 reps; mean FN patched 35.87% vs stock 48.82%; per rep (patched/stock): R0 35.9/48.8
+Patched vs stock EPA-ng, FastTree backbone τ=0.5, graft: identical FN on 0/2 reps; mean FN patched 35.57% vs stock 47.73%; per rep (patched/stock): R0 35.9/48.8, R1 35.3/46.6
 
-Patched vs stock EPA-ng, FastTree backbone τ=0.5, ft: identical FN on 0/1 reps; mean FN patched 30.60% vs stock 32.22%; per rep (patched/stock): R0 30.6/32.2
+Patched vs stock EPA-ng, FastTree backbone τ=0.5, ft: identical FN on 0/2 reps; mean FN patched 30.91% vs stock 32.20%; per rep (patched/stock): R0 30.6/32.2, R1 31.2/32.2
+
+### RNASimHF (true_align)
+
+| method | n | mean FN | mean FP | per-rep FN | backbone FN | mean CPU min | mean wall min | max peak RSS MB |
+|---|---|---|---|---|---|---|---|---|
+| FastTree 2 | 1 | 58.9% | 58.9% | 58.9 | – | 3.0 | 3.0 | 152 |
+| **(B) FastTree backbone, τ=0.5, patched EPA-ng, + RAxML-NG fast polish** (primary) | 1 | 34.7% | 34.7% | 34.7 | 16.4 | 16.1 | 16.2 | 791 |
+| (B) FastTree backbone, τ=0.5, patched EPA-ng, graft only | 1 | 42.3% | 42.3% | 42.3 | 16.4 | 1.4 | 1.4 | 791 |
