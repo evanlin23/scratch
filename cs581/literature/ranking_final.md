@@ -641,3 +641,5 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   Selected variant hurts DNA alignments (+0.6, +1.3); trees mixed and within noise.
 - Tree row (h2, SIMHIGH_R9, FastTree nRF %): true 6.52, magus 11.84, es4 10.93, recipe 10.13, gcmgen hard 8.02,
   vote hard 10.43, **hard-bb 7.92**, soft-bb 8.02, hard+mask 11.23. So far hard-bb vs magus: R9 −3.92, R17 −0.10 (n = 2).
+- 1000M1 R2 (h10b): MAGUS 12.03 (SPFN 12.44 / SPFP 11.63); es4 11.90; hard-bb 12.81 (SPFN 16.24 / SPFP 9.38): on DNA the
+  selected cutoff trades many missed homologies for fewer false ones. FastTree nRF: true 10.73, MAGUS 13.04, es4 13.44, hard-bb 13.54.
