@@ -43,7 +43,8 @@ PASTA = "/opt/src/pasta/run_pasta.py"
 def magus_flags(k):
     return ["--maxsubsetsize", "0", "--maxnumsubsets", str(k), "--decompstrategy", "pastastyle",
             "--decompskeletonsize", "300", "--graphbuildmethod", "mafft", "--graphclustermethod", "mcl",
-            "--graphtracemethod", "minclusters", "--graphtraceoptimize", "false", "-r", "10", "-m", "200", "-f", "4"]
+            "--graphtracemethod", "minclusters", "--graphtraceoptimize", "false",
+            "-r", os.environ.get("GCMX_NUM_BACKBONES", "10"), "-m", "200", "-f", "4"]
 
 
 def timed(cmd, log, env=None):
