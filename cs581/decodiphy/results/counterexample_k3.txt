@@ -1,0 +1,7 @@
+Explicit k=3 counterexample with generic branch lengths (verified by exact LP search over all edge sets, |S'|<=3)
+tree: leaves 0-4, internal 5 (centre), 6 (parent of 0,3), 7 (parent of 1,4); edges (a,b,length): [(2, 5, 0.7), (5, 6, 0.4), (6, 0, 0.9), (6, 3, 0.5), (5, 7, 0.3), (7, 1, 0.8), (7, 4, 0.6)]
+truth: edges [(2, 5), (6, 0), (7, 1)] p [0.2 0.4 0.4] x (from first endpoint) [0.8 0.5 0.5] ybar 0.1
+d = [1.368 1.288 1.392 1.328 1.408]
+exact solution: edges [(2, 5), (6, 0), (7, 1)] p= [0.1195 0.4345 0.446 ] x= [0.5    0.4603 0.4484] ybar= 0.0862 (continuum)
+exact solution: edges [(5, 6), (6, 0), (7, 1)] p= [0.4283 0.265  0.3067] x= [0.1518 0.7547 0.6522] ybar= 0.128 (continuum)
+exact solution: edges [(6, 0), (5, 7), (7, 1)] p= [0.33   0.4167 0.2533] x= [0.6061 0.128  0.7895] ybar= 0.128 (continuum)
