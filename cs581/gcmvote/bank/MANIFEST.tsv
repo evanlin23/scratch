@@ -1,0 +1,2 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+1000M1_R2	dna	1000	10	200	yes	3885486	306038f2540cdb87ef7b297726a56a4a0d1655b5e0647c7f03448b93f9bbd06d	1000M1_R2/true.fasta	1000M1_R2/inputs/backbones/backbone_*_mafft.txt
