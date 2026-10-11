@@ -1,0 +1,13 @@
+{"dataset": "SIMHIGH_R7", "method": "true", "FN": 0.0662, "FP": 0.0662, "RF": 0.0662, "true_internal": 997, "est_internal": 997, "fasttree_wall": 1002.0}
+{"dataset": "SIMHIGH_R7", "method": "magus", "FN": 0.1093, "FP": 0.1093, "RF": 0.1093, "true_internal": 997, "est_internal": 997, "fasttree_wall": 772.2}
+{"dataset": "SIMHIGH_R7", "method": "es3", "FN": 0.1043, "FP": 0.1043, "RF": 0.1043, "true_internal": 997, "est_internal": 997, "fasttree_wall": 784.1}
+{"dataset": "SIMHIGH_R7", "method": "es4", "FN": 0.1023, "FP": 0.1023, "RF": 0.1023, "true_internal": 997, "est_internal": 997, "fasttree_wall": 790.6}
+{"dataset": "SIMHIGH_R7", "method": "recipe", "FN": 0.0983, "FP": 0.0983, "RF": 0.0983, "true_internal": 997, "est_internal": 997, "fasttree_wall": 794.3}
+{"dataset": "SIMHIGH_R7", "method": "hard", "FN": 0.0873, "FP": 0.0873, "RF": 0.0873, "true_internal": 997, "est_internal": 997, "fasttree_wall": 758.5}
+{"dataset": "SIMHIGH_R7", "method": "vote_soft", "FN": 0.0822, "FP": 0.0822, "RF": 0.0822, "true_internal": 997, "est_internal": 997, "fasttree_wall": 733.5}
+{"dataset": "SIMHIGH_R7", "method": "vote_soft2", "FN": 0.0762, "FP": 0.0762, "RF": 0.0762, "true_internal": 997, "est_internal": 997, "fasttree_wall": 731.5}
+{"dataset": "SIMHIGH_R7", "method": "vote_hard", "FN": 0.1003, "FP": 0.1003, "RF": 0.1003, "true_internal": 997, "est_internal": 997, "fasttree_wall": 792.2}
+{"dataset": "SIMHIGH_R7", "method": "vote_soft4", "FN": 0.0863, "FP": 0.0863, "RF": 0.0863, "true_internal": 997, "est_internal": 997, "fasttree_wall": 754.9}
+{"dataset": "SIMHIGH_R7", "method": "vote_soft-bb", "FN": 0.0853, "FP": 0.0853, "RF": 0.0853, "true_internal": 997, "est_internal": 997, "fasttree_wall": 726.9}
+{"dataset": "SIMHIGH_R7", "method": "vote_hard-bb", "FN": 0.1033, "FP": 0.1033, "RF": 0.1033, "true_internal": 997, "est_internal": 997, "fasttree_wall": 808.8}
+{"dataset": "SIMHIGH_R7", "method": "vote_hard+mask", "FN": 0.1003, "FP": 0.1003, "RF": 0.1003, "true_internal": 997, "est_internal": 997, "fasttree_wall": 793.8}
