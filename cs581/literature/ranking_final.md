@@ -673,3 +673,19 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   16S.3 (h11): MAGUS draw 4,763 s, avgErr 10.17 %; merges ~540 s. RNASim 10K (h13): recursive MAGUS projected ~25 h on 4 cores;
   restarted with --recurse false (deviation from the paper, labelled).
   hard-bb tree Δ (n = 8): −1.91, +0.71, −3.92, +0.60, +0.10, 0.00, −1.70, −0.10 → mean −0.78.
+
+**Check-in 12 (03:45 UTC): pooled gcmvote held-out so far (selected variant hard-bb; SP error points; tie band ±0.1).**
+- Proteins (n = 10: SIMMOD_R2, SIMHIGH_R2, BBA0154/0190/0081/0117, HomFam blmb/aat/Acetyltransf/PDZ):
+  hard-bb − MAGUS −1.66 (median −1.65, 8/0/2, p = 0.084); es4 − MAGUS −1.89 (median −0.68, 6/2/2, p = 0.049);
+  **hard-bb − es4 +0.22 (median −0.17, 5/1/4, p = 0.92): a tie on proteins.** The vote wins BAliBASE/HomFam, es4 wins the
+  simulated sets (SIMHIGH_R2 −7.34 vs −9.17) and BBA0081 (vote +4.22).
+- DNA/RNA (n = 9, ROSE + 1000M1): hard-bb − MAGUS +0.38 (1/3/5, p = 0.074); es4 − MAGUS −0.05; hard-bb − es4 +0.43 (p = 0.055).
+- All (n = 19): hard-bb − es4 +0.32 (6/4/9, p = 0.42). **On current rows the pre-registered verdict ("principled replacement
+  for es4": mean Δ vs es4 ≤ +0.1 and no data type worse by > 0.25) FAILS** because of DNA. Pending: 1000S1/S2, RNASim R0/R1,
+  1000M1 R3, 16S.3, 16S.T, RNASim 10K.
+- Backbone-count sensitivity (BBA0101, BBA0067, 16S.M): hard-bb beats MAGUS and the best fixed fraction at every B (9/9). The
+  vote's case is adaptivity to B and to real data, not beating es4 at B = 10 on average.
+- Trees (FastTree nRF, SIMHIGH, n = 8): hard-bb − MAGUS −0.78 (median −0.05, 3/3/2, p = 0.41); es4 − MAGUS −0.32 (5/0/3,
+  p = 0.38). No detectable tree effect yet; 12 replicates pending.
+- Final verdicts: gcmtrees (recipe does not detectably improve trees, −0.19, p = 0.63); gcmclust (clustering swap null on raw
+  graph); basemeth (no aligner beats L-INS-i; final ~04:15 UTC). fragscale stopped at the student's request.
