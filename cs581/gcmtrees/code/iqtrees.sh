@@ -8,6 +8,6 @@ one() {
   nice -n 5 /opt/mm/root/envs/pasta183/bin/python $G/code/iqtrees.py $T /opt/data/sim/$lvl/R$r/tree.nwk $W/reps/$n/iqtrees.jsonl $M >/dev/null
 }
 export -f one; export W G M
-ls -d $W/trees/SIMHIGH_* 2>/dev/null | xargs -r -P $P -I{} bash -c 'one {}'
+ls -d $W/trees/SIMHIGH_* 2>/dev/null | ${ORDER:-cat} | xargs -r -P $P -I{} bash -c 'one {}'
 bash $G/code/collect.sh
 echo IQ_DONE

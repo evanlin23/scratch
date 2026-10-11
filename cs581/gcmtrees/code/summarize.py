@@ -16,9 +16,17 @@ METH = ["recipe", "es3", "hard"]
 TIE = 0.1
 
 
+DIRS = [R] + sorted(os.path.join(R, "..", d) for d in os.listdir(os.path.join(R, "..")) if d.startswith("results_h"))
+
+
 def rows(f):
-    p = os.path.join(R, f)
-    return [json.loads(l) for l in open(p)] if os.path.exists(p) and os.path.getsize(p) else []
+    """Rows of results/F plus the helper machines' results_h*/F."""
+    out = []
+    for d in DIRS:
+        p = os.path.join(d, f)
+        if os.path.exists(p) and os.path.getsize(p):
+            out += [json.loads(l) for l in open(p) if l.strip()]
+    return out
 
 
 aln = defaultdict(dict)
@@ -130,6 +138,35 @@ if iq:
     for m, v in dd.items():
         print("\n- IQ-TREE {} − MAGUS: n = {}, mean {:+.2f}, W/T/L {}, p = {:.3g}".format(m, len(v), np.mean(v), wtl(v), pval(v)), end="")
     print()
+
+sp = [d for d in sorted(tre, key=key) if "split_magus" in tre[d] and "split_recipe" in tre[d]]
+if sp:
+    print("\n## Why-not diagnostic: zero-SPFP refinements (FastTree nRF %)\n")
+    print("split(X) = common refinement of the true alignment and X: X's true-positive pairs only (X's SPFN, SPFP = 0).\n")
+    print("| dataset | true | split(MAGUS) | MAGUS | split(recipe) | recipe | FP cost MAGUS | FP cost recipe | split(recipe) − split(MAGUS) |")
+    print("|---|---|---|---|---|---|---|---|---|")
+    a, b, c = [], [], []
+    for d in sp:
+        r = {m: 100 * tre[d][m]["RF"] for m in tre[d]}
+        a.append(r["magus"] - r["split_magus"]); b.append(r["recipe"] - r["split_recipe"]); c.append(r["split_recipe"] - r["split_magus"])
+        print("| {} | {:.2f} | {:.2f} | {:.2f} | {:.2f} | {:.2f} | {:+.2f} | {:+.2f} | {:+.2f} |".format(
+            d, r["true"], r["split_magus"], r["magus"], r["split_recipe"], r["recipe"], a[-1], b[-1], c[-1]))
+    print("| mean | | | | | | {:+.2f} | {:+.2f} | {:+.2f} |".format(np.mean(a), np.mean(b), np.mean(c)))
+
+ca = rows("colana.jsonl")
+if ca:
+    print("\n## Where the alignment changes land (true-alignment columns)\n")
+    print("Gains = recovered true pairs as % of all true pairs. 'dense' = true columns holding >= 50% of taxa; 'informative' = parsimony-informative columns. Residue level: misplaced = not in the largest true-column group of its estimated column; split = outside the largest estimated fragment of its true column (% of residues).\n")
+    print("| dataset | pairs in dense cols | MAGUS recall dense / gappy | recipe gain dense / gappy | es3 gain dense / gappy | gain in informative cols (recipe) | misplaced res MAGUS / recipe / es3 | of which in blocks >= 10 (MAGUS / recipe) | split res MAGUS / recipe / es3 |")
+    print("|---|---|---|---|---|---|---|---|---|")
+    for r in sorted(ca, key=lambda r: key(r["rep"])):
+        g, dn = r["gappy"], r["dense"]
+        print("| {} | {:.1%} | {:.1%} / {:.1%} | {:+.2f} / {:+.2f} | {:+.2f} / {:+.2f} | {:+.2f} | {:.1%} / {:.1%} / {:.1%} | {:.1%} / {:.1%} | {:.1%} / {:.1%} / {:.1%} |".format(
+            r["rep"], dn["share_true_pairs"], dn["recall_magus"], g["recall_magus"], dn["gain_recipe"], g["gain_recipe"],
+            dn["gain_es3"], g["gain_es3"], r["bins"]["informative"]["gain_recipe"],
+            r["magus_misplaced_res"], r["recipe_misplaced_res"], r["es3_misplaced_res"],
+            r["magus_misplaced_block_res"], r["recipe_misplaced_block_res"],
+            r["magus_split_res"], r["recipe_split_res"], r["es3_split_res"]))
 
 mg = rows("magus.jsonl")
 if mg:

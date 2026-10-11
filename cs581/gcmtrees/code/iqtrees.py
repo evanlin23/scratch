@@ -17,6 +17,10 @@ for m in methods:
     if (name, m) in done or not os.path.exists(aln):
         continue
     pre = os.path.join(work, "iq_" + m)
+    try:  # two lanes may share a dataset
+        os.close(os.open(pre + ".lock", os.O_CREAT | os.O_EXCL))
+    except FileExistsError:
+        continue
     start = time.time()
     subprocess.run(["/opt/mm/root/envs/bio/bin/iqtree3", "-s", aln, "-m", "LG+G4", "--fast", "-T", "1", "-seed", "1",
                     "--prefix", pre, "-redo", "-quiet"], check=True)
