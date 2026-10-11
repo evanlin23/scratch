@@ -1,0 +1,4 @@
+1000M2 /opt/data/Datasets/ROSE/1000M2/R0/rose.aln.true.fasta 25 cache:1000M2_R0
+1000L1 /opt/data/Datasets/ROSE/1000L1/R0/rose.aln.true.fasta 25 cache:1000L1_R0
+RNASim /opt/data/Datasets/RNASim/1000/R0/true_align.txt 25 cache:RNASim_R0
+16S.M /opt/data/Datasets/Gutell/16S.M/R0/true_align_clean.txt 25 cache:16S.M_R0

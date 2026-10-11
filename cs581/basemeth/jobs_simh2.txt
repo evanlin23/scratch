@@ -1,0 +1,1 @@
+SIMHIGH_R2 /opt/data/sim/SIMHIGH/R2/sim.fa 25
