@@ -1,5 +1,7 @@
 {"dataset": "SIMHIGH_R1", "method": "true", "FN": 0.0602, "FP": 0.0602, "RF": 0.0602, "lnL": -254342.7173, "iqtree_wall": 1765.8}
 {"dataset": "SIMHIGH_R1", "method": "magus", "FN": 0.1334, "FP": 0.1334, "RF": 0.1334, "lnL": -272744.996, "iqtree_wall": 2025.2}
+{"dataset": "SIMHIGH_R1", "method": "recipe", "FN": 0.1284, "FP": 0.1284, "RF": 0.1284, "lnL": -271175.9634, "iqtree_wall": 1791.8}
 {"dataset": "SIMHIGH_R2", "method": "true", "FN": 0.0512, "FP": 0.0512, "RF": 0.0512, "lnL": -259187.5159, "iqtree_wall": 1759.3}
 {"dataset": "SIMHIGH_R2", "method": "magus", "FN": 0.0983, "FP": 0.0983, "RF": 0.0983, "lnL": -278191.9465, "iqtree_wall": 1823.2}
 {"dataset": "SIMHIGH_R2", "method": "recipe", "FN": 0.0903, "FP": 0.0903, "RF": 0.0903, "lnL": -276213.7494, "iqtree_wall": 1568.4}
+{"dataset": "SIMHIGH_R3", "method": "magus", "FN": 0.1013, "FP": 0.1013, "RF": 0.1013, "lnL": -288004.1814, "iqtree_wall": 1697.7}
