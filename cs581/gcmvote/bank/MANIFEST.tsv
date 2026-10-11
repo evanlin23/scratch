@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R19	protein	1000	10	200	yes	2952406	7f804328064b09debd9543057df0d7d805026d8b0ae7ac79a7da6d62de99cb2e	SIMHIGH_R19/true.fasta	SIMHIGH_R19/inputs/backbones/backbone_{1..10}_mafft.txt (L-INS-i; also aligned/{fftns2,fftns2-op3}/s0/)
