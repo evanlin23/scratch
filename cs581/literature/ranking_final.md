@@ -703,3 +703,5 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   fraction 18.48/17.88/17.77 (always F = 0.5), hard-bb 18.99/19.21/20.23 (worse than the best fixed fraction by 0.5–2.5).
   SIMMOD_R1 MAGUS 12.88/13.59/13.33, best fixed 9.40/9.54/9.40, hard-bb 10.84/9.24/9.38. So the "vote beats the best fixed
   fraction at every B" pattern holds on BAliBASE and 16S.M but not on simulated proteins, where stricter is better.
+- 1000M1 R3 (h10c): MAGUS 8.04; es4 8.18; hard-bb 9.18 (+1.14). FastTree nRF: true 9.53, MAGUS 10.53, es4 11.23, hard-bb 10.73.
+  1000M1 R0–R3 hard-bb − MAGUS: +0.59, +1.34, +0.78, +1.14 (the MAGUS-tuned DNA condition is consistently hurt).
