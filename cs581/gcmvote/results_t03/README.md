@@ -12,3 +12,7 @@ One MAGUS draw (draw 0, paper flags, 25 subsets, 10 L-INS-i backbones), AliSim S
 
 Check: vote.py `magus` has the same 1000 rows/strings as MAGUS's merge (`variants/linsi/out.fasta`); the files differ only in
 row order, so `cmp` differs but scores are identical.
+
+Trees: no vote alignment was byte-identical to an earlier one, so every tree was built (no reuse). The first magus, recipe
+and es3 FastTree runs started on alignment files still being written (es3 tree had 354/1000 leaves); those runs were
+discarded and the three trees re-run on the complete files.

@@ -8,3 +8,6 @@
 {"dataset": "SIMHIGH_R3", "method": "vote_hard-bb", "FN": 0.0642, "FP": 0.0642, "RF": 0.0642, "true_internal": 997, "est_internal": 997, "fasttree_wall": 650.8}
 {"dataset": "SIMHIGH_R3", "method": "vote_soft-bb", "FN": 0.0612, "FP": 0.0612, "RF": 0.0612, "true_internal": 997, "est_internal": 997, "fasttree_wall": 591.5}
 {"dataset": "SIMHIGH_R3", "method": "vote_hard_mask", "FN": 0.0652, "FP": 0.0652, "RF": 0.0652, "true_internal": 997, "est_internal": 997, "fasttree_wall": 642.0}
+{"dataset": "SIMHIGH_R3", "method": "magus", "FN": 0.0712, "FP": 0.0712, "RF": 0.0712, "true_internal": 997, "est_internal": 997, "fasttree_wall": 619.3}
+{"dataset": "SIMHIGH_R3", "method": "recipe", "FN": 0.0552, "FP": 0.0552, "RF": 0.0552, "true_internal": 997, "est_internal": 997, "fasttree_wall": 653.0}
+{"dataset": "SIMHIGH_R3", "method": "es3", "FN": 0.0642, "FP": 0.0642, "RF": 0.0642, "true_internal": 997, "est_internal": 997, "fasttree_wall": 628.1}
