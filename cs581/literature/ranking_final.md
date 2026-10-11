@@ -28,6 +28,16 @@ TIPP3/PICRUSt2, speed) running on `claude/cs581-epangdown`. Course: phylogenetic
 (pplacer/EPA-ng/SEPP, Warnow lab's SCAMPP/BSCAMPP/TIPP). Novelty: unreported bug; the diagnosis is done,
 so a project would be the characterisation, re-tuning and downstream impact, plus an upstream fix.
 
+**gcmtrees INTERIM (00:43 UTC; SIMHIGH R1–R4, FastTree nRF %).**
+- Recipe minus MAGUS: +0.40, −1.81, −0.80, +0.90. Mean −0.33, 2 better / 2 worse, despite about −5 SP points of
+  alignment gain (R1: SPFN 31.2 → 21.5).
+- Room (MAGUS minus true alignment) is 3–6 RF points.
+- *Correction to check-in 10's reading of the oracle diagnostic:*
+  - split(MAGUS) 12.24 ≈ MAGUS 11.94, so MAGUS's own false positives are not what costs trees.
+  - split(recipe) is 8.32 vs 12.34 on R1 but 8.93 vs 7.52 on R2.
+  - So the diagnostic is noisy and inconclusive, not evidence that "wrong pairings drive tree error".
+- Waiting on SIMHIGH R5–R8 and SIMMOD R1–R8 (helpers h1–h3).
+
 **fragml2 INTERIM (00:34 UTC, `claude/cs581-fragml2`; 1000M1-HF, true alignment, paired vs RAxML-NG, n = 5).**
 - RAxML-NG: 23.5% FN, 34.6 CPU-min.
 - *Primary pipeline (FastTree backbone → patched EPA-ng → graft → RAxML-NG fast polish):* 24.8%; ΔFN +0.44
