@@ -21,10 +21,10 @@ Base methods (single thread, default options unless stated):
 | ginsi | MAFFT G-INS-i | 7.450 | `--globalpair --maxiterate 1000 --anysymbol` |
 | muscle5 | MUSCLE | 5.3 | `-align` (PPP, no ensemble) |
 | famsa | FAMSA | 2.4.1 | default |
-| probcons | ProbCons | 1.12 | default (2 consistency, 0 refinement passes... default) |
+| probcons | ProbCons | 1.12 | default (2 consistency passes, 100 refinement passes) |
 | clustalo | Clustal Omega | 1.2.4 | default |
 | kalign | Kalign | 3.6.0 | default |
-| prank | PRANK | v.250331 (bioconda 251117) | default (`-f=fasta`; no `+F`), nucleotides only |
+| prank | PRANK | v.250331 (bioconda 251117) | default (`-f=fasta`, no `+F`), nucleotides only |
 
 Scoring: FastSP (SPFN, SPFP, TC); SP error = (SPFN+SPFP)/2 in percent. HomFam alignments are scored on the
 Homstrad seed sequences only (the estimate restricted to them, all-gap columns removed). Paired difference =
@@ -36,3 +36,10 @@ counts.
 Runtime: per-subset wall and CPU seconds (children rusage) of the aligner; merge wall/CPU. All runs shared a
 4-core / 15 GB VM with other jobs of this pilot (MAGUS runs, PASTA), so **wall times are inflated by contention;
 CPU seconds are the fair cost comparison**.
+
+Whole-dataset baselines (`code/baselines.py`, 4 threads, wall cap): FAMSA 2.4.1 default; MUSCLE 5.3 `-align`
+(`-super5` above 1,000 sequences); regressive T-Coffee 12.00.7fb08c2 `-reg -reg_nseq 100 -reg_tree nj
+-reg_method clustalo_msa` (the mBed guide tree hung in this bioconda build and `famsa_msa` is not available in it,
+so this is not the published configuration). PASTA 1.8.3 (commit 738bec5, the MAGUS paper's version) with
+`--aligner mafft|probcons|prank`, its bundled tools (MAFFT 7.149b, ProbCons, PRANK v.100311 with `+F`), OPAL
+merger, FastTree, `--iter-limit 1` for the aligner comparison (3 = default for the reference run).
