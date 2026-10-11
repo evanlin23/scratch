@@ -3,7 +3,7 @@
 cd /home/user/scratch
 export PYTHONPATH=cs581/code
 B=cs581/basemeth; W=/opt/work/basemeth
-while pgrep -f "basemeth.py (align|prep)" > /dev/null; do sleep 30; done
+# (started without waiting: CPU contention noted in REPORT)
 cat $B/jobs.txt $B/jobs_dna.txt > $W/jobs_all.txt
 PY="python3 $B/code/baselines.py $W/jobs_all.txt $W $B/results/baselines.jsonl --cap 1800"
 $PY --methods famsa

@@ -2,3 +2,7 @@
 {"dataset": "SIMMOD_R1", "method": "merge_linsi", "FN": 0.0632, "FP": 0.0632, "RF": 0.0632, "true_internal": 997, "est_internal": 997, "fasttree_wall": 438.6}
 {"dataset": "SIMMOD_R1", "method": "merge_muscle5", "FN": 0.0612, "FP": 0.0612, "RF": 0.0612, "true_internal": 997, "est_internal": 997, "fasttree_wall": 460.6}
 {"dataset": "SIMMOD_R1", "method": "merge_probcons", "FN": 0.0622, "FP": 0.0622, "RF": 0.0622, "true_internal": 997, "est_internal": 997, "fasttree_wall": 406.2}
+{"dataset": "SIMHIGH_R1", "method": "true", "FN": 0.0612, "FP": 0.0612, "RF": 0.0612, "true_internal": 997, "est_internal": 997, "fasttree_wall": 748.6}
+{"dataset": "SIMHIGH_R1", "method": "merge_linsi", "FN": 0.1013, "FP": 0.1013, "RF": 0.1013, "true_internal": 997, "est_internal": 997, "fasttree_wall": 593.4}
+{"dataset": "SIMHIGH_R1", "method": "merge_ginsi", "FN": 0.0682, "FP": 0.0682, "RF": 0.0682, "true_internal": 997, "est_internal": 997, "fasttree_wall": 673.6}
+{"dataset": "SIMHIGH_R1", "method": "merge_muscle5", "FN": 0.1063, "FP": 0.1063, "RF": 0.1063, "true_internal": 997, "est_internal": 997, "fasttree_wall": 686.0}
