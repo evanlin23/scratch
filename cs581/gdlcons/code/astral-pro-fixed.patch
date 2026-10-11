@@ -1,0 +1,29 @@
+diff --git a/src/astral-pro.cpp b/src/astral-pro.cpp
+index 9815c9b..5acbf2d 100755
+--- a/src/astral-pro.cpp
++++ b/src/astral-pro.cpp
+@@ -286,6 +286,24 @@ public:
+ 			}
+ 		}
+ 		duploss += bestscore;
++		if (getenv("APRO_FIXED") != NULL){
++			// fixed mode: keep the input root; tags are encoded in branch lengths
++			// (internal non-root-child v: 1 + tag; root children a,b: sum - 2 = tag(a) + 2 tag(b) + 8 tag(root))
++			bestroot = curId;
++			int a = get<0>(left), b = get<0>(right);
++			int code = (int) llround((double) node[a].length - 2.0);
++			bool troot = code >= 8; code -= troot ? 8 : 0;
++			node[curId].isDuplication = troot;
++			vector<int> st;
++			if (!node[a].isLeaf) { node[a].isDuplication = (code & 1); st.push_back(node[a].leftChildId); st.push_back(node[a].rightChildId); }
++			if (!node[b].isLeaf) { node[b].isDuplication = ((code >> 1) & 1); st.push_back(node[b].leftChildId); st.push_back(node[b].rightChildId); }
++			while (!st.empty()){
++				int v = st.back(); st.pop_back();
++				if (node[v].isLeaf) continue;
++				node[v].isDuplication = node[v].length > 1.5;
++				st.push_back(node[v].leftChildId); st.push_back(node[v].rightChildId);
++			}
++		}
+ 		return bestroot;
+ 	}
+ 	
