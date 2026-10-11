@@ -14,3 +14,7 @@ AI-assisted (Claude), exploration code for CS581 project
 - vote.py `es4` and gg.py `linsi#es4` are not identical alignments (SP error 13.14 vs 13.16 %).
 - `hard+mask` out.fasta = `hard` (same rows); the mask removed 2 of 8668 columns; its tree uses out.masked.fasta.
 - `magus.jsonl`: bbtool_bench row for the MAGUS draw.
+- `trees.jsonl`: FastTree -lg -gamma via protbench/code/trees.py, RF vs /opt/data/sim/SIMHIGH/R10/tree.nwk,
+  4 trees at a time. true / magus (gg `linsi`) / recipe / es3 / hard (gg `linsi&fftns2-op3`) / es4 (gg `linsi#es4`)
+  and vote_* = vote.py outputs (vote_hard+mask = hard+mask/out.masked.fasta). No vote alignment was byte-identical
+  (cmp) to an already-treed one, so no tree was reused.
