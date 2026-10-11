@@ -1,0 +1,93 @@
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 0.23, "FN": 4, "FP": 4, "nI": 47, "FNrate": 0.08511}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-multi", "sec": 0.289, "FN": 5, "FP": 5, "nI": 47, "FNrate": 0.10638}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 0.583, "FN": 4, "FP": 4, "nI": 47, "FNrate": 0.08511}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 1.738, "FN": 3, "FP": 3, "nI": 47, "FNrate": 0.06383}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 14.079, "FN": 2, "FP": 2, "nI": 47, "FNrate": 0.04255}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "disco-astral", "sec": 16.228, "FN": 2, "FP": 2, "nI": 47, "FNrate": 0.04255}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 11.522, "FN": 2, "FP": 2, "nI": 47, "FNrate": 0.04255}
+{"data": "scale_taxa", "cond": "taxa_50", "rep": "01", "ngen": 500, "method": "wqfm-gdl", "sec": 66.644, "FN": 3, "FP": 3, "nI": 47, "FNrate": 0.06383}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 0.594, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-multi", "sec": 1.351, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 1.741, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 5.023, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 84.596, "FN": 8, "FP": 8, "nI": 97, "FNrate": 0.08247}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "disco-astral", "sec": 81.104, "FN": 9, "FP": 9, "nI": 97, "FNrate": 0.09278}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 36.272, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "scale_taxa", "cond": "taxa_100", "rep": "01", "ngen": 500, "method": "wqfm-gdl", "sec": 349.685, "FN": 7, "FP": 7, "nI": 97, "FNrate": 0.07216}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 1.492, "FN": 12, "FP": 12, "nI": 197, "FNrate": 0.06091}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astrid-multi", "sec": 2.61, "FN": 17, "FP": 17, "nI": 197, "FNrate": 0.08629}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 6.194, "FN": 12, "FP": 12, "nI": 197, "FNrate": 0.06091}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 9.171, "FN": 15, "FP": 15, "nI": 197, "FNrate": 0.07614}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "asteroid", "sec": 0.227, "error": "CalledProcessError"}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 541.558, "FN": 14, "FP": 14, "nI": 197, "FNrate": 0.07107}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "disco-astral", "sec": 485.306, "FN": 16, "FP": 16, "nI": 197, "FNrate": 0.08122}
+{"data": "scale_taxa", "cond": "taxa_200", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 175.773, "FN": 18, "FP": 18, "nI": 197, "FNrate": 0.09137}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 3.63, "FN": 32, "FP": 32, "nI": 497, "FNrate": 0.06439}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "astrid-multi", "sec": 42.114, "FN": 34, "FP": 34, "nI": 497, "FNrate": 0.06841}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 26.619, "FN": 32, "FP": 32, "nI": 497, "FNrate": 0.06439}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 48.264, "FN": 30, "FP": 30, "nI": 497, "FNrate": 0.06036}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "astrid-pro", "sec": 14.322, "FN": 66, "FP": 66, "nI": 997, "FNrate": 0.0662}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "astrid-multi", "sec": 135.729, "FN": 85, "FP": 85, "nI": 997, "FNrate": 0.08526}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "astrid-pro-s", "sec": 90.558, "FN": 66, "FP": 66, "nI": 997, "FNrate": 0.0662}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "astrid-disco", "sec": 670.661, "FN": 77, "FP": 77, "nI": 997, "FNrate": 0.07723}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "astrid-pro", "sec": 0.157, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "astrid-multi", "sec": 0.183, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "astrid-pro-s", "sec": 0.735, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "astrid-disco", "sec": 1.183, "FN": 8, "FP": 8, "nI": 98, "FNrate": 0.08163}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "astrid-pro", "sec": 0.346, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "astrid-multi", "sec": 0.835, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "astrid-pro-s", "sec": 1.599, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "astrid-disco", "sec": 4.135, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "astrid-pro", "sec": 1.054, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "astrid-multi", "sec": 1.55, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "astrid-pro-s", "sec": 4.837, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "astrid-disco", "sec": 9.748, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "astrid-pro", "sec": 2.821, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "astrid-multi", "sec": 3.221, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "astrid-pro-s", "sec": 10.512, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "astrid-disco", "sec": 28.548, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "astrid-pro", "sec": 9.107, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "astrid-multi", "sec": 10.052, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "astrid-pro-s", "sec": 34.312, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "astrid-disco", "sec": 96.467, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "astrid-pro", "sec": 0.185, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "astrid-multi", "sec": 0.281, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "astrid-pro-s", "sec": 0.902, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "astrid-disco", "sec": 1.03, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "astrid-pro", "sec": 0.391, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "astrid-multi", "sec": 0.444, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "astrid-pro-s", "sec": 1.484, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "astrid-disco", "sec": 2.964, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "astrid-pro", "sec": 1.309, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "astrid-multi", "sec": 0.994, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "astrid-pro-s", "sec": 4.112, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "astrid-disco", "sec": 9.267, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 3000, "method": "astrid-pro", "sec": 2.821, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 3000, "method": "astrid-multi", "sec": 3.057, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 3000, "method": "astrid-pro-s", "sec": 12.156, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 3000, "method": "astrid-disco", "sec": 28.194, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-pro", "sec": 6.894, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-multi", "sec": 8.303, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-pro-s", "sec": 38.006, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 10000, "method": "astrid-disco", "sec": 94.104, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 1200.446, "error": "TimeoutExpired"}
+{"data": "scale_taxa", "cond": "taxa_500", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 1200.005, "error": "TimeoutExpired"}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "astral-pro3", "sec": 1201.569, "error": "TimeoutExpired"}
+{"data": "scale_taxa", "cond": "taxa_1000", "rep": "01", "ngen": 500, "method": "fastmulrfs", "sec": 1200.005, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "astral-pro3", "sec": 13.944, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 100, "method": "fastmulrfs", "sec": 10.138, "FN": 17, "FP": 17, "nI": 98, "FNrate": 0.17347}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "astral-pro3", "sec": 58.312, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 300, "method": "fastmulrfs", "sec": 29.446, "FN": 9, "FP": 9, "nI": 98, "FNrate": 0.09184}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "astral-pro3", "sec": 343.837, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 1000, "method": "fastmulrfs", "sec": 168.521, "FN": 5, "FP": 5, "nI": 98, "FNrate": 0.05102}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "astral-pro3", "sec": 1200.38, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 3000, "method": "fastmulrfs", "sec": 1200.009, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "astral-pro3", "sec": 1201.682, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "01", "ngen": 10000, "method": "fastmulrfs", "sec": 1200.003, "error": "TimeoutExpired"}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "astral-pro3", "sec": 11.018, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 100, "method": "fastmulrfs", "sec": 8.403, "FN": 16, "FP": 16, "nI": 98, "FNrate": 0.16327}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "astral-pro3", "sec": 48.876, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 300, "method": "fastmulrfs", "sec": 28.647, "FN": 8, "FP": 8, "nI": 98, "FNrate": 0.08163}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "astral-pro3", "sec": 337.049, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 1000, "method": "fastmulrfs", "sec": 105.172, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "scale_genes", "cond": "gtrees_10000_l1", "rep": "02", "ngen": 3000, "method": "astral-pro3", "sec": 904.492, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}

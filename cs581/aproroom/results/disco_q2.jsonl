@@ -1,0 +1,19 @@
+{"data": "disco", "cond": "ils_1e4", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 43.1, "sec": 263.601, "FN": 0, "FP": 0, "nI": 98, "FNrate": 0.0}
+{"data": "disco", "cond": "default", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 41.6, "sec": 264.724, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
+{"data": "disco", "cond": "ils_2e8", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 49.0, "sec": 376.283, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "disco", "cond": "gdl_1e-9_1", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 66.0, "sec": 444.685, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "missing_1000", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 26.9, "sec": 123.142, "FN": 4, "FP": 4, "nI": 98, "FNrate": 0.04082}
+{"data": "disco", "cond": "default", "rep": "04", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 45.5, "sec": 421.997, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "03", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 46.6, "sec": 580.669, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "ils_1e4", "rep": "04", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 54.4, "sec": 484.029, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
+{"data": "disco", "cond": "ils_2e8", "rep": "04", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 56.7, "sec": 524.81, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "missing_1000", "rep": "04", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 24.7, "sec": 85.531, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "disco", "cond": "gdl_1e-9_1", "rep": "04", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 59.2, "sec": 405.374, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "04", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 39.0, "sec": 338.909, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
+{"data": "disco", "cond": "default", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 49.4, "sec": 343.095, "FN": 7, "FP": 7, "nI": 98, "FNrate": 0.07143}
+{"data": "disco", "cond": "ils_1e4", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 48.3, "sec": 310.555, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "disco", "cond": "ils_2e8", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 45.0, "sec": 311.686, "FN": 3, "FP": 3, "nI": 98, "FNrate": 0.03061}
+{"data": "disco", "cond": "missing_1000", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 32.4, "sec": 161.55, "FN": 6, "FP": 6, "nI": 98, "FNrate": 0.06122}
+{"data": "disco", "cond": "gdl_1e-9_1", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 90.3, "sec": 605.619, "FN": 2, "FP": 2, "nI": 98, "FNrate": 0.02041}
+{"data": "disco", "cond": "gdl_1e-10_0", "rep": "05", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 1, "rssMB": 42.6, "sec": 381.699, "FN": 1, "FP": 1, "nI": 98, "FNrate": 0.0102}
+{"data": "disco", "cond": "gdl_1e-9_0", "rep": "01", "ngen": 1000, "level": "est100", "method": "astral-pro3", "threads": 4, "sec": 1806.684, "rssMB": 0.0, "error": "TimeoutExpired"}
