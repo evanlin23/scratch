@@ -42,6 +42,8 @@ from .run_magus import BACKBONE_TOOLS
 # Bumped when timings of e2e-/merge- rows change meaning; older rows are redone on the next run
 # (v2: Clustal Omega single-threaded and backbones realigned in parallel, as MAGUS schedules them).
 VERSION = 2
+# GCMX_FASTGRAPH=true: the vectorized graph builder (gcmx.fastgraph; same graph, faster)
+FASTGRAPH = os.environ.get("GCMX_FASTGRAPH", "false")
 MERGE_FLAGS = ["--graphclustermethod", "mcl", "--graphtracemethod", "minclusters", "--graphtraceoptimize", "false",
                "-f", "4"]
 
@@ -176,7 +178,7 @@ def main():
                 out = os.path.join(w, "magus.fasta")
                 if os.path.exists(out):
                     os.remove(out)
-                wall, cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d",
+                wall, cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", FASTGRAPH, "-np", T, "-d",
                                         os.path.join(w, "magus"), "-i", unaligned, "-o", out] + magus_flags(k),
                                   os.path.join(w, "magus.log"))
                 shutil.copytree(os.path.join(w, "magus", "subalignments"), os.path.join(inputs, "subalignments"))
@@ -197,7 +199,7 @@ def main():
                 out = os.path.join(w, key + ".fasta")
                 if os.path.exists(out):
                     os.remove(out)  # MAGUS skips the whole run when its output file exists
-                wall, cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "--gcmx-backbonetool", tool,
+                wall, cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", FASTGRAPH, "--gcmx-backbonetool", tool,
                                         "-np", T, "-d", d, "-i", unaligned, "-o", out] + magus_flags(k),
                                   os.path.join(w, key + ".log"))
                 stats = backbone_stats(ref, os.path.join(d, "graph"))
@@ -238,7 +240,7 @@ def main():
                 out = os.path.join(w, key + ".fasta")
                 if os.path.exists(out):
                     os.remove(out)
-                m_wall, m_cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", "false", "-np", T, "-d",
+                m_wall, m_cpu = timed(py + ["gcmx.run_magus", "--gcmx-fastgraph", FASTGRAPH, "-np", T, "-d",
                                             os.path.join(d, "magus"), "-s", os.path.join(inputs, "subalignments"),
                                             "-b", bb_only, "-o", out] + MERGE_FLAGS, os.path.join(w, key + ".log"))
                 data = {"merge_wall": m_wall, "merge_cpu": m_cpu, **acc_ref(true, out), **backbone_stats(ref, bb_only),
