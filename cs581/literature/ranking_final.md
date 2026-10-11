@@ -791,3 +791,12 @@ Overlap guard: n_eff 1.9 / 1.5 on BBA0101 / BBA0067. Gate (M5): filter iff weigh
   - Edge-level posterior > 0.5 is not the same as "deleting this edge lowers error".
 - Possible confound (gcmwhy H3 OLS): with subset-alignment gap fraction as a covariate, the protein dummy goes to −0.03 (p = 0.98,
   R² 0.62). The data-type split may track gappiness rather than alphabet; the current reps cannot separate the two.
+- gcmwhy interim (05:24, @099233c, 25 reps; HomFam excluded because its reference covers only the seeds). Medians vs MAGUS, BBA0081 excluded:
+  - Hard-bb's gain part (deleting only its false edges): protein −2.97 vs DNA −1.17. Its loss part (deleting only its true
+    edges): +0.54 vs +1.44. Both Mann–Whitney p = 0.007.
+  - Deleting all false edges (oracle): −8.69 vs −2.85.
+  - DNA has less to gain and more collateral damage.
+  - Exploratory near-miss pooling (poolbb), 7 training reps: no better than hard-bb on DNA (+0.66 / −0.07 / −0.38), and worse
+    on proteins. Negative.
+  - Inflation 2/4/6 does not change the picture.
+  - Running: an oracle that deletes only near-miss false edges vs only far ones.
