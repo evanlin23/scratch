@@ -11,3 +11,4 @@ SIMHIGH_R15, one MAGUS draw (gcmtrees run.sh, paper flags), helper t15.
 - trees.jsonl: FastTree -lg -gamma via protbench trees.py, one process per tree. The `true` tree was built from
   /opt/data/sim/SIMHIGH/R15/sim.fa, which holds the same names and aligned sequences as the rep's true.fasta
   (formatting differs only). Byte-identical vote alignments reuse an existing tree (listed below if any).
+- No vote alignment was byte-identical to an already-treed one; all 13 trees were built.
