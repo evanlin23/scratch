@@ -8,7 +8,7 @@ W=/opt/work/gcmvote; name=$1; shift
 rep=$W/reps/$name; T=$W/trees/${name}_d0; mkdir -p $T
 lvl=${name%_R*}; r=${name#*_R}
 ln -sf $rep/true.fasta $T/true.fasta
-ms="true"
+ms="true"; [ -n "${NOTRUE:-}" ] && ms=""
 for v in "$@"; do
   if [[ $v == *:masked ]]; then b=${v%:masked}; src=$rep/vote/$b/out.masked.fasta; m=${b//+/_}_masked
   else src=$rep/vote/$v/out.fasta; m=${v//+/_}; fi
