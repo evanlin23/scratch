@@ -129,3 +129,24 @@ if __name__ == "__main__":
     if "--perrep" in sys.argv:
         vs = sys.argv[sys.argv.index("--perrep") + 1].split(",")
         print(per_rep(rows, reps, vs))
+
+
+def cluster_stats(rows, reps, variants):
+    out = ["| variant | clusters (size ≥ 2) | mean size | max size | singleton nodes | clusters violating 1-col/subset | "
+           "aln length / ref |", "|---|---|---|---|---|---|---|"]
+    for v in variants:
+        xs = [rows[r][v] for r in reps if v in rows[r] and "err" in rows[r][v]]
+        if not xs:
+            continue
+        m = lambda k: np.mean([x[k] for x in xs])  # noqa: E731
+        out.append("| `{}` | {:.0f} | {:.1f} | {:.0f} | {:.3f} | {:.2f} | {:.2f} |".format(
+            v, m("n_clusters"), m("mean_size"), m("max_size"), m("frac_singleton"), m("frac_violating"),
+            np.mean([x["LenEst"] / x["LenRef"] for x in xs])))
+    return "\n".join(out) + "\n"
+
+
+if __name__ == "__main__" and "--stats" in sys.argv:
+    vs = sys.argv[sys.argv.index("--stats") + 1].split(",")
+    for lab, sel in (("proteins", PROT), ("DNA/RNA", lambda r: not PROT(r))):
+        print("#### cluster statistics, {} ({})\n".format(lab, which))
+        print(cluster_stats(rows, [r for r in reps if sel(r)], vs))
