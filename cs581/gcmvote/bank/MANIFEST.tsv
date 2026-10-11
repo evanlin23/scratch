@@ -1,0 +1,2 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	ref_path	backbones_path
+SIMHIGH_R14	protein	1000	10	200	yes	3309365	e01c9dc71ec4174c893fa88fff6db45e1c50e927442e5946b4803e3565d72dcf	SIMHIGH_R14/true.fasta	SIMHIGH_R14/inputs/backbones/ (also SIMHIGH_R14/aligned/{linsi,fftns2,fftns2-op3}/s0/)
