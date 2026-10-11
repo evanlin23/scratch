@@ -13,15 +13,15 @@ to the true tree, in %. W/T/L uses a 0.1-point tie band. p = two-sided Wilcoxon 
 
 | | n | Δ SP error | ΔSPFN / ΔSPFP | **Δ nRF** | W/T/L | p |
 |---|---|---|---|---|---|---|
-| **primary: recipe `wsoft0.03:linsi&fftns2#es4`, all** | 16 | −5.69 | −10.79 / −0.58 | **−0.19** | 8/1/7 | **0.63** |
+| **primary: recipe `wsoft0.03:linsi&fftns2#es4`, all** | 16 | −5.69 | −10.79 / −0.58 | **−0.19** | 8/2/6 | **0.63** |
 | recipe, SIMHIGH only | 8 | −7.71 | −14.76 / −0.66 | −0.49 | 5/0/3 | 0.46 |
-| recipe, SIMMOD only | 8 | −3.66 | −6.82 / −0.51 | +0.11 | 3/1/4 | 0.58 |
-| `linsi#es3`, all | 16 | −5.04 | −10.53 / +0.44 | −0.07 | 11/2/3 | 0.26 |
-| hard filter `linsi&fftns2-op3`, all | 16 | −2.46 | −4.48 / −0.44 | −0.21 | 9/1/6 | 0.35 |
+| recipe, SIMMOD only | 8 | −3.66 | −6.82 / −0.51 | +0.11 | 3/2/3 | 0.58 |
+| `linsi#es3`, all | 16 | −5.04 | −10.53 / +0.44 | −0.07 | 8/5/3 | 0.26 |
+| hard filter `linsi&fftns2-op3`, all | 16 | −2.46 | −4.48 / −0.44 | −0.21 | 8/2/6 | 0.35 |
 | hard filter, SIMHIGH | 8 | −3.10 | −5.57 / −0.62 | −0.40 | 5/1/2 | 0.30 |
 | *reference: true alignment vs MAGUS*, SIMHIGH | 8 | −24.2 | −31.6 / −16.8 | **−3.51** | 8/0/0 | 0.008 |
-| *reference: true alignment vs MAGUS*, SIMMOD | 8 | −10.7 | −14.3 / −7.1 | −0.16 | 5/0/3 | 0.71 |
-| IQ-TREE 3 `LG+G4 --fast`, recipe − MAGUS (SIMHIGH R1, R2; R3 see below) | 2 | | | −0.50, −0.80 | 2/0/0 | |
+| *reference: true alignment vs MAGUS*, SIMMOD | 8 | −10.7 | −14.3 / −7.1 | −0.16 | 4/1/3 | 0.71 |
+| IQ-TREE 3 `LG+G4 --fast`, recipe − MAGUS (SIMHIGH R1-R3) | 3 | | | −0.47 | 2/1/0 | 0.25 |
 
 **Does the recipe improve ML tree accuracy? No, not detectably.** The pre-registered primary test fails
 (−0.19 nRF points, p = 0.63). None of the secondary tests is significant either. The recipe removes about half of
@@ -54,15 +54,15 @@ replicates R5-R8.
    - split(X) keeps exactly X's true-positive pairs, so it has X's SPFN and SPFP = 0;
    - "FP cost" = RF(X) − RF(split(X)).
 
-   Results on SIMHIGH R1-R4:
-   - **Over-splitting is costly.** split(MAGUS) is 2.9 RF points worse than the true alignment (mean 8.98 vs 6.10).
+   Results on SIMHIGH R1-R5:
+   - **Over-splitting is costly.** split(MAGUS) is 2.6 RF points worse than the true alignment (mean 8.81 vs 6.18).
      MAGUS's tree error is mostly SPFN-type, not FP-type.
-   - **The recipe's correct pairs would help.** split(recipe) is better than split(MAGUS) by 0.78 RF points on
-     average (range −3.9 to +2.6).
-   - **The recipe's wrong pairs hurt more.** Their FP cost is +1.71 RF points vs +1.25 for MAGUS's, although the
+   - **The recipe's correct pairs would help.** split(recipe) is better than split(MAGUS) by 0.79 RF points on
+     average (range −3.9 to +2.6; 4 of 5 better).
+   - **The recipe's wrong pairs hurt more.** Their FP cost is +1.85 RF points vs +1.10 for MAGUS's, although the
      recipe has *fewer* FP pairs (ΔSPFP −0.66) and fewer misplaced residues.
-   - **The net change is small.** The two effects nearly cancel, giving −0.33 on these four datasets. My reading
-     (not proven, n = 4, noisy) is that deleting low-support edges lets MCL merge larger clusters. When such a merge
+   - **The net change is small.** The two effects nearly cancel, giving −0.04 on these five datasets. My reading
+     (not proven, n = 5, noisy) is that deleting low-support edges lets MCL merge larger clusters. When such a merge
      is wrong, it puts whole groups of residues from different clades into one column, and ML trees weigh that more
      than the same number of scattered wrong pairs.
 
@@ -153,7 +153,7 @@ deltas because all trees are fully resolved.
 
 ## 4. Why-not analyses
 
-### 4.1 Zero-SPFP refinements (oracle; SIMHIGH R1-R4)
+### 4.1 Zero-SPFP refinements (oracle; SIMHIGH R1-R5)
 
 | dataset | true | split(MAGUS) | MAGUS | split(recipe) | recipe | FP cost MAGUS | FP cost recipe | split(recipe) − split(MAGUS) |
 |---|---|---|---|---|---|---|---|---|
@@ -161,9 +161,10 @@ deltas because all trees are fully resolved.
 | SIMHIGH_R2 | 5.22 | 6.32 | 9.33 | 8.93 | 7.52 | +3.01 | −1.41 | +2.61 |
 | SIMHIGH_R3 | 6.42 | 8.93 | 10.03 | 7.32 | 9.23 | +1.10 | +1.91 | −1.61 |
 | SIMHIGH_R4 | 6.62 | 8.43 | 9.63 | 8.22 | 10.53 | +1.20 | +2.31 | −0.21 |
-| mean | 6.10 | 8.98 | 10.23 | 8.20 | 9.91 | +1.25 | +1.71 | −0.78 |
+| SIMHIGH_R5 | 6.52 | 8.12 | 8.63 | 7.32 | 9.73 | +0.51 | +2.41 | −0.80 |
+| mean | 6.18 | 8.81 | 9.91 | 8.02 | 9.87 | +1.10 | +1.85 | −0.79 |
 
-SIMHIGH_R5's split(MAGUS) is 8.12 (MAGUS 8.63). Its split(recipe) did not finish in time.
+The recipe's FP cost exceeds MAGUS's on 4 of 5 datasets.
 
 The per-dataset values swing by ±3-4 RF points between alignments that differ only in their FP pairs. That is
 another view of the noise floor in finding 1.
@@ -197,11 +198,12 @@ columns by construction (C(n, 2)), which is why the residue-level columns are gi
 |---|---|---|---|---|
 | SIMHIGH_R1 | 6.02 | 13.34 | 12.84 | −0.50 |
 | SIMHIGH_R2 | 5.12 | 9.83 | 9.03 | −0.80 |
-| SIMHIGH_R3 | — | 10.13 | see `results/summary.md` | |
+| SIMHIGH_R3 | — | 10.13 | 10.03 | −0.10 |
 
 IQ-TREE agrees with FastTree on the true-alignment trees: 6.02 vs 6.12 and 5.12 vs 5.22. It puts MAGUS somewhat
-higher (R1 13.34 vs 11.94). n = 2-3 cannot support a test. Both available paired IQ-TREE differences favour the
-recipe, by 0.5-0.8 points, while FastTree on the same two datasets gave +0.40 and −1.81. Each IQ-TREE run took about
+higher (R1 13.34 vs 11.94). n = 3 cannot support a test (mean −0.47, 2/1/0, p = 0.25). On the same three datasets FastTree gave
++0.40, −1.81 and −0.80 (mean −0.74). The per-dataset signs disagree between the two tree methods on R1, another sign
+of tree-estimation noise at this effect size. Each IQ-TREE run took about
 30 min and needed ~4.7 GB of RAM. Four concurrent runs were killed by the OOM killer, which is why only R1-R3 were
 done.
 

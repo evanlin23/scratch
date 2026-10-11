@@ -33,3 +33,4 @@
 {"dataset": "SIMHIGH_R5", "method": "magus", "FN": 0.0863, "FP": 0.0863, "RF": 0.0863, "true_internal": 997, "est_internal": 997, "fasttree_wall": 723.6}
 {"dataset": "SIMHIGH_R5", "method": "recipe", "FN": 0.0973, "FP": 0.0973, "RF": 0.0973, "true_internal": 997, "est_internal": 997, "fasttree_wall": 736.2}
 {"dataset": "SIMHIGH_R5", "method": "split_magus", "FN": 0.0812, "FP": 0.0812, "RF": 0.0812, "true_internal": 997, "est_internal": 997, "fasttree_wall": 1334.4}
+{"dataset": "SIMHIGH_R5", "method": "split_recipe", "FN": 0.0732, "FP": 0.0732, "RF": 0.0732, "true_internal": 997, "est_internal": 997, "fasttree_wall": 1261.1}

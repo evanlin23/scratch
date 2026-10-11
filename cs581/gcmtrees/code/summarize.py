@@ -54,7 +54,7 @@ def pval(d):
 
 
 def wtl(d):
-    d = np.asarray(d)
+    d = np.round(np.asarray(d), 2)  # RF deltas are multiples of ~0.1 point; avoid float edge effects at the band
     return "{}/{}/{}".format((d < -TIE).sum(), (abs(d) <= TIE).sum(), (d > TIE).sum())
 
 
