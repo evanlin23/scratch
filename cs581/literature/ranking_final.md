@@ -633,3 +633,6 @@ BIC on every set; extreme posterior bins are right (<0.1 â†’ 3% precise, >0.9 â†
 ECE best on DNA, yet DNA is where cutting at 6 costs recall.
 - First gcmvote tree row (h8, SIMHIGH_R17, FastTree nRF %): true 7.32, magus 10.83, es4 9.73, recipe 9.73, vote hard 10.73,
   hard-bb 10.73, soft 9.93, hard+mask 10.73 (3 of 7,937 columns masked).
+- BAliBASE held-out (h3): BBA0154 MAGUS 21.23; es4 20.86 (gg) / 21.00 (vote.py); **hard-bb 18.91**, hard 19.28, soft4 18.99.
+  BBA0190 MAGUS 22.95; es4 22.87; **hard-bb 21.47**, hard 21.44. Selected variant beats es4 by 2.0 and 1.4. Second es4 mismatch
+  (gg vs vote.py) on BBA0154; main asked to explain.
