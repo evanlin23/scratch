@@ -17,3 +17,5 @@ Vote rep dir: /opt/work/gcmvote/reps/SIMHIGH_Rk with `inputs`, `true.fasta`, `un
 gcmtrees rep. Bank tarballs: `cs581/gcmvote/bank/` (`scripts/bank_rep.sh`).
 
 Checks: vote.py `magus` equals gg.py `linsi` (MAGUS's merge) up to row order (`scripts/norm.py`; same SP scores).
+On SIMHIGH_R24, vote `hard` and `hard-bb` keep the same 92023 edges and their out.fasta are equal up to row order
+(not byte-identical); both were treed separately as listed.
