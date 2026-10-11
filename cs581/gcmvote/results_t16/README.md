@@ -8,3 +8,4 @@ SIMHIGH_R16 (helper t16). One MAGUS draw, paper flags (gcmtrees run.sh).
 - trees.jsonl: FastTree -lg -gamma via protbench/code/trees.py, nRF vs the true tree. Methods: true, magus, es4
   (gg linsi#es4), recipe, es3, hard (gcmtrees set), vote_<variant>; vote_hard+mask = its out.masked.fasta.
 - magus.jsonl: bbtool_bench row of the MAGUS draw.
+- No vote alignment was byte-identical to another treed alignment; all 13 treed.
