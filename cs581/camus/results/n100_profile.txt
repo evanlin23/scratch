@@ -1,0 +1,2 @@
+genes=100 wall_s=1087.6 peak_rss_MB=983
+genes=200 wall_s=1487.1 peak_rss_MB=1221
