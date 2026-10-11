@@ -705,3 +705,4 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   fraction at every B" pattern holds on BAliBASE and 16S.M but not on simulated proteins, where stricter is better.
 - 1000M1 R3 (h10c): MAGUS 8.04; es4 8.18; hard-bb 9.18 (+1.14). FastTree nRF: true 9.53, MAGUS 10.53, es4 11.23, hard-bb 10.73.
   1000M1 R0–R3 hard-bb − MAGUS: +0.59, +1.34, +0.78, +1.14 (the MAGUS-tuned DNA condition is consistently hurt).
+- RNASim 1000 R0 (h5c): MAGUS 9.77; es4 9.73; hard-bb 9.87 (+0.10).
