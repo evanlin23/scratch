@@ -81,3 +81,32 @@ Selection is recorded in this file (appended) before any held-out variant row is
   by > 0.25.
 - **"Fixes BBA0081"**: selected − `magus` ≤ +0.5 on BBA0081 (v1: +4.22).
 - Otherwise the selected model is reported as not an improvement over es4.
+
+## Addendum 1 (04:45 UTC, orchestrator request; written before any variant score was looked at)
+
+The orchestrator's M5/M6 request (sent 04:17) arrived after this file was pushed (04:16) and after training merges
+had started (04:17). No training or held-out variant score had been read when this addendum was written (only the
+`magus` controls quoted above).
+
+**M5, dataset-level gate (reference-free).** Per replicate, gate = filter with the selected M-variant if a signal is
+on the filtering side of a threshold θ, else `magus`. Candidate signals, all from the 10 backbones' evidence, no
+reference: (1) π of the hard-bb fit; (2) p1 − p0 of the hard-bb fit; (3) share of MAGUS's cross-edge weight on edges
+with k < 4; (4) share of weight the selected variant removes; (5) median n_eff; baselines (6) **AOS** (MUMSA-style
+average overlap score: mean over backbone pairs i < j of Σ_e min(s_i, s_j) / Σ_e max(s_i, s_j) over edges exposed in
+both) and (7) **dispersion** (Muscle5-style: weight-weighted mean over edges of the s_j variance across exposed
+backbones). For each signal and direction, θ = midpoint between adjacent training values maximising the training mean
+Δ vs magus. The gate's signal is chosen by **leave-one-out CV** over the 10 training reps (θ and direction refitted per
+fold; score = mean held-out-fold Δ); ties within 0.05 → AOS, then dispersion (the simple baselines win ties). The
+gate counts as useful only if its LOO-CV score beats or matches both AOS and dispersion and the ungated selected
+variant. Strictness (a third arm) is not fitted: 10 training points are too few for two thresholds. Held-out
+endpoint: gated vs es4 and vs magus, as the primary endpoints above (secondary to the pre-registered selected model).
+
+**M6, clustering combo (secondary).** Selected variant + Leiden-CPM (γ = 0.02, gcmclust's implementation) vs the same
+graph + MCL, and es4 + CPM, on the primary held-out reps as time allows; Δ, W/T/L, Wilcoxon per data type.
+
+**Extra held-out nucleotide set:** 16S.T (bank h12) joins the DNA/RNA held-out list if it can be fetched (n = 16).
+
+Framing (novelty audit): WITCH already uses a weighted GCM (HMM-probability weights per input alignment); M1–M4 are
+statistically defined edge / backbone weights. Support thresholding is known (Lassmann & Sonnhammer 2007; GUIDANCE;
+TCS); M-Coffee found aligner weighting does not beat no weighting, so for M2 the spread of fitted backbone
+reliabilities is reported and a near-uniform result is a finding.
