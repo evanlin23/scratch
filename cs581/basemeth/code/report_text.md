@@ -20,16 +20,18 @@ points (negative = better).
   MAGUS by 0.03-0.31 points on these sets (median 0.11 over all 15; the `orig` vs `linsi` control), so the
   BAliBASE gain is only 2-4x the run-to-run noise and n = 5 cannot reach p < 0.05 (smallest p = 0.0625).
 - **It reverses on simulated proteins (true alignment known) and on HomFam.** On AliSim every pre-registered
-  candidate is worse on all 4 replicates, except MUSCLE5 on SIMHIGH_R2 (-0.06); Clustal Omega costs ~7 points. On HomFam (seed-scored, noisy) all three "BAliBASE winners" lose on 6/6 families by 2-5 points. This
+  candidate is worse on all 4 replicates, except MUSCLE5 on SIMHIGH_R2 (-0.06); Clustal Omega costs ~7 points. On HomFam (seed-scored, noisy) all three "BAliBASE winners" lose on 6/6 families (mean +1.9 to +5.0 points). This
   mirrors the earlier Clustal-backbone result (bbtool / protbench): BAliBASE rewards conservative, low-SPFP
   aligners; indel-rich simulated data penalizes them.
 - **Mechanism is simple:** GCM preserves the subset alignments, so MAGUS's final error tracks the subset
   aligner's own accuracy on the 40-80-sequence subsets (subset-level table below). L-INS-i (and G-INS-i) are the
   most accurate subset aligners on everything but BAliBASE.
 - **Only G-INS-i is interesting** (not pre-registered, exploratory): never clearly worse on simulated data,
-  -0.76 on both SIMHIGH replicates, and on SIMHIGH_R1 its MAGUS tree is much closer to the true tree (FastTree nRF
-  6.8% vs 10.1% for L-INS-i; one replicate). HomFam is mixed (3 wins, 3 losses, mean +0.97 driven by
+  -0.76 on both SIMHIGH replicates (and -0.27 on ROSE 1000M2). Its trees are mixed: FastTree nRF 6.8% vs 10.1%
+  for L-INS-i on SIMHIGH_R1 but 8.5% vs 6.7% on SIMHIGH_R2. HomFam is mixed (3 wins, 3 losses, mean +0.97 driven by
   Acetyltransf +8, a 6-seed family).
+- **Trees barely follow these SP differences**: over 4 simulated sets, MUSCLE5 / ProbCons subsets change FastTree
+  nRF by -1.3 to +1.6 points vs L-INS-i in both directions (table below); no tree-accuracy case for any swap.
 - **Cost.** MUSCLE5 and ProbCons make the subset stage 4-10x more expensive (e.g. ~1,100-1,600 vs ~165 CPU s
   per 1,000-sequence AliSim dataset); FAMSA, Kalign and Clustal make it nearly free but are the least accurate.
   The subset stage is a small part of MAGUS's total time either way (MAGUS's 10 L-INS-i backbones dominate).
@@ -39,17 +41,37 @@ points (negative = better).
 
 **Verdict for a 4-week CS581 project: not promising** as "find a better base method for MAGUS's subsets" (the
 pre-registered question has a clear negative answer on 15 datasets, and the only positive signal, on BAliBASE,
-is within 2-4x noise and contradicted by simulations). It is a perfectly good *negative-result* project
-(straightforward, cheap, clear story: GCM inherits subset accuracy; BAliBASE vs simulation disagree), and the
-G-INS-i / tree observation is the one thread worth a week if the student wants a positive angle.
+is within 2-4x noise and contradicted by simulations). PASTA with ProbCons/Prank (project b) was impractical here
+(1 h cap hit on 3 of 4 runs; ProbCons on BBA0039 +0.08 worse than MAFFT at 3.2x the time), and regressive T-Coffee
+(project c) in the configuration that ran is far worse than MAGUS. It is a perfectly good *negative-result*
+project (straightforward, cheap, clear story: GCM inherits subset accuracy; BAliBASE vs simulation disagree);
+G-INS-i subsets on high-divergence data are the one thread worth a week for a positive angle.
 
 @@BASE
 PASTA rows are one PASTA iteration (`--iter-limit 1`) so that the aligner variants fit the time budget; PASTA
 re-estimates its tree between iterations, and the MAGUS paper's default is 3. ProbCons on PASTA's 200-sequence
 subproblems and the PASTA-bundled 2010 PRANK are very slow; runs that hit the 1 h cap are marked fail/timeout.
+Whole-dataset MUSCLE5 `-align` hit its 20-min cap on BBA0039, BBA0067 and SIMMOD_R1 (machine shared with other jobs) and was
+not run elsewhere for lack of time; on HF_rrm (`-super5`, 2,000 sequences) it finished. Regressive T-Coffee ran
+only in a non-standard configuration (NJ guide tree, Clustal Omega children), so its very poor numbers here should
+not be read as the published method's accuracy. MUSCLE5 vs MAGUS on whole datasets therefore remains open.
 
 @@DNA
-__DNA_TEXT__
+Incomplete (time): merge-only results only for ROSE 1000M2; subset-level results for 1000M2, 1000L1 and part of
+RNASim. 16S.M was not reached. MUSCLE5 was dropped on nucleotides (~400-500 CPU s per 1,000-bp subset).
+
+| | L-INS-i | G-INS-i | FAMSA | Clustal Omega | Kalign | PRANK |
+|---|---|---|---|---|---|---|
+| 1000M2 MAGUS final SP error % (merge-only) | 8.24 | **7.97** | 23.01 | 13.26 | 11.52 | merge not finished |
+| 1000M2 subset SP error % | 3.91 | 3.66 | 17.4 | 8.37 | 6.94 | 45.3 |
+| 1000L1 subset SP error % | 2.30 | 2.48 | 17.5 | 7.45 | 6.98 | 57.1 |
+| RNASim subset SP error % | 4.39 | 4.23 | 37.0 | 5.13 | 6.48 | 5.62 (6 of 25 subsets) |
+| subset CPU s per dataset (1000M2) | 1,184 | 1,306 | 71 | 313 | 569 | 5,874 |
+
+PRANK (v.250331, default options; `+F` and `-DNA` gave the same) over-gaps ROSE subsets badly: its subset
+alignments are ~3x longer than the true alignment, with 45-57% subset SP error, at 5x L-INS-i's CPU. On RNASim it is
+sane but still worse than L-INS-i. So Prank is not a candidate MAGUS base method on these data; this agrees with the
+protein result that MAFFT's consistency-based modes are hard to beat on subsets of ~40 sequences.
 
 @@PLAN
 - **Week 1**: rerun the merge-only swap on more simulated replicates (AliSim R3-R10 at two or three rates; ROSE

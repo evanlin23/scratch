@@ -7,3 +7,13 @@
 {"dataset": "SIMHIGH_R1", "method": "merge_ginsi", "FN": 0.0682, "FP": 0.0682, "RF": 0.0682, "true_internal": 997, "est_internal": 997, "fasttree_wall": 673.6}
 {"dataset": "SIMHIGH_R1", "method": "merge_muscle5", "FN": 0.1063, "FP": 0.1063, "RF": 0.1063, "true_internal": 997, "est_internal": 997, "fasttree_wall": 686.0}
 {"dataset": "SIMHIGH_R1", "method": "merge_probcons", "FN": 0.0883, "FP": 0.0883, "RF": 0.0883, "true_internal": 997, "est_internal": 997, "fasttree_wall": 720.3}
+{"dataset": "SIMHIGH_R2", "method": "true", "FN": 0.0522, "FP": 0.0522, "RF": 0.0522, "true_internal": 997, "est_internal": 997, "fasttree_wall": 2210.8}
+{"dataset": "SIMMOD_R2", "method": "true", "FN": 0.0652, "FP": 0.0652, "RF": 0.0652, "true_internal": 997, "est_internal": 997, "fasttree_wall": 898.5}
+{"dataset": "SIMMOD_R2", "method": "merge_linsi", "FN": 0.0752, "FP": 0.0752, "RF": 0.0752, "true_internal": 997, "est_internal": 997, "fasttree_wall": 553.2}
+{"dataset": "SIMHIGH_R2", "method": "merge_linsi", "FN": 0.0672, "FP": 0.0672, "RF": 0.0672, "true_internal": 997, "est_internal": 997, "fasttree_wall": 841.2}
+{"dataset": "SIMMOD_R2", "method": "merge_ginsi", "FN": 0.0702, "FP": 0.0702, "RF": 0.0702, "true_internal": 997, "est_internal": 997, "fasttree_wall": 503.9}
+{"dataset": "SIMHIGH_R2", "method": "merge_ginsi", "FN": 0.0853, "FP": 0.0853, "RF": 0.0853, "true_internal": 997, "est_internal": 997, "fasttree_wall": 783.7}
+{"dataset": "SIMMOD_R2", "method": "merge_muscle5", "FN": 0.0782, "FP": 0.0782, "RF": 0.0782, "true_internal": 997, "est_internal": 997, "fasttree_wall": 540.3}
+{"dataset": "SIMMOD_R2", "method": "merge_probcons", "FN": 0.0782, "FP": 0.0782, "RF": 0.0782, "true_internal": 997, "est_internal": 997, "fasttree_wall": 520.0}
+{"dataset": "SIMHIGH_R2", "method": "merge_muscle5", "FN": 0.0832, "FP": 0.0832, "RF": 0.0832, "true_internal": 997, "est_internal": 997, "fasttree_wall": 793.3}
+{"dataset": "SIMHIGH_R2", "method": "merge_probcons", "FN": 0.0722, "FP": 0.0722, "RF": 0.0722, "true_internal": 997, "est_internal": 997, "fasttree_wall": 675.1}

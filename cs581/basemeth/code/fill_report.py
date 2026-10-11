@@ -29,7 +29,7 @@ fill = {
             "subsets, SP error %):\n\n" + section("Control"),
     "TREES": section("Trees"),
     "BASE": parts.get("BASE", "").strip() + "\n\n" + section("Whole-dataset"),
-    "METHODS": open(os.path.join(B, "REPORT_methods.md")).read().strip(),
+    "METHODS": open(os.path.join(B, "code", "report_methods.md")).read().strip(),
 }
 for k in ("VERDICT", "DNA", "PLAN", "RISKS"):
     fill[k] = parts.get(k, "").strip()
