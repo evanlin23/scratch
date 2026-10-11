@@ -1,0 +1,2 @@
+name	data_type	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+SIMHIGH_R4	protein	1000	10	200	yes	1685356	4e5be4d0c3601b62e22ecc67211db7a6b36e21370bf62e467adf4e8fc37f733c	SIMHIGH_R4/true.fasta	SIMHIGH_R4/inputs/backbones/backbone_*_mafft.txt
