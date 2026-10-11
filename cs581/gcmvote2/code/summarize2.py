@@ -84,6 +84,25 @@ def deltas(reps, v, base):
 
 
 is_prot = lambda n: n[:3] in PROT
+is_rrna = lambda n: n.startswith("16S")
+TYPES = [("protein", is_prot), ("simulated DNA/RNA", lambda n: not is_prot(n) and not is_rrna(n)),
+         ("real rRNA", is_rrna)]
+
+
+def split_table(reps, variants, base):
+    """Mean ΔSPFN / ΔSPFP (×100) per data type."""
+    rows = [(n, load(p)) for n, p in reps]
+    out = ["| type | n | " + " | ".join("{} ΔSPFN / ΔSPFP".format(v) for v in variants) + " |",
+           "|---" * (len(variants) + 2) + "|"]
+    for t, f in TYPES:
+        sel = [(n, r) for n, r in rows if f(n) and base in r]
+        cells = []
+        for v in variants:
+            dn = [100 * (r[v]["SPFN"] - r[base]["SPFN"]) for n, r in sel if v in r]
+            dp = [100 * (r[v]["SPFP"] - r[base]["SPFP"]) for n, r in sel if v in r]
+            cells.append("{:+.2f} / {:+.2f}".format(np.mean(dn), np.mean(dp)) if dn else "–")
+        out.append("| {} | {} | {} |".format(t, len(sel), " | ".join(cells)))
+    return "\n".join(out)
 GROUPS = [("proteins", is_prot), ("DNA/RNA", lambda n: not is_prot(n)), ("all", lambda n: True)]
 
 
@@ -105,6 +124,11 @@ def main():
                table(HP, ["m1-dm", "gate", "hard-bb"], "es4", GROUPS), "",
                "## Held-out, Δ vs magus (selected, gate, baselines, M6)", "",
                table(HP, ["es4", "hard-bb"] + SEL, "magus", GROUPS), "",
+               "## Held-out, error split: mean ΔSPFN / ΔSPFP vs magus (×100) by data type", "",
+               split_table(HP, ["es4", "es5", "hard-bb", "m1-dm", "gate", "m1-gbb", "m2-ds", "m3-ovbb"], "magus"), "",
+               "## Post hoc baseline es5 (k ≥ 5; coordinator request, not pre-registered), Δ vs magus and vs es4", "",
+               table(HP, ["es5", "m1-dm"], "magus", GROUPS + [("simulated DNA/RNA", TYPES[1][1]), ("real rRNA", is_rrna)]), "",
+               table(HP, ["es5", "m1-dm"], "es4", GROUPS), "", table(HP, ["m1-dm"], "es5", GROUPS), "",
                "## Held-out, selected vs hard-bb (v1)", "", table(HP, ["m1-dm", "gate"], "hard-bb", GROUPS), "",
                "## M6: CPM vs MCL on the same graph (Δ = +cpm − MCL)", "",
                table(HP, ["m1-dm+cpm"], "m1-dm", GROUPS), "", table(HP, ["es4+cpm"], "es4", GROUPS), "",
