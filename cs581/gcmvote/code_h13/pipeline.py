@@ -2,7 +2,9 @@
 """Helper h13, after magus_h13.py: baselines (gg.py), every pre-declared vote variant (gcmvote/code/run.py),
 FastTree trees; each step under memrun (wall, CPU, peak memory). Restartable; rows go to OUT_DIR.
 
-    python3 pipeline.py WORK OUT_DIR STEP [...]     STEP in: gg vote trees:VARIANT
+    python3 pipeline.py WORK OUT_DIR STEP [...]     STEP in: gg[:V,V..]  vote[:V,V..]  trees:METHOD[:METHOD..]
+  (several pipeline.py processes may run at once on disjoint variants; trees METHOD = true, magus, es4 or
+  vote-VARIANT)
 
   WORK/rep        gg.py replicate (gg.py writes REP/results.jsonl)
   WORK/rep_vote   the same inputs for run.py (separate dir: run.py's results.jsonl has a different schema)
@@ -19,7 +21,7 @@ from memrun import run  # noqa: E402
 
 GG = ["linsi", "linsi#es3", "linsi#es4", "linsi#es5"]
 VOTE = ["magus", "es4", "hard", "soft", "soft2", "soft4", "hard-bb", "soft-bb",
-        "frac0.2", "frac0.3", "frac0.4", "frac0.5", "hard+mask"]
+        "frac0.2", "frac0.3", "frac0.4", "frac0.5"]  # hard+mask skipped (orchestrator: same alignment as hard)
 CODE = os.path.join(REPO, "code")
 ENV = dict(os.environ, PYTHONPATH=CODE)
 
@@ -50,8 +52,9 @@ def main(work, outdir, steps):
         append(aln_out, {**base, "source": "magus_merge_slowgraph", "variant": "magus", **m,
                          "avgErr_pct": round(100 * (m["SPFN"] + m["SPFP"]) / 2, 3)})
     for step in steps:
-        if step == "gg":
-            for v in GG:
+        sel = step.split(":", 1)[1].split(",") if ":" in step and not step.startswith("trees") else None
+        if step.startswith("gg"):
+            for v in sel or GG:
                 if ("gg", v) in done:
                     continue
                 log = os.path.join(work, "gg_{}.log".format(v.replace("#", "_")))
@@ -64,12 +67,12 @@ def main(work, outdir, steps):
                 r = [x for x in map(json.loads, open(os.path.join(rep, "results.jsonl"))) if x["variant"] == v][-1]
                 append(aln_out, {**base, "source": "gg", **r, **m,
                                  "avgErr_pct": round(100 * (r["SPFN"] + r["SPFP"]) / 2, 3)})
-        elif step == "vote":
+        elif step.startswith("vote"):
             for sub in ("inputs", "true.fasta"):
                 os.makedirs(rv, exist_ok=True)
                 if not os.path.exists(os.path.join(rv, sub)):
                     os.symlink(os.path.join(rep, sub), os.path.join(rv, sub))
-            for v in VOTE:
+            for v in sel or VOTE:
                 if ("vote", v) in done:
                     continue
                 log = os.path.join(work, "vote_{}.log".format(v.replace("+", "_")))
@@ -93,9 +96,11 @@ def main(work, outdir, steps):
         elif step.startswith("trees"):
             alns = {"true": os.path.join(rep, "true.fasta"), "magus": os.path.join(work, "d0", "magus.fasta"),
                     "es4": os.path.join(rep, "variants", "linsi_es_4", "out.fasta")}
-            for v in step.split(":")[1:]:
-                alns["vote-" + v] = os.path.join(rv, "vote", v, "out.fasta")
-            for meth, path in alns.items():
+            for m in step.split(":")[1:]:
+                if m.startswith("vote-"):
+                    alns[m] = os.path.join(rv, "vote", m[5:], "out.fasta")
+            for meth in step.split(":")[1:]:
+                path = alns[meth]
                 if not os.path.exists(path):
                     print("missing", meth, path, flush=True)
                     continue
