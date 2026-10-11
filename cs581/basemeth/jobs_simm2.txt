@@ -1,0 +1,1 @@
+SIMMOD_R2 /opt/data/sim/SIMMOD/R2/sim.fa 25

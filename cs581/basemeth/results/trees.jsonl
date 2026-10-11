@@ -6,3 +6,4 @@
 {"dataset": "SIMHIGH_R1", "method": "merge_linsi", "FN": 0.1013, "FP": 0.1013, "RF": 0.1013, "true_internal": 997, "est_internal": 997, "fasttree_wall": 593.4}
 {"dataset": "SIMHIGH_R1", "method": "merge_ginsi", "FN": 0.0682, "FP": 0.0682, "RF": 0.0682, "true_internal": 997, "est_internal": 997, "fasttree_wall": 673.6}
 {"dataset": "SIMHIGH_R1", "method": "merge_muscle5", "FN": 0.1063, "FP": 0.1063, "RF": 0.1063, "true_internal": 997, "est_internal": 997, "fasttree_wall": 686.0}
+{"dataset": "SIMHIGH_R1", "method": "merge_probcons", "FN": 0.0883, "FP": 0.0883, "RF": 0.0883, "true_internal": 997, "est_internal": 997, "fasttree_wall": 720.3}
