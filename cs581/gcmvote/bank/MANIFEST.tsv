@@ -1,0 +1,7 @@
+name	dtype	nseq	n_backbones	backbone_size	has_true_tree	tar_bytes	sha256	reference_path	backbones_path
+1000L1_R0_B10	dna	1000	10	200	yes	2754830	1ebceb7e42cc0592ecb635e23d6faf7d79c60c76bd3be1e2d0b819167b153cde	1000L1_R0_B10/true.fasta	1000L1_R0_B10/inputs/backbones/backbone_N_mafft.txt
+1000L1_R0_B20	dna	1000	20	200	yes	4310692	a0fb883abb395c37ac3ec073bd9b814979996db975bf75843d1b34ecccfe373e	1000L1_R0_B20/true.fasta	1000L1_R0_B20/inputs/backbones/backbone_N_mafft.txt
+1000L1_R0_B5	dna	1000	5	200	yes	1978797	3680f4552271d0e124e51753ebc22cdc486814d01b0219387fe56ff37d613c4b	1000L1_R0_B5/true.fasta	1000L1_R0_B5/inputs/backbones/backbone_N_mafft.txt
+1000M2_R0_B10	dna	1000	10	200	yes	2887618	9493b42307017373c9daa31722b0bda2ed272c529c022b17bd39a2c120f77569	1000M2_R0_B10/true.fasta	1000M2_R0_B10/inputs/backbones/backbone_N_mafft.txt
+1000M2_R0_B20	dna	1000	20	200	yes	4469361	d69a98f84245610518404701d3f5a8176604dae5cd91a322e750aa79a0716b16	1000M2_R0_B20/true.fasta	1000M2_R0_B20/inputs/backbones/backbone_N_mafft.txt
+1000M2_R0_B5	dna	1000	5	200	yes	2080793	6632ce1514581e2f6c56aa320f647e426ed104ebdc093e13a315432c2a7c8b8d	1000M2_R0_B5/true.fasta	1000M2_R0_B5/inputs/backbones/backbone_N_mafft.txt
