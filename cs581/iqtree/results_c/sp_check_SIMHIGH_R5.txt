@@ -1,0 +1,8 @@
+AI-assisted (Claude), exploration code for CS581 project -- FastSP of vote.py magus rebuild vs bank magus.json
+magus rebuilt:
+SP-Score 0.7286097630006553
+SPFN 0.2713902369993447
+SPFP 0.141072646937488
+magus recorded:
+SPFN 0.2709558201896798 SPFP 0.14073354344864852
+{"rep": "SIMHIGH_R5", "method": "true", "nRF": 0.0642, "FN": 0.0642, "FP": 0.0642, "wall": 814.5, "iqtree": "3.1.4", "settings": "-m LG+G4 --fast -T 2 -seed 1"}

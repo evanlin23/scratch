@@ -1,0 +1,4 @@
+{"rep": "SIMHIGH_R5", "method": "true", "nRF": 0.0642, "FN": 0.0642, "FP": 0.0642, "wall": 814.5, "iqtree": "3.1.4", "settings": "-m LG+G4 --fast -T 2 -seed 1"}
+{"rep": "SIMHIGH_R5", "method": "magus", "nRF": 0.0903, "FN": 0.0903, "FP": 0.0903, "wall": 914.6, "iqtree": "3.1.4", "settings": "-m LG+G4 --fast -T 2 -seed 1"}
+{"rep": "SIMHIGH_R5", "method": "hard-bb", "nRF": 0.0893, "FN": 0.0893, "FP": 0.0893, "wall": 752.9, "iqtree": "3.1.4", "settings": "-m LG+G4 --fast -T 2 -seed 1"}
+{"rep": "SIMHIGH_R5", "method": "es4", "nRF": 0.0812, "FN": 0.0812, "FP": 0.0812, "wall": 806.4, "iqtree": "3.1.4", "settings": "-m LG+G4 --fast -T 2 -seed 1"}
