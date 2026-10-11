@@ -1,0 +1,32 @@
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "es10 (0.50B)", "gg_variant": "linsi#es10", "SPFN": 0.17490463923537392, "SPFP": 0.18048832442569818, "avgErr": 0.17769648183053605, "merge_wall": 18.6}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "es8 (0.40B)", "gg_variant": "linsi#es8", "SPFN": 0.1722298154285602, "SPFP": 0.18569133061942888, "avgErr": 0.17896057302399454, "merge_wall": 17.9}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "magus", "gg_variant": "linsi~5", "SPFN": 0.3060026864007773, "SPFP": 0.18541775539739758, "avgErr": 0.24571022089908745, "merge_wall": 57.5}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "es6 (0.30B)", "gg_variant": "linsi#es6", "SPFN": 0.18277224773859235, "SPFP": 0.1910959792237562, "avgErr": 0.18693411348117428, "merge_wall": 25.5}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "es4 (0.20B)", "gg_variant": "linsi#es4", "SPFN": 0.20370182994958452, "SPFP": 0.18782601988654124, "avgErr": 0.19576392491806288, "merge_wall": 40.7}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "es1 (0.20B)", "gg_variant": "linsi~5#es1", "SPFN": 0.3060026864007773, "SPFP": 0.18541775539739758, "avgErr": 0.24571022089908745, "merge_wall": 52.7}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "es2 (0.40B)", "gg_variant": "linsi~5#es2", "SPFN": 0.2034311905793741, "SPFP": 0.18942872322841997, "avgErr": 0.19642995690389703, "merge_wall": 28.0}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "es3 (0.60B)", "gg_variant": "linsi~5#es3", "SPFN": 0.18593902232443604, "SPFP": 0.18374540541198559, "avgErr": 0.18484221386821081, "merge_wall": 13.2}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "magus", "gg_variant": "linsi", "SPFN": 0.31228969615093216, "SPFP": 0.18333074594324694, "avgErr": 0.24781022104708955, "merge_wall": 79.2}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "es5 (0.50B)", "gg_variant": "linsi~10#es5", "SPFN": 0.17540017384180284, "SPFP": 0.18224847401881583, "avgErr": 0.17882432393030934, "merge_wall": 10.0}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "es4 (0.40B)", "gg_variant": "linsi~10#es4", "SPFN": 0.1846154927187349, "SPFP": 0.18575121794761917, "avgErr": 0.18518335533317704, "merge_wall": 22.2}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "magus", "gg_variant": "linsi~10", "SPFN": 0.29708504667044267, "SPFP": 0.18398937056906428, "avgErr": 0.24053720861975347, "merge_wall": 86.2}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "es3 (0.30B)", "gg_variant": "linsi~10#es3", "SPFN": 0.19541530625098724, "SPFP": 0.1838174371021637, "avgErr": 0.18961637167657547, "merge_wall": 23.5}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "es2 (0.20B)", "gg_variant": "linsi~10#es2", "SPFN": 0.24392588318770292, "SPFP": 0.18799647415887977, "avgErr": 0.21596117867329134, "merge_wall": 36.2}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.21614220087531766, "SPFP": 0.15859478200686716, "avgErr": 0.1873684914410924, "merge_wall": 31.3}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.23080288374483704, "SPFP": 0.16965186580193936, "avgErr": 0.2002273747733882, "merge_wall": 34.0}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.26668120398600936, "SPFP": 0.17721394326291806, "avgErr": 0.2219475736244637, "merge_wall": 38.9}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.3383790133241972, "SPFP": 0.17312499670525572, "avgErr": 0.25575200501472645, "merge_wall": 62.7}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.37004756453710574, "SPFP": 0.16041278555030802, "avgErr": 0.2652301750437069, "merge_wall": 84.3}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.33292625013740107, "SPFP": 0.16194170246987905, "avgErr": 0.24743397630364006, "merge_wall": 82.6}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.3163277535389012, "SPFP": 0.17165301068163208, "avgErr": 0.24399038211026663, "merge_wall": 47.1}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.31332025793369533, "SPFP": 0.16189251934770088, "avgErr": 0.2376063886406981, "merge_wall": 52.3}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.24879591201264817, "SPFP": 0.17180998356737742, "avgErr": 0.2103029477900128, "merge_wall": 36.3}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.37307730805959194, "SPFP": 0.15594111134536315, "avgErr": 0.26450920970247754, "merge_wall": 73.3}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.2814925686771814, "SPFP": 0.15913581737315474, "avgErr": 0.22031419302516808, "merge_wall": 45.6}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.2329170499692551, "SPFP": 0.1717756176409746, "avgErr": 0.20234633380511485, "merge_wall": 32.8}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.22227851873688886, "SPFP": 0.16182991467923735, "avgErr": 0.1920542167080631, "merge_wall": 34.9}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.3428156003724805, "SPFP": 0.15738214322242372, "avgErr": 0.2500988717974521, "merge_wall": 65.4}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.22271929930617407, "SPFP": 0.15703412716772547, "avgErr": 0.18987671323694977, "merge_wall": 22.7}
+{"dataset": "SIMHIGH_R1", "B": 20, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.33104420720558503, "SPFP": 0.17155840549808166, "avgErr": 0.25130130635183334, "merge_wall": 83.7}
+{"dataset": "SIMHIGH_R1", "B": 10, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.3789016718665552, "SPFP": 0.16780133075679549, "avgErr": 0.27335150131167535, "merge_wall": 74.6}
+{"dataset": "SIMHIGH_R1", "B": 5, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.3734484959355924, "SPFP": 0.16801083300241493, "avgErr": 0.27072966446900365, "merge_wall": 56.0}

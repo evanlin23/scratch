@@ -7,6 +7,7 @@ import re
 
 W = "/opt/work/h6b/reps"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "results_h6b", "sens.jsonl")
+os.makedirs(os.path.dirname(OUT), exist_ok=True)
 rows = []
 for ds in sorted(os.listdir(W)):
     p = os.path.join(W, ds, "results.jsonl")
