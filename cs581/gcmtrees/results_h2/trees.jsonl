@@ -15,3 +15,6 @@
 {"dataset": "SIMMOD_R3", "method": "recipe", "FN": 0.0712, "FP": 0.0712, "RF": 0.0712, "true_internal": 997, "est_internal": 997, "fasttree_wall": 409.0}
 {"dataset": "SIMMOD_R4", "method": "es3", "FN": 0.0682, "FP": 0.0682, "RF": 0.0682, "true_internal": 997, "est_internal": 997, "fasttree_wall": 438.5}
 {"dataset": "SIMMOD_R4", "method": "hard", "FN": 0.0662, "FP": 0.0662, "RF": 0.0662, "true_internal": 997, "est_internal": 997, "fasttree_wall": 411.6}
+{"dataset": "SIMMOD_R4", "method": "true", "FN": 0.0552, "FP": 0.0552, "RF": 0.0552, "true_internal": 997, "est_internal": 997, "fasttree_wall": 512.1}
+{"dataset": "SIMMOD_R4", "method": "magus", "FN": 0.0622, "FP": 0.0622, "RF": 0.0622, "true_internal": 997, "est_internal": 997, "fasttree_wall": 404.6}
+{"dataset": "SIMMOD_R4", "method": "recipe", "FN": 0.0692, "FP": 0.0692, "RF": 0.0692, "true_internal": 997, "est_internal": 997, "fasttree_wall": 445.5}
