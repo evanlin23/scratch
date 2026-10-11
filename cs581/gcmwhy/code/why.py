@@ -194,6 +194,30 @@ def summarize(name, dtype, R, bbs, cover, B, ref, rep, bbdir):
             "false_edges_removed_of_false": float((drop & ~true).sum() / (~true).sum()),
             # precision of the graph before/after
             "prec_after_units": float(wt[~drop].sum() / w[~drop].sum())}
+    # ---- H6 (added): which TRUE edges the filters delete, by node size, and orphaned nodes
+    size = R.node_size
+    ms = np.minimum(size[a], size[b])
+    res["h6_sizebins"] = []
+    for lo, hi in ((1, 1), (2, 3), (4, 10), (11, 10**9)):
+        s_ = true & (ms >= lo) & (ms <= hi)
+        row = {"min_node_size": "{}-{}".format(lo, hi if hi < 10**9 else ""), "true_edges": int(s_.sum()),
+               "true_units_share": float(wt[s_].sum() / wt.sum())}
+        for fname, drop in (("es4", k < 4), ("hard-bb", post <= 0.5)):
+            row[fname + "_true_edges_removed"] = float(drop[s_].mean()) if s_.any() else None
+            row[fname + "_true_units_removed"] = float(wt[s_ & drop].sum() / max(wt[s_].sum(), 1))
+        row["mean_k"] = float(k[s_].mean()) if s_.any() else None
+        row["mean_n"] = float(n[s_].mean()) if s_.any() else None
+        res["h6_sizebins"].append(row)
+    res["h6_residues_in_small_nodes"] = float(size[size <= 3].sum() / size.sum())
+    res["h6_nodes_small"] = float((size <= 3).mean())
+    for fname, drop in (("es4", k < 4), ("hard-bb", post <= 0.5)):
+        has = np.zeros(N, dtype=bool); has[a[true]] = True; has[b[true]] = True
+        kept = np.zeros(N, dtype=bool); kt = true & ~drop
+        kept[a[kt]] = True; kept[b[kt]] = True
+        orphan = has & ~kept
+        # true partner subsets lost: per node, number of subsets it has a true edge to, before/after
+        res["h6_orphan_" + fname] = {"nodes": float(orphan.sum() / has.sum()),
+                                     "residues": float(size[orphan].sum() / size[has].sum())}
     # ---- H2: offsets of false edges to the nearest true partner
     R.node_sub = np.empty(N, dtype=np.int64)
     R.sub_lo, R.sub_hi = [], []

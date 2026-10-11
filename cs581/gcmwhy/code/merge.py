@@ -7,6 +7,7 @@ VARIANT: anything vote.py accepts (magus, es4, hard-bb, ...) or
   or-<F>-false   apply filter F (es4 | hbb) but delete ONLY the edges it removes that are false (oracle)
   or-<F>-true    apply filter F but delete ONLY the edges it removes that are true (oracle)
   or-allfalse    delete every false cross-subset edge (oracle upper bound of graph cleaning)
+  <V>@f<X>       variant V with MCL inflation factor X instead of MAGUS's default 4 (H5)
   pool<K>[-d<D>] exploratory near-miss pooling: keep edge (a, b) if the number of backbones that align a with
                  some b' in [b-D, b+D] or some a' in [a-D, a+D] with b is >= K  (default D = 1)
   poolbb[-d<D>]  near-miss pooling then the beta-binomial vote (hard-bb) on the pooled support
@@ -265,6 +266,14 @@ def dissect(rep, vd, out, bbdir):
     return res
 
 
+def flags(v):
+    """MAGUS merge flags; a variant suffix @fX sets the MCL inflation factor (H5)."""
+    fl = list(vote.MERGE_FLAGS)
+    if "@f" in v:
+        fl[fl.index("-f") + 1] = v.split("@f")[1]
+    return fl
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("rep")
@@ -287,7 +296,7 @@ def main():
         with open(os.path.join(vd, "magus.log"), "w") as log:
             r = subprocess.run([sys.executable, os.path.abspath(__file__), "--_inner", v, vd, rep, bbdir,
                                 "-np", "4", "-d", os.path.join(vd, "work"), "-s", os.path.join(rep, "inputs", "subalignments"),
-                                "-b", bbdir, "-o", out] + vote.MERGE_FLAGS, cwd=os.path.join(ROOT, "code"),
+                                "-b", bbdir, "-o", out] + flags(v), cwd=os.path.join(ROOT, "code"),
                                stdout=log, stderr=subprocess.STDOUT)
         if r.returncode:
             print("FAILED", rep, v, flush=True)
@@ -322,6 +331,7 @@ def main():
 
 def inner():
     variant, vd, rep, bbdir = sys.argv[2:6]
+    variant = variant.split("@f")[0]
     sys.argv = [sys.argv[0]] + sys.argv[6:]
     sys.path.insert(0, os.path.join(ROOT, "code"))
     install(variant, vd, rep, bbdir)
