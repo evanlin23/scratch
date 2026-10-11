@@ -714,3 +714,4 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   Tally hard-bb vs the best fixed fraction (chosen in hindsight per B): wins on BBA0101 3/3, BBA0067 3/3, 16S.M 3/3, 1000L1 3/3,
   SIMMOD_R1 2/3; losses on 1000M2 0/3, SIMHIGH_R1 0/3 → 14/21.
 - t04 (SIMHIGH_R4): SP magus 23.53, es4 17.30, hard-bb 17.27; nRF true 6.62, magus 12.44, es4 11.13, hard-bb 11.43 (−1.01).
+- t20 (SIMHIGH_R20): SP magus 20.12, es4 14.13, hard-bb 14.10; nRF true 6.52, magus 6.32, es4 6.02, hard-bb 6.92 (+0.60).
