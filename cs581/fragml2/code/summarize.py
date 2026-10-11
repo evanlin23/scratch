@@ -153,7 +153,7 @@ def main():
                      if a in arms]
         reps = sorted(set().union(*[arms[a].keys() for a in main_arms])) if main_arms else []
         if reps and BASE in arms:
-            print("\nPer-replicate FN %% (backbone FN of the FastTree τ=0.5 backbone in the last row)\n")
+            print("\nPer-replicate FN, % (backbone FN of the FastTree τ=0.5 backbone in the last row)\n")
             print("| method | " + " | ".join("R%d" % r for r in reps) + " |")
             print("|---|" + "---|" * len(reps))
             for a in main_arms:
