@@ -110,3 +110,18 @@ Framing (novelty audit): WITCH already uses a weighted GCM (HMM-probability weig
 statistically defined edge / backbone weights. Support thresholding is known (Lassmann & Sonnhammer 2007; GUIDANCE;
 TCS); M-Coffee found aligner weighting does not beat no weighting, so for M2 the spread of fitted backbone
 reliabilities is reported and a near-uniform result is a finding.
+
+## Selection outcome (training only, 05:00 UTC; no held-out variant row looked at)
+
+Training mean Δ vs magus (10 reps; DNA/RNA mean in brackets): m1-dm −1.09 [+0.01], m1-gbb −0.97 [−0.01],
+m3-ovbb −0.91 [+0.27], m2-ds −0.88 [+0.39], m2-dsg −0.59 [+0.14], m23-ovds −0.59 [+0.76], m1-dm-soft −0.03 [+0.07],
+m2-ds-soft +0.01 [+0.37], m4-gmm +0.52 [+0.93], m4-gmm-soft +0.62 [+0.93]; baselines hard-bb −1.15 [+0.30],
+es4 −1.05 [+0.04]. Eligible (DNA/RNA ≤ +0.10): m1-dm, m1-gbb, m1-dm-soft. **Selected: `m1-dm`** (−1.09; beats m1-gbb
+by 0.12, outside the 0.05 tie band). On training m1-dm vs es4: −0.04 (proteins −0.05, DNA/RNA −0.03).
+m3-ovbb's guard fired on BBA0101 and BBA0067 (median n_eff 1.90, 1.51), so it returned MAGUS there.
+
+**M5 gate (LOO-CV over training):** LOO mean Δ: lowk_wshare −1.154, removed_wshare −1.092, aos −1.092, hardbb_sep
+−1.022, hardbb_pi −1.009, med_neff −0.783, disp −0.720; ungated m1-dm −1.092. **Selected gate: filter with m1-dm iff
+the share of MAGUS's cross-edge weight on k < 4 edges ≤ 0.1697** (fit on all 10; it turns 1000M2 and 1000L2 off). It
+beats AOS by 0.06, so formally "beats or matches" its baselines, but only by switching off one or two ROSE sets.
+Held-out variants: `gate` = m1-dm or magus per this rule. M6: `m1-dm+cpm`, `es4+cpm`.

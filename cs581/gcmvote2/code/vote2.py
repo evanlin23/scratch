@@ -25,6 +25,7 @@ VARIANT (hard = keep edges with posterior > 0.5; "-soft" = weight x posterior):
                           the overlap of the backbones' sequence sets for subsets A, B);
                           guard: if the edge-median n_eff < 2, the votes are not independent -> magus
   m23-ovds                M2+M3: Dawid-Skene log-likelihood ratio tempered by n_eff / n; same guard
+  ...+cpm                 M6: same graph, Leiden-CPM (gamma 0.02, gcmclust) instead of MCL
   m4-gmm[-soft]           M4: 2-component full-covariance Gaussian mixture on
                           (logit (k+.5)/(n+1), logit mean s over voting backbones, log w)
 """
@@ -381,6 +382,25 @@ def rebuild(F, neww, soft):
     return sp.csr_matrix((vals, (rows, cols)), shape=total.shape)
 
 
+def write_cpm(total, path, gamma=0.02):
+    """M6: Leiden-CPM (gamma 0.02) on degree-normalised weights w / sqrt(s_a s_b), as gcmclust's leidcpm; MAGUS
+    then reads the pre-written cluster file instead of running MCL (purge + minclusters trace unchanged)."""
+    import igraph as ig
+    import leidenalg as la
+    up = sp.triu(total, k=1).tocoo()
+    a, b, w = up.row, up.col, up.data.astype(float)
+    n = total.shape[0]
+    st = np.maximum(np.bincount(a, w, n) + np.bincount(b, w, n), 1e-9)
+    g = ig.Graph(n=n, edges=np.column_stack([a, b]).tolist(), directed=False)
+    part = la.find_partition(g, la.CPMVertexPartition, weights=(w / np.sqrt(st[a] * st[b])).tolist(),
+                             resolution_parameter=gamma, seed=1)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as f:
+        for c in part:
+            if len(c) > 1:
+                f.write(" ".join(map(str, c)) + "\n")
+
+
 def install(variant, vd, cache):
     import numpy as _np
     from magus.align.merge.graph_build import graph_builder as gb
@@ -395,13 +415,16 @@ def install(variant, vd, cache):
         F = load(cache)
         assert F["total"].shape[0] == context.graph.matrixSize
         t0 = time.time()
-        neww, info = weights(F, variant)
+        base = variant.replace("+cpm", "")
+        neww, info = weights(F, base)
         info.update(variant=variant, B=int(F["X"].shape[1]), edges=int(len(neww)),
                     kept_edges_final=int((neww > 0).sum()), kept_weight_frac=float(neww.sum() / F["w"].sum()),
                     fit_seconds=round(time.time() - t0, 1))
         json.dump(info, open(os.path.join(vd, "model.json"), "w"), indent=1, default=float)
         np.save(os.path.join(vd, "neww.npy"), neww.astype(np.float32))
-        total = F["total"] if variant == "magus" else rebuild(F, neww, variant.endswith("-soft"))
+        total = F["total"] if base == "magus" else rebuild(F, neww, base.endswith("-soft"))
+        if variant.endswith("+cpm"):
+            write_cpm(total, context.graph.clusterPath)
         if Configs.graphBuildRestrict:
             raise SystemExit("graphbuildrestrict not supported")
         total = total.tocsr()
