@@ -30,3 +30,35 @@
 {"dataset": "SIMHIGH_R1", "B": 20, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.33104420720558503, "SPFP": 0.17155840549808166, "avgErr": 0.25130130635183334, "merge_wall": 83.7}
 {"dataset": "SIMHIGH_R1", "B": 10, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.3789016718665552, "SPFP": 0.16780133075679549, "avgErr": 0.27335150131167535, "merge_wall": 74.6}
 {"dataset": "SIMHIGH_R1", "B": 5, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.3734484959355924, "SPFP": 0.16801083300241493, "avgErr": 0.27072966446900365, "merge_wall": 56.0}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "es10 (0.50B)", "gg_variant": "linsi#es10", "SPFN": 0.09133560115782624, "SPFP": 0.0966800149692344, "avgErr": 0.09400780806353032, "merge_wall": 13.2}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "magus", "gg_variant": "linsi~5", "SPFN": 0.15879844558533907, "SPFP": 0.0988163210698294, "avgErr": 0.12880738332758424, "merge_wall": 25.6}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "es8 (0.40B)", "gg_variant": "linsi#es8", "SPFN": 0.09302712085718912, "SPFP": 0.09757877894634392, "avgErr": 0.09530294990176652, "merge_wall": 15.5}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "es6 (0.30B)", "gg_variant": "linsi#es6", "SPFN": 0.09358864621757923, "SPFP": 0.09729732669972013, "avgErr": 0.09544298645864968, "merge_wall": 11.5}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "es1 (0.20B)", "gg_variant": "linsi~5#es1", "SPFN": 0.15879844558533907, "SPFP": 0.0988163210698294, "avgErr": 0.12880738332758424, "merge_wall": 24.2}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "es2 (0.40B)", "gg_variant": "linsi~5#es2", "SPFN": 0.09601139485760757, "SPFP": 0.09951241328298988, "avgErr": 0.09776190407029872, "merge_wall": 6.3}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "es4 (0.20B)", "gg_variant": "linsi#es4", "SPFN": 0.10059608363176153, "SPFP": 0.09759090359812617, "avgErr": 0.09909349361494385, "merge_wall": 16.3}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "es3 (0.60B)", "gg_variant": "linsi~5#es3", "SPFN": 0.09039214576390875, "SPFP": 0.09755164870754507, "avgErr": 0.09397189723572691, "merge_wall": 6.4}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "magus", "gg_variant": "linsi~10", "SPFN": 0.17296121560209132, "SPFP": 0.0988648081847261, "avgErr": 0.1359130118934087, "merge_wall": 36.5}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "magus", "gg_variant": "linsi", "SPFN": 0.17025910076373907, "SPFP": 0.09642617619458294, "avgErr": 0.133342638479161, "merge_wall": 46.5}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "es5 (0.50B)", "gg_variant": "linsi~10#es5", "SPFN": 0.09338733559762002, "SPFP": 0.09740769999462495, "avgErr": 0.09539751779612249, "merge_wall": 7.1}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "es2 (0.20B)", "gg_variant": "linsi~10#es2", "SPFN": 0.11055207614339124, "SPFP": 0.09821567494755001, "avgErr": 0.10438387554547063, "merge_wall": 12.8}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "es4 (0.40B)", "gg_variant": "linsi~10#es4", "SPFN": 0.09420317582321214, "SPFP": 0.09805239922741182, "avgErr": 0.09612778752531198, "merge_wall": 8.5}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "es3 (0.30B)", "gg_variant": "linsi~10#es3", "SPFN": 0.09527093362012728, "SPFP": 0.09877446453908434, "avgErr": 0.09702269907960581, "merge_wall": 10.6}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.09800567958486872, "SPFP": 0.08932395215438638, "avgErr": 0.09366481586962755, "merge_wall": 12.5}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.10162151251151552, "SPFP": 0.0870913479614146, "avgErr": 0.09435643023646506, "merge_wall": 16.4}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "vote:hard", "gg_variant": null, "SPFN": 0.133164290754477, "SPFP": 0.08361126143524888, "avgErr": 0.10838777609486294, "merge_wall": 20.2}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.1615538594817737, "SPFP": 0.08649655233623332, "avgErr": 0.12402520590900351, "merge_wall": 27.0}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.14675382823781924, "SPFP": 0.08696394614521574, "avgErr": 0.11685888719151749, "merge_wall": 24.4}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "vote:soft", "gg_variant": null, "SPFN": 0.1596314392632484, "SPFP": 0.0869445598669557, "avgErr": 0.12328799956510206, "merge_wall": 35.3}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.14585346982609204, "SPFP": 0.08543205895726791, "avgErr": 0.11564276439167998, "merge_wall": 21.9}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.14844282651158147, "SPFP": 0.08655725040667983, "avgErr": 0.11750003845913065, "merge_wall": 28.1}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.13194298977582863, "SPFP": 0.08324204959706516, "avgErr": 0.1075925196864469, "merge_wall": 17.6}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "vote:soft2", "gg_variant": null, "SPFN": 0.1453054980980848, "SPFP": 0.08707886793277753, "avgErr": 0.11619218301543116, "merge_wall": 31.9}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.12752732961571245, "SPFP": 0.08370070535493335, "avgErr": 0.1056140174853229, "merge_wall": 16.2}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.09557749242377556, "SPFP": 0.0891972188038338, "avgErr": 0.09238735561380468, "merge_wall": 10.2}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "vote:soft4", "gg_variant": null, "SPFN": 0.12655596010083714, "SPFP": 0.0881303123735181, "avgErr": 0.10734313623717762, "merge_wall": 20.3}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.133164290754477, "SPFP": 0.08361126143524888, "avgErr": 0.10838777609486294, "merge_wall": 18.3}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "vote:hard-bb", "gg_variant": null, "SPFN": 0.10026413989098881, "SPFP": 0.08743504427242199, "avgErr": 0.0938495920817054, "merge_wall": 13.4}
+{"dataset": "SIMMOD_R1", "B": 10, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.17766503203808703, "SPFP": 0.08825256877903487, "avgErr": 0.13295880040856095, "merge_wall": 32.7}
+{"dataset": "SIMMOD_R1", "B": 5, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.14935493864572413, "SPFP": 0.08864655584247838, "avgErr": 0.11900074724410126, "merge_wall": 23.5}
+{"dataset": "SIMMOD_R1", "B": 20, "variant": "vote:soft-bb", "gg_variant": null, "SPFN": 0.1811993104234586, "SPFP": 0.08542542718528279, "avgErr": 0.1333123688043707, "merge_wall": 34.3}
