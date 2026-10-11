@@ -20,3 +20,5 @@ Checks (`scripts/norm.py`: md5 of row-sorted alignment):
 - SIMHIGH_R25: vote `magus` equals gg `linsi` (MAGUS's merge): same row-sorted md5, identical SPFN/SPFP/TC.
   vote `hard` and `hard-bb` keep the same 99881 edges and give the same alignment up to row order (same md5,
   same SP scores); both trees were still built separately (same nRF).
+- SIMHIGH_R26: vote `magus` equals gg `linsi` (same row-sorted md5, identical SP scores). vote `hard` (102329 edges)
+  and `hard-bb` (100015 edges) differ.
