@@ -720,3 +720,4 @@ ECE best on DNA, yet DNA is where cutting at 6 costs recall.
   claude/cs581-gcmvote-* branches and cs581/gcmtrees/bank/ (SIMHIGH R1–R5) on claude/cs581-gcmtrees; 1–8 MB each; several
   verified to reproduce vote.py magus after extraction. Pending: main's training reps, h7 (SIMHIGH_R13: its push was blocked by
   that session's permission check), h12 (16S.T), h13 (RNASim 10K), gcmtrees SIMHIGH R6–R8 and SIMMOD R1–R8.
+- t11 (SIMHIGH_R11): SP magus 23.43, es4 16.79, hard-bb 16.97; nRF true 6.72, magus 12.54, es4 11.43, hard-bb 11.63 (−0.91).
