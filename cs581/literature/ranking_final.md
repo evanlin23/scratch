@@ -615,3 +615,6 @@ unaffected and soft-MAGUS times above are, if anything, overstated.
   informative columns; oracle split shows MAGUS's tree loss is mostly over-splitting, and the recipe's remaining wrong pairs cost
   more RF (+1.85 vs +1.10) than MAGUS's, so gains and losses nearly cancel. Route to tree gains: FP control on merged clusters + power.
 - basemeth (02:51 interim, 14 protein sets): no aligner beats L-INS-i; FAMSA worse (Holm p = 0.003). Final ~04:15 UTC.
+- HomFam (h3d, real proteins, Homstrad-seed scoring, SP error %): blmb MAGUS 22.81; es4 21.45; vote hard 21.59, hard-bb 20.84,
+  soft 23.03. aat MAGUS 27.54; es4 27.83 (es3 28.18); vote hard 25.51, hard-bb 26.42, soft 24.65, soft4 24.42. First sign the
+  vote model can beat es4 on real proteins (aat −2.0 vs +0.3); vote `magus` reproduces gg `linsi` on both.
