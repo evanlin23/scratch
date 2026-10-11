@@ -138,3 +138,4 @@ cs581/experiments/bbtool/<branch>.jsonl).
 | gcmtrees-h2 helper: SIMMOD_R1-R4 | claude/cs581-gcmtrees-h2 | session_01LrNTfKjroQAetYhP1jYT7T |
 | gcmtrees-h3 helper: SIMMOD_R5-R8 | claude/cs581-gcmtrees-h3 | session_01RvNzN9F7tm6AN2BRzhv4AT |
 | fragscale: two-step ML vs RAxML-NG at equal time, RNASim 10K fragmentary, estimated alignments, stock vs patched EPA-ng | claude/cs581-fragscale | session_01XZ4oCa5kuuTD71UBphf7yY |
+| magusfast: profile MAGUS; fewer/smaller backbones with support pruning; >=2x at equal accuracy | claude/cs581-magusfast | session_01ALcCHpGgfjs3X2Uk2qc2kr |
