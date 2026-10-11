@@ -800,3 +800,6 @@ Overlap guard: n_eff 1.9 / 1.5 on BBA0101 / BBA0067. Gate (M5): filter iff weigh
     on proteins. Negative.
   - Inflation 2/4/6 does not change the picture.
   - Running: an oracle that deletes only near-miss false edges vs only far ones.
+- p43 done (`claude/cs581-gcmvote-p43`). Vote `magus` reproduces MAGUS exactly (same SP, same md5).
+  - SIMHIGH_R43, SP %: magus 22.52, es4 15.07, hard-bb 14.93. nRF %: true 8.83, magus 10.83, es4 12.34, hard-bb 9.93 (−0.90).
+  - SIMHIGH_R44, SP %: magus 21.09, es4 16.21, hard-bb 16.12. nRF %: true 6.72, magus 13.14, es4 12.64, hard-bb 10.13 (−3.01).
