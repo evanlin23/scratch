@@ -8,7 +8,8 @@
 #   DEST/bank/tar/SRC/REP.tar.gz   the tarball, checked against the sha256 in that branch's MANIFEST.tsv
 #   DEST/bank/SRC/REP/             the extracted replicate (inputs/subalignments, inputs/backbones, true.fasta, ...)
 #   DEST/logged/SRC/...            the result rows that branch logged (*.jsonl under results_*), for tables.py
-# plus DEST/logged/gcmvote/ (main gcmvote branch: results/raw/*.results.jsonl, results/tables.md).
+# plus, from the two main branches, DEST/logged/gcmvote/results/{raw/*.results.jsonl,tables.md,trees.md} and
+# DEST/logged/gcmtrees/results/{aln,trees}.jsonl (the logged tables these were made from).
 #
 # Path fixes: subsets.json (MAGUS's subset order) is rewritten to paths relative to the replicate (several were
 # saved as absolute paths of the machine that ran them) and created from the tarball's file order where it is
@@ -33,7 +34,7 @@ for br in $branches; do
   suffix=${src#gcmvote}; suffix=${suffix#gcmtrees}; suffix=${suffix#-}
   top=gcmvote; [[ $src == gcmtrees* ]] && top=gcmtrees
   if [ -z "$suffix" ]; then
-    pattern="^cs581/$top/(results/raw/.*\.results\.jsonl|results/tables\.md|results_h[0-9]+/.*\.jsonl)$"
+    pattern="^cs581/$top/(results/raw/.*\.results\.jsonl|results/[a-z]+\.(md|jsonl))$"
   else
     pattern="^cs581/$top/results_${suffix}/.*\.jsonl$"
   fi
